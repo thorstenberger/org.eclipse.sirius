@@ -127,6 +127,9 @@ public abstract class AbstractSynchronizerHelper {
             } else {
                 for (final Resource resource : session.getSemanticResources()) {
                     for (final EObject root : resource.getContents()) {
+                       if (this.accessor.eInstanceOf(root, domainClass.get())) {
+                               semantics.add(root);
+                       }
                         semantics.addAll(this.accessor.eAllContents(root, domainClass.get()));
                     }
                 }
