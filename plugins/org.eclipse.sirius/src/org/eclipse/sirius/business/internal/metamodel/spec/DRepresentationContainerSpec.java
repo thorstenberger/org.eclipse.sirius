@@ -15,10 +15,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreEList;
+import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.viewpoint.DRepresentation;
@@ -52,7 +54,7 @@ public class DRepresentationContainerSpec extends DRepresentationContainerImpl {
                 representationsToDelete.add(representation);
             }
             if (!representationsToDelete.contains(representation)) {
-                representation.refresh();
+                DialectManager.INSTANCE.refresh(representation, new NullProgressMonitor());
             }
         }
         /*

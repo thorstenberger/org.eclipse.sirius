@@ -13,8 +13,10 @@ package org.eclipse.sirius.diagram.tools.api.command.view;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.common.tools.api.listener.Notification;
@@ -92,7 +94,7 @@ public class RefreshSiriusElement extends RecordingCommand {
                 final Object obj = it.next();
                 if (obj instanceof DRepresentation) {
                     if (!isFiltered((DRepresentation) obj)) {
-                        ((DRepresentation) obj).refresh();
+                        DialectManager.INSTANCE.refresh((DRepresentation) obj, new NullProgressMonitor());
                         enableVisibilityUpdate((DRefreshable) obj);
                         forceVisibilityRefresh((DRefreshable) obj);
                     }

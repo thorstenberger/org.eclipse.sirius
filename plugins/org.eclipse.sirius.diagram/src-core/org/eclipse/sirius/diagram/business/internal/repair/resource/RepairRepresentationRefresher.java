@@ -255,7 +255,7 @@ public class RepairRepresentationRefresher {
         boolean doContinue;
 
         final int sizeBeforeRefresh = designerDiagram.getDiagramElements().size();
-        designerDiagram.refresh();
+        DialectManager.INSTANCE.refresh(designerDiagram, new NullProgressMonitor());
         final int sizeAfterRefresh = designerDiagram.getDiagramElements().size();
 
         doContinue = sizeAfterRefresh > sizeBeforeRefresh;
