@@ -10,17 +10,18 @@
  *******************************************************************************/
 package org.eclipse.sirius.table.business.internal.metamodel.spec;
 
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreEList;
-import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.internal.query.DModelElementInternalQuery;
+import org.eclipse.sirius.ext.emf.AllContents;
 import org.eclipse.sirius.table.metamodel.table.DLine;
 import org.eclipse.sirius.table.metamodel.table.impl.DTableImpl;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.ViewpointPackage;
 import org.eclipse.sirius.viewpoint.description.DAnnotation;
+
+import com.google.common.collect.Iterables;
 
 /**
  * Specialization of DTable.
@@ -32,8 +33,6 @@ public class DTableSpec extends DTableImpl {
      * {@inheritDoc}
      */
     @Override
-    public void refresh() {
-        DialectManager.INSTANCE.refresh(this, new NullProgressMonitor());
     }
 
     /**

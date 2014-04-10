@@ -120,7 +120,6 @@ public class TreeSwitch<T> {
                 result = caseDocumentedElement(dTree);
             }
             if (result == null) {
-                result = caseDRefreshable(dTree);
             }
             if (result == null) {
                 result = caseDModelElement(dTree);

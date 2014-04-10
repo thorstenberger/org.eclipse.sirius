@@ -187,7 +187,6 @@ public class ViewpointSwitch<T> {
                 result = caseDocumentedElement(dRepresentation);
             }
             if (result == null) {
-                result = caseDRefreshable(dRepresentation);
             }
             if (result == null) {
                 result = caseDModelElement(dRepresentation);

@@ -121,7 +121,6 @@ public class TableSwitch<T> {
                 result = caseDocumentedElement(dTable);
             }
             if (result == null) {
-                result = caseDRefreshable(dTable);
             }
             if (result == null) {
                 result = caseDModelElement(dTable);

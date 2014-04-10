@@ -12,10 +12,8 @@ package org.eclipse.sirius.diagram.business.internal.metamodel.spec;
 
 import java.util.Collection;
 
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreEList;
-import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.internal.query.DModelElementInternalQuery;
 import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.DDiagramElementContainer;
@@ -156,11 +154,6 @@ public class DDiagramSpec extends DDiagramImpl {
     /**
      * {@inheritDoc}
      * 
-     * @see org.eclipse.sirius.viewpoint.impl.DDiagramImpl#refresh()
-     */
-    @Override
-    public void refresh() {
-        DialectManager.INSTANCE.refresh(this, new NullProgressMonitor());
     }
 
     /**

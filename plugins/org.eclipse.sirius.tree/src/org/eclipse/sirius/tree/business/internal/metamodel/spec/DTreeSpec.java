@@ -12,11 +12,9 @@ package org.eclipse.sirius.tree.business.internal.metamodel.spec;
 
 import java.util.List;
 
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.util.EcoreEList;
-import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.internal.query.DModelElementInternalQuery;
 import org.eclipse.sirius.tree.DTreeItem;
 import org.eclipse.sirius.tree.impl.DTreeImpl;
@@ -34,17 +32,6 @@ import com.google.common.collect.Lists;
  * 
  */
 public class DTreeSpec extends DTreeImpl {
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.impl.DRepresentationImpl#refresh()
-     */
-    @Override
-    public void refresh() {
-        DialectManager.INSTANCE.refresh(this, new NullProgressMonitor());
-    }
-
     /**
      * {@inheritDoc}
      * 

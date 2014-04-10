@@ -12,10 +12,8 @@ package org.eclipse.sirius.diagram.sequence.business.internal.metamodel;
 
 import java.util.Collection;
 
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreEList;
-import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.internal.query.DModelElementInternalQuery;
 import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.DDiagramElementContainer;
@@ -75,16 +73,6 @@ public class SequenceDDiagramSpec extends SequenceDDiagramImpl {
     public EList<DDiagramElement> getDiagramElements() {
         final Collection<DDiagramElement> result = new DDiagramInternalQuery(this).getDiagramElements();
         return new EcoreEList.UnmodifiableEList<DDiagramElement>(eInternalContainer(), DiagramPackage.eINSTANCE.getDDiagram_DiagramElements(), result.size(), result.toArray());
-    }
-
-    /**
-     * Refresh the viewpoint.
-     * 
-     * @see org.eclipse.sirius.viewpoint.impl.DDiagramImpl#refresh()
-     */
-    @Override
-    public void refresh() {
-        DialectManager.INSTANCE.refresh(this, new NullProgressMonitor());
     }
 
     /**

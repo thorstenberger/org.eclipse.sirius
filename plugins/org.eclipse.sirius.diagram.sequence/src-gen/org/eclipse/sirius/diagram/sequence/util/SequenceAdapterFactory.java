@@ -19,7 +19,6 @@ import org.eclipse.sirius.diagram.DSemanticDiagram;
 import org.eclipse.sirius.diagram.DragAndDropTarget;
 import org.eclipse.sirius.diagram.sequence.SequenceDDiagram;
 import org.eclipse.sirius.diagram.sequence.SequencePackage;
-import org.eclipse.sirius.viewpoint.DRefreshable;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.sirius.viewpoint.description.DModelElement;
@@ -88,11 +87,6 @@ public class SequenceAdapterFactory extends AdapterFactoryImpl {
         @Override
         public Adapter caseDocumentedElement(DocumentedElement object) {
             return createDocumentedElementAdapter();
-        }
-
-        @Override
-        public Adapter caseDRefreshable(DRefreshable object) {
-            return createDRefreshableAdapter();
         }
 
         @Override
@@ -174,21 +168,6 @@ public class SequenceAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createDocumentedElementAdapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '
-     * {@link org.eclipse.sirius.viewpoint.DRefreshable <em>DRefreshable</em>}'.
-     * <!-- begin-user-doc --> This default implementation returns null so that
-     * we can easily ignore cases; it's useful to ignore a case when inheritance
-     * will catch all the cases anyway. <!-- end-user-doc -->
-     * 
-     * @return the new adapter.
-     * @see org.eclipse.sirius.viewpoint.DRefreshable
-     * @generated
-     */
-    public Adapter createDRefreshableAdapter() {
         return null;
     }
 

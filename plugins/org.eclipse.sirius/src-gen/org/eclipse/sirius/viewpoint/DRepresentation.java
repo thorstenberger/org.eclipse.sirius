@@ -43,7 +43,7 @@ import org.eclipse.sirius.viewpoint.description.DocumentedElement;
  * @model abstract="true"
  * @generated
  */
-public interface DRepresentation extends DocumentedElement, DRefreshable, DModelElement {
+public interface DRepresentation extends DocumentedElement, DModelElement {
     /**
      * Returns the value of the '<em><b>Owned Representation Elements</b></em>'
      * reference list. The list contents are of type

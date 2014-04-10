@@ -19,7 +19,6 @@ import org.eclipse.sirius.diagram.DSemanticDiagram;
 import org.eclipse.sirius.diagram.DragAndDropTarget;
 import org.eclipse.sirius.diagram.sequence.SequenceDDiagram;
 import org.eclipse.sirius.diagram.sequence.SequencePackage;
-import org.eclipse.sirius.viewpoint.DRefreshable;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.sirius.viewpoint.description.DModelElement;
@@ -120,7 +119,6 @@ public class SequenceSwitch<T> {
                 result = caseDocumentedElement(sequenceDDiagram);
             }
             if (result == null) {
-                result = caseDRefreshable(sequenceDDiagram);
             }
             if (result == null) {
                 result = caseDModelElement(sequenceDDiagram);
@@ -166,23 +164,6 @@ public class SequenceSwitch<T> {
      * @generated
      */
     public T caseDocumentedElement(DocumentedElement object) {
-        return null;
-    }
-
-    /**
-     * Returns the result of interpreting the object as an instance of '
-     * <em>DRefreshable</em>'. <!-- begin-user-doc --> This implementation
-     * returns null; returning a non-null result will terminate the switch. <!--
-     * end-user-doc -->
-     * 
-     * @param object
-     *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '
-     *         <em>DRefreshable</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
-    public T caseDRefreshable(DRefreshable object) {
         return null;
     }
 

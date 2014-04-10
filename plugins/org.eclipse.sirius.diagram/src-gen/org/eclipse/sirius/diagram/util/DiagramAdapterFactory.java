@@ -372,11 +372,6 @@ public class DiagramAdapterFactory extends AdapterFactoryImpl {
         }
 
         @Override
-        public Adapter caseDRefreshable(DRefreshable object) {
-            return createDRefreshableAdapter();
-        }
-
-        @Override
         public Adapter caseDModelElement(DModelElement object) {
             return createDModelElementAdapter();
         }
@@ -399,6 +394,11 @@ public class DiagramAdapterFactory extends AdapterFactoryImpl {
         @Override
         public Adapter caseDStylizable(DStylizable object) {
             return createDStylizableAdapter();
+        }
+
+        @Override
+        public Adapter caseDRefreshable(DRefreshable object) {
+            return createDRefreshableAdapter();
         }
 
         @Override

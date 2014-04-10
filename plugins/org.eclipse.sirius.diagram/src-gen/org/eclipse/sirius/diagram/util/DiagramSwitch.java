@@ -162,7 +162,6 @@ public class DiagramSwitch<T> {
                 result = caseDocumentedElement(dDiagram);
             }
             if (result == null) {
-                result = caseDRefreshable(dDiagram);
             }
             if (result == null) {
                 result = caseDModelElement(dDiagram);
@@ -191,7 +190,6 @@ public class DiagramSwitch<T> {
                 result = caseDocumentedElement(dSemanticDiagram);
             }
             if (result == null) {
-                result = caseDRefreshable(dSemanticDiagram);
             }
             if (result == null) {
                 result = caseDModelElement(dSemanticDiagram);
