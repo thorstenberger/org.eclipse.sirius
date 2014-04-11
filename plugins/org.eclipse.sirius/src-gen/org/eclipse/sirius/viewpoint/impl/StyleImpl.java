@@ -31,8 +31,6 @@ import org.eclipse.sirius.viewpoint.description.style.StyleDescription;
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.sirius.viewpoint.impl.StyleImpl#getCustomFeatures <em>
- * Custom Features</em>}</li>
  * <li>{@link org.eclipse.sirius.viewpoint.impl.StyleImpl#getDescription <em>
  * Description</em>}</li>
  * </ul>
@@ -40,18 +38,7 @@ import org.eclipse.sirius.viewpoint.description.style.StyleDescription;
  *
  * @generated
  */
-public abstract class StyleImpl extends MinimalEObjectImpl.Container implements Style {
-    /**
-     * The cached value of the '{@link #getCustomFeatures()
-     * <em>Custom Features</em>}' attribute list. <!-- begin-user-doc --> <!--
-     * end-user-doc -->
-     * 
-     * @see #getCustomFeatures()
-     * @generated
-     * @ordered
-     */
-    protected EList<String> customFeatures;
-
+public abstract class StyleImpl extends CustomizableImpl implements Style {
     /**
      * The cached value of the '{@link #getDescription() <em>Description</em>}'
      * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -87,18 +74,6 @@ public abstract class StyleImpl extends MinimalEObjectImpl.Container implements 
      * @generated
      */
     @Override
-    public EList<String> getCustomFeatures() {
-        if (customFeatures == null) {
-            customFeatures = new EDataTypeUniqueEList<String>(String.class, this, ViewpointPackage.STYLE__CUSTOM_FEATURES);
-        }
-        return customFeatures;
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
     @Override
     public StyleDescription getDescription() {
         if (description != null && description.eIsProxy()) {
@@ -142,22 +117,9 @@ public abstract class StyleImpl extends MinimalEObjectImpl.Container implements 
      * @generated
      */
     @Override
-    public void refresh() {
-        // TODO: implement this method
-        // Ensure that you remove @generated or mark it @generated NOT
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
-        case ViewpointPackage.STYLE__CUSTOM_FEATURES:
-            return getCustomFeatures();
         case ViewpointPackage.STYLE__DESCRIPTION:
             if (resolve) {
                 return getDescription();
@@ -176,10 +138,6 @@ public abstract class StyleImpl extends MinimalEObjectImpl.Container implements 
     @Override
     public void eSet(int featureID, Object newValue) {
         switch (featureID) {
-        case ViewpointPackage.STYLE__CUSTOM_FEATURES:
-            getCustomFeatures().clear();
-            getCustomFeatures().addAll((Collection<? extends String>) newValue);
-            return;
         case ViewpointPackage.STYLE__DESCRIPTION:
             setDescription((StyleDescription) newValue);
             return;
@@ -195,9 +153,6 @@ public abstract class StyleImpl extends MinimalEObjectImpl.Container implements 
     @Override
     public void eUnset(int featureID) {
         switch (featureID) {
-        case ViewpointPackage.STYLE__CUSTOM_FEATURES:
-            getCustomFeatures().clear();
-            return;
         case ViewpointPackage.STYLE__DESCRIPTION:
             setDescription((StyleDescription) null);
             return;
@@ -213,66 +168,11 @@ public abstract class StyleImpl extends MinimalEObjectImpl.Container implements 
     @Override
     public boolean eIsSet(int featureID) {
         switch (featureID) {
-        case ViewpointPackage.STYLE__CUSTOM_FEATURES:
-            return customFeatures != null && !customFeatures.isEmpty();
         case ViewpointPackage.STYLE__DESCRIPTION:
             return description != null;
         }
         return super.eIsSet(featureID);
     }
 
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    @Override
-    public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-        if (baseClass == Customizable.class) {
-            switch (derivedFeatureID) {
-            case ViewpointPackage.STYLE__CUSTOM_FEATURES:
-                return ViewpointPackage.CUSTOMIZABLE__CUSTOM_FEATURES;
-            default:
-                return -1;
-            }
         }
-        return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    @Override
-    public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-        if (baseClass == Customizable.class) {
-            switch (baseFeatureID) {
-            case ViewpointPackage.CUSTOMIZABLE__CUSTOM_FEATURES:
-                return ViewpointPackage.STYLE__CUSTOM_FEATURES;
-            default:
-                return -1;
-            }
-        }
-        return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
-    @Override
-    public String toString() {
-        if (eIsProxy()) {
-            return super.toString();
-        }
-
-        StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (customFeatures: "); //$NON-NLS-1$
-        result.append(customFeatures);
-        result.append(')');
-        return result.toString();
-    }
-
 } // StyleImpl

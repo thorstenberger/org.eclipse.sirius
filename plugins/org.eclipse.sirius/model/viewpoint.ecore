@@ -179,7 +179,7 @@
     <eLiterals name="underline" value="2"/>
     <eLiterals name="strike_through" value="3"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Style" abstract="true" eSuperTypes="#//DRefreshable #//Customizable">
+  <eClassifiers xsi:type="ecore:EClass" name="Style" abstract="true" eSuperTypes="#//Customizable">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="The super class of all styles."/>
     </eAnnotations>

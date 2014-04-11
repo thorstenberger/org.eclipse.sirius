@@ -20,7 +20,6 @@ import org.eclipse.sirius.diagram.ContainerStyle;
 import org.eclipse.sirius.diagram.DiagramPackage;
 import org.eclipse.sirius.diagram.HideLabelCapabilityStyle;
 import org.eclipse.sirius.diagram.LineStyle;
-import org.eclipse.sirius.viewpoint.DRefreshable;
 import org.eclipse.sirius.viewpoint.RGBValues;
 import org.eclipse.sirius.viewpoint.Style;
 import org.eclipse.sirius.viewpoint.ViewpointFactory;
@@ -359,17 +358,6 @@ public abstract class ContainerStyleImpl extends LabelStyleImpl implements Conta
      * @generated
      */
     @Override
-    public void refresh() {
-        // TODO: implement this method
-        // Ensure that you remove @generated or mark it @generated NOT
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
         switch (featureID) {
@@ -484,12 +472,6 @@ public abstract class ContainerStyleImpl extends LabelStyleImpl implements Conta
      */
     @Override
     public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-        if (baseClass == DRefreshable.class) {
-            switch (derivedFeatureID) {
-            default:
-                return -1;
-            }
-        }
         if (baseClass == Style.class) {
             switch (derivedFeatureID) {
             case DiagramPackage.CONTAINER_STYLE__DESCRIPTION:
@@ -530,12 +512,6 @@ public abstract class ContainerStyleImpl extends LabelStyleImpl implements Conta
      */
     @Override
     public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-        if (baseClass == DRefreshable.class) {
-            switch (baseFeatureID) {
-            default:
-                return -1;
-            }
-        }
         if (baseClass == Style.class) {
             switch (baseFeatureID) {
             case ViewpointPackage.STYLE__DESCRIPTION:

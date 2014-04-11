@@ -21,6 +21,7 @@ import org.eclipse.sirius.business.internal.metamodel.description.tool.spec.Pane
 import org.eclipse.sirius.business.internal.metamodel.description.tool.spec.PasteDescriptionSpec;
 import org.eclipse.sirius.business.internal.metamodel.description.tool.spec.SelectionWizardDescriptionSpec;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterSiriusVariables;
+import org.eclipse.sirius.viewpoint.description.tool.*;
 import org.eclipse.sirius.viewpoint.description.tool.AcceleoVariable;
 import org.eclipse.sirius.viewpoint.description.tool.Case;
 import org.eclipse.sirius.viewpoint.description.tool.ChangeContext;
