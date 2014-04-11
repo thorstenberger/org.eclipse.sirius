@@ -55,7 +55,6 @@ import org.eclipse.sirius.diagram.tools.api.command.IDiagramCommandFactory;
 import org.eclipse.sirius.diagram.tools.api.command.view.CreateDiagramWithInitialOperation;
 import org.eclipse.sirius.diagram.tools.api.command.view.HideDDiagramElement;
 import org.eclipse.sirius.diagram.tools.api.command.view.HideDDiagramElementLabel;
-import org.eclipse.sirius.diagram.tools.api.command.view.RefreshSiriusElement;
 import org.eclipse.sirius.diagram.tools.api.command.view.RevealAllElementsCommand;
 import org.eclipse.sirius.diagram.tools.api.command.view.RevealDDiagramElements;
 import org.eclipse.sirius.diagram.tools.api.command.view.RevealDDiagramElementsLabel;
@@ -82,7 +81,6 @@ import org.eclipse.sirius.tools.api.interpreter.InterpreterUtil;
 import org.eclipse.sirius.tools.api.ui.IExternalJavaAction;
 import org.eclipse.sirius.tools.internal.command.builders.CommandBuilder;
 import org.eclipse.sirius.tools.internal.command.builders.ElementsToSelectTask;
-import org.eclipse.sirius.viewpoint.DRefreshable;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
@@ -486,19 +484,7 @@ public class UndoRedoCapableEMFCommandFactory extends AbstractCommandFactory imp
     /**
      * {@inheritDoc}
      * 
-     * @see org.eclipse.sirius.diagram.tools.api.command.IDiagramCommandFactory#buildRefreshCommand(org.eclipse.sirius.viewpoint.DRefreshable)
-     */
     @Override
-    public Command buildRefreshCommand(final DRefreshable vpElem) {
-        if (getPermissionAuthority().canEditInstance(vpElem)) {
-            return new RefreshSiriusElement(domain, vpElem);
-        }
-        return UnexecutableCommand.INSTANCE;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
      * @see org.eclipse.sirius.diagram.tools.api.command.IDiagramCommandFactory#buildHideCommand(java.util.Set)
      */
     @Override

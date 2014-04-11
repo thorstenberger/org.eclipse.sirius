@@ -37,7 +37,6 @@ import org.eclipse.sirius.diagram.tools.api.command.IDiagramCommandFactory;
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.tools.api.command.ui.UICallBack;
 import org.eclipse.sirius.tools.api.ui.IExternalJavaAction;
-import org.eclipse.sirius.viewpoint.DRefreshable;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.sirius.viewpoint.description.tool.ExternalJavaAction;
@@ -277,13 +276,6 @@ public class DelegatingDiagramCommandFactory implements IDiagramCommandFactory {
      * {@inheritDoc}
      */
     @Override
-    public org.eclipse.emf.common.command.Command buildRefreshCommand(DRefreshable refreshableElement) {
-        return baseFactory.buildRefreshCommand(refreshableElement);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public org.eclipse.emf.common.command.Command buildRevealCommand(DDiagramElement diagramElement) {
         return baseFactory.buildRevealCommand(diagramElement);

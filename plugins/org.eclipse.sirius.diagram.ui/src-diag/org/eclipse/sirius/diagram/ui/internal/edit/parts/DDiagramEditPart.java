@@ -72,7 +72,6 @@ public class DDiagramEditPart extends AbstractDDiagramEditPart {
         installEditPolicy(EditPolicy.CONTAINER_ROLE, new ContainerCreationEditPolicy());
         installEditPolicy(RequestConstants.REQ_LAUNCH_TOOL, new LaunchToolEditPolicy());
         final CompoundEditPolicy compoundEditPolicy = new CompoundEditPolicy();
-        compoundEditPolicy.addEditPolicy(new RefreshSiriusElementEditPolicy());
         compoundEditPolicy.addEditPolicy(new RevealElementsEditPolicy());
         compoundEditPolicy.addEditPolicy(new RevealSelectedElementsEditPolicy());
         compoundEditPolicy.addEditPolicy(new LaunchBehaviorToolEditPolicy());

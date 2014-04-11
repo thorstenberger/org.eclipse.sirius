@@ -35,7 +35,6 @@ import org.eclipse.sirius.diagram.description.tool.ReconnectEdgeDescription;
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.tools.api.command.ICommandFactory;
 import org.eclipse.sirius.tools.api.ui.IExternalJavaAction;
-import org.eclipse.sirius.viewpoint.DRefreshable;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.sirius.viewpoint.description.tool.ExternalJavaAction;
@@ -354,15 +353,6 @@ public interface IDiagramCommandFactory extends ICommandFactory {
      *         the new label.
      */
     Command buildDirectEditLabelFromTool(DRepresentationElement repElement, DirectEditLabel directEditTool, String newValue);
-
-    /**
-     * Build a command that is able to refresh a refreshable element.
-     * 
-     * @param refreshableElement
-     *            the element to refresh.
-     * @return a command that is able to refresh a refreshable element.
-     */
-    Command buildRefreshCommand(DRefreshable refreshableElement);
 
     /**
      * Build a command that is able to hide many elements.

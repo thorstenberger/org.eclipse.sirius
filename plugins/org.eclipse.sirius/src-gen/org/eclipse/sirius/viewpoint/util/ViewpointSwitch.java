@@ -165,7 +165,6 @@ public class ViewpointSwitch<T> {
                 result = caseDView(dRepresentationContainer);
             }
             if (result == null) {
-                result = caseDRefreshable(dRepresentationContainer);
             }
             if (result == null) {
                 result = defaultCase(theEObject);
@@ -220,7 +219,6 @@ public class ViewpointSwitch<T> {
             DView dView = (DView) theEObject;
             T result = caseDView(dView);
             if (result == null) {
-                result = caseDRefreshable(dView);
             }
             if (result == null) {
                 result = defaultCase(theEObject);

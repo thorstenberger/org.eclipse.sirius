@@ -12,6 +12,7 @@
 package org.eclipse.sirius.viewpoint;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
 
 /**
@@ -43,7 +44,7 @@ import org.eclipse.sirius.viewpoint.description.Viewpoint;
  * @model
  * @generated
  */
-public interface DView extends DRefreshable {
+public interface DView extends EObject {
     /**
      * Returns the value of the '<em><b>Owned Representations</b></em>'
      * containment reference list. The list contents are of type

@@ -38,7 +38,6 @@ import org.eclipse.sirius.diagram.ui.graphical.edit.policies.LaunchBehaviorToolE
 import org.eclipse.sirius.diagram.ui.graphical.edit.policies.LaunchToolEditPolicy;
 import org.eclipse.sirius.diagram.ui.graphical.edit.policies.NodeCreationEditPolicy;
 import org.eclipse.sirius.diagram.ui.graphical.edit.policies.NodeDeletionEditPolicy;
-import org.eclipse.sirius.diagram.ui.graphical.edit.policies.RefreshSiriusElementEditPolicy;
 import org.eclipse.sirius.diagram.ui.graphical.edit.policies.SiriusGraphicalNodeEditPolicy;
 import org.eclipse.sirius.diagram.ui.graphical.edit.policies.SiriusPopupBarEditPolicy;
 import org.eclipse.sirius.diagram.ui.graphical.edit.policies.SiriusPropertyHandlerEditPolicy;
@@ -115,7 +114,6 @@ public final class AbstractDiagramNodeEditPartOperation {
         self.removeEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE);
         self.installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new SiriusGraphicalNodeEditPolicy());
         final CompoundEditPolicy compoundEditPolicy = new CompoundEditPolicy();
-        compoundEditPolicy.addEditPolicy(new RefreshSiriusElementEditPolicy());
         compoundEditPolicy.addEditPolicy(new HideSiriusElementEditPolicy());
         compoundEditPolicy.addEditPolicy(new NodeDeletionEditPolicy(self.getEditingDomain()));
         compoundEditPolicy.addEditPolicy(new LaunchBehaviorToolEditPolicy());
