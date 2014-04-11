@@ -27,7 +27,6 @@ import org.eclipse.sirius.business.internal.metamodel.description.spec.Viewpoint
 import org.eclipse.sirius.business.internal.metamodel.spec.FixedColorSpec;
 import org.eclipse.sirius.business.internal.metamodel.spec.InterpolatedColorSpec;
 import org.eclipse.sirius.tools.api.ui.color.EnvironmentSystemColorFactory;
-import org.eclipse.sirius.viewpoint.description.*;
 import org.eclipse.sirius.viewpoint.description.AnnotationEntry;
 import org.eclipse.sirius.viewpoint.description.ColorStep;
 import org.eclipse.sirius.viewpoint.description.ComputedColor;

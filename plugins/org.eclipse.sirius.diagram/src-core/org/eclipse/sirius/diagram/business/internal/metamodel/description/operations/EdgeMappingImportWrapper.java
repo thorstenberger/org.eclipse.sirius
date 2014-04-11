@@ -30,12 +30,9 @@ import org.eclipse.emf.ecore.resource.Resource.Internal;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreter;
 import org.eclipse.sirius.common.tools.api.util.MessageTranslator;
 import org.eclipse.sirius.diagram.DDiagram;
-import org.eclipse.sirius.diagram.DEdge;
 import org.eclipse.sirius.diagram.EdgeStyle;
-import org.eclipse.sirius.diagram.EdgeTarget;
 import org.eclipse.sirius.diagram.business.api.query.DiagramElementMappingQuery;
 import org.eclipse.sirius.diagram.business.api.query.EObjectQuery;
-import org.eclipse.sirius.diagram.business.internal.metamodel.helper.EdgeMappingHelper;
 import org.eclipse.sirius.diagram.business.internal.metamodel.helper.MappingHelper;
 import org.eclipse.sirius.diagram.description.AbstractNodeMapping;
 import org.eclipse.sirius.diagram.description.ConditionalEdgeStyleDescription;
@@ -87,7 +84,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
      * @generated
      * @ordered
      */
-    protected boolean synchronizationLock = SYNCHRONIZATION_LOCK_EDEFAULT;
+    protected boolean synchronizationLock = EdgeMappingImportWrapper.SYNCHRONIZATION_LOCK_EDEFAULT;
 
     private EdgeMappingImport edgeMappingImport;
 
@@ -109,41 +106,13 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
      * @return the corresponding wrapper
      */
     public static EdgeMappingImportWrapper getWrapper(final EdgeMappingImport edgeMappingImport) {
-        if (!wrappers.containsKey(edgeMappingImport)) {
-            wrappers.put(edgeMappingImport, new EdgeMappingImportWrapper(edgeMappingImport));
+        if (!EdgeMappingImportWrapper.wrappers.containsKey(edgeMappingImport)) {
+            EdgeMappingImportWrapper.wrappers.put(edgeMappingImport, new EdgeMappingImportWrapper(edgeMappingImport));
         }
-        return wrappers.get(edgeMappingImport);
+        return EdgeMappingImportWrapper.wrappers.get(edgeMappingImport);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#createEdge(org.eclipse.sirius.diagram.EdgeTarget,
-     *      org.eclipse.sirius.diagram.EdgeTarget,
-     *      org.eclipse.emf.ecore.EObject)
-     */
-    public DEdge createEdge(final EdgeTarget source, final EdgeTarget target, final EObject semanticTarget) {
-        return createEdge(source, target, null, semanticTarget);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#createEdge(org.eclipse.sirius.diagram.EdgeTarget,
-     *      org.eclipse.sirius.diagram.EdgeTarget,
-     *      org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EObject)
-     */
-    public DEdge createEdge(final EdgeTarget source, final EdgeTarget target, final EObject container, final EObject semanticTarget) {
-        IInterpreter interpreter = SiriusPlugin.getDefault().getInterpreterRegistry().getInterpreter(semanticTarget);
-        return new EdgeMappingHelper(interpreter).createEdge(this, source, target, container, semanticTarget);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#getBestStyle(org.eclipse.emf.ecore.EObject,
-     *      org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EObject)
-     */
+    @Override
     public EdgeStyle getBestStyle(final EObject modelElement, final EObject viewVariable, final EObject containerVariable) {
         IInterpreter interpreter = SiriusPlugin.getDefault().getInterpreterRegistry().getInterpreter(modelElement);
         EdgeStyle result = (EdgeStyle) new MappingHelper(interpreter).getBestStyle(this, modelElement, viewVariable, containerVariable, new EObjectQuery(viewVariable).getParentDiagram().get());
@@ -153,20 +122,12 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#getConditionnalStyles()
-     */
+    @Override
     public EList<ConditionalEdgeStyleDescription> getConditionnalStyles() {
         return edgeMappingImport.getConditionnalStyles();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#getDomainClass()
-     */
+    @Override
     public String getDomainClass() {
         String result = null;
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
@@ -176,12 +137,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.diagram.description.EdgeMapping#getEdgeSourceCandidates(EObject,
-     *      DDiagram)
-     */
+    @Override
     public EList<EObject> getEdgeSourceCandidates(final EObject semanticOrigin, final DDiagram viewPoint) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -190,12 +146,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.diagram.description.EdgeMapping#getEdgeTargetCandidates(EObject,
-     *      DDiagram)
-     */
+    @Override
     public EList<EObject> getEdgeTargetCandidates(final EObject semanticOrigin, final DDiagram viewPoint) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -204,12 +155,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.diagram.description.EdgeMapping#getEdgeTargetCandidates(EObject,
-     *      EObject, EObject)
-     */
+    @Override
     public EList<EObject> getEdgeTargetCandidates(final EObject semanticOrigin, final EObject container, final EObject containerView) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -218,11 +164,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#getPathExpression()
-     */
+    @Override
     public String getPathExpression() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -231,11 +173,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#getPathNodeMapping()
-     */
+    @Override
     public EList<AbstractNodeMapping> getPathNodeMapping() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -244,11 +182,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#getReconnections()
-     */
+    @Override
     public EList<ReconnectEdgeDescription> getReconnections() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -257,11 +191,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#getSourceFinderExpression()
-     */
+    @Override
     public String getSourceFinderExpression() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -270,11 +200,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#getSourceMapping()
-     */
+    @Override
     public EList<DiagramElementMapping> getSourceMapping() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -283,11 +209,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#getStyle()
-     */
+    @Override
     public EdgeStyleDescription getStyle() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -296,11 +218,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#getTargetExpression()
-     */
+    @Override
     public String getTargetExpression() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -309,11 +227,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#getTargetFinderExpression()
-     */
+    @Override
     public String getTargetFinderExpression() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -322,11 +236,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#getTargetMapping()
-     */
+    @Override
     public EList<DiagramElementMapping> getTargetMapping() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -335,11 +245,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#isUseDomainElement()
-     */
+    @Override
     public boolean isUseDomainElement() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -348,11 +254,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#setDomainClass(java.lang.String)
-     */
+    @Override
     public void setDomainClass(final String value) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -360,11 +262,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#setPathExpression(java.lang.String)
-     */
+    @Override
     public void setPathExpression(final String value) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -372,11 +270,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#setSourceFinderExpression(java.lang.String)
-     */
+    @Override
     public void setSourceFinderExpression(final String value) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -384,20 +278,12 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#setStyle(org.eclipse.sirius.diagram.description.style.EdgeStyleDescription)
-     */
+    @Override
     public void setStyle(final EdgeStyleDescription value) {
         // do nothing
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#setTargetExpression(java.lang.String)
-     */
+    @Override
     public void setTargetExpression(final String value) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -405,11 +291,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#setTargetFinderExpression(java.lang.String)
-     */
+    @Override
     public void setTargetFinderExpression(final String value) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -417,11 +299,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#setUseDomainElement(boolean)
-     */
+    @Override
     public void setUseDomainElement(final boolean value) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -429,22 +307,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMapping#updateEdge(org.eclipse.sirius.diagram.DEdge)
-     */
-    public void updateEdge(final DEdge viewEdge) {
-        IInterpreter interpreter = SiriusPlugin.getDefault().getInterpreterRegistry().getInterpreter(viewEdge.getTarget());
-        new EdgeMappingHelper(interpreter).updateEdge(this, viewEdge);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DiagramElementMapping#checkPrecondition(org.eclipse.emf.ecore.EObject,
-     *      org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EObject)
-     */
+    @Override
     public boolean checkPrecondition(final EObject modelElement, final EObject container, final EObject containerView) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -453,11 +316,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DiagramElementMapping#getAllMappings()
-     */
+    @Override
     public EList<DiagramElementMapping> getAllMappings() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -466,11 +325,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DiagramElementMapping#getDeletionDescription()
-     */
+    @Override
     public DeleteElementDescription getDeletionDescription() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -479,11 +334,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.PasteTargetDescription#getPasteDescriptions()
-     */
+    @Override
     public EList<PasteDescription> getPasteDescriptions() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -492,11 +343,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DiagramElementMapping#getLabelDirectEdit()
-     */
+    @Override
     public DirectEditLabel getLabelDirectEdit() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -505,11 +352,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DiagramElementMapping#getPreconditionExpression()
-     */
+    @Override
     public String getPreconditionExpression() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -518,11 +361,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DiagramElementMapping#getSemanticCandidatesExpression()
-     */
+    @Override
     public String getSemanticCandidatesExpression() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -531,11 +370,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DiagramElementMapping#getSemanticElements()
-     */
+    @Override
     public String getSemanticElements() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -544,11 +379,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DiagramElementMapping#isCreateElements()
-     */
+    @Override
     public boolean isCreateElements() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -557,11 +388,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DiagramElementMapping#isTypeOf(org.eclipse.sirius.viewpoint.DMappingBased)
-     */
+    @Override
     public boolean isFrom(final DMappingBased element) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -570,11 +397,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DiagramElementMapping#setCreateElements(boolean)
-     */
+    @Override
     public void setCreateElements(final boolean value) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -582,11 +405,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DiagramElementMapping#setDeletionDescription(org.eclipse.sirius.viewpoint.description.tool.DeleteElementDescription)
-     */
+    @Override
     public void setDeletionDescription(final DeleteElementDescription value) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -594,11 +413,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DiagramElementMapping#setLabelDirectEdit(org.eclipse.sirius.viewpoint.description.tool.DirectEditLabel)
-     */
+    @Override
     public void setLabelDirectEdit(final DirectEditLabel value) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -606,11 +421,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DiagramElementMapping#setPreconditionExpression(java.lang.String)
-     */
+    @Override
     public void setPreconditionExpression(final String value) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -618,11 +429,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DiagramElementMapping#setSemanticCandidatesExpression(java.lang.String)
-     */
+    @Override
     public void setSemanticCandidatesExpression(final String value) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -630,11 +437,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DiagramElementMapping#setSemanticElements(java.lang.String)
-     */
+    @Override
     public void setSemanticElements(final String value) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -642,11 +445,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.RepresentationElementMapping#getDetailDescriptions()
-     */
+    @Override
     public EList<RepresentationCreationDescription> getDetailDescriptions() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -655,20 +454,12 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.RepresentationElementMapping#getName()
-     */
+    @Override
     public String getName() {
         return edgeMappingImport.getName();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.RepresentationElementMapping#getNavigationDescriptions()
-     */
+    @Override
     public EList<RepresentationNavigationDescription> getNavigationDescriptions() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -677,100 +468,51 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.RepresentationElementMapping#setName(java.lang.String)
-     */
+    @Override
     public void setName(final String value) {
         edgeMappingImport.setName(value);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.EObject#eAllContents()
-     */
     @Override
     public TreeIterator<EObject> eAllContents() {
         return edgeMappingImport.eAllContents();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.EObject#eClass()
-     */
     @Override
     public EClass eClass() {
         return edgeMappingImport.eClass();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.EObject#eContainer()
-     */
     @Override
     public EObject eContainer() {
         return edgeMappingImport.eContainer();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.EObject#eContainingFeature()
-     */
     @Override
     public EStructuralFeature eContainingFeature() {
         return edgeMappingImport.eContainingFeature();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.EObject#eContainmentFeature()
-     */
     @Override
     public EReference eContainmentFeature() {
         return edgeMappingImport.eContainmentFeature();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.impl.EObjectImpl#eContainerFeatureID()
-     */
     @Override
     public int eContainerFeatureID() {
         return ((InternalEObject) edgeMappingImport).eContainerFeatureID();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.EObject#eContents()
-     */
     @Override
     public EList<EObject> eContents() {
         return edgeMappingImport.eContents();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.EObject#eCrossReferences()
-     */
     @Override
     public EList<EObject> eCrossReferences() {
         return edgeMappingImport.eCrossReferences();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.EObject#eGet(org.eclipse.emf.ecore.EStructuralFeature)
-     */
     @Override
     public Object eGet(final EStructuralFeature feature) {
         Object result = null;
@@ -785,12 +527,6 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.EObject#eGet(org.eclipse.emf.ecore.EStructuralFeature,
-     *      boolean)
-     */
     @Override
     public Object eGet(final EStructuralFeature feature, final boolean resolve) {
         Object result = null;
@@ -805,11 +541,6 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.EObject#eIsSet(org.eclipse.emf.ecore.EStructuralFeature)
-     */
     @Override
     public boolean eIsSet(final EStructuralFeature feature) {
         boolean result = false;
@@ -824,93 +555,46 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return result;
     }
 
-    /**
-     * @param feature
-     *            the structural feature to check
-     * @return true if the feature is one of the EdgeMappingImport, false
-     *         otherwise
-     */
     private boolean isEdgeMappingImportFeature(final EStructuralFeature feature) {
         return feature.equals(org.eclipse.sirius.viewpoint.description.DescriptionPackage.eINSTANCE.getIdentifiedElement_Name())
                 || feature.equals(DescriptionPackage.eINSTANCE.getEdgeMappingImport_ImportedMapping()) || feature.equals(DescriptionPackage.eINSTANCE.getEdgeMappingImport_ConditionnalStyles());
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.impl.EObjectImpl#eInternalContainer()
-     */
     @Override
     public InternalEObject eInternalContainer() {
         return ((InternalEObject) edgeMappingImport).eInternalContainer();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.impl.BasicEObjectImpl#eDirectResource()
-     */
     @Override
     public Internal eDirectResource() {
         return ((InternalEObject) edgeMappingImport).eDirectResource();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.impl.BasicEObjectImpl#eInternalResource()
-     */
     @Override
     public Internal eInternalResource() {
         return ((InternalEObject) edgeMappingImport).eInternalResource();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.EObject#eResource()
-     */
     @Override
     public Resource eResource() {
         return edgeMappingImport.eResource();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.EObject#eIsProxy()
-     */
     @Override
     public boolean eIsProxy() {
         return edgeMappingImport.eIsProxy();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.impl.EObjectImpl#eSetProxyURI(org.eclipse.emf.common.util.URI)
-     */
     @Override
     public void eSetProxyURI(URI uri) {
         ((InternalEObject) edgeMappingImport).eSetProxyURI(uri);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.impl.BasicEObjectImpl#eProxyURI()
-     */
     @Override
     public URI eProxyURI() {
         return ((InternalEObject) edgeMappingImport).eProxyURI();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.EObject#eSet(org.eclipse.emf.ecore.EStructuralFeature,
-     *      java.lang.Object)
-     */
     @Override
     public void eSet(final EStructuralFeature feature, final Object newValue) {
         if (isEdgeMappingImportFeature(feature)) {
@@ -923,11 +607,6 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.ecore.EObject#eUnset(org.eclipse.emf.ecore.EStructuralFeature)
-     */
     @Override
     public void eUnset(final EStructuralFeature feature) {
         if (isEdgeMappingImportFeature(feature)) {
@@ -940,11 +619,6 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.common.notify.Notifier#eAdapters()
-     */
     @Override
     public EList<Adapter> eAdapters() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
@@ -954,11 +628,6 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return edgeMappingImport.eAdapters();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.common.notify.Notifier#eDeliver()
-     */
     @Override
     public boolean eDeliver() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
@@ -968,11 +637,6 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return edgeMappingImport.eDeliver();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.emf.common.notify.Notifier#eNotify(org.eclipse.emf.common.notify.Notification)
-     */
     @Override
     public void eNotify(final Notification notification) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
@@ -982,29 +646,17 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         edgeMappingImport.eNotify(notification);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DocumentedElement#getDocumentation()
-     */
+    @Override
     public String getDocumentation() {
         return edgeMappingImport.getDocumentation();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DocumentedElement#setDocumentation(java.lang.String)
-     */
+    @Override
     public void setDocumentation(final String value) {
         edgeMappingImport.setDocumentation(value);
     }
 
-    /**
-     * Return The imported mapping of the wrapped EdgeMappingImport.
-     * 
-     * @return The imported mapping
-     */
+    @Override
     public IEdgeMapping getImportedMapping() {
         return edgeMappingImport.getImportedMapping();
     }
@@ -1018,20 +670,12 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return edgeMappingImport;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMappingImport#setImportedMapping(org.eclipse.sirius.viewpoint.description.IEdgeMapping)
-     */
+    @Override
     public void setImportedMapping(final IEdgeMapping value) {
         this.edgeMappingImport.setImportedMapping(value);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DiagramElementMapping#getDoubleClickDescription()
-     */
+    @Override
     public DoubleClickDescription getDoubleClickDescription() {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -1040,11 +684,7 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.DiagramElementMapping#setDoubleClickDescription(DoubleClickOnElementDescription)
-     */
+    @Override
     public void setDoubleClickDescription(DoubleClickDescription value) {
         final EdgeMapping edgeMapping = MappingHelper.getEdgeMapping(edgeMappingImport);
         if (edgeMapping != null) {
@@ -1052,39 +692,22 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMappingImport#isInheritsAncestorFilters(org.eclipse.sirius.viewpoint.description.IEdgeMapping)
-     */
+    @Override
     public boolean isInheritsAncestorFilters() {
         return edgeMappingImport.isInheritsAncestorFilters();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.EdgeMappingImport#setInheritsAncestorFilters(org.eclipse.sirius.viewpoint.description.IEdgeMapping)
-     */
+    @Override
     public void setInheritsAncestorFilters(boolean newInheritsAncestorFilters) {
         this.edgeMappingImport.setInheritsAncestorFilters(newInheritsAncestorFilters);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.impl.DiagramElementMappingImpl#isSynchronizationLock()
-     */
+    @Override
     public boolean isSynchronizationLock() {
         return synchronizationLock;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.impl.DiagramElementMappingImpl#setSynchronizationLock(boolean
-     *      newSynchronizationLock)
-     */
+    @Override
     public void setSynchronizationLock(boolean newSynchronizationLock) {
         boolean oldSynchronizationLock = synchronizationLock;
         synchronizationLock = newSynchronizationLock;
@@ -1093,20 +716,12 @@ public final class EdgeMappingImportWrapper extends EObjectImpl implements EdgeM
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.RepresentationElementMapping#getLabel()
-     */
+    @Override
     public String getLabel() {
         return MessageTranslator.INSTANCE.getMessage(edgeMappingImport.getLabel());
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.RepresentationElementMapping#setName(java.lang.String)
-     */
+    @Override
     public void setLabel(final String value) {
         edgeMappingImport.setLabel(value);
     }

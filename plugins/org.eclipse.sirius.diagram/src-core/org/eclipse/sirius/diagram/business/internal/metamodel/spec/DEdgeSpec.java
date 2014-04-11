@@ -48,19 +48,6 @@ public class DEdgeSpec extends DEdgeImpl {
     /**
      * {@inheritDoc}
      * 
-     * @see org.eclipse.sirius.viewpoint.impl.DEdgeImpl#refresh()
-     */
-    @Override
-    public void refresh() {
-        Option<EdgeMapping> edgeMapping = new IEdgeMappingQuery(getActualMapping()).getEdgeMapping();
-        if (edgeMapping.some()) {
-            edgeMapping.get().updateEdge(this);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
      * @see org.eclipse.sirius.viewpoint.impl.DEdgeImpl#getStyle()
      */
     @Override

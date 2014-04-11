@@ -392,38 +392,11 @@ public interface EdgeMapping extends DiagramElementMapping, DocumentedElement, I
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @model sourceRequired="true" targetRequired="true"
-     * @generated
-     */
-    @Deprecated
-    DEdge createEdge(EdgeTarget source, EdgeTarget target, EObject semanticTarget);
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @model sourceRequired="true" targetRequired="true"
-     * @generated
-     */
-    @Deprecated
-    DEdge createEdge(EdgeTarget source, EdgeTarget target, EObject container, EObject semanticTarget);
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
      * @model
      * @generated
      */
     @Override
     EdgeStyle getBestStyle(EObject modelElement, EObject viewVariable, EObject containerVariable);
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @model viewEdgeRequired="true"
-     * @generated
-     */
-    @Deprecated
-    void updateEdge(DEdge viewEdge);
 
     /**
      * <!-- begin-user-doc --> <!-- end-user-doc -->

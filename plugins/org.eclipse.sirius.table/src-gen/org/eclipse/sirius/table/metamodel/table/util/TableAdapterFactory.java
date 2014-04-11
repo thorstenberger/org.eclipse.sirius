@@ -27,7 +27,6 @@ import org.eclipse.sirius.table.metamodel.table.DTargetColumn;
 import org.eclipse.sirius.table.metamodel.table.LineContainer;
 import org.eclipse.sirius.table.metamodel.table.TablePackage;
 import org.eclipse.sirius.viewpoint.DMappingBased;
-import org.eclipse.sirius.viewpoint.DRefreshable;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
@@ -173,11 +172,6 @@ public class TableAdapterFactory extends AdapterFactoryImpl {
         @Override
         public Adapter caseDStylizable(DStylizable object) {
             return createDStylizableAdapter();
-        }
-
-        @Override
-        public Adapter caseDRefreshable(DRefreshable object) {
-            return createDRefreshableAdapter();
         }
 
         @Override
@@ -390,21 +384,6 @@ public class TableAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createDocumentedElementAdapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '
-     * {@link org.eclipse.sirius.viewpoint.DRefreshable <em>DRefreshable</em>}'.
-     * <!-- begin-user-doc --> This default implementation returns null so that
-     * we can easily ignore cases; it's useful to ignore a case when inheritance
-     * will catch all the cases anyway. <!-- end-user-doc -->
-     * 
-     * @return the new adapter.
-     * @see org.eclipse.sirius.viewpoint.DRefreshable
-     * @generated
-     */
-    public Adapter createDRefreshableAdapter() {
         return null;
     }
 

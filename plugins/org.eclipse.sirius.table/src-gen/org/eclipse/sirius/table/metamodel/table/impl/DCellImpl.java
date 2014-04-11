@@ -31,7 +31,6 @@ import org.eclipse.sirius.table.metamodel.table.description.CellUpdater;
 import org.eclipse.sirius.table.metamodel.table.description.IntersectionMapping;
 import org.eclipse.sirius.table.metamodel.table.description.TableMapping;
 import org.eclipse.sirius.viewpoint.DMappingBased;
-import org.eclipse.sirius.viewpoint.DRefreshable;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.DStylizable;
 import org.eclipse.sirius.viewpoint.Style;
@@ -518,17 +517,6 @@ public class DCellImpl extends DSemanticDecoratorImpl implements DCell {
      * @generated
      */
     @Override
-    public void refresh() {
-        // TODO: implement this method
-        // Ensure that you remove @generated or mark it @generated NOT
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
     @Override
     public Style getStyle() {
         // TODO: implement this method
@@ -767,12 +755,6 @@ public class DCellImpl extends DSemanticDecoratorImpl implements DCell {
                 return -1;
             }
         }
-        if (baseClass == DRefreshable.class) {
-            switch (derivedFeatureID) {
-            default:
-                return -1;
-            }
-        }
         if (baseClass == DRepresentationElement.class) {
             switch (derivedFeatureID) {
             case TablePackage.DCELL__NAME:
@@ -808,12 +790,6 @@ public class DCellImpl extends DSemanticDecoratorImpl implements DCell {
             }
         }
         if (baseClass == DStylizable.class) {
-            switch (baseFeatureID) {
-            default:
-                return -1;
-            }
-        }
-        if (baseClass == DRefreshable.class) {
             switch (baseFeatureID) {
             default:
                 return -1;

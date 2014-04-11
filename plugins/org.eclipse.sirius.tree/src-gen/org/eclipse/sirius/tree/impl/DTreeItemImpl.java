@@ -31,7 +31,6 @@ import org.eclipse.sirius.tree.description.TreeItemMapping;
 import org.eclipse.sirius.tree.description.TreeItemUpdater;
 import org.eclipse.sirius.tree.description.TreeMapping;
 import org.eclipse.sirius.viewpoint.DMappingBased;
-import org.eclipse.sirius.viewpoint.DRefreshable;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.DStylizable;
 import org.eclipse.sirius.viewpoint.Style;
@@ -452,17 +451,6 @@ public class DTreeItemImpl extends DTreeItemContainerImpl implements DTreeItem {
      * @generated
      */
     @Override
-    public void refresh() {
-        // TODO: implement this method
-        // Ensure that you remove @generated or mark it @generated NOT
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
     @Override
     public Style getStyle() {
         // TODO: implement this method
@@ -688,12 +676,6 @@ public class DTreeItemImpl extends DTreeItemContainerImpl implements DTreeItem {
                 return -1;
             }
         }
-        if (baseClass == DRefreshable.class) {
-            switch (derivedFeatureID) {
-            default:
-                return -1;
-            }
-        }
         if (baseClass == DRepresentationElement.class) {
             switch (derivedFeatureID) {
             case TreePackage.DTREE_ITEM__NAME:
@@ -729,12 +711,6 @@ public class DTreeItemImpl extends DTreeItemContainerImpl implements DTreeItem {
             }
         }
         if (baseClass == DStylizable.class) {
-            switch (baseFeatureID) {
-            default:
-                return -1;
-            }
-        }
-        if (baseClass == DRefreshable.class) {
             switch (baseFeatureID) {
             default:
                 return -1;

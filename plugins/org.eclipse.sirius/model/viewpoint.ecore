@@ -100,7 +100,7 @@
         transient="true" containment="true" resolveProxies="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DRepresentationElement" abstract="true"
-      eSuperTypes="#//DMappingBased #//DStylizable #//DRefreshable #//DSemanticDecorator">
+      eSuperTypes="#//DMappingBased #//DStylizable #//DSemanticDecorator">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
         defaultValueLiteral="">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

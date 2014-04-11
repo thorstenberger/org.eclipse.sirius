@@ -15,9 +15,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreter;
 import org.eclipse.sirius.diagram.DDiagram;
-import org.eclipse.sirius.diagram.DEdge;
 import org.eclipse.sirius.diagram.EdgeStyle;
-import org.eclipse.sirius.diagram.EdgeTarget;
 import org.eclipse.sirius.diagram.business.api.query.EObjectQuery;
 import org.eclipse.sirius.diagram.business.internal.metamodel.description.operations.SiriusElementMappingSpecOperations;
 import org.eclipse.sirius.diagram.business.internal.metamodel.helper.EdgeMappingHelper;
@@ -36,31 +34,6 @@ public class BasicMessageMappingSpec extends BasicMessageMappingImpl {
     /**
      * {@inheritDoc}
      * 
-     * @see org.eclipse.sirius.viewpoint.description.impl.EdgeMappingImpl#createEdge(org.eclipse.sirius.diagram.EdgeTarget,
-     *      org.eclipse.sirius.diagram.EdgeTarget,
-     *      org.eclipse.emf.ecore.EObject)
-     */
-    @Override
-    public DEdge createEdge(final EdgeTarget source, final EdgeTarget target, final EObject semanticTarget) {
-        return createEdge(source, target, null, semanticTarget);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.impl.EdgeMappingImpl#createEdge(org.eclipse.sirius.diagram.EdgeTarget,
-     *      org.eclipse.sirius.diagram.EdgeTarget,
-     *      org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EObject)
-     */
-    @Override
-    public DEdge createEdge(final EdgeTarget source, final EdgeTarget target, final EObject container, final EObject semanticTarget) {
-        IInterpreter interpreter = SiriusPlugin.getDefault().getInterpreterRegistry().getInterpreter(container);
-        return new EdgeMappingHelper(interpreter).createEdge(this, source, target, container, semanticTarget);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
      * @see org.eclipse.sirius.viewpoint.description.impl.EdgeMappingImpl#getBestStyle(org.eclipse.emf.ecore.EObject,
      *      org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EObject)
      */
@@ -68,17 +41,6 @@ public class BasicMessageMappingSpec extends BasicMessageMappingImpl {
     public EdgeStyle getBestStyle(final EObject modelElement, final EObject viewVariable, final EObject containerVariable) {
         IInterpreter interpreter = SiriusPlugin.getDefault().getInterpreterRegistry().getInterpreter(modelElement);
         return (EdgeStyle) new MappingHelper(interpreter).getBestStyle(this, modelElement, viewVariable, containerVariable, new EObjectQuery(viewVariable).getParentDiagram().get());
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.viewpoint.description.impl.EdgeMappingImpl#updateEdge(org.eclipse.sirius.diagram.DEdge)
-     */
-    @Override
-    public void updateEdge(final DEdge dEdge) {
-        IInterpreter interpreter = SiriusPlugin.getDefault().getInterpreterRegistry().getInterpreter(dEdge);
-        new EdgeMappingHelper(interpreter).updateEdge(this, dEdge);
     }
 
     /**

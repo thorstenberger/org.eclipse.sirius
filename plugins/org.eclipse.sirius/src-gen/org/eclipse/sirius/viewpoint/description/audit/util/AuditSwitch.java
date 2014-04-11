@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.sirius.viewpoint.description.audit.*;
 import org.eclipse.sirius.viewpoint.description.audit.AuditPackage;
 import org.eclipse.sirius.viewpoint.description.audit.InformationSection;
 import org.eclipse.sirius.viewpoint.description.audit.TemplateInformationSection;

@@ -21,7 +21,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.sirius.viewpoint.DRefreshable;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.sirius.viewpoint.DStylizable;
@@ -195,17 +194,6 @@ public abstract class DRepresentationElementImpl extends MinimalEObjectImpl.Cont
      * @generated
      */
     @Override
-    public void refresh() {
-        // TODO: implement this method
-        // Ensure that you remove @generated or mark it @generated NOT
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * <!-- begin-user-doc --> <!-- end-user-doc -->
-     * 
-     * @generated
-     */
     @Override
     public Style getStyle() {
         // TODO: implement this method
@@ -321,12 +309,6 @@ public abstract class DRepresentationElementImpl extends MinimalEObjectImpl.Cont
                 return -1;
             }
         }
-        if (baseClass == DRefreshable.class) {
-            switch (derivedFeatureID) {
-            default:
-                return -1;
-            }
-        }
         if (baseClass == DSemanticDecorator.class) {
             switch (derivedFeatureID) {
             case ViewpointPackage.DREPRESENTATION_ELEMENT__TARGET:
@@ -346,12 +328,6 @@ public abstract class DRepresentationElementImpl extends MinimalEObjectImpl.Cont
     @Override
     public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
         if (baseClass == DStylizable.class) {
-            switch (baseFeatureID) {
-            default:
-                return -1;
-            }
-        }
-        if (baseClass == DRefreshable.class) {
             switch (baseFeatureID) {
             default:
                 return -1;

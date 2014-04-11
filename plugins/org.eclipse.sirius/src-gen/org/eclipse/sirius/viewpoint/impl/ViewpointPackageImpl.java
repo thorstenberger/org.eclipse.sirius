@@ -1320,7 +1320,6 @@ public class ViewpointPackageImpl extends EPackageImpl implements ViewpointPacka
         dRepresentationEClass.getESuperTypes().add(theDescriptionPackage.getDModelElement());
         dRepresentationElementEClass.getESuperTypes().add(this.getDMappingBased());
         dRepresentationElementEClass.getESuperTypes().add(this.getDStylizable());
-        dRepresentationElementEClass.getESuperTypes().add(this.getDRefreshable());
         dRepresentationElementEClass.getESuperTypes().add(this.getDSemanticDecorator());
         labelStyleEClass.getESuperTypes().add(this.getBasicLabelStyle());
         styleEClass.getESuperTypes().add(this.getCustomizable());
