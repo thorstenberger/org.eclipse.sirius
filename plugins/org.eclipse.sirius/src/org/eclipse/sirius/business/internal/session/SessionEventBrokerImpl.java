@@ -18,6 +18,7 @@ import java.util.Map;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.transaction.NotificationFilter;
@@ -57,9 +58,9 @@ public class SessionEventBrokerImpl extends ResourceSetListenerImpl implements S
 
     private TransactionalEditingDomain domain;
 
-    private Multimap<EObject, ModelChangeTrigger> eObjectsToListeners = HashMultimap.create();
+    private Multimap<Notifier, ModelChangeTrigger> eObjectsToListeners = HashMultimap.create();
 
-    private Map<EStructuralFeature, Multimap<EObject, ModelChangeTrigger>> featuresToListeners = Maps.newHashMap();
+    private Map<EStructuralFeature, Multimap<Notifier, ModelChangeTrigger>> featuresToListeners = Maps.newHashMap();
 
     private Multimap<NotificationFilter, ModelChangeTrigger> scopedTriggers = HashMultimap.create();
 
@@ -95,7 +96,7 @@ public class SessionEventBrokerImpl extends ResourceSetListenerImpl implements S
 
     @Override
     public void addLocalTrigger(EObject element, EStructuralFeature feature, ModelChangeTrigger trigger) {
-        Multimap<EObject, ModelChangeTrigger> listeners = featuresToListeners.get(feature);
+        Multimap<Notifier, ModelChangeTrigger> listeners = featuresToListeners.get(feature);
         if (listeners == null) {
             listeners = HashMultimap.create();
             featuresToListeners.put(feature, listeners);
@@ -109,7 +110,7 @@ public class SessionEventBrokerImpl extends ResourceSetListenerImpl implements S
         eObjectsToListeners.put(element, trigger);
     }
 
-    private void collectListeners(Notification msg, EObject changedObj, Multimap<EObject, ModelChangeTrigger> map, Multimap<ModelChangeTrigger, Notification> result) {
+    private void collectListeners(Notification msg, Notifier changedObj, Multimap<Notifier, ModelChangeTrigger> map, Multimap<ModelChangeTrigger, Notification> result) {
         Collection<ModelChangeTrigger> listeners = map.get(changedObj);
         if (listeners != null) {
             for (ModelChangeTrigger preCommitListener : listeners) {
@@ -118,7 +119,7 @@ public class SessionEventBrokerImpl extends ResourceSetListenerImpl implements S
         }
     }
 
-    private void collectScopedListeners(final Notification msg, final EObject changedObj, Multimap<ModelChangeTrigger, Notification> result) {
+    private void collectScopedListeners(final Notification msg, final Notifier changedObj, Multimap<ModelChangeTrigger, Notification> result) {
         Iterable<NotificationFilter> filteredScoped = Iterables.filter(scopedTriggers.keys(), new Predicate<NotificationFilter>() {
             @Override
             public boolean apply(NotificationFilter input) {
@@ -146,12 +147,12 @@ public class SessionEventBrokerImpl extends ResourceSetListenerImpl implements S
     private Multimap<ModelChangeTrigger, Notification> collectListenersToNotify(List<Notification> notifications) {
         Multimap<ModelChangeTrigger, Notification> result = HashMultimap.create();
         for (Notification msg : notifications) {
-            if (msg.getNotifier() instanceof EObject) {
-                EObject changedObj = (EObject) msg.getNotifier();
+            if (msg.getNotifier() instanceof Notifier) {
+                Notifier changedObj = (Notifier) msg.getNotifier();
                 collectListeners(msg, changedObj, eObjectsToListeners, result);
                 collectScopedListeners(msg, changedObj, result);
                 if (msg.getFeature() instanceof EStructuralFeature) {
-                    Multimap<EObject, ModelChangeTrigger> eObhectsToListenersMap = featuresToListeners.get(msg.getFeature());
+                    Multimap<Notifier, ModelChangeTrigger> eObhectsToListenersMap = featuresToListeners.get(msg.getFeature());
                     if (eObhectsToListenersMap != null) {
                         collectListeners(msg, changedObj, eObhectsToListenersMap, result);
                     }
@@ -186,7 +187,7 @@ public class SessionEventBrokerImpl extends ResourceSetListenerImpl implements S
     @Override
     public void removeLocalTrigger(ModelChangeTrigger listenerToRemove) {
         removeListenerFromMap(listenerToRemove, eObjectsToListeners);
-        for (Multimap<EObject, ModelChangeTrigger> map : featuresToListeners.values()) {
+        for (Multimap<Notifier, ModelChangeTrigger> map : featuresToListeners.values()) {
             removeListenerFromMap(listenerToRemove, map);
         }
         removeListenerFromMap(listenerToRemove, scopedTriggers);
