@@ -39,9 +39,6 @@ import org.eclipse.sirius.diagram.ui.tools.api.figure.SiriusWrapLabel;
 import org.eclipse.sirius.diagram.ui.tools.api.policy.CompoundEditPolicy;
 import org.eclipse.sirius.ext.base.Option;
 
-/**
- * @was-generated
- */
 @SuppressWarnings("restriction")
 public class AbstractDEdgeNameEditPart extends AbstractGeneratedDiagramNameEditPart implements ITextAwareEditPart {
     public AbstractDEdgeNameEditPart(View view) {

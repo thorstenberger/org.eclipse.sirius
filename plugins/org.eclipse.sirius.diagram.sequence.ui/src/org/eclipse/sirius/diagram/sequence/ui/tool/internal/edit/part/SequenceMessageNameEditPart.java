@@ -48,9 +48,6 @@ public class SequenceMessageNameEditPart extends DEdgeNameEditPart {
         super(view);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void refresh() {
         if (resolveSemanticElement() instanceof DEdge) {
@@ -58,9 +55,6 @@ public class SequenceMessageNameEditPart extends DEdgeNameEditPart {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Command getCommand(Request request) {
         Command result = super.getCommand(request);

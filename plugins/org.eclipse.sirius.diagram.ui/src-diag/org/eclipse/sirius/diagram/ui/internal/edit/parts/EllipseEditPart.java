@@ -21,7 +21,6 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.editpolicies.LayoutEditPolicy;
 import org.eclipse.gef.editpolicies.ResizableEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart;
-import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.sirius.diagram.ui.edit.api.part.AbstractNotSelectableShapeNodeEditPart;
@@ -35,15 +34,17 @@ import org.eclipse.sirius.diagram.ui.tools.api.figure.AirStyleDefaultSizeNodeFig
 import org.eclipse.sirius.diagram.ui.tools.api.figure.ODesignEllipseFigure;
 import org.eclipse.sirius.ui.tools.api.color.VisualBindingManager;
 
-/**
- * @was-generated
- */
 public class EllipseEditPart extends AbstractNotSelectableShapeNodeEditPart implements IStyleEditPart {
+    public static final int VISUAL_ID = 3016;
 
-    /**
-     * @see org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeEditPart#refreshVisuals()
-     * @not-generated
-     */
+    protected IFigure contentPane;
+
+    protected IFigure primaryShape;
+
+    public EllipseEditPart(View view) {
+        super(view);
+    }
+
     @Override
     protected void refreshVisuals() {
         super.refreshVisuals();
@@ -59,10 +60,7 @@ public class EllipseEditPart extends AbstractNotSelectableShapeNodeEditPart impl
         }
     }
 
-    /**
-     * @not-generated
-     * @see org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart#refreshBackgroundColor()
-     */
+    @Override
     @Override
     protected void refreshBackgroundColor() {
         if (getMetamodelType().isInstance(resolveSemanticElement())) {
@@ -73,10 +71,7 @@ public class EllipseEditPart extends AbstractNotSelectableShapeNodeEditPart impl
         }
     }
 
-    /**
-     * @not-generated
-     * @see org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart#refreshForegroundColor()
-     */
+    @Override
     @Override
     protected void refreshForegroundColor() {
         if (getMetamodelType().isInstance(resolveSemanticElement())) {
@@ -87,54 +82,22 @@ public class EllipseEditPart extends AbstractNotSelectableShapeNodeEditPart impl
         }
     }
 
-    /**
-     * @was-generated
-     */
-    public static final int VISUAL_ID = 3016;
-
-    /**
-     * @was-generated
-     */
-    protected IFigure contentPane;
-
-    /**
-     * @was-generated
-     */
-    protected IFigure primaryShape;
-
-    /**
-     * @was-generated
-     */
-    public EllipseEditPart(View view) {
-        super(view);
-    }
-
-    /**
-     * @not-generated : prevent drag of elements
-     */
+    @Override
     @Override
     public DragTracker getDragTracker(Request request) {
         return getParent().getDragTracker(request);
     }
 
-    /**
-     * @not-generated no edit policies brings better editing :)
-     */
+    @Override
     @Override
     protected void createDefaultEditPolicies() {
         // Do nothing.
     }
 
-    /**
-     * @not-generated
-     */
     protected LayoutEditPolicy createLayoutEditPolicy() {
         return new FixedLayoutEditPolicy();
     }
 
-    /**
-     * @not-generated
-     */
     protected IFigure createNodeShape() {
         ODesignEllipseFigure ellipse = new ODesignEllipseFigure();
         EditPart parent = this.getParent();
@@ -144,24 +107,15 @@ public class EllipseEditPart extends AbstractNotSelectableShapeNodeEditPart impl
         return primaryShape = ellipse;
     }
 
-    /**
-     * @was-generated
-     */
     public Ellipse getPrimaryShape() {
         return (Ellipse) primaryShape;
     }
 
-    /**
-     * @not-generated
-     */
     protected NodeFigure createNodePlate() {
-        DefaultSizeNodeFigure result = new AirStyleDefaultSizeNodeFigure(getMapMode().DPtoLP(40), getMapMode().DPtoLP(40));
-        return result;
+        return new AirStyleDefaultSizeNodeFigure(getMapMode().DPtoLP(40), getMapMode().DPtoLP(40));
     }
 
-    /**
-     * @was-generated
-     */
+    @Override
     @Override
     public EditPolicy getPrimaryDragEditPolicy() {
         EditPolicy result = super.getPrimaryDragEditPolicy();
@@ -177,8 +131,6 @@ public class EllipseEditPart extends AbstractNotSelectableShapeNodeEditPart impl
      * 
      * Body of this method does not depend on settings in generation model so
      * you may safely remove <i>generated</i> tag and modify it.
-     * 
-     * @was-generated
      */
     @Override
     protected NodeFigure createNodeFigure() {
@@ -196,15 +148,12 @@ public class EllipseEditPart extends AbstractNotSelectableShapeNodeEditPart impl
      * 
      * @param nodeShape
      *            instance of generated figure class
-     * @was-generated
      */
     protected IFigure setupContentPane(IFigure nodeShape) {
         return nodeShape; // use nodeShape itself as contentPane
     }
 
-    /**
-     * @was-generated
-     */
+    @Override
     @Override
     public IFigure getContentPane() {
         if (contentPane != null) {
@@ -213,9 +162,6 @@ public class EllipseEditPart extends AbstractNotSelectableShapeNodeEditPart impl
         return super.getContentPane();
     }
 
-    /**
-     * @not-generated
-     */
     protected Class<?> getMetamodelType() {
         return org.eclipse.sirius.diagram.Ellipse.class;
     }

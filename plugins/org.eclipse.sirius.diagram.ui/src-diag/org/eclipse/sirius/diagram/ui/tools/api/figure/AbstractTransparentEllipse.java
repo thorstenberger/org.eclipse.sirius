@@ -16,18 +16,15 @@ import org.eclipse.sirius.diagram.ui.tools.internal.figure.TransparentFigureGrap
 
 /**
  * An abstract ellipse figure to handle transparency.
- * 
+ *
  * @mporhel
  */
 public abstract class AbstractTransparentEllipse extends Ellipse implements StyledFigure, ITransparentFigure {
 
-    private int viewpointAlpha = DEFAULT_ALPHA;
+    private int viewpointAlpha = ITransparentFigure.DEFAULT_ALPHA;
 
     private boolean transparent;
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void fillShape(Graphics graphics) {
         TransparentFigureGraphicsModifier modifier = new TransparentFigureGraphicsModifier(this, graphics);
@@ -36,32 +33,23 @@ public abstract class AbstractTransparentEllipse extends Ellipse implements Styl
         modifier.popState();
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public int getSiriusAlpha() {
         return viewpointAlpha;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public boolean isTransparent() {
         return transparent;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public void setSiriusAlpha(int alpha) {
         this.viewpointAlpha = alpha;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public void setTransparent(boolean transparent) {
         this.transparent = transparent;
     }
-
 }
