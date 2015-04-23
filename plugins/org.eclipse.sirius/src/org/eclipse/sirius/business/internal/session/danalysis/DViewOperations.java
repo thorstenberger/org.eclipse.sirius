@@ -25,7 +25,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.sirius.business.api.componentization.ViewpointRegistry;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.extender.MetamodelDescriptorManager;
@@ -44,7 +43,6 @@ import org.eclipse.sirius.viewpoint.description.Viewpoint;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
-import com.google.common.collect.Sets.SetView;
 
 /**
  * Operations to manage a DAnalysis's DViews and Viewpoint enablement in a
@@ -195,23 +193,7 @@ final class DViewOperations {
                     selectedViewpoints.add(viewpoint);
                 }
             }
-            SetView<Viewpoint> difference = Sets.difference(Sets.newHashSet(session.getActivatedViewpoints()), Sets.newHashSet(selectedViewpoints));
             monitor.beginTask(Messages.DViewOperations_updateSelectedVPDataMsg, selectedViewpoints.size() + difference.size() + 1);
-            // FIXME : it is useful?
-            for (Viewpoint viewpoint : selectedViewpoints) {
-                Resource viewpointResource = viewpoint.eResource();
-                if (viewpointResource != null) {
-                    session.registerResourceInCrossReferencer(viewpointResource);
-                }
-                monitor.worked(1);
-            }
-            for (Viewpoint viewpoint : difference) {
-                Resource viewpointResource = viewpoint.eResource();
-                if (viewpointResource != null) {
-                    session.unregisterResourceInCrossReferencer(viewpointResource);
-                }
-                monitor.worked(1);
-            }
             session.getActivatedViewpoints().addAll(selectedViewpoints);
             session.getActivatedViewpoints().retainAll(selectedViewpoints);
             // tell the accessor and the interpreter which metamodels we know
