@@ -1413,37 +1413,6 @@ public class DAnalysisSessionImpl extends DAnalysisSessionEObjectImpl implements
     }
 
     /**
-     * Get collection of available {@link DView} for the {@link RepresentationDescription}.
-     * 
-     * @param representationDescription
-     *            the representation description.
-     * @return available representation containers
-     */
-    public Collection<DView> getAvailableRepresentationContainers(RepresentationDescription representationDescription) {
-        final Viewpoint viewpoint = new RepresentationDescriptionQuery(representationDescription).getParentViewpoint();
-        Collection<DAnalysis> allAnalysis = allAnalyses();
-
-        final List<DView> containers = new ArrayList<DView>();
-
-        for (DAnalysis analysis : allAnalysis) {
-            DView container = null;
-
-            for (final DView view : analysis.getOwnedViews()) {
-                if (view != null && viewpoint == view.getViewpoint() && view.eContainer() instanceof DAnalysis) {
-                    container = view;
-                    break;
-                }
-            } // for
-
-            if (container != null) {
-                containers.add(container);
-            }
-        }
-
-        return containers;
-    }
-
-    /**
      * returns the representation file resources.
      * 
      * @return a collection of resource.
