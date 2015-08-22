@@ -28,6 +28,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceDescription;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ILogListener;
@@ -253,6 +255,7 @@ public abstract class SiriusTestCase extends TestCase {
         // CHECKSTYLE:ON
         setErrorCatchActive(true);
         setWarningCatchActive(false);
+        setAutoBuild(false);
         Display.getCurrent().syncExec(new Runnable() {
             @Override
             public void run() {
@@ -267,6 +270,17 @@ public abstract class SiriusTestCase extends TestCase {
         } else {
             EclipseTestsSupportHelper.INSTANCE.createProject(SiriusTestCase.TEMPORARY_PROJECT_NAME);
         }
+    }
+
+    private static boolean setAutoBuild(boolean enable) throws CoreException {
+        IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        IWorkspaceDescription desc = workspace.getDescription();
+        boolean isAutoBuilding = desc.isAutoBuilding();
+        if (isAutoBuilding != enable) {
+            desc.setAutoBuilding(enable);
+            workspace.setDescription(desc);
+        }
+        return isAutoBuilding;
     }
 
     /**
