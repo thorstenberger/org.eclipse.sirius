@@ -38,6 +38,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -52,6 +53,7 @@ import org.eclipse.emf.ecore.resource.URIHandler;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.emf.ecore.resource.impl.FileURIHandlerImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -132,11 +134,13 @@ import org.eclipse.team.internal.core.streams.ProgressMonitorInputStream;
 import com.google.common.base.Functions;
 import com.google.common.base.Objects;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 
 /**
  * A simple view synchronized with the Eclipse selection, used to show arbitrary
@@ -417,6 +421,7 @@ public class SiriusDebugView extends AbstractDebugView {
         addShowResourceSetTopologyAction();
         addShowAdaptersAction();
         addShowSessionStructureAction();
+        addShowAdaptersActions();
         // addShowCrossReferencerMap();
         addVSMStatisticsAction();
     }
@@ -436,6 +441,61 @@ public class SiriusDebugView extends AbstractDebugView {
                     }
                     setText(result);
                 }
+            }
+        });
+    }
+
+    private void addShowAdaptersActions() {
+        addAction("Show adapters", new Runnable() {
+            @Override
+            public void run() {
+                EObject current = getCurrentEObject();
+                if (current != null && current.eResource() != null && current.eResource().getResourceSet() != null) {
+                    int totalElements = 0;
+                    Set<Adapter> uniqueAdapters = Sets.newHashSet();
+                    ResourceSet rs = current.eResource().getResourceSet();
+                    Multimap<String, String> adaptersByType = LinkedHashMultimap.create();
+                    recordAdapters(rs, adaptersByType);
+                    uniqueAdapters.addAll(rs.eAdapters());
+                    totalElements++;
+                    for (Resource res : rs.getResources()) {
+                        recordAdapters(res, adaptersByType);
+                        uniqueAdapters.addAll(res.eAdapters());
+                        totalElements++;
+                        TreeIterator<EObject> allContents = res.getAllContents();
+                        while (allContents.hasNext()) {
+                            EObject elt = allContents.next();
+                            recordAdapters(elt, adaptersByType);
+                            uniqueAdapters.addAll(elt.eAdapters());
+                            totalElements++;
+                        }
+                    }
+                    StringBuilder report = new StringBuilder();
+                    report.append("Total elements inspected: ").append(totalElements).append("\n");
+                    report.append("Unique adapters: ").append(uniqueAdapters.size()).append("\n");
+                    List<String> keys = Lists.newArrayList(adaptersByType.keySet());
+                    Collections.sort(keys);
+                    for (String key : keys) {
+                        List<String> adapters = Lists.newArrayList(adaptersByType.get(key));
+                        Collections.sort(adapters);
+                        report.append("* ").append(key).append(" (").append(adapters.size()).append(" adapters):\n");
+                        for (String a : adapters) {
+                            report.append(" - ").append(a).append("\n");
+                        }
+                    }
+                    setText(report.toString());
+                }
+            }
+
+            private void recordAdapters(Notifier not, Multimap<String, String> adaptersByType) {
+                String targetName = getKey(not);
+                for (Adapter a : not.eAdapters()) {
+                    adaptersByType.put(targetName, getKey(a));
+                }
+            }
+
+            private String getKey(Object o) {
+                return o.getClass().getName().replace("org.eclipse.sirius", "oes");
             }
         });
     }
