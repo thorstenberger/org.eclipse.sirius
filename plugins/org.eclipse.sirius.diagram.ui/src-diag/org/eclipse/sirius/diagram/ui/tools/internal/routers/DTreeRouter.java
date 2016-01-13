@@ -15,7 +15,6 @@ package org.eclipse.sirius.diagram.ui.tools.internal.routers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.eclipse.draw2d.AbsoluteBendpoint;
 import org.eclipse.draw2d.Bendpoint;
@@ -30,6 +29,7 @@ import org.eclipse.gmf.runtime.draw2d.ui.internal.routers.ITreeConnection;
 import org.eclipse.gmf.runtime.draw2d.ui.internal.routers.OrthogonalRouter;
 import org.eclipse.gmf.runtime.draw2d.ui.mapmode.MapModeUtil;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 /**
@@ -43,7 +43,7 @@ public class DTreeRouter extends BendpointConnectionRouter implements Orthogonal
     private final DBranchRouter branchRouter = new DBranchRouter(this);
 
     /** All connections. */
-    private final ArrayList connectionList = new ArrayList();
+    private final ArrayList<Connection> connectionList = Lists.newArrayList();
 
     private Dimension trunkVertex;
 
@@ -110,21 +110,13 @@ public class DTreeRouter extends BendpointConnectionRouter implements Orthogonal
         super();
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.draw2d.AbstractRouter#invalidate(org.eclipse.draw2d.Connection)
-     */
     @Override
     public void invalidate(final Connection conn) {
         if (conn.getSourceAnchor() == null || conn.getSourceAnchor().getOwner() == null || conn.getTargetAnchor() == null || conn.getTargetAnchor().getOwner() == null) {
             return;
         }
 
-        final ListIterator li = Lists.newArrayList(connectionList).listIterator();
-        while (li.hasNext()) {
-            final Connection connNext = (Connection) li.next();
-
+        for (Connection connNext : Lists.newArrayList(connectionList)) {
             if (!trunkVertexEqual(connNext, conn)) {
                 updateConstraint(connNext);
             }
@@ -221,9 +213,9 @@ public class DTreeRouter extends BendpointConnectionRouter implements Orthogonal
                 return;
             }
 
-            List bendpoints = (List) conn.getRoutingConstraint();
+            List<Bendpoint> bendpoints = getBenpoints(conn);
             if (bendpoints == null) {
-                bendpoints = new ArrayList(conn.getPoints().size());
+                bendpoints = Lists.newArrayListWithCapacity(conn.getPoints().size());
             }
 
             final Point sourceRefPoint = conn.getSourceAnchor().getReferencePoint();
@@ -254,6 +246,15 @@ public class DTreeRouter extends BendpointConnectionRouter implements Orthogonal
         }
     }
 
+    private List<Bendpoint> getBenpoints(Connection conn) {
+        Object constraint = conn.getRoutingConstraint();
+        if (constraint instanceof List<?>) {
+            return Lists.newArrayList(Iterables.filter((List<?>) constraint, Bendpoint.class));
+        } else {
+            return null;
+        }
+    }
+
     /**
      * getPointsFromConstraint Utility method retrieve the PointList equivalent
      * of the bendpoint constraint set in the Connection.
@@ -264,14 +265,14 @@ public class DTreeRouter extends BendpointConnectionRouter implements Orthogonal
      *         constraint.
      */
     public PointList getPointsFromConstraint(final Connection conn) {
-        final List bendpoints = (List) conn.getRoutingConstraint();
+        final List<Bendpoint> bendpoints = getBenpoints(conn);
         if (bendpoints == null) {
             return new PointList();
         }
 
         final PointList points = new PointList(bendpoints.size());
         for (int i = 0; i < bendpoints.size(); i++) {
-            final Bendpoint bp = (Bendpoint) bendpoints.get(i);
+            final Bendpoint bp = bendpoints.get(i);
             points.addPoint(bp.getLocation());
         }
 
@@ -339,11 +340,6 @@ public class DTreeRouter extends BendpointConnectionRouter implements Orthogonal
         return branchRouter;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.draw2d.BendpointConnectionRouter#remove(org.eclipse.draw2d.Connection)
-     */
     @Override
     public void remove(final Connection conn) {
         if (conn.getSourceAnchor() == null || conn.getTargetAnchor() == null) {
@@ -353,7 +349,7 @@ public class DTreeRouter extends BendpointConnectionRouter implements Orthogonal
         final int index = connectionList.indexOf(conn);
         connectionList.remove(conn);
         for (int i = index + 1; i < connectionList.size(); i++) {
-            ((Connection) connectionList.get(i)).revalidate();
+            connectionList.get(i).revalidate();
         }
 
         getBranchRouter().remove(conn);
@@ -410,19 +406,11 @@ public class DTreeRouter extends BendpointConnectionRouter implements Orthogonal
         }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.draw2d.BendpointConnectionRouter#route(org.eclipse.draw2d.Connection)
-     */
     @Override
     public void route(final Connection conn) {
         internalRoute(conn);
     }
 
-    /**
-     * @param conn
-     */
     private void internalRoute(final Connection conn) {
         if (conn.getSourceAnchor() == null || conn.getSourceAnchor().getOwner() == null || conn.getTargetAnchor() == null || conn.getTargetAnchor().getOwner() == null) {
             super.route(conn);
