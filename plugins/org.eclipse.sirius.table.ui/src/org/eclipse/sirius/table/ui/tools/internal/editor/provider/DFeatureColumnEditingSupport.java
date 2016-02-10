@@ -671,12 +671,15 @@ public class DFeatureColumnEditingSupport extends EditingSupport {
         @Override
         protected void doExecute() {
             try {
-                if ((getAccessor().eGet(cell.getTarget(), getFeatureName()) == null && value != null)
-                        || (getAccessor().eGet(cell.getTarget(), getFeatureName()) != null && !getAccessor().eGet(cell.getTarget(), getFeatureName()).equals(value))) {
-                    if (isMany(cell.getTarget())) {
-                        getAccessor().eClear(cell.getTarget(), getFeatureName());
+                ModelAccessor acc = getAccessor();
+                EObject target = cell.getTarget();
+                String featureName = getFeatureName();
+                Object currentValue = acc.eGet(target, featureName);
+                if ((currentValue == null && value != null) || (currentValue != null && !currentValue.equals(value))) {
+                    if (isMany(target)) {
+                        acc.eClear(target, featureName);
                     }
-                    getAccessor().eSet(cell.getTarget(), getFeatureName(), value);
+                    acc.eSet(target, featureName, value);
                 }
             } catch (final LockedInstanceException e) {
                 SiriusPlugin.getDefault().error(IInterpreterMessages.EVALUATION_ERROR_ON_MODEL_MODIFICATION, e);
