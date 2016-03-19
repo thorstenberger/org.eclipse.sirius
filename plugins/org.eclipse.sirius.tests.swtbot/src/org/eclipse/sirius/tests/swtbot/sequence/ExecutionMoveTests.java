@@ -12,6 +12,7 @@ package org.eclipse.sirius.tests.swtbot.sequence;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.SnapToGeometry;
 import org.eclipse.gef.SnapToGrid;
@@ -20,6 +21,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.layout.LayoutConsta
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.SequenceDiagramEditPart;
 import org.eclipse.sirius.ext.base.Option;
 import org.eclipse.sirius.ext.base.Options;
+import org.eclipse.sirius.sample.interactions.Execution;
 import org.eclipse.sirius.sample.interactions.Interaction;
 import org.eclipse.sirius.tests.swtbot.support.api.condition.CheckEditPartMoved;
 import org.eclipse.sirius.tests.swtbot.support.api.condition.CheckEditPartResized;
@@ -35,8 +37,6 @@ import org.junit.Assert;
  * 
  * @author pcdavid
  */
-// WARNING for SWTBot tests : reparent execution recreate editParts => reget the
-// bot
 public class ExecutionMoveTests extends AbstractDefaultModelSequenceTests {
 
     private static final String PATH = DATA_UNIT_DIR + "vp-851/";
@@ -47,18 +47,22 @@ public class ExecutionMoveTests extends AbstractDefaultModelSequenceTests {
 
     private static final String SESSION_FILE = "executions.aird";
 
+    @Override
     protected String getPath() {
         return PATH;
     }
 
+    @Override
     protected String getSemanticModel() {
         return MODEL;
     }
 
+    @Override
     protected String getSessionModel() {
         return SESSION_FILE;
     }
 
+    @Override
     protected Option<String> getDRepresentationName() {
         return Options.newSome(REPRESENTATION_NAME);
     }
@@ -71,62 +75,15 @@ public class ExecutionMoveTests extends AbstractDefaultModelSequenceTests {
 
     private SWTBotGefEditPart instanceRoleBBot;
 
-    private SWTBotGefEditPart e1Bot;
+    private SWTBotGefEditPart[] bots = new SWTBotGefEditPart[9];
 
-    private SWTBotGefEditPart e2Bot;
+    private EObject[] executions = new EObject[9];
 
-    private SWTBotGefEditPart e3Bot;
-
-    private SWTBotGefEditPart e4Bot;
-
-    private SWTBotGefEditPart e5Bot;
-
-    private SWTBotGefEditPart e6Bot;
-
-    private SWTBotGefEditPart e7Bot;
-
-    private SWTBotGefEditPart e8Bot;
-
-    private SWTBotGefEditPart e9Bot;
-
-    private EObject e1;
-
-    private EObject e2;
-
-    private EObject e3;
-
-    private EObject e4;
-
-    private EObject e5;
-
-    private EObject e6;
-
-    private EObject e7;
-
-    private EObject e8;
-
-    private EObject e9;
-
-    private Rectangle e1Bounds;
-
-    private Rectangle e2Bounds;
-
-    private Rectangle e3Bounds;
-
-    private Rectangle e4Bounds;
-
-    private Rectangle e5Bounds;
-
-    private Rectangle e6Bounds;
-
-    private Rectangle e7Bounds;
-
-    private Rectangle e8Bounds;
-
-    private Rectangle e9Bounds;
+    private Rectangle[] bounds = new Rectangle[9];
 
     private static final int NB_ENDS_EXECUTIONS = (5 * 2) + (4 * 2);
 
+    @Override
     protected void onSetUpAfterOpeningDesignerPerspective() throws Exception {
         super.onSetUpAfterOpeningDesignerPerspective();
 
@@ -146,36 +103,25 @@ public class ExecutionMoveTests extends AbstractDefaultModelSequenceTests {
         instanceRoleBBot = editor.getEditPart(LIFELINE_B);
 
         // Execs
-        e1 = interaction.getExecutions().get(2);
-        e2 = interaction.getExecutions().get(3);
-        e3 = interaction.getExecutions().get(8);
-        e4 = interaction.getExecutions().get(4);
-        e5 = interaction.getExecutions().get(6);
-        e6 = interaction.getExecutions().get(0);
-        e7 = interaction.getExecutions().get(1);
-        e8 = interaction.getExecutions().get(7);
-        e9 = interaction.getExecutions().get(5);
+        int[] indices = new int[] { 2, 3, 8, 4, 6, 0, 1, 7, 5 };
+        EList<Execution> allExecutions = interaction.getExecutions();
+        for (int i = 0; i < indices.length; i++) {
+            executions[i] = allExecutions.get(i);
+        }
 
-        e1Bot = instanceRoleABot.parent().descendants(WithSemantic.withSemantic(e1)).get(0);
-        e2Bot = e1Bot.descendants(WithSemantic.withSemantic(e2)).get(0);
-        e3Bot = instanceRoleABot.parent().descendants(WithSemantic.withSemantic(e3)).get(0);
-        e4Bot = e2Bot.descendants(WithSemantic.withSemantic(e4)).get(0);
-        e5Bot = e1Bot.descendants(WithSemantic.withSemantic(e5)).get(0);
-        e6Bot = instanceRoleBBot.parent().descendants(WithSemantic.withSemantic(e6)).get(0);
-        e7Bot = instanceRoleBBot.parent().descendants(WithSemantic.withSemantic(e7)).get(0);
-        e8Bot = instanceRoleBBot.parent().descendants(WithSemantic.withSemantic(e8)).get(0);
-        e9Bot = instanceRoleBBot.parent().descendants(WithSemantic.withSemantic(e9)).get(0);
+        bots[0] = instanceRoleABot.parent().descendants(WithSemantic.withSemantic(executions[0])).get(0);
+        bots[1] = bots[0].descendants(WithSemantic.withSemantic(executions[1])).get(0);
+        bots[2] = instanceRoleABot.parent().descendants(WithSemantic.withSemantic(executions[2])).get(0);
+        bots[3] = bots[1].descendants(WithSemantic.withSemantic(executions[3])).get(0);
+        bots[4] = bots[0].descendants(WithSemantic.withSemantic(executions[4])).get(0);
+        bots[5] = instanceRoleBBot.parent().descendants(WithSemantic.withSemantic(executions[5])).get(0);
+        bots[6] = instanceRoleBBot.parent().descendants(WithSemantic.withSemantic(executions[6])).get(0);
+        bots[7] = instanceRoleBBot.parent().descendants(WithSemantic.withSemantic(executions[7])).get(0);
+        bots[8] = instanceRoleBBot.parent().descendants(WithSemantic.withSemantic(executions[8])).get(0);
 
-        e1Bounds = editor.getBounds(e1Bot);
-        e2Bounds = editor.getBounds(e2Bot);
-        e3Bounds = editor.getBounds(e3Bot);
-        e4Bounds = editor.getBounds(e4Bot);
-        e5Bounds = editor.getBounds(e5Bot);
-        e6Bounds = editor.getBounds(e6Bot);
-        e7Bounds = editor.getBounds(e7Bot);
-        e8Bounds = editor.getBounds(e8Bot);
-        e9Bounds = editor.getBounds(e9Bot);
-
+        for (int i = 0; i < bots.length; i++) {
+            bounds[i] = editor.getBounds(bots[i]);
+        }
     }
 
     /**
@@ -227,66 +173,67 @@ public class ExecutionMoveTests extends AbstractDefaultModelSequenceTests {
     }
 
     /**
-     * Move e3 between e2 and e5
+     * Move executions[2] between executions[1] and e5
      */
     public void test_move_execution_inside_new_parent_between_siblings() {
-        int newY = (e2Bounds.getBottom().y + e5Bounds.y) / 2;
-        int dy = newY - e3Bounds.y;
-        
-        e3Bot.select();
-        
-        ICondition conditionE1 = new CheckEditPartResized(e1Bot);
-        ICondition conditionE5 = new CheckEditPartMoved(e5Bot);
-        ICondition conditionE8 = new CheckEditPartMoved(e8Bot);
-        ICondition conditionE9 = new CheckEditPartResized(e9Bot);
-        
-        editor.drag(e3Bot, e3Bounds.x, newY);
-        
+        int newY = (bounds[1].getBottom().y + bounds[4].y) / 2;
+        int dy = newY - bounds[2].y;
+
+        bots[2].select();
+
+        ICondition conditionE1 = new CheckEditPartResized(bots[0]);
+        ICondition conditionE5 = new CheckEditPartMoved(bots[4]);
+        ICondition conditionE8 = new CheckEditPartMoved(bots[7]);
+        ICondition conditionE9 = new CheckEditPartResized(bots[8]);
+
+        editor.drag(bots[2], bounds[2].x, newY);
+
         bot.waitUntil(conditionE1);
         bot.waitUntil(conditionE5);
         bot.waitUntil(conditionE8);
         bot.waitUntil(conditionE9);
 
-        e3Bot = e1Bot.descendants(WithSemantic.withSemantic(e3)).get(0);
+        bots[2] = bots[0].descendants(WithSemantic.withSemantic(executions[2])).get(0);
 
         // On lifeline 'a'
         int dxShift = 3 * LayoutConstants.DEFAULT_EXECUTION_WIDTH / 4;
-        int dyShift = e3Bounds.height;
-        Assert.assertEquals(e1Bounds.getResized(0, dyShift), editor.getBounds(e1Bot));
-        Assert.assertEquals(e2Bounds, editor.getBounds(e2Bot));
-        Assert.assertEquals(e3Bounds.getTranslated(dxShift, dy), editor.getBounds(e3Bot));
-        Assert.assertEquals(e4Bounds, editor.getBounds(e4Bot));
-        Assert.assertEquals(e5Bounds.getTranslated(0, dyShift), editor.getBounds(e5Bot));
+        int dyShift = bounds[2].height;
+        Assert.assertEquals(bounds[0].getResized(0, dyShift), editor.getBounds(bots[0]));
+        Assert.assertEquals(bounds[1], editor.getBounds(bots[1]));
+        Assert.assertEquals(bounds[2].getTranslated(dxShift, dy), editor.getBounds(bots[2]));
+        Assert.assertEquals(bounds[3], editor.getBounds(bots[3]));
+        Assert.assertEquals(bounds[4].getTranslated(0, dyShift), editor.getBounds(bots[4]));
 
         // On lifelines 'b' and 'c'
-        Assert.assertEquals(e6Bounds, editor.getBounds(e6Bot));
-        Assert.assertEquals(e7Bounds, editor.getBounds(e7Bot));
-        Assert.assertEquals(e8Bounds.getTranslated(0, dyShift), editor.getBounds(e8Bot));
-        Assert.assertEquals(e9Bounds.getResized(0, dyShift), editor.getBounds(e9Bot));
+        Assert.assertEquals(bounds[5], editor.getBounds(bots[5]));
+        Assert.assertEquals(bounds[6], editor.getBounds(bots[6]));
+        Assert.assertEquals(bounds[7].getTranslated(0, dyShift), editor.getBounds(bots[7]));
+        Assert.assertEquals(bounds[8].getResized(0, dyShift), editor.getBounds(bots[8]));
 
         validateOrdering(NB_ENDS_EXECUTIONS);
     }
 
     /**
-     * Move e3 just above e1 but close enough to trigger a shift.
+     * Move executions[2] just above executions[0] but close enough to trigger a
+     * shift.
      */
     public void test_move_plain_execution_above_sibling_shifts_sibling_and_children() {
         int newY = 170;
-        int dy = newY - e3Bounds.y;
-        
-        e3Bot.select();
-        
-        ICondition conditionE1 = new CheckEditPartMoved(e1Bot);
-        ICondition conditionE2 = new CheckEditPartMoved(e2Bot);
-        ICondition conditionE3 = new CheckEditPartMoved(e3Bot);
-        ICondition conditionE4 = new CheckEditPartMoved(e4Bot);
-        ICondition conditionE5 = new CheckEditPartMoved(e5Bot);
-        ICondition conditionE7 = new CheckEditPartMoved(e7Bot);
-        ICondition conditionE8 = new CheckEditPartMoved(e8Bot);
-        ICondition conditionE9 = new CheckEditPartMoved(e9Bot);
-        
-        editor.drag(e3Bot, e3Bounds.x, newY);
-        
+        int dy = newY - bounds[2].y;
+
+        bots[2].select();
+
+        ICondition conditionE1 = new CheckEditPartMoved(bots[0]);
+        ICondition conditionE2 = new CheckEditPartMoved(bots[1]);
+        ICondition conditionE3 = new CheckEditPartMoved(bots[2]);
+        ICondition conditionE4 = new CheckEditPartMoved(bots[3]);
+        ICondition conditionE5 = new CheckEditPartMoved(bots[4]);
+        ICondition conditionE7 = new CheckEditPartMoved(bots[6]);
+        ICondition conditionE8 = new CheckEditPartMoved(bots[7]);
+        ICondition conditionE9 = new CheckEditPartMoved(bots[8]);
+
+        editor.drag(bots[2], bounds[2].x, newY);
+
         bot.waitUntil(conditionE1);
         bot.waitUntil(conditionE2);
         bot.waitUntil(conditionE3);
@@ -297,84 +244,85 @@ public class ExecutionMoveTests extends AbstractDefaultModelSequenceTests {
         bot.waitUntil(conditionE9);
 
         // On lifeline 'a'
-        int dyShift = e3Bounds.height;
-        Assert.assertEquals(e1Bounds.getTranslated(0, dyShift), editor.getBounds(e1Bot));
-        Assert.assertEquals(e2Bounds.getTranslated(0, dyShift), editor.getBounds(e2Bot));
-        Assert.assertEquals(e3Bounds.getTranslated(0, dy), editor.getBounds(e3Bot));
-        Assert.assertEquals(e4Bounds.getTranslated(0, dyShift), editor.getBounds(e4Bot));
-        Assert.assertEquals(e5Bounds.getTranslated(0, dyShift), editor.getBounds(e5Bot));
+        int dyShift = bounds[2].height;
+        Assert.assertEquals(bounds[0].getTranslated(0, dyShift), editor.getBounds(bots[0]));
+        Assert.assertEquals(bounds[1].getTranslated(0, dyShift), editor.getBounds(bots[1]));
+        Assert.assertEquals(bounds[2].getTranslated(0, dy), editor.getBounds(bots[2]));
+        Assert.assertEquals(bounds[3].getTranslated(0, dyShift), editor.getBounds(bots[3]));
+        Assert.assertEquals(bounds[4].getTranslated(0, dyShift), editor.getBounds(bots[4]));
 
         // On lifelines 'b' and 'c'
-        Assert.assertEquals(e6Bounds, editor.getBounds(e6Bot));
-        Assert.assertEquals(e7Bounds.getTranslated(0, dyShift), editor.getBounds(e7Bot));
-        Assert.assertEquals(e8Bounds.getTranslated(0, dyShift), editor.getBounds(e8Bot));
-        Assert.assertEquals(e9Bounds.getTranslated(0, dyShift), editor.getBounds(e9Bot));
+        Assert.assertEquals(bounds[5], editor.getBounds(bots[5]));
+        Assert.assertEquals(bounds[6].getTranslated(0, dyShift), editor.getBounds(bots[6]));
+        Assert.assertEquals(bounds[7].getTranslated(0, dyShift), editor.getBounds(bots[7]));
+        Assert.assertEquals(bounds[8].getTranslated(0, dyShift), editor.getBounds(bots[8]));
 
         validateOrdering(NB_ENDS_EXECUTIONS);
     }
 
     /**
-     * Move the top of e1 inside e3.
+     * Move the top of executions[0] inside executions[2].
      */
     public void test_move_execution_group_on_top_of_smaller_execution() {
-        int newY = e3Bounds.getCenter().y;
-        int dy = newY - e1Bounds.y;
-        
-        e1Bot.select();
-        
-        ICondition conditionE3 = new CheckEditPartResized(e3Bot);
-        ICondition conditionE8 = new CheckEditPartResized(e8Bot);
-        
-        editor.drag(e1Bot, e1Bounds.x, newY);
-        
+        int newY = bounds[2].getCenter().y;
+        int dy = newY - bounds[0].y;
+
+        bots[0].select();
+
+        ICondition conditionE3 = new CheckEditPartResized(bots[2]);
+        ICondition conditionE8 = new CheckEditPartResized(bots[7]);
+
+        editor.drag(bots[0], bounds[0].x, newY);
+
         bot.waitUntil(conditionE3);
         bot.waitUntil(conditionE8);
 
-        // e1, e2, e4 and e5 reparented => reget bot
-        e1Bot = e3Bot.descendants(WithSemantic.withSemantic(e1)).get(0);
-        e2Bot = e1Bot.descendants(WithSemantic.withSemantic(e2)).get(0);
-        e4Bot = e2Bot.descendants(WithSemantic.withSemantic(e4)).get(0);
-        e5Bot = e1Bot.descendants(WithSemantic.withSemantic(e5)).get(0);
+        // executions[0], executions[1], e4 and e5 reparented => reget bot
+        bots[0] = bots[2].descendants(WithSemantic.withSemantic(executions[0])).get(0);
+        bots[1] = bots[0].descendants(WithSemantic.withSemantic(executions[1])).get(0);
+        bots[3] = bots[1].descendants(WithSemantic.withSemantic(executions[3])).get(0);
+        bots[4] = bots[0].descendants(WithSemantic.withSemantic(executions[4])).get(0);
 
         // On lifeline 'a'
         int dxShift = 3 * LayoutConstants.DEFAULT_EXECUTION_WIDTH / 4;
-        int dyShift = e1Bounds.height;
-        Assert.assertEquals(e1Bounds.getTranslated(dxShift, dy), editor.getBounds(e1Bot));
-        Assert.assertEquals(e2Bounds.getTranslated(dxShift, dy), editor.getBounds(e2Bot));
-        Assert.assertEquals(e3Bounds.getResized(0, dyShift), editor.getBounds(e3Bot));
-        Assert.assertEquals(e4Bounds.getTranslated(dxShift, dy), editor.getBounds(e4Bot));
-        Assert.assertEquals(e5Bounds.getTranslated(dxShift, dy), editor.getBounds(e5Bot));
+        int dyShift = bounds[0].height;
+        Assert.assertEquals(bounds[0].getTranslated(dxShift, dy), editor.getBounds(bots[0]));
+        Assert.assertEquals(bounds[1].getTranslated(dxShift, dy), editor.getBounds(bots[1]));
+        Assert.assertEquals(bounds[2].getResized(0, dyShift), editor.getBounds(bots[2]));
+        Assert.assertEquals(bounds[3].getTranslated(dxShift, dy), editor.getBounds(bots[3]));
+        Assert.assertEquals(bounds[4].getTranslated(dxShift, dy), editor.getBounds(bots[4]));
 
         // On lifelines 'b' and 'c'
-        Assert.assertEquals(e6Bounds, editor.getBounds(e6Bot));
-        Assert.assertEquals(e7Bounds, editor.getBounds(e7Bot));
-        Assert.assertEquals(e8Bounds.getResized(0, dyShift), editor.getBounds(e8Bot));
-        Assert.assertEquals(e9Bounds, editor.getBounds(e9Bot));
+        Assert.assertEquals(bounds[5], editor.getBounds(bots[5]));
+        Assert.assertEquals(bounds[6], editor.getBounds(bots[6]));
+        Assert.assertEquals(bounds[7].getResized(0, dyShift), editor.getBounds(bots[7]));
+        Assert.assertEquals(bounds[8], editor.getBounds(bots[8]));
 
         validateOrdering(NB_ENDS_EXECUTIONS);
 
     }
 
     /**
-     * Move e3 at the beginning of e1 to reparent e3, expand e1 and shift
-     * previous e1 children.
+     * Move executions[2] at the beginning of executions[0] to reparent
+     * executions[2], expand executions[0] and shift previous executions[0]
+     * children.
      */
     public void test_move_execution_inside_new_parent_with_expansion() {
-        int newY = e1Bounds.y + LayoutConstants.EXECUTION_CHILDREN_MARGIN;
-        int dy = newY - e3Bounds.y;
-        
-        e3Bot.select();
-        
-        ICondition conditionE1 = new CheckEditPartResized(e1Bot);
-        ICondition conditionE2 = new CheckEditPartMoved(e2Bot);
-        ICondition conditionE4 = new CheckEditPartMoved(e4Bot);
-        ICondition conditionE5 = new CheckEditPartMoved(e5Bot);
-        ICondition conditionE7 = new CheckEditPartResized(e7Bot);
-        ICondition conditionE8 = new CheckEditPartMoved(e8Bot);
-        ICondition conditionE9 = new CheckEditPartMoved(e9Bot);
-        
-        editor.drag(e3Bot, e3Bounds.x, newY);
-        
+        int newY = bounds[0].y + LayoutConstants.EXECUTION_CHILDREN_MARGIN;
+        int dy = newY - bounds[2].y;
+
+        bots[2].select();
+
+        ICondition conditionE1 = new CheckEditPartResized(bots[0]);
+        ICondition conditionE2 = new CheckEditPartMoved(bots[1]);
+        ICondition conditionE4 = new CheckEditPartMoved(bots[3]);
+        ICondition conditionE5 = new CheckEditPartMoved(bots[4]);
+        ICondition conditionE7 = new CheckEditPartResized(bots[6]);
+        ICondition conditionE8 = new CheckEditPartMoved(bots[7]);
+        ICondition conditionE9 = new CheckEditPartMoved(bots[8]);
+
+        editor.drag(bots[2], bounds[2].x, newY);
+
         bot.waitUntil(conditionE1);
         bot.waitUntil(conditionE2);
         bot.waitUntil(conditionE4);
@@ -383,230 +331,233 @@ public class ExecutionMoveTests extends AbstractDefaultModelSequenceTests {
         bot.waitUntil(conditionE8);
         bot.waitUntil(conditionE9);
 
-        e3Bot = e1Bot.descendants(WithSemantic.withSemantic(e3)).get(0);
+        bots[2] = bots[0].descendants(WithSemantic.withSemantic(executions[2])).get(0);
 
         // On lifeline 'a'
         int dxShift = 3 * LayoutConstants.DEFAULT_EXECUTION_WIDTH / 4;
-        int dyShift = e3Bounds.height;
-        Assert.assertEquals(e1Bounds.getResized(0, dyShift), editor.getBounds(e1Bot));
-        Assert.assertEquals(e2Bounds.getTranslated(0, dyShift), editor.getBounds(e2Bot));
-        Assert.assertEquals(e3Bounds.getTranslated(dxShift, dy), editor.getBounds(e3Bot));
-        Assert.assertEquals(e4Bounds.getTranslated(0, dyShift), editor.getBounds(e4Bot));
-        Assert.assertEquals(e5Bounds.getTranslated(0, dyShift), editor.getBounds(e5Bot));
+        int dyShift = bounds[2].height;
+        Assert.assertEquals(bounds[0].getResized(0, dyShift), editor.getBounds(bots[0]));
+        Assert.assertEquals(bounds[1].getTranslated(0, dyShift), editor.getBounds(bots[1]));
+        Assert.assertEquals(bounds[2].getTranslated(dxShift, dy), editor.getBounds(bots[2]));
+        Assert.assertEquals(bounds[3].getTranslated(0, dyShift), editor.getBounds(bots[3]));
+        Assert.assertEquals(bounds[4].getTranslated(0, dyShift), editor.getBounds(bots[4]));
 
         // On lifelines 'b' and 'c'
-        Assert.assertEquals(e6Bounds, editor.getBounds(e6Bot));
-        Assert.assertEquals(e7Bounds.getResized(0, dyShift), editor.getBounds(e7Bot));
-        Assert.assertEquals(e8Bounds.getTranslated(0, dyShift), editor.getBounds(e8Bot));
-        Assert.assertEquals(e9Bounds.getTranslated(0, dyShift), editor.getBounds(e9Bot));
+        Assert.assertEquals(bounds[5], editor.getBounds(bots[5]));
+        Assert.assertEquals(bounds[6].getResized(0, dyShift), editor.getBounds(bots[6]));
+        Assert.assertEquals(bounds[7].getTranslated(0, dyShift), editor.getBounds(bots[7]));
+        Assert.assertEquals(bounds[8].getTranslated(0, dyShift), editor.getBounds(bots[8]));
 
         validateOrdering(NB_ENDS_EXECUTIONS);
     }
 
     /**
-     * Move e2 out of e1, just above it
+     * Move executions[1] out of executions[0], just above it
      */
     public void test_move_execution_out_of_parent_and_above_it() {
         int newY = 170;
-        int dy = newY - e2Bounds.y;
-        
-        e2Bot.select();
-        
-        ICondition conditionE7 = new CheckEditPartMoved(e7Bot);
-        ICondition conditionE8 = new CheckEditPartMoved(e8Bot);
-        ICondition conditionE9 = new CheckEditPartMoved(e9Bot);
-        
-        editor.drag(e2Bot, e2Bounds.x, newY);
-        
+        int dy = newY - bounds[1].y;
+
+        bots[1].select();
+
+        ICondition conditionE7 = new CheckEditPartMoved(bots[6]);
+        ICondition conditionE8 = new CheckEditPartMoved(bots[7]);
+        ICondition conditionE9 = new CheckEditPartMoved(bots[8]);
+
+        editor.drag(bots[1], bounds[1].x, newY);
+
         bot.waitUntil(conditionE7);
         bot.waitUntil(conditionE8);
         bot.waitUntil(conditionE9);
 
-        e1Bot = instanceRoleABot.parent().descendants(WithSemantic.withSemantic(e1)).get(0);
-        e2Bot = instanceRoleABot.parent().descendants(WithSemantic.withSemantic(e2)).get(0);
-        e3Bot = instanceRoleABot.parent().descendants(WithSemantic.withSemantic(e3)).get(0);
-        e4Bot = e2Bot.descendants(WithSemantic.withSemantic(e4)).get(0);
-        e5Bot = e1Bot.descendants(WithSemantic.withSemantic(e5)).get(0);
+        bots[0] = instanceRoleABot.parent().descendants(WithSemantic.withSemantic(executions[0])).get(0);
+        bots[1] = instanceRoleABot.parent().descendants(WithSemantic.withSemantic(executions[1])).get(0);
+        bots[2] = instanceRoleABot.parent().descendants(WithSemantic.withSemantic(executions[2])).get(0);
+        bots[3] = bots[1].descendants(WithSemantic.withSemantic(executions[3])).get(0);
+        bots[4] = bots[0].descendants(WithSemantic.withSemantic(executions[4])).get(0);
 
         // On lifeline 'a'
         int dxShift = -3 * LayoutConstants.DEFAULT_EXECUTION_WIDTH / 4;
-        int dyShift = e2Bounds.height;
-        Assert.assertEquals(e1Bounds.getTranslated(0, dyShift), editor.getBounds(e1Bot));
-        Assert.assertEquals(e2Bounds.getTranslated(dxShift, dy), editor.getBounds(e2Bot));
-        Assert.assertEquals(e3Bounds.getTranslated(0, dyShift), editor.getBounds(e3Bot));
-        Assert.assertEquals(e4Bounds.getTranslated(dxShift, dy), editor.getBounds(e4Bot));
-        Assert.assertEquals(e5Bounds.getTranslated(0, dyShift), editor.getBounds(e5Bot));
+        int dyShift = bounds[1].height;
+        Assert.assertEquals(bounds[0].getTranslated(0, dyShift), editor.getBounds(bots[0]));
+        Assert.assertEquals(bounds[1].getTranslated(dxShift, dy), editor.getBounds(bots[1]));
+        Assert.assertEquals(bounds[2].getTranslated(0, dyShift), editor.getBounds(bots[2]));
+        Assert.assertEquals(bounds[3].getTranslated(dxShift, dy), editor.getBounds(bots[3]));
+        Assert.assertEquals(bounds[4].getTranslated(0, dyShift), editor.getBounds(bots[4]));
 
         // On lifelines 'b' and 'c'
-        Assert.assertEquals(e6Bounds, editor.getBounds(e6Bot));
-        Assert.assertEquals(e7Bounds.getTranslated(0, dyShift), editor.getBounds(e7Bot));
-        Assert.assertEquals(e8Bounds.getTranslated(0, dyShift), editor.getBounds(e8Bot));
-        Assert.assertEquals(e9Bounds.getTranslated(0, dyShift), editor.getBounds(e9Bot));
+        Assert.assertEquals(bounds[5], editor.getBounds(bots[5]));
+        Assert.assertEquals(bounds[6].getTranslated(0, dyShift), editor.getBounds(bots[6]));
+        Assert.assertEquals(bounds[7].getTranslated(0, dyShift), editor.getBounds(bots[7]));
+        Assert.assertEquals(bounds[8].getTranslated(0, dyShift), editor.getBounds(bots[8]));
 
         validateOrdering(NB_ENDS_EXECUTIONS);
     }
 
     /**
-     * Move e5 partially below e1 to trigger a expansion of e1.
+     * Move e5 partially below executions[0] to trigger a expansion of
+     * executions[0].
      */
     public void test_move_execution_partially_below_parent_trigger_expansion1() {
-        int newY = e1Bounds.getBottom().y - e5Bounds.height + 5;
-        int dy = newY - e5Bounds.y;
-        
-        e5Bot.select();
-        
-        ICondition conditionE1 = new CheckEditPartResized(e1Bot);
-        ICondition conditionE3 = new CheckEditPartMoved(e3Bot);
-        ICondition conditionE5 = new CheckEditPartMoved(e5Bot);
-        ICondition conditionE8 = new CheckEditPartMoved(e8Bot);
-        
-        editor.drag(e5Bot, e5Bounds.x, newY);
-        
+        int newY = bounds[0].getBottom().y - bounds[4].height + 5;
+        int dy = newY - bounds[4].y;
+
+        bots[4].select();
+
+        ICondition conditionE1 = new CheckEditPartResized(bots[0]);
+        ICondition conditionE3 = new CheckEditPartMoved(bots[2]);
+        ICondition conditionE5 = new CheckEditPartMoved(bots[4]);
+        ICondition conditionE8 = new CheckEditPartMoved(bots[7]);
+
+        editor.drag(bots[4], bounds[4].x, newY);
+
         bot.waitUntil(conditionE1);
         bot.waitUntil(conditionE3);
         bot.waitUntil(conditionE5);
         bot.waitUntil(conditionE8);
 
         // On lifeline 'a'
-        int dyShift = e5Bounds.height;
-        Assert.assertEquals(e1Bounds.getResized(0, dyShift), editor.getBounds(e1Bot));
-        Assert.assertEquals(e2Bounds, editor.getBounds(e2Bot));
-        Assert.assertEquals(e3Bounds.getTranslated(0, dyShift), editor.getBounds(e3Bot));
-        Assert.assertEquals(e4Bounds, editor.getBounds(e4Bot));
-        Assert.assertEquals(e5Bounds.getTranslated(0, dy), editor.getBounds(e5Bot));
+        int dyShift = bounds[4].height;
+        Assert.assertEquals(bounds[0].getResized(0, dyShift), editor.getBounds(bots[0]));
+        Assert.assertEquals(bounds[1], editor.getBounds(bots[1]));
+        Assert.assertEquals(bounds[2].getTranslated(0, dyShift), editor.getBounds(bots[2]));
+        Assert.assertEquals(bounds[3], editor.getBounds(bots[3]));
+        Assert.assertEquals(bounds[4].getTranslated(0, dy), editor.getBounds(bots[4]));
 
         // On lifelines 'b' and 'c'
-        Assert.assertEquals(e6Bounds, editor.getBounds(e6Bot));
-        Assert.assertEquals(e7Bounds, editor.getBounds(e7Bot));
-        Assert.assertEquals(e8Bounds.getTranslated(0, dyShift), editor.getBounds(e8Bot));
-        Assert.assertEquals(e9Bounds, editor.getBounds(e9Bot));
+        Assert.assertEquals(bounds[5], editor.getBounds(bots[5]));
+        Assert.assertEquals(bounds[6], editor.getBounds(bots[6]));
+        Assert.assertEquals(bounds[7].getTranslated(0, dyShift), editor.getBounds(bots[7]));
+        Assert.assertEquals(bounds[8], editor.getBounds(bots[8]));
 
         validateOrdering(NB_ENDS_EXECUTIONS);
     }
 
     /**
-     * Move e5 partially below e1 to trigger a expansion of e1.
+     * Move e5 partially below executions[0] to trigger a expansion of
+     * executions[0].
      */
     public void test_move_execution_partially_below_parent_trigger_expansion2() {
-        int newY = e1Bounds.getBottom().y - e5Bounds.height + 15;
-        int dy = newY - e5Bounds.y;
-        
-        e5Bot.select();
-        
-        ICondition conditionE1 = new CheckEditPartResized(e1Bot);
-        ICondition conditionE3 = new CheckEditPartMoved(e3Bot);
-        ICondition conditionE5 = new CheckEditPartMoved(e5Bot);
-        ICondition conditionE8 = new CheckEditPartMoved(e8Bot);
-        
-        editor.drag(e5Bot, e5Bounds.x, newY);
-        
+        int newY = bounds[0].getBottom().y - bounds[4].height + 15;
+        int dy = newY - bounds[4].y;
+
+        bots[4].select();
+
+        ICondition conditionE1 = new CheckEditPartResized(bots[0]);
+        ICondition conditionE3 = new CheckEditPartMoved(bots[2]);
+        ICondition conditionE5 = new CheckEditPartMoved(bots[4]);
+        ICondition conditionE8 = new CheckEditPartMoved(bots[7]);
+
+        editor.drag(bots[4], bounds[4].x, newY);
+
         bot.waitUntil(conditionE1);
         bot.waitUntil(conditionE3);
         bot.waitUntil(conditionE5);
         bot.waitUntil(conditionE8);
 
         // On lifeline 'a'
-        int dyShift = e5Bounds.height;
-        Assert.assertEquals(e1Bounds.getResized(0, dyShift), editor.getBounds(e1Bot));
-        Assert.assertEquals(e2Bounds, editor.getBounds(e2Bot));
-        Assert.assertEquals(e3Bounds.getTranslated(0, dyShift), editor.getBounds(e3Bot));
-        Assert.assertEquals(e4Bounds, editor.getBounds(e4Bot));
-        Assert.assertEquals(e5Bounds.getTranslated(0, dy), editor.getBounds(e5Bot));
+        int dyShift = bounds[4].height;
+        Assert.assertEquals(bounds[0].getResized(0, dyShift), editor.getBounds(bots[0]));
+        Assert.assertEquals(bounds[1], editor.getBounds(bots[1]));
+        Assert.assertEquals(bounds[2].getTranslated(0, dyShift), editor.getBounds(bots[2]));
+        Assert.assertEquals(bounds[3], editor.getBounds(bots[3]));
+        Assert.assertEquals(bounds[4].getTranslated(0, dy), editor.getBounds(bots[4]));
 
         // On lifelines 'b' and 'c'
-        Assert.assertEquals(e6Bounds, editor.getBounds(e6Bot));
-        Assert.assertEquals(e7Bounds, editor.getBounds(e7Bot));
-        Assert.assertEquals(e8Bounds.getTranslated(0, dyShift), editor.getBounds(e8Bot));
-        Assert.assertEquals(e9Bounds, editor.getBounds(e9Bot));
+        Assert.assertEquals(bounds[5], editor.getBounds(bots[5]));
+        Assert.assertEquals(bounds[6], editor.getBounds(bots[6]));
+        Assert.assertEquals(bounds[7].getTranslated(0, dyShift), editor.getBounds(bots[7]));
+        Assert.assertEquals(bounds[8], editor.getBounds(bots[8]));
 
         validateOrdering(NB_ENDS_EXECUTIONS);
     }
 
     /**
-     * Move e5 partially below e1 to trigger a expansion of e1.
+     * Move e5 partially below executions[0] to trigger a expansion of
+     * executions[0].
      */
     public void test_move_execution_partially_below_parent_trigger_expansion3() {
-        int newY = e1Bounds.getBottom().y - e5Bounds.height + 25;
-        int dy = newY - e5Bounds.y;
-        
-        e5Bot.select();
-        
-        ICondition conditionE1 = new CheckEditPartResized(e1Bot);
-        ICondition conditionE3 = new CheckEditPartMoved(e3Bot);
-        ICondition conditionE5 = new CheckEditPartMoved(e5Bot);
-        ICondition conditionE8 = new CheckEditPartMoved(e8Bot);
-        
-        editor.drag(e5Bot, e5Bounds.x, newY);
-        
+        int newY = bounds[0].getBottom().y - bounds[4].height + 25;
+        int dy = newY - bounds[4].y;
+
+        bots[4].select();
+
+        ICondition conditionE1 = new CheckEditPartResized(bots[0]);
+        ICondition conditionE3 = new CheckEditPartMoved(bots[2]);
+        ICondition conditionE5 = new CheckEditPartMoved(bots[4]);
+        ICondition conditionE8 = new CheckEditPartMoved(bots[7]);
+
+        editor.drag(bots[4], bounds[4].x, newY);
+
         bot.waitUntil(conditionE1);
         bot.waitUntil(conditionE3);
         bot.waitUntil(conditionE5);
         bot.waitUntil(conditionE8);
 
         // On lifeline 'a'
-        int dyShift = e5Bounds.height;
-        Assert.assertEquals(e1Bounds.getResized(0, dyShift), editor.getBounds(e1Bot));
-        Assert.assertEquals(e2Bounds, editor.getBounds(e2Bot));
-        Assert.assertEquals(e3Bounds.getTranslated(0, dyShift), editor.getBounds(e3Bot));
-        Assert.assertEquals(e4Bounds, editor.getBounds(e4Bot));
-        Assert.assertEquals(e5Bounds.getTranslated(0, dy), editor.getBounds(e5Bot));
+        int dyShift = bounds[4].height;
+        Assert.assertEquals(bounds[0].getResized(0, dyShift), editor.getBounds(bots[0]));
+        Assert.assertEquals(bounds[1], editor.getBounds(bots[1]));
+        Assert.assertEquals(bounds[2].getTranslated(0, dyShift), editor.getBounds(bots[2]));
+        Assert.assertEquals(bounds[3], editor.getBounds(bots[3]));
+        Assert.assertEquals(bounds[4].getTranslated(0, dy), editor.getBounds(bots[4]));
 
         // On lifelines 'b' and 'c'
-        Assert.assertEquals(e6Bounds, editor.getBounds(e6Bot));
-        Assert.assertEquals(e7Bounds, editor.getBounds(e7Bot));
-        Assert.assertEquals(e8Bounds.getTranslated(0, dyShift), editor.getBounds(e8Bot));
-        Assert.assertEquals(e9Bounds, editor.getBounds(e9Bot));
+        Assert.assertEquals(bounds[5], editor.getBounds(bots[5]));
+        Assert.assertEquals(bounds[6], editor.getBounds(bots[6]));
+        Assert.assertEquals(bounds[7].getTranslated(0, dyShift), editor.getBounds(bots[7]));
+        Assert.assertEquals(bounds[8], editor.getBounds(bots[8]));
 
         validateOrdering(NB_ENDS_EXECUTIONS);
     }
 
     /**
-     * Move e5 partially below e1 to check that it is not allowed.
+     * Move e5 partially below executions[0] to check that it is not allowed.
      */
     public void test_move_execution_partially_below_parent_not_allowed() {
-        int newY = e1Bounds.getBottom().y - e5Bounds.height + 30;
-        
-        e5Bot.select();
-        
-        editor.drag(e5Bot, e5Bounds.x, newY);
-        
+        int newY = bounds[0].getBottom().y - bounds[4].height + 30;
+
+        bots[4].select();
+
+        editor.drag(bots[4], bounds[4].x, newY);
+
         bot.sleep(500);
 
         // On lifeline 'a'
-        Assert.assertEquals(e1Bounds, editor.getBounds(e1Bot));
-        Assert.assertEquals(e2Bounds, editor.getBounds(e2Bot));
-        Assert.assertEquals(e3Bounds, editor.getBounds(e3Bot));
-        Assert.assertEquals(e4Bounds, editor.getBounds(e4Bot));
-        Assert.assertEquals(e5Bounds, editor.getBounds(e5Bot));
+        Assert.assertEquals(bounds[0], editor.getBounds(bots[0]));
+        Assert.assertEquals(bounds[1], editor.getBounds(bots[1]));
+        Assert.assertEquals(bounds[2], editor.getBounds(bots[2]));
+        Assert.assertEquals(bounds[3], editor.getBounds(bots[3]));
+        Assert.assertEquals(bounds[4], editor.getBounds(bots[4]));
 
         // On lifelines 'b' and 'c'
-        Assert.assertEquals(e6Bounds, editor.getBounds(e6Bot));
-        Assert.assertEquals(e7Bounds, editor.getBounds(e7Bot));
-        Assert.assertEquals(e8Bounds, editor.getBounds(e8Bot));
-        Assert.assertEquals(e9Bounds, editor.getBounds(e9Bot));
+        Assert.assertEquals(bounds[5], editor.getBounds(bots[5]));
+        Assert.assertEquals(bounds[6], editor.getBounds(bots[6]));
+        Assert.assertEquals(bounds[7], editor.getBounds(bots[7]));
+        Assert.assertEquals(bounds[8], editor.getBounds(bots[8]));
 
         validateOrdering(NB_ENDS_EXECUTIONS);
     }
 
     /**
-     * Move e3 on e1 before e2.
+     * Move executions[2] on executions[0] before executions[1].
      */
     public void test_move_execution_inside_new_parent_before_siblings() {
-        int newY = (e1Bounds.y + e2Bounds.y) / 2 - 2;
-        int dy = newY - e3Bounds.y;
-        
-        e3Bot.select();
-        
-        ICondition conditionE1 = new CheckEditPartResized(e1Bot);
-        ICondition conditionE2 = new CheckEditPartMoved(e2Bot);
-        ICondition conditionE4 = new CheckEditPartMoved(e4Bot);
-        ICondition conditionE5 = new CheckEditPartMoved(e5Bot);
-        ICondition conditionE7 = new CheckEditPartResized(e7Bot);
-        ICondition conditionE8 = new CheckEditPartMoved(e8Bot);
-        ICondition conditionE9 = new CheckEditPartMoved(e9Bot);
-        
-        editor.drag(e3Bot, e3Bounds.x, newY);
-        
+        int newY = (bounds[0].y + bounds[1].y) / 2 - 2;
+        int dy = newY - bounds[2].y;
+
+        bots[2].select();
+
+        ICondition conditionE1 = new CheckEditPartResized(bots[0]);
+        ICondition conditionE2 = new CheckEditPartMoved(bots[1]);
+        ICondition conditionE4 = new CheckEditPartMoved(bots[3]);
+        ICondition conditionE5 = new CheckEditPartMoved(bots[4]);
+        ICondition conditionE7 = new CheckEditPartResized(bots[6]);
+        ICondition conditionE8 = new CheckEditPartMoved(bots[7]);
+        ICondition conditionE9 = new CheckEditPartMoved(bots[8]);
+
+        editor.drag(bots[2], bounds[2].x, newY);
+
         bot.waitUntil(conditionE1);
         bot.waitUntil(conditionE2);
         bot.waitUntil(conditionE4);
@@ -615,71 +566,37 @@ public class ExecutionMoveTests extends AbstractDefaultModelSequenceTests {
         bot.waitUntil(conditionE8);
         bot.waitUntil(conditionE9);
 
-        e3Bot = e1Bot.descendants(WithSemantic.withSemantic(e3)).get(0);
+        bots[2] = bots[0].descendants(WithSemantic.withSemantic(executions[2])).get(0);
 
         // On lifeline 'a'
         int dxShift = 3 * LayoutConstants.DEFAULT_EXECUTION_WIDTH / 4;
-        int dyShift = e3Bounds.height;
+        int dyShift = bounds[2].height;
         int dErr = 3; // layout, e7 is resized and there is only 2 pix between 2
                       // two consecutives events
-        Assert.assertEquals(e1Bounds.getResized(0, dyShift + dErr), editor.getBounds(e1Bot));
-        Assert.assertEquals(e2Bounds.getTranslated(0, dyShift + dErr), editor.getBounds(e2Bot));
-        Assert.assertEquals(e3Bounds.getTranslated(dxShift, dy), editor.getBounds(e3Bot));
-        Assert.assertEquals(e4Bounds.getTranslated(0, dyShift + dErr), editor.getBounds(e4Bot));
-        Assert.assertEquals(e5Bounds.getTranslated(0, dyShift + dErr), editor.getBounds(e5Bot));
+        Assert.assertEquals(bounds[0].getResized(0, dyShift + dErr), editor.getBounds(bots[0]));
+        Assert.assertEquals(bounds[1].getTranslated(0, dyShift + dErr), editor.getBounds(bots[1]));
+        Assert.assertEquals(bounds[2].getTranslated(dxShift, dy), editor.getBounds(bots[2]));
+        Assert.assertEquals(bounds[3].getTranslated(0, dyShift + dErr), editor.getBounds(bots[3]));
+        Assert.assertEquals(bounds[4].getTranslated(0, dyShift + dErr), editor.getBounds(bots[4]));
 
         // On lifelines 'b' and 'c'
-        Assert.assertEquals(e6Bounds, editor.getBounds(e6Bot));
-        Assert.assertEquals(e7Bounds.getResized(0, dyShift + dErr), editor.getBounds(e7Bot));
-        Assert.assertEquals(e8Bounds.getTranslated(0, dyShift + dErr), editor.getBounds(e8Bot));
-        Assert.assertEquals(e9Bounds.getTranslated(0, dyShift + dErr), editor.getBounds(e9Bot));
+        Assert.assertEquals(bounds[5], editor.getBounds(bots[5]));
+        Assert.assertEquals(bounds[6].getResized(0, dyShift + dErr), editor.getBounds(bots[6]));
+        Assert.assertEquals(bounds[7].getTranslated(0, dyShift + dErr), editor.getBounds(bots[7]));
+        Assert.assertEquals(bounds[8].getTranslated(0, dyShift + dErr), editor.getBounds(bots[8]));
 
         validateOrdering(NB_ENDS_EXECUTIONS);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     protected void tearDown() throws Exception {
+        super.tearDown();
         sequenceDiagramBot = null;
-
         interaction = null;
-
         instanceRoleABot = null;
         instanceRoleBBot = null;
-
-        e1Bot = null;
-        e2Bot = null;
-        e3Bot = null;
-        e4Bot = null;
-        e5Bot = null;
-        e6Bot = null;
-        e7Bot = null;
-        e8Bot = null;
-        e9Bot = null;
-
-        e1 = null;
-        e2 = null;
-        e3 = null;
-        e4 = null;
-        e5 = null;
-        e6 = null;
-        e7 = null;
-        e8 = null;
-        e9 = null;
-
-        e1Bounds = null;
-        e2Bounds = null;
-        e3Bounds = null;
-        e4Bounds = null;
-        e5Bounds = null;
-        e6Bounds = null;
-        e7Bounds = null;
-        e8Bounds = null;
-        e9Bounds = null;
-
-        super.tearDown();
+        bots = null;
+        executions = null;
+        bounds = null;
     }
-
 }
