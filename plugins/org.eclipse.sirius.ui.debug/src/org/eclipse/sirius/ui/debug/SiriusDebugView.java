@@ -80,6 +80,9 @@ import org.eclipse.sirius.business.internal.movida.ViewpointSelection;
 import org.eclipse.sirius.business.internal.movida.registry.ViewpointRegistry;
 import org.eclipse.sirius.business.internal.movida.registry.ViewpointRegistryListener;
 import org.eclipse.sirius.business.internal.session.danalysis.DAnalysisSessionImpl;
+import org.eclipse.sirius.common.tools.api.interpreter.CompoundInterpreter;
+import org.eclipse.sirius.common.tools.api.interpreter.EvaluationException;
+import org.eclipse.sirius.common.tools.api.interpreter.IInterpreter;
 import org.eclipse.sirius.diagram.AbsoluteBoundsFilter;
 import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.EdgeTarget;
@@ -120,6 +123,7 @@ import org.eclipse.sirius.ui.debug.ResourceSetTopologyAnalyzer.Reference;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.sirius.viewpoint.description.DescriptionPackage;
+import org.eclipse.sirius.viewpoint.description.Group;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.FileDialog;
@@ -406,7 +410,7 @@ public class SiriusDebugView extends AbstractDebugView {
         // addSelectReusedSiriussAction();
         // addShowCommandStackAction();
         // addSiriusSelectionAction();
-        // addExtractExpressionsAction();
+        addExtractExpressionsAction();
         // addLoadResourceWithProgressAction();
         addShowPayloadAccessLogAction();
         addClearPayloadAccessLogAction();
@@ -414,6 +418,26 @@ public class SiriusDebugView extends AbstractDebugView {
         addShowAdaptersAction();
         addShowSessionStructureAction();
         // addShowCrossReferencerMap();
+        addVSMStatisticsAction();
+    }
+
+    private void addVSMStatisticsAction() {
+        addAction("Show VSM statistics", new Runnable() {
+            @Override
+            public void run() {
+                EObject current = getCurrentEObject();
+                if (current instanceof Group) {
+                    IInterpreter itr = CompoundInterpreter.INSTANCE;
+                    String result;
+                    try {
+                        result = new VSMAnalyzer((Group) current, itr).computeStatistics();
+                    } catch (EvaluationException e) {
+                        result = e.getMessage();
+                    }
+                    setText(result);
+                }
+            }
+        });
     }
 
     private void addShowSessionStructureAction() {
