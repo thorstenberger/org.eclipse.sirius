@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+  <property name="sirius.src" value="${basedir}/../../plugins" description="The root folder in which the Sirius plug-ins' sources are available." />
+  <property name="jdk.link" value="https://docs.oracle.com/javase/7/docs/api/" />
+  <property name="emf.link" value="http://download.eclipse.org/modeling/emf/emf/javadoc/2.11" />
+  <property name="platform.link" value="http://help.eclipse.org/topic//org.eclipse.platform.doc.isv/reference/api" />
+
+  <target name="javadoc">
+    <javadoc author="true"
+	     maxmemory="1024m"
+             destdir="${basedir}/javadoc"
+             nodeprecated="false"
+             nodeprecatedlist="false"
+             noindex="false"
+             nonavbar="false"
+             notree="false"
+             source="1.7"
+             access="protected"
+             splitindex="true"
+             use="true"
+             version="true">
+
+      <link href="${jdk.link}" />
+      <link href="${emf.link}" />
+      <link href="${platform.link}" />
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.common.acceleo.aql.ide/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.common.acceleo.aql/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.common.acceleo.mtl.ide/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.common.acceleo.mtl/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.common.interpreter/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.common.ocl/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.common.ui.ext/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.common.ui/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.common.xtext/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.common/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.diagram.formatdata/src-gen" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.diagram.formatdata/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.diagram.layoutdata/src-gen" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.diagram.layoutdata/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.diagram.sequence.edit/src-gen" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.diagram.sequence.edit/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.diagram.sequence.ui/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.diagram.sequence/src-gen" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.diagram.sequence/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.diagram.ui.ext/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.diagram.ui/src-diag" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.diagram.ui/src-gen" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.diagram.ui/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.diagram/src-core" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.diagram/src-gen" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.diagram/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ecore.extender/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.eef.adapters/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ext.base/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ext.draw2d/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ext.e3.ui/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ext.e3/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ext.emf.edit/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ext.emf.tx/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ext.emf.ui/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ext.emf/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ext.gef/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ext.gmf.notation/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ext.gmf.runtime/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ext.jface/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ext.swt/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.interpreter/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.properties.edit/src-gen" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.properties.ext.widgets.reference.edit/src-gen" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.properties.ext.widgets.reference/src-gen" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.properties/src-gen" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.properties/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.synchronizer/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.table.ui.ext/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.table.ui/src-gen" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.table.ui/src-paperclips" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.table.ui/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.table/src-gen" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.table/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.tests.junit.support/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.tests.swtbot.support/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.tree.ui.ext/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.tree.ui/src-gen" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.tree.ui/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.tree/src-gen" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.tree/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ui.debug/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ui.ext/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ui.properties.ext.widgets.reference/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ui.properties/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ui/src-gen" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius.ui/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius/src-gen" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+
+      <packageset dir="${sirius.src}/org.eclipse.sirius/src" defaultexcludes="yes">
+	<exclude name="**/internal/**" />
+      </packageset>
+    </javadoc>
+    <!-- <zip destfile="${basedir}/javadoc_sirius.zip" basedir="." includes="javadoc/**" /> -->
+  </target>
+
+  <target name="clean">
+    <delete dir="${basedir}/javadoc"/>
+  </target>
+</project>
