@@ -137,7 +137,7 @@ public abstract class AbstractMigrationFromTest extends SiriusTestCase {
      */
     public void testMigration() {
         // Initialize the warning logger just before importing the project
-        setWarningCatchActive(true);
+        problemsListener.setWarningCatchActive(true);
 
         initializeProject();
 
@@ -158,8 +158,8 @@ public abstract class AbstractMigrationFromTest extends SiriusTestCase {
         checkVSM(group);
 
         // Check warnings
-        if (doesAWarningOccurs()) {
-            Assert.fail(getWarningLoggersMessage());
+        if (problemsListener.doesAWarningOccurs()) {
+            Assert.fail(problemsListener.getWarningLoggersMessage());
         }
     }
 

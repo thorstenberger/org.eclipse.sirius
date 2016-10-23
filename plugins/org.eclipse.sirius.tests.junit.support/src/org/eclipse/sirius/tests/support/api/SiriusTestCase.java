@@ -12,9 +12,6 @@ package org.eclipse.sirius.tests.support.api;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,12 +29,9 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceDescription;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
@@ -115,9 +109,7 @@ import org.osgi.framework.Version;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
 import junit.framework.TestCase;
@@ -128,7 +120,6 @@ import junit.framework.TestCase;
  * @author mchauvin
  */
 public abstract class SiriusTestCase extends TestCase {
-
     /**
      * Type of the URI.
      */
@@ -197,39 +188,14 @@ public abstract class SiriusTestCase extends TestCase {
     protected Callback selectionCallback = new ViewpointSelectionCallback();
 
     /**
-     * The reported errors.
-     */
-    protected final Multimap<String, IStatus> errors = LinkedHashMultimap.create();
-
-    /**
-     * The reported warnings.
-     */
-    protected final Multimap<String, IStatus> warnings = LinkedHashMultimap.create();
-
-    /**
      * A default progress monitor test code can use when one is needed.
      */
     protected IProgressMonitor defaultProgress = new NullProgressMonitor();
 
     /**
-     * The unchaught exceptions handler.
+     * Helper to watch the platform log. 
      */
-    private UncaughtExceptionHandler exceptionHandler;
-
-    /**
-     * The platform log listener.
-     */
-    private ILogListener logListener;
-
-    /**
-     * Boolean to activate error catch.
-     */
-    private boolean errorCatchActive;
-
-    /**
-     * Boolean to activate warning catch.
-     */
-    private boolean warningCatchActive;
+    protected PlatformProblemsListener problemsListener = new PlatformProblemsListener();
 
     /**
      * HashMaps to store the initial values of preferences before changes.
@@ -253,8 +219,8 @@ public abstract class SiriusTestCase extends TestCase {
         // CHECKSTYLE:OFF
         System.out.println("Setup of " + this.getClass().getName() + SiriusTestCase.DOT + getName() + "()");
         // CHECKSTYLE:ON
-        setErrorCatchActive(true);
-        setWarningCatchActive(false);
+        problemsListener.setErrorCatchActive(true);
+        problemsListener.setWarningCatchActive(false);
         setAutoBuild(false);
         Display.getCurrent().syncExec(new Runnable() {
             @Override
@@ -473,7 +439,7 @@ public abstract class SiriusTestCase extends TestCase {
         TestsUtil.emptyEventsFromUIThread();
 
         // Initialize error/warning log and uncaught exception handlers
-        initLoggers();
+        problemsListener.initLoggers();
     }
 
     private void createOrLoadAndOpenSession(final boolean createSession, final URI sessionResourceURI) {
@@ -593,290 +559,6 @@ public abstract class SiriusTestCase extends TestCase {
             PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().hideView((IViewPart) activePart);
         }
         TestsUtil.synchronizationWithUIThread();
-    }
-
-    /**
-     * Initialize the log listener.
-     */
-    protected void initLoggers() {
-        logListener = new ILogListener() {
-            @Override
-            public void logging(IStatus status, String plugin) {
-                switch (status.getSeverity()) {
-                case IStatus.ERROR:
-                    errorOccurs(status, plugin);
-                    break;
-                case IStatus.WARNING:
-                    warningOccurs(status, plugin);
-                    break;
-                default:
-                    // nothing to do
-                }
-            }
-        };
-        Platform.addLogListener(logListener);
-
-        exceptionHandler = new UncaughtExceptionHandler() {
-            private final String sourcePlugin = "Uncaught exception";
-
-            @Override
-            public void uncaughtException(Thread t, Throwable e) {
-                IStatus status = new Status(IStatus.ERROR, sourcePlugin, sourcePlugin, e);
-                errorOccurs(status, sourcePlugin);
-            }
-        };
-        Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
-    }
-
-    /**
-     * Dispose the log listener.
-     */
-    protected void disposeLoggers() {
-        if (logListener != null) {
-            Platform.removeLogListener(logListener);
-        }
-    }
-
-    /**
-     * check if an error occurs.
-     * 
-     * @return true if an error occurs.
-     */
-    protected synchronized boolean doesAnErrorOccurs() {
-        if (errors != null) {
-            return errors.values().size() != 0;
-        }
-        return false;
-    }
-
-    /**
-     * check if a warning occurs.
-     * 
-     * @return true if a warning occurs.
-     */
-    protected synchronized boolean doesAWarningOccurs() {
-        if (warnings != null) {
-            return warnings.values().size() != 0;
-        }
-        return false;
-    }
-
-    /**
-     * Clear the list of errors. Can be useful when some messages are expected.
-     */
-    protected synchronized void clearErrors() {
-        errors.clear();
-    }
-
-    /**
-     * Clear the list of warnings. Can be useful when some messages are
-     * expected.
-     */
-    protected synchronized void clearWarnings() {
-        warnings.clear();
-    }
-
-    /**
-     * Records the error.
-     * 
-     * @param status
-     *            error status to record
-     * @param sourcePlugin
-     *            source plugin in which the error occurred
-     */
-    private synchronized void errorOccurs(IStatus status, String sourcePlugin) {
-        if (isErrorCatchActive()) {
-            errors.put(sourcePlugin, status);
-        }
-    }
-
-    /**
-     * Records the warning.
-     * 
-     * @param status
-     *            warning status to record
-     * @param sourcePlugin
-     *            source plugin in which the warning occurred
-     */
-    private synchronized void warningOccurs(IStatus status, String sourcePlugin) {
-        if (isWarningCatchActive()) {
-            warnings.put(sourcePlugin, status);
-        }
-    }
-
-    /**
-     * Activate or deactivate the external error detection: the test will fail
-     * in an error is logged or uncaught.
-     * 
-     * @param errorCatchActive
-     *            boolean to indicate if we activate or deactivate the external
-     *            error detection
-     */
-    protected synchronized void setErrorCatchActive(boolean errorCatchActive) {
-        this.errorCatchActive = errorCatchActive;
-    }
-
-    /**
-     * Activate or deactivate the external warning detection: the test will fail
-     * in a warning is logged or uncaught.
-     * 
-     * @param warningCatchActive
-     *            boolean to indicate if we activate or deactivate the external
-     *            warning detection
-     */
-    protected synchronized void setWarningCatchActive(boolean warningCatchActive) {
-        this.warningCatchActive = warningCatchActive;
-    }
-
-    /**
-     * check if an error catch is active.
-     * 
-     * @return true if an error catch is active.
-     */
-    protected synchronized boolean isErrorCatchActive() {
-        return errorCatchActive;
-    }
-
-    /**
-     * check if a warning catch is active.
-     * 
-     * @return true if a warning catch is active.
-     */
-    protected synchronized boolean isWarningCatchActive() {
-        return warningCatchActive;
-    }
-
-    /**
-     * Check that there is no existing error or warning.
-     */
-    private void checkLogs() {
-        /* an exception occurs in another thread */
-        /*
-         * TODO: skip checkLoggers when we are in a shouldSkipUnreliableTests
-         * mode. We have some unwanted resource notifications during the
-         * teardown on jenkins.
-         */
-        if (!TestsUtil.shouldSkipUnreliableTests()) {
-            if (doesAnErrorOccurs()) {
-                Assert.fail(getErrorLoggersMessage());
-            }
-            if (doesAWarningOccurs()) {
-                Assert.fail(getWarningLoggersMessage());
-            }
-        }
-    }
-
-    /**
-     * Compute an error message from the detected errors.
-     * 
-     * @return the error message.
-     */
-    protected synchronized String getErrorLoggersMessage() {
-        StringBuilder log1 = new StringBuilder();
-        String br = "\n";
-        String testName = getClass().getName();
-        log1.append("Error(s) raised during test : " + testName).append(br);
-        for (Entry<String, Collection<IStatus>> entry : errors.asMap().entrySet()) {
-            String reporter = entry.getKey();
-            log1.append(". Log Plugin : " + reporter).append(br);
-
-            for (IStatus status : entry.getValue()) {
-                log1.append("  . " + getSeverity(status) + " from plugin:" + status.getPlugin() + ", message: " + status.getMessage() + ", exception: " + status.getException()).append(br);
-                appendStackTrace(log1, br, status);
-            }
-            log1.append(br);
-        }
-        return log1.toString();
-    }
-
-    /**
-     * Compute an error message from the detected warnings.
-     * 
-     * @return the error message.
-     */
-    protected synchronized String getWarningLoggersMessage() {
-        StringBuilder log1 = new StringBuilder();
-        String br = "\n";
-
-        String testName = getClass().getName();
-
-        log1.append("Warning(s) raised during test : " + testName).append(br);
-        for (Entry<String, Collection<IStatus>> entry : warnings.asMap().entrySet()) {
-            String reporter = entry.getKey();
-            log1.append(". Log Plugin : " + reporter).append(br);
-
-            for (IStatus status : entry.getValue()) {
-                log1.append("  . " + getSeverity(status) + " from plugin:" + status.getPlugin() + ", message: " + status.getMessage() + ", exception: " + status.getException()).append(br);
-                appendStackTrace(log1, br, status);
-            }
-            log1.append(br);
-        }
-        return log1.toString();
-    }
-
-    /**
-     * Convert the <code>status</code> exception in String and add it at the end
-     * of the <code>stringBuilder</code>. Add the
-     * 
-     * @param stringBuilder
-     *            The string build to use
-     * @param endLineDelimiter
-     *            The end line delimiter to use
-     * @param status
-     *            The status to convert
-     */
-    protected void appendStackTrace(StringBuilder stringBuilder, String endLineDelimiter, IStatus status) {
-        PrintWriter pw = null;
-        String stacktrace = null;
-        if (status.getException() != null) {
-            try {
-                StringWriter sw = new StringWriter();
-                pw = new PrintWriter(sw);
-                // CHECKSTYLE:OFF
-                status.getException().printStackTrace(pw);
-                // CHECKSTYLE:ON
-                stacktrace = sw.toString();
-            } finally {
-                if (pw != null) {
-                    pw.close();
-                }
-                if (stacktrace == null) {
-                    stacktrace = status.getException().toString();
-                }
-                stringBuilder.append("   . Stack trace: " + stacktrace).append(endLineDelimiter);
-            }
-        }
-    }
-
-    /**
-     * Convert the severity of the <code>status</code> in string.
-     * 
-     * @param status
-     *            The status to convert.
-     * @return a string representation of the severity of the status
-     */
-    protected String getSeverity(IStatus status) {
-        String severity;
-        switch (status.getSeverity()) {
-        case IStatus.OK:
-            severity = "Ok";
-            break;
-        case IStatus.INFO:
-            severity = "Info";
-            break;
-        case IStatus.WARNING:
-            severity = "Warning";
-            break;
-        case IStatus.CANCEL:
-            severity = "Cancel";
-            break;
-        case IStatus.ERROR:
-            severity = "Error";
-            break;
-        default:
-            severity = "Unspecified";
-        }
-        return severity;
     }
 
     /**
@@ -1891,8 +1573,8 @@ public abstract class SiriusTestCase extends TestCase {
     protected void tearDown() throws Exception {
         CrossReferenceAdapterDetector crossRefDetector = new CrossReferenceAdapterDetector();
         createModelingProject = false;
-        setErrorCatchActive(false);
-        setWarningCatchActive(false);
+        problemsListener.setErrorCatchActive(false);
+        problemsListener.setWarningCatchActive(false);
 
         TransactionalEditingDomain domain = null;
 
@@ -1945,7 +1627,7 @@ public abstract class SiriusTestCase extends TestCase {
         /* Delete the temporary project */
         cleanWorkspace();
 
-        disposeLoggers();
+        problemsListener.disposeLoggers();
         TestsUtil.emptyEventsFromUIThread();
         // Reset the preferences changed during the test with the method
         // changePreference
@@ -1971,7 +1653,7 @@ public abstract class SiriusTestCase extends TestCase {
         }
 
         crossRefDetector.assertNoCrossReferenceAdapterFound();
-        checkLogs();
+        problemsListener.checkLogs();
 
         new TestCaseCleaner(this).clearAllFields();
 

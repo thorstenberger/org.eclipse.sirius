@@ -10,16 +10,11 @@
  *******************************************************************************/
 package org.eclipse.sirius.tests.unit.common;
 
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.core.runtime.ILogListener;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
@@ -64,8 +59,6 @@ import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription;
 import org.eclipse.sirius.viewpoint.description.tool.SelectionWizardDescription;
-
-import com.google.common.collect.Multimap;
 
 /**
  * Provides basic setUp and tearDown as well as utility methods for commands
@@ -167,18 +160,6 @@ public class DocbookTestCase extends SiriusDiagramTestCase implements DocBookMod
      */
     protected String analysisPath = "platform:/plugin/org.eclipse.sirius.tests.sample.docbook.design/sample/test.aird";
 
-    /**
-     * The unchaught exceptions handler.
-     */
-    private UncaughtExceptionHandler exceptionHandler;
-
-    /**
-     * The platform error listener.
-     */
-    private ILogListener logListener;
-
-    private boolean errorCatchActive;
-
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -196,8 +177,6 @@ public class DocbookTestCase extends SiriusDiagramTestCase implements DocBookMod
         assertNotNull("Couldn't find the evoluate diagram.", obviousDiagram);
 
         InterpreterRegistry.prepareImportsFromSession(INTERPRETER, session);
-
-        initErrorLoggers();
     }
 
     /**
@@ -1426,64 +1405,10 @@ public class DocbookTestCase extends SiriusDiagramTestCase implements DocBookMod
         });
     }
 
-    /**
-     * check if an error occurs.
-     * 
-     * @return true if an error occurs.
-     */
-    @Override
-    protected synchronized boolean doesAnErrorOccurs() {
-        return errors.values().size() != 0;
-    }
-
-    private synchronized void errorOccurs(IStatus status, String sourcePlugin) {
-        if (errorCatchActive) {
-            errors.put(sourcePlugin, status);
-        }
-    }
-
-    @Override
-    protected synchronized void setErrorCatchActive(boolean errorCatchActive) {
-        this.errorCatchActive = errorCatchActive;
-    }
-
-    private void initErrorLoggers() {
-
-        logListener = new ILogListener() {
-
-            @Override
-            public void logging(IStatus status, String plugin) {
-                if (status.getSeverity() == IStatus.ERROR) {
-                    errorOccurs(status, plugin);
-                }
-            }
-
-        };
-        Platform.addLogListener(logListener);
-
-        exceptionHandler = new UncaughtExceptionHandler() {
-            private String sourcePlugin = "Uncaught exception";
-
-            @Override
-            public void uncaughtException(Thread t, Throwable e) {
-
-                IStatus status = new Status(IStatus.ERROR, sourcePlugin, sourcePlugin, e);
-                errorOccurs(status, sourcePlugin);
-            }
-        };
-
-        Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
-    }
-
-    protected synchronized Multimap<String, IStatus> getErrors() {
-        return errors;
-    }
-
     @Override
     protected void tearDown() throws Exception {
         DiagramEventBroker.stopListening(session.getTransactionalEditingDomain());
         obviousDiagram = null;
-        errors.clear();
         super.tearDown();
     }
 

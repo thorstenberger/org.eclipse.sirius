@@ -440,17 +440,10 @@ public class IInterpreterValidationExpressionTest extends SiriusDiagramTestCase 
         return layers.iterator().next();
     }
 
-    /**
-     * 
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.tests.support.api.SiriusTestCase#doesAnErrorOccurs()
-     */
-    @Override
     protected synchronized boolean doesAnErrorOccurs() {
         // Only validation errors should have been logged
         boolean onlyValidationErrors = true;
-        for (IStatus status : errors.values()) {
+        for (IStatus status : problemsListener.getErros()) {
             onlyValidationErrors = onlyValidationErrors && status.getMessage().startsWith("Compilation error");
         }
         return !onlyValidationErrors;
