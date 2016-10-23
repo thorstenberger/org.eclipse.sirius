@@ -48,7 +48,7 @@ public class SiriusCrossReferenceAdapterTests extends SiriusTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        setWarningCatchActive(true);
+        problemsListener.setWarningCatchActive(true);
 
     }
 
@@ -82,14 +82,7 @@ public class SiriusCrossReferenceAdapterTests extends SiriusTestCase {
         ResourceSetSync resourceSetSync = ResourceSetSync.getResourceSetSync(editingDomain).get();
         resourceSetSync.statusChanged(fragmentedResource, ResourceSetSync.ResourceStatus.SYNC, ResourceSetSync.ResourceStatus.EXTERNAL_CHANGED);
 
-        // check that no warning "loading resource while unloading it" has been
-        // dispatched
-        for (Iterator<IStatus> warning = warnings.values().iterator(); warning.hasNext();) {
-            IStatus status = warning.next();
-            if (status.getCode() == EMFTransactionStatusCodes.RELOAD_DURING_UNLOAD) {
-                fail("Resource is being reloaded during its unload.");
-            }
-        }
+        assertNoReloadDuringUnloadWarning();
     }
 
     /**
@@ -118,9 +111,15 @@ public class SiriusCrossReferenceAdapterTests extends SiriusTestCase {
 
         assertTrue("Deleted controlled resource is still in session controlled resources.", ((DAnalysisSessionEObject) session).getControlledResources().size() == 0);
 
-        // check that no warning "loading resource while unloading it" has been
-        // dispatched
-        for (Iterator<IStatus> warning = warnings.values().iterator(); warning.hasNext();) {
+        assertNoReloadDuringUnloadWarning();
+    }
+
+    /**
+     * Check that no warning "loading resource while unloading it" has been
+     * dispatched.
+     */
+   private void assertNoReloadDuringUnloadWarning() {
+        for (Iterator<IStatus> warning = problemsListener.getWarnings().iterator(); warning.hasNext();) {
             IStatus status = warning.next();
             if (status.getCode() == EMFTransactionStatusCodes.RELOAD_DURING_UNLOAD) {
                 fail("Resource is being reloaded during its unload.");

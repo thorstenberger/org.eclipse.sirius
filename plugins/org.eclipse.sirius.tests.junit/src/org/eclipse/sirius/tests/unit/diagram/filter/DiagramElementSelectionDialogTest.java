@@ -177,7 +177,7 @@ public class DiagramElementSelectionDialogTest extends SiriusDiagramTestCase imp
      * Ensures that the viewer does not throw Exception for empty list.
      */
     public void testEmptyList() {
-        setErrorCatchActive(true);
+        problemsListener.setErrorCatchActive(true);
         try {
             dialogTester.close();
             RecordingCommand cmd = new RecordingCommand(session.getTransactionalEditingDomain(), "Clean diagram") {
@@ -189,7 +189,7 @@ public class DiagramElementSelectionDialogTest extends SiriusDiagramTestCase imp
             session.getTransactionalEditingDomain().getCommandStack().execute(cmd);
             dialogTester.open(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), testDiagram, true);
         } finally {
-            setErrorCatchActive(false);
+            problemsListener.setErrorCatchActive(false);
         }
     }
 

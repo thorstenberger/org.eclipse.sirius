@@ -159,7 +159,7 @@ public class DRepresentationMoveToRootObjectsMigrationTest extends SiriusTestCas
         checkFileContainsDRepresentation(analysis.eResource().getURI(), false, WhereToFindDRep.IN_DVIEW,
                 "After migration, the resource should not contain a DRepresentation in DView.ownedRepresentations.");
         checkFileContainsDRepresentation(analysis.eResource().getURI(), true, WhereToFindDRep.AS_ROOT_OBJECTS, "After migration, the resource should contain a DRepresentation as root object.");
-        assertFalse(getErrorLoggersMessage(), doesAnErrorOccurs());
+        assertFalse(problemsListener.getErrorLoggersMessage(), problemsListener.doesAnErrorOccurs());
     }
 
     @Override

@@ -146,7 +146,7 @@ public class DRepDescriptorCreationMigrationTest extends SiriusTestCase {
         version = analysis.getVersion();
         assertFalse("The version tag should now be set telling that the migration was done.", RepresentationsFileMigrationService.getInstance().isMigrationNeeded(Version.parseVersion(version)));
         checkFileContainsDRepresentationDescriptor(analysis.eResource().getURI(), true, "After migration, the resource should contain DRepresentationDescriptor.");
-        assertFalse(getErrorLoggersMessage(), doesAnErrorOccurs());
+        assertFalse(problemsListener.getErrorLoggersMessage(), problemsListener.doesAnErrorOccurs());
     }
 
     @Override
