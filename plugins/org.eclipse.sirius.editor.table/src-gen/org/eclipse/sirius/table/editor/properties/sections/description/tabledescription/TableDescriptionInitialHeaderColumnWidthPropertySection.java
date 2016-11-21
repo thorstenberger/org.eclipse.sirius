@@ -112,6 +112,9 @@ public class TableDescriptionInitialHeaderColumnWidthPropertySection extends Abs
         help.setToolTipText("The initial width of the column header (calculated if not available).");
         // Start of user code create controls
 
+    }
+    public TableDescriptionInitialHeaderColumnWidthPropertySection() {
+        this.minimumValue = -1;
         // End of user code create controls
     }
 }
