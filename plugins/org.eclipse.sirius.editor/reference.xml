@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<!-- Start of user code plugin.xml start specifics  -->
+
 <!--
    Copyright (c) 2007, 2013 THALES GLOBAL SERVICES.
    All rights reserved. This program and the accompanying materials
@@ -14,6 +14,9 @@
 -->
 
 <plugin>
+ 
+ <!-- Start of user code plugin.xml specifics  -->
+
    <extension-point id="menuBuilder" name="org.eclipse.sirius.editor.menuBuilder" schema="schema/menuBuilder.exsd"/>
    <extension-point id="editorCustomization" name="org.eclipse.sirius.editor.editorCustomization" schema="schema/editorCustomization.exsd"/>
    
@@ -28,6 +31,8 @@
     </propertyTabs>
   </extension>
 
+ <!-- End of user code plugin.xml specifics  -->
+ 
  <extension
         point="org.eclipse.help.contexts">
      <contexts
@@ -36,13 +41,21 @@
      </contexts>
   </extension>
  
+  
+  
+  
+  
+  
+  
+
   <extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
     <propertyContributor 
-            contributorId="org.eclipse.sirius.editor.editorPlugin.SiriusEditorContributor"
-            labelProvider="org.eclipse.sirius.editor.properties.ViewpointLabelProvider">
+    		contributorId="org.eclipse.sirius.editor.editorPlugin.SiriusEditorContributor"
+    		labelProvider="org.eclipse.sirius.editor.properties.ViewpointLabelProvider">
       <propertyCategory category="default"/>
     </propertyContributor>
   </extension>
+  
   <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
     <propertyTabs contributorId="org.eclipse.sirius.editor.editorPlugin.SiriusEditorContributor">
       <propertyTab category="default" id="viewpoint.tab.default" label="default"/>
@@ -57,8 +70,6 @@
     </propertyTabs>
   </extension>
   
- <!-- End of user code plugin.xml start specifics  -->
-  
   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
     <propertySections contributorId="org.eclipse.sirius.editor.editorPlugin.SiriusEditorContributor">
   	  <propertySection
@@ -66,35 +77,35 @@
                filter="org.eclipse.sirius.editor.properties.filters.audit.templateinformationsection.TemplateInformationSectionTemplatePathFilter"
                id="audit.section.templateInformationSection.TemplatePath"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.audit.TemplateInformationSection"/>
+        <input type="org.eclipse.sirius.viewpoint.description.audit.TemplateInformationSection"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.validation.validationfix.ValidationFixNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.validation.validationfix.ValidationFixNameFilter"
                id="validation.section.validationFix.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.validation.ValidationFix"/>
+        <input type="org.eclipse.sirius.viewpoint.description.validation.ValidationFix"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.validation.ruleaudit.RuleAuditAuditExpressionPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.validation.ruleaudit.RuleAuditAuditExpressionFilter"
                id="validation.section.ruleAudit.AuditExpression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.validation.RuleAudit"/>
+        <input type="org.eclipse.sirius.viewpoint.description.validation.RuleAudit"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.validation.viewvalidationrule.ViewValidationRuleTargetsPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.validation.viewvalidationrule.ViewValidationRuleTargetsFilter"
                id="validation.section.viewValidationRule.Targets"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.validation.ViewValidationRule"/>
+        <input type="org.eclipse.sirius.viewpoint.description.validation.ViewValidationRule"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.validation.semanticvalidationrule.SemanticValidationRuleTargetClassPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.validation.semanticvalidationrule.SemanticValidationRuleTargetClassFilter"
                id="validation.section.semanticValidationRule.TargetClass"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.validation.SemanticValidationRule"/>
+        <input type="org.eclipse.sirius.viewpoint.description.validation.SemanticValidationRule"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.validation.validationrule.ValidationRuleMessagePropertySection"
@@ -102,14 +113,14 @@
                id="validation.section.validationRule.Message"
                afterSection="validation.section.validationRule.Level"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.validation.ValidationRule"/>
+        <input type="org.eclipse.sirius.viewpoint.description.validation.ValidationRule"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.validation.validationrule.ValidationRuleLevelPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.validation.validationrule.ValidationRuleLevelFilter"
                id="validation.section.validationRule.Level"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.validation.ValidationRule"/>
+        <input type="org.eclipse.sirius.viewpoint.description.validation.ValidationRule"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.validation.validationset.ValidationSetReusedRulesPropertySection"
@@ -117,21 +128,21 @@
                id="validation.section.validationSet.ReusedRules"
                afterSection="validation.section.validationSet.Name"
                 tab="viewpoint.tab.import">
-        <input type="org.eclipse.sirius.viewpoint.description.validation.ValidationSet"/>
+        <input type="org.eclipse.sirius.viewpoint.description.validation.ValidationSet"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.validation.validationset.ValidationSetNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.validation.validationset.ValidationSetNameFilter"
                id="validation.section.validationSet.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.validation.ValidationSet"/>
+        <input type="org.eclipse.sirius.viewpoint.description.validation.ValidationSet"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.case_.CaseConditionExpressionPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.case_.CaseConditionExpressionFilter"
                id="tool.section.case.ConditionExpression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.Case"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.Case"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.featurechangelistener.FeatureChangeListenerFeatureNamePropertySection"
@@ -139,14 +150,14 @@
                id="tool.section.featureChangeListener.FeatureName"
                afterSection="tool.section.featureChangeListener.DomainClass"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.FeatureChangeListener"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.FeatureChangeListener"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.featurechangelistener.FeatureChangeListenerDomainClassPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.featurechangelistener.FeatureChangeListenerDomainClassFilter"
                id="tool.section.featureChangeListener.DomainClass"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.FeatureChangeListener"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.FeatureChangeListener"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.toolfilterdescription.ToolFilterDescriptionElementsToListenPropertySection"
@@ -154,14 +165,14 @@
                id="tool.section.toolFilterDescription.ElementsToListen"
                afterSection="tool.section.toolFilterDescription.Precondition"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.ToolFilterDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.ToolFilterDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.toolfilterdescription.ToolFilterDescriptionPreconditionPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.toolfilterdescription.ToolFilterDescriptionPreconditionFilter"
                id="tool.section.toolFilterDescription.Precondition"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.ToolFilterDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.ToolFilterDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.externaljavaactionparameter.ExternalJavaActionParameterValuePropertySection"
@@ -169,21 +180,21 @@
                id="tool.section.externalJavaActionParameter.Value"
                afterSection="tool.section.externalJavaActionParameter.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.ExternalJavaActionParameter"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.ExternalJavaActionParameter"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.externaljavaactionparameter.ExternalJavaActionParameterNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.externaljavaactionparameter.ExternalJavaActionParameterNameFilter"
                id="tool.section.externalJavaActionParameter.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.ExternalJavaActionParameter"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.ExternalJavaActionParameter"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.if_.IfConditionExpressionPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.if_.IfConditionExpressionFilter"
                id="tool.section.if.ConditionExpression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.If"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.If"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.for_.ForIteratorNamePropertySection"
@@ -191,14 +202,14 @@
                id="tool.section.for.IteratorName"
                afterSection="tool.section.for.Expression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.For"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.For"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.for_.ForExpressionPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.for_.ForExpressionFilter"
                id="tool.section.for.Expression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.For"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.For"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.moveelement.MoveElementFeatureNamePropertySection"
@@ -206,14 +217,14 @@
                id="tool.section.moveElement.FeatureName"
                afterSection="tool.section.moveElement.NewContainerExpression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.MoveElement"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.MoveElement"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.moveelement.MoveElementNewContainerExpressionPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.moveelement.MoveElementNewContainerExpressionFilter"
                id="tool.section.moveElement.NewContainerExpression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.MoveElement"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.MoveElement"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.unset.UnsetElementExpressionPropertySection"
@@ -221,14 +232,14 @@
                id="tool.section.unset.ElementExpression"
                afterSection="tool.section.unset.FeatureName"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.Unset"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.Unset"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.unset.UnsetFeatureNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.unset.UnsetFeatureNameFilter"
                id="tool.section.unset.FeatureName"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.Unset"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.Unset"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.setobject.SetObjectObjectPropertySection"
@@ -236,14 +247,14 @@
                id="tool.section.setObject.Object"
                afterSection="tool.section.setObject.FeatureName"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.SetObject"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.SetObject"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.setobject.SetObjectFeatureNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.setobject.SetObjectFeatureNameFilter"
                id="tool.section.setObject.FeatureName"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.SetObject"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.SetObject"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.setvalue.SetValueValueExpressionPropertySection"
@@ -251,21 +262,21 @@
                id="tool.section.setValue.ValueExpression"
                afterSection="tool.section.setValue.FeatureName"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.SetValue"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.SetValue"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.setvalue.SetValueFeatureNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.setvalue.SetValueFeatureNameFilter"
                id="tool.section.setValue.FeatureName"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.SetValue"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.SetValue"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.changecontext.ChangeContextBrowseExpressionPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.changecontext.ChangeContextBrowseExpressionFilter"
                id="tool.section.changeContext.BrowseExpression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.ChangeContext"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.ChangeContext"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.createinstance.CreateInstanceVariableNamePropertySection"
@@ -273,7 +284,7 @@
                id="tool.section.createInstance.VariableName"
                afterSection="tool.section.createInstance.TypeName"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.CreateInstance"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.CreateInstance"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.createinstance.CreateInstanceTypeNamePropertySection"
@@ -281,28 +292,28 @@
                id="tool.section.createInstance.TypeName"
                afterSection="tool.section.createInstance.ReferenceName"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.CreateInstance"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.CreateInstance"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.createinstance.CreateInstanceReferenceNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.createinstance.CreateInstanceReferenceNameFilter"
                id="tool.section.createInstance.ReferenceName"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.CreateInstance"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.CreateInstance"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.editmaskvariables.EditMaskVariablesMaskPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.editmaskvariables.EditMaskVariablesMaskFilter"
                id="tool.section.editMaskVariables.Mask"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.EditMaskVariables"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.EditMaskVariables"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.dialogvariable.DialogVariableDialogPromptPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.dialogvariable.DialogVariableDialogPromptFilter"
                id="tool.section.dialogVariable.DialogPrompt"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.DialogVariable"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.DialogVariable"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.acceleovariable.AcceleoVariableComputationExpressionPropertySection"
@@ -310,35 +321,35 @@
                id="tool.section.acceleoVariable.ComputationExpression"
                afterSection="description.section.abstractVariable.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.AcceleoVariable"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.AcceleoVariable"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.externaljavaactioncall.ExternalJavaActionCallActionPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.externaljavaactioncall.ExternalJavaActionCallActionFilter"
                id="tool.section.externalJavaActionCall.Action"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.ExternalJavaActionCall"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.ExternalJavaActionCall"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.externaljavaaction.ExternalJavaActionIdPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.externaljavaaction.ExternalJavaActionIdFilter"
                id="tool.section.externalJavaAction.Id"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.ExternalJavaAction"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.ExternalJavaAction"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.menuitemdescriptionreference.MenuItemDescriptionReferenceItemPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.menuitemdescriptionreference.MenuItemDescriptionReferenceItemFilter"
                id="tool.section.menuItemDescriptionReference.Item"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.MenuItemDescriptionReference"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.MenuItemDescriptionReference"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.menuitemdescription.MenuItemDescriptionIconPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.menuitemdescription.MenuItemDescriptionIconFilter"
                id="tool.section.menuItemDescription.Icon"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.MenuItemDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.MenuItemDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.representationnavigationdescription.RepresentationNavigationDescriptionNavigationNameExpressionPropertySection"
@@ -346,7 +357,7 @@
                id="tool.section.representationNavigationDescription.NavigationNameExpression"
                afterSection="tool.section.representationNavigationDescription.BrowseExpression"
                 tab="viewpoint.tab.advanced">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.RepresentationNavigationDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.RepresentationNavigationDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.representationnavigationdescription.RepresentationNavigationDescriptionBrowseExpressionPropertySection"
@@ -354,7 +365,7 @@
                id="tool.section.representationNavigationDescription.BrowseExpression"
                afterSection="tool.section.representationNavigationDescription.RepresentationDescription"
                 tab="viewpoint.tab.advanced">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.RepresentationNavigationDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.RepresentationNavigationDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.representationcreationdescription.RepresentationCreationDescriptionBrowseExpressionPropertySection"
@@ -362,7 +373,7 @@
                id="tool.section.representationCreationDescription.BrowseExpression"
                afterSection="tool.section.representationCreationDescription.TitleExpression"
                 tab="viewpoint.tab.advanced">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.RepresentationCreationDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.RepresentationCreationDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.representationcreationdescription.RepresentationCreationDescriptionTitleExpressionPropertySection"
@@ -370,7 +381,7 @@
                id="tool.section.representationCreationDescription.TitleExpression"
                afterSection="tool.section.representationCreationDescription.RepresentationDescription"
                 tab="viewpoint.tab.advanced">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.RepresentationCreationDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.RepresentationCreationDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.panebasedselectionwizarddescription.PaneBasedSelectionWizardDescriptionPreSelectedCandidatesExpressionPropertySection"
@@ -378,7 +389,7 @@
                id="tool.section.paneBasedSelectionWizardDescription.PreSelectedCandidatesExpression"
                afterSection="tool.section.paneBasedSelectionWizardDescription.SelectedValuesMessage"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.panebasedselectionwizarddescription.PaneBasedSelectionWizardDescriptionSelectedValuesMessagePropertySection"
@@ -386,7 +397,7 @@
                id="tool.section.paneBasedSelectionWizardDescription.SelectedValuesMessage"
                afterSection="tool.section.paneBasedSelectionWizardDescription.ChildrenExpression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.panebasedselectionwizarddescription.PaneBasedSelectionWizardDescriptionChildrenExpressionPropertySection"
@@ -394,7 +405,7 @@
                id="tool.section.paneBasedSelectionWizardDescription.ChildrenExpression"
                afterSection="tool.section.paneBasedSelectionWizardDescription.RootExpression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.panebasedselectionwizarddescription.PaneBasedSelectionWizardDescriptionRootExpressionPropertySection"
@@ -402,7 +413,7 @@
                id="tool.section.paneBasedSelectionWizardDescription.RootExpression"
                afterSection="tool.section.paneBasedSelectionWizardDescription.ChoiceOfValuesMessage"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.panebasedselectionwizarddescription.PaneBasedSelectionWizardDescriptionChoiceOfValuesMessagePropertySection"
@@ -410,7 +421,7 @@
                id="tool.section.paneBasedSelectionWizardDescription.ChoiceOfValuesMessage"
                afterSection="tool.section.paneBasedSelectionWizardDescription.Message"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.panebasedselectionwizarddescription.PaneBasedSelectionWizardDescriptionMessagePropertySection"
@@ -418,7 +429,7 @@
                id="tool.section.paneBasedSelectionWizardDescription.Message"
                afterSection="tool.section.paneBasedSelectionWizardDescription.WindowImagePath"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.panebasedselectionwizarddescription.PaneBasedSelectionWizardDescriptionWindowImagePathPropertySection"
@@ -426,7 +437,7 @@
                id="tool.section.paneBasedSelectionWizardDescription.WindowImagePath"
                afterSection="tool.section.paneBasedSelectionWizardDescription.Tree"
                 tab="viewpoint.tab.advanced">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.panebasedselectionwizarddescription.PaneBasedSelectionWizardDescriptionTreePropertySection"
@@ -434,7 +445,7 @@
                id="tool.section.paneBasedSelectionWizardDescription.Tree"
                afterSection="tool.section.paneBasedSelectionWizardDescription.CandidatesExpression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.panebasedselectionwizarddescription.PaneBasedSelectionWizardDescriptionCandidatesExpressionPropertySection"
@@ -442,7 +453,7 @@
                id="tool.section.paneBasedSelectionWizardDescription.CandidatesExpression"
                afterSection="tool.section.paneBasedSelectionWizardDescription.WindowTitle"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.panebasedselectionwizarddescription.PaneBasedSelectionWizardDescriptionWindowTitlePropertySection"
@@ -450,14 +461,14 @@
                id="tool.section.paneBasedSelectionWizardDescription.WindowTitle"
                afterSection="tool.section.paneBasedSelectionWizardDescription.IconPath"
                 tab="viewpoint.tab.advanced">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.panebasedselectionwizarddescription.PaneBasedSelectionWizardDescriptionIconPathPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.panebasedselectionwizarddescription.PaneBasedSelectionWizardDescriptionIconPathFilter"
                id="tool.section.paneBasedSelectionWizardDescription.IconPath"
                 tab="viewpoint.tab.advanced">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.PaneBasedSelectionWizardDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.selectionwizarddescription.SelectionWizardDescriptionWindowImagePathPropertySection"
@@ -465,7 +476,7 @@
                id="tool.section.selectionWizardDescription.WindowImagePath"
                afterSection="description.section.selectionDescription.Message"
                 tab="viewpoint.tab.advanced">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.SelectionWizardDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.SelectionWizardDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.selectionwizarddescription.SelectionWizardDescriptionWindowTitlePropertySection"
@@ -473,7 +484,7 @@
                id="tool.section.selectionWizardDescription.WindowTitle"
                afterSection="tool.section.selectionWizardDescription.IconPath"
                 tab="viewpoint.tab.advanced">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.SelectionWizardDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.SelectionWizardDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.selectionwizarddescription.SelectionWizardDescriptionIconPathPropertySection"
@@ -481,14 +492,14 @@
                id="tool.section.selectionWizardDescription.IconPath"
                afterSection="description.section.selectionDescription.Tree"
                 tab="viewpoint.tab.advanced">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.SelectionWizardDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.SelectionWizardDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.tooldescription.ToolDescriptionIconPathPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.tool.tooldescription.ToolDescriptionIconPathFilter"
                id="tool.section.toolDescription.IconPath"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.ToolDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.ToolDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.abstracttooldescription.AbstractToolDescriptionInverseSelectionOrderPropertySection"
@@ -496,7 +507,7 @@
                id="tool.section.abstractToolDescription.InverseSelectionOrder"
                afterSection="tool.section.abstractToolDescription.ElementsToSelect"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.abstracttooldescription.AbstractToolDescriptionElementsToSelectPropertySection"
@@ -504,7 +515,7 @@
                id="tool.section.abstractToolDescription.ElementsToSelect"
                afterSection="tool.section.abstractToolDescription.ForceRefresh"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.abstracttooldescription.AbstractToolDescriptionForceRefreshPropertySection"
@@ -512,7 +523,7 @@
                id="tool.section.abstractToolDescription.ForceRefresh"
                afterSection="tool.section.abstractToolDescription.Precondition"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.tool.abstracttooldescription.AbstractToolDescriptionPreconditionPropertySection"
@@ -520,14 +531,14 @@
                id="tool.section.abstractToolDescription.Precondition"
                afterSection="description.section.identifiedElement.Label"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.style.tooltipstyledescription.TooltipStyleDescriptionTooltipExpressionPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.style.tooltipstyledescription.TooltipStyleDescriptionTooltipExpressionFilter"
                id="style.section.tooltipStyleDescription.TooltipExpression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.style.TooltipStyleDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.style.TooltipStyleDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.style.labelborderstyledescription.LabelBorderStyleDescriptionCornerWidthPropertySection"
@@ -535,7 +546,7 @@
                id="style.section.labelBorderStyleDescription.CornerWidth"
                afterSection="style.section.labelBorderStyleDescription.CornerHeight"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.style.LabelBorderStyleDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.style.LabelBorderStyleDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.style.labelborderstyledescription.LabelBorderStyleDescriptionCornerHeightPropertySection"
@@ -543,7 +554,7 @@
                id="style.section.labelBorderStyleDescription.CornerHeight"
                afterSection="style.section.labelBorderStyleDescription.Id"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.style.LabelBorderStyleDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.style.LabelBorderStyleDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.style.labelborderstyledescription.LabelBorderStyleDescriptionIdPropertySection"
@@ -551,21 +562,21 @@
                id="style.section.labelBorderStyleDescription.Id"
                afterSection="style.section.labelBorderStyleDescription.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.style.LabelBorderStyleDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.style.LabelBorderStyleDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.style.labelborderstyledescription.LabelBorderStyleDescriptionNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.style.labelborderstyledescription.LabelBorderStyleDescriptionNameFilter"
                id="style.section.labelBorderStyleDescription.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.style.LabelBorderStyleDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.style.LabelBorderStyleDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.style.labelstyledescription.LabelStyleDescriptionLabelAlignmentPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.style.labelstyledescription.LabelStyleDescriptionLabelAlignmentFilter"
                id="style.section.labelStyleDescription.LabelAlignment"
                 tab="viewpoint.tab.label">
-        <input type="org.eclipse.sirius.viewpoint.description.style.LabelStyleDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.style.LabelStyleDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.style.basiclabelstyledescription.BasicLabelStyleDescriptionIconPathPropertySection"
@@ -573,7 +584,7 @@
                id="style.section.basicLabelStyleDescription.IconPath"
                afterSection="style.section.basicLabelStyleDescription.LabelExpression"
                 tab="viewpoint.tab.advanced">
-        <input type="org.eclipse.sirius.viewpoint.description.style.BasicLabelStyleDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.style.BasicLabelStyleDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.style.basiclabelstyledescription.BasicLabelStyleDescriptionLabelExpressionPropertySection"
@@ -581,7 +592,7 @@
                id="style.section.basicLabelStyleDescription.LabelExpression"
                afterSection="style.section.basicLabelStyleDescription.ShowIcon"
                 tab="viewpoint.tab.label">
-        <input type="org.eclipse.sirius.viewpoint.description.style.BasicLabelStyleDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.style.BasicLabelStyleDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.style.basiclabelstyledescription.BasicLabelStyleDescriptionShowIconPropertySection"
@@ -589,7 +600,7 @@
                id="style.section.basicLabelStyleDescription.ShowIcon"
                afterSection="style.section.basicLabelStyleDescription.LabelFormat"
                 tab="viewpoint.tab.label">
-        <input type="org.eclipse.sirius.viewpoint.description.style.BasicLabelStyleDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.style.BasicLabelStyleDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.style.basiclabelstyledescription.BasicLabelStyleDescriptionLabelFormatPropertySection"
@@ -597,7 +608,7 @@
                id="style.section.basicLabelStyleDescription.LabelFormat"
                afterSection="style.section.basicLabelStyleDescription.LabelSize"
                 tab="viewpoint.tab.label">
-        <input type="org.eclipse.sirius.viewpoint.description.style.BasicLabelStyleDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.style.BasicLabelStyleDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.style.basiclabelstyledescription.BasicLabelStyleDescriptionLabelSizePropertySection"
@@ -605,14 +616,14 @@
                id="style.section.basicLabelStyleDescription.LabelSize"
                afterSection="style.section.basicLabelStyleDescription.LabelColor"
                 tab="viewpoint.tab.label">
-        <input type="org.eclipse.sirius.viewpoint.description.style.BasicLabelStyleDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.style.BasicLabelStyleDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.style.basiclabelstyledescription.BasicLabelStyleDescriptionLabelColorPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.style.basiclabelstyledescription.BasicLabelStyleDescriptionLabelColorFilter"
                id="style.section.basicLabelStyleDescription.LabelColor"
                 tab="viewpoint.tab.color">
-        <input type="org.eclipse.sirius.viewpoint.description.style.BasicLabelStyleDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.style.BasicLabelStyleDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.typedvariable.TypedVariableDefaultValueExpressionPropertySection"
@@ -620,7 +631,7 @@
                id="description.section.typedVariable.DefaultValueExpression"
                afterSection="description.section.interactiveVariableDescription.UserDocumentation"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.TypedVariable"/>
+        <input type="org.eclipse.sirius.viewpoint.description.TypedVariable"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.typedvariable.TypedVariableValueTypePropertySection"
@@ -628,21 +639,21 @@
                id="description.section.typedVariable.ValueType"
                afterSection="description.section.abstractVariable.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.TypedVariable"/>
+        <input type="org.eclipse.sirius.viewpoint.description.TypedVariable"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.interactivevariabledescription.InteractiveVariableDescriptionUserDocumentationPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.interactivevariabledescription.InteractiveVariableDescriptionUserDocumentationFilter"
                id="description.section.interactiveVariableDescription.UserDocumentation"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.InteractiveVariableDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.InteractiveVariableDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.abstractvariable.AbstractVariableNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.abstractvariable.AbstractVariableNameFilter"
                id="description.section.abstractVariable.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.AbstractVariable"/>
+        <input type="org.eclipse.sirius.viewpoint.description.AbstractVariable"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.dannotationentry.DAnnotationEntryDetailsPropertySection"
@@ -650,14 +661,14 @@
                id="description.section.dAnnotationEntry.Details"
                afterSection="description.section.dAnnotationEntry.Source"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.DAnnotationEntry"/>
+        <input type="org.eclipse.sirius.viewpoint.description.DAnnotationEntry"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.dannotationentry.DAnnotationEntrySourcePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.dannotationentry.DAnnotationEntrySourceFilter"
                id="description.section.dAnnotationEntry.Source"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.DAnnotationEntry"/>
+        <input type="org.eclipse.sirius.viewpoint.description.DAnnotationEntry"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.computedcolor.ComputedColorBluePropertySection"
@@ -665,7 +676,7 @@
                id="description.section.computedColor.Blue"
                afterSection="description.section.computedColor.Green"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.ComputedColor"/>
+        <input type="org.eclipse.sirius.viewpoint.description.ComputedColor"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.computedcolor.ComputedColorGreenPropertySection"
@@ -673,42 +684,42 @@
                id="description.section.computedColor.Green"
                afterSection="description.section.computedColor.Red"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.ComputedColor"/>
+        <input type="org.eclipse.sirius.viewpoint.description.ComputedColor"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.computedcolor.ComputedColorRedPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.computedcolor.ComputedColorRedFilter"
                id="description.section.computedColor.Red"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.ComputedColor"/>
+        <input type="org.eclipse.sirius.viewpoint.description.ComputedColor"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.enduserdocumentedelement.EndUserDocumentedElementEndUserDocumentationPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.enduserdocumentedelement.EndUserDocumentedElementEndUserDocumentationFilter"
                id="description.section.endUserDocumentedElement.EndUserDocumentation"
                 tab="viewpoint.tab.documentation">
-        <input type="org.eclipse.sirius.viewpoint.description.EndUserDocumentedElement"/>
+        <input type="org.eclipse.sirius.viewpoint.description.EndUserDocumentedElement"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.annotationentry.AnnotationEntrySourcePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.annotationentry.AnnotationEntrySourceFilter"
                id="description.section.annotationEntry.Source"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.AnnotationEntry"/>
+        <input type="org.eclipse.sirius.viewpoint.description.AnnotationEntry"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.usercolorspalette.UserColorsPaletteNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.usercolorspalette.UserColorsPaletteNameFilter"
                id="description.section.userColorsPalette.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.UserColorsPalette"/>
+        <input type="org.eclipse.sirius.viewpoint.description.UserColorsPalette"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.usercolor.UserColorNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.usercolor.UserColorNameFilter"
                id="description.section.userColor.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.UserColor"/>
+        <input type="org.eclipse.sirius.viewpoint.description.UserColor"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.colorstep.ColorStepAssociatedColorPropertySection"
@@ -716,14 +727,14 @@
                id="description.section.colorStep.AssociatedColor"
                afterSection="description.section.colorStep.AssociatedValue"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.ColorStep"/>
+        <input type="org.eclipse.sirius.viewpoint.description.ColorStep"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.colorstep.ColorStepAssociatedValuePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.colorstep.ColorStepAssociatedValueFilter"
                id="description.section.colorStep.AssociatedValue"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.ColorStep"/>
+        <input type="org.eclipse.sirius.viewpoint.description.ColorStep"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.interpolatedcolor.InterpolatedColorMaxValueComputationExpressionPropertySection"
@@ -731,7 +742,7 @@
                id="description.section.interpolatedColor.MaxValueComputationExpression"
                afterSection="description.section.interpolatedColor.MinValueComputationExpression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.InterpolatedColor"/>
+        <input type="org.eclipse.sirius.viewpoint.description.InterpolatedColor"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.interpolatedcolor.InterpolatedColorMinValueComputationExpressionPropertySection"
@@ -739,7 +750,7 @@
                id="description.section.interpolatedColor.MinValueComputationExpression"
                afterSection="description.section.interpolatedColor.ColorValueComputationExpression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.InterpolatedColor"/>
+        <input type="org.eclipse.sirius.viewpoint.description.InterpolatedColor"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.interpolatedcolor.InterpolatedColorColorValueComputationExpressionPropertySection"
@@ -747,14 +758,14 @@
                id="description.section.interpolatedColor.ColorValueComputationExpression"
                afterSection="description.section.userColor.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.InterpolatedColor"/>
+        <input type="org.eclipse.sirius.viewpoint.description.InterpolatedColor"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.systemcolor.SystemColorNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.systemcolor.SystemColorNameFilter"
                id="description.section.systemColor.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.SystemColor"/>
+        <input type="org.eclipse.sirius.viewpoint.description.SystemColor"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.fixedcolor.FixedColorBluePropertySection"
@@ -762,7 +773,7 @@
                id="description.section.fixedColor.Blue"
                afterSection="description.section.fixedColor.Green"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.FixedColor"/>
+        <input type="org.eclipse.sirius.viewpoint.description.FixedColor"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.fixedcolor.FixedColorGreenPropertySection"
@@ -770,14 +781,14 @@
                id="description.section.fixedColor.Green"
                afterSection="description.section.fixedColor.Red"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.FixedColor"/>
+        <input type="org.eclipse.sirius.viewpoint.description.FixedColor"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.fixedcolor.FixedColorRedPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.fixedcolor.FixedColorRedFilter"
                id="description.section.fixedColor.Red"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.FixedColor"/>
+        <input type="org.eclipse.sirius.viewpoint.description.FixedColor"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.selectiondescription.SelectionDescriptionMessagePropertySection"
@@ -785,7 +796,7 @@
                id="description.section.selectionDescription.Message"
                afterSection="description.section.selectionDescription.ChildrenExpression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.SelectionDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.SelectionDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.selectiondescription.SelectionDescriptionChildrenExpressionPropertySection"
@@ -793,7 +804,7 @@
                id="description.section.selectionDescription.ChildrenExpression"
                afterSection="description.section.selectionDescription.RootExpression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.SelectionDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.SelectionDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.selectiondescription.SelectionDescriptionRootExpressionPropertySection"
@@ -801,7 +812,7 @@
                id="description.section.selectionDescription.RootExpression"
                afterSection="description.section.selectionDescription.Tree"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.SelectionDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.SelectionDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.selectiondescription.SelectionDescriptionTreePropertySection"
@@ -809,7 +820,7 @@
                id="description.section.selectionDescription.Tree"
                afterSection="description.section.selectionDescription.Multiple"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.SelectionDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.SelectionDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.selectiondescription.SelectionDescriptionMultiplePropertySection"
@@ -817,14 +828,14 @@
                id="description.section.selectionDescription.Multiple"
                afterSection="description.section.selectionDescription.CandidatesExpression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.SelectionDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.SelectionDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.selectiondescription.SelectionDescriptionCandidatesExpressionPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.selectiondescription.SelectionDescriptionCandidatesExpressionFilter"
                id="description.section.selectionDescription.CandidatesExpression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.SelectionDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.SelectionDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.ereferencecustomization.EReferenceCustomizationValuePropertySection"
@@ -832,14 +843,14 @@
                id="description.section.eReferenceCustomization.Value"
                afterSection="description.section.eReferenceCustomization.ReferenceName"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.EReferenceCustomization"/>
+        <input type="org.eclipse.sirius.viewpoint.description.EReferenceCustomization"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.ereferencecustomization.EReferenceCustomizationReferenceNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.ereferencecustomization.EReferenceCustomizationReferenceNameFilter"
                id="description.section.eReferenceCustomization.ReferenceName"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.EReferenceCustomization"/>
+        <input type="org.eclipse.sirius.viewpoint.description.EReferenceCustomization"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.eattributecustomization.EAttributeCustomizationValuePropertySection"
@@ -847,14 +858,14 @@
                id="description.section.eAttributeCustomization.Value"
                afterSection="description.section.eAttributeCustomization.AttributeName"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.EAttributeCustomization"/>
+        <input type="org.eclipse.sirius.viewpoint.description.EAttributeCustomization"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.eattributecustomization.EAttributeCustomizationAttributeNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.eattributecustomization.EAttributeCustomizationAttributeNameFilter"
                id="description.section.eAttributeCustomization.AttributeName"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.EAttributeCustomization"/>
+        <input type="org.eclipse.sirius.viewpoint.description.EAttributeCustomization"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.estructuralfeaturecustomization.EStructuralFeatureCustomizationApplyOnAllPropertySection"
@@ -862,14 +873,14 @@
                id="description.section.eStructuralFeatureCustomization.ApplyOnAll"
                afterSection="description.section.eStructuralFeatureCustomization.AppliedOn"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.EStructuralFeatureCustomization"/>
+        <input type="org.eclipse.sirius.viewpoint.description.EStructuralFeatureCustomization"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.estructuralfeaturecustomization.EStructuralFeatureCustomizationAppliedOnPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.estructuralfeaturecustomization.EStructuralFeatureCustomizationAppliedOnFilter"
                id="description.section.eStructuralFeatureCustomization.AppliedOn"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.EStructuralFeatureCustomization"/>
+        <input type="org.eclipse.sirius.viewpoint.description.EStructuralFeatureCustomization"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.vsmelementcustomizationreuse.VSMElementCustomizationReuseAppliedOnPropertySection"
@@ -877,28 +888,28 @@
                id="description.section.vSMElementCustomizationReuse.AppliedOn"
                afterSection="description.section.vSMElementCustomizationReuse.Reuse"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.VSMElementCustomizationReuse"/>
+        <input type="org.eclipse.sirius.viewpoint.description.VSMElementCustomizationReuse"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.vsmelementcustomizationreuse.VSMElementCustomizationReuseReusePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.vsmelementcustomizationreuse.VSMElementCustomizationReuseReuseFilter"
                id="description.section.vSMElementCustomizationReuse.Reuse"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.VSMElementCustomizationReuse"/>
+        <input type="org.eclipse.sirius.viewpoint.description.VSMElementCustomizationReuse"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.vsmelementcustomization.VSMElementCustomizationPredicateExpressionPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.vsmelementcustomization.VSMElementCustomizationPredicateExpressionFilter"
                id="description.section.vSMElementCustomization.PredicateExpression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.VSMElementCustomization"/>
+        <input type="org.eclipse.sirius.viewpoint.description.VSMElementCustomization"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.semanticbaseddecoration.SemanticBasedDecorationDomainClassPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.semanticbaseddecoration.SemanticBasedDecorationDomainClassFilter"
                id="description.section.semanticBasedDecoration.DomainClass"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.SemanticBasedDecoration"/>
+        <input type="org.eclipse.sirius.viewpoint.description.SemanticBasedDecoration"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.decorationdescription.DecorationDescriptionPreconditionExpressionPropertySection"
@@ -906,7 +917,7 @@
                id="description.section.decorationDescription.PreconditionExpression"
                afterSection="description.section.decorationDescription.DecoratorPath"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.DecorationDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.DecorationDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.decorationdescription.DecorationDescriptionDecoratorPathPropertySection"
@@ -914,7 +925,7 @@
                id="description.section.decorationDescription.DecoratorPath"
                afterSection="description.section.decorationDescription.Position"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.DecorationDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.DecorationDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.decorationdescription.DecorationDescriptionPositionPropertySection"
@@ -922,35 +933,35 @@
                id="description.section.decorationDescription.Position"
                afterSection="description.section.decorationDescription.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.DecorationDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.DecorationDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.decorationdescription.DecorationDescriptionNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.decorationdescription.DecorationDescriptionNameFilter"
                id="description.section.decorationDescription.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.DecorationDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.DecorationDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.pastetargetdescription.PasteTargetDescriptionPasteDescriptionsPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.pastetargetdescription.PasteTargetDescriptionPasteDescriptionsFilter"
                id="description.section.pasteTargetDescription.PasteDescriptions"
                 tab="viewpoint.tab.behavior">
-        <input type="org.eclipse.sirius.viewpoint.description.PasteTargetDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.PasteTargetDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.conditionalstyledescription.ConditionalStyleDescriptionPredicateExpressionPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.conditionalstyledescription.ConditionalStyleDescriptionPredicateExpressionFilter"
                id="description.section.conditionalStyleDescription.PredicateExpression"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.ConditionalStyleDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.ConditionalStyleDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.dannotation.DAnnotationSourcePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.dannotation.DAnnotationSourceFilter"
                id="description.section.dAnnotation.Source"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.DAnnotation"/>
+        <input type="org.eclipse.sirius.viewpoint.description.DAnnotation"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.abstractmappingimport.AbstractMappingImportInheritsAncestorFiltersPropertySection"
@@ -958,14 +969,14 @@
                id="description.section.abstractMappingImport.InheritsAncestorFilters"
                afterSection="description.section.abstractMappingImport.HideSubMappings"
                 tab="viewpoint.tab.import">
-        <input type="org.eclipse.sirius.viewpoint.description.AbstractMappingImport"/>
+        <input type="org.eclipse.sirius.viewpoint.description.AbstractMappingImport"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.abstractmappingimport.AbstractMappingImportHideSubMappingsPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.abstractmappingimport.AbstractMappingImportHideSubMappingsFilter"
                id="description.section.abstractMappingImport.HideSubMappings"
                 tab="viewpoint.tab.import">
-        <input type="org.eclipse.sirius.viewpoint.description.AbstractMappingImport"/>
+        <input type="org.eclipse.sirius.viewpoint.description.AbstractMappingImport"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.representationelementmapping.RepresentationElementMappingNavigationDescriptionsPropertySection"
@@ -973,14 +984,14 @@
                id="description.section.representationElementMapping.NavigationDescriptions"
                afterSection="description.section.representationElementMapping.DetailDescriptions"
                 tab="viewpoint.tab.behavior">
-        <input type="org.eclipse.sirius.viewpoint.description.RepresentationElementMapping"/>
+        <input type="org.eclipse.sirius.viewpoint.description.RepresentationElementMapping"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.representationelementmapping.RepresentationElementMappingDetailDescriptionsPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.representationelementmapping.RepresentationElementMappingDetailDescriptionsFilter"
                id="description.section.representationElementMapping.DetailDescriptions"
                 tab="viewpoint.tab.behavior">
-        <input type="org.eclipse.sirius.viewpoint.description.RepresentationElementMapping"/>
+        <input type="org.eclipse.sirius.viewpoint.description.RepresentationElementMapping"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.identifiedelement.IdentifiedElementLabelPropertySection"
@@ -988,28 +999,28 @@
                id="description.section.identifiedElement.Label"
                afterSection="description.section.identifiedElement.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.IdentifiedElement"/>
+        <input type="org.eclipse.sirius.viewpoint.description.IdentifiedElement"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.identifiedelement.IdentifiedElementNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.identifiedelement.IdentifiedElementNameFilter"
                id="description.section.identifiedElement.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.IdentifiedElement"/>
+        <input type="org.eclipse.sirius.viewpoint.description.IdentifiedElement"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.javaextension.JavaExtensionQualifiedClassNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.javaextension.JavaExtensionQualifiedClassNameFilter"
                id="description.section.javaExtension.QualifiedClassName"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.JavaExtension"/>
+        <input type="org.eclipse.sirius.viewpoint.description.JavaExtension"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.metamodelextensionsetting.MetamodelExtensionSettingExtensionGroupPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.metamodelextensionsetting.MetamodelExtensionSettingExtensionGroupFilter"
                id="description.section.metamodelExtensionSetting.ExtensionGroup"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.MetamodelExtensionSetting"/>
+        <input type="org.eclipse.sirius.viewpoint.description.MetamodelExtensionSetting"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.representationextensiondescription.RepresentationExtensionDescriptionMetamodelPropertySection"
@@ -1017,7 +1028,7 @@
                id="description.section.representationExtensionDescription.Metamodel"
                afterSection="description.section.representationExtensionDescription.RepresentationName"
                 tab="viewpoint.tab.advanced">
-        <input type="org.eclipse.sirius.viewpoint.description.RepresentationExtensionDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.RepresentationExtensionDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.representationextensiondescription.RepresentationExtensionDescriptionRepresentationNamePropertySection"
@@ -1025,7 +1036,7 @@
                id="description.section.representationExtensionDescription.RepresentationName"
                afterSection="description.section.representationExtensionDescription.ViewpointURI"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.RepresentationExtensionDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.RepresentationExtensionDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.representationextensiondescription.RepresentationExtensionDescriptionViewpointURIPropertySection"
@@ -1033,21 +1044,21 @@
                id="description.section.representationExtensionDescription.ViewpointURI"
                afterSection="description.section.representationExtensionDescription.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.RepresentationExtensionDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.RepresentationExtensionDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.representationextensiondescription.RepresentationExtensionDescriptionNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.representationextensiondescription.RepresentationExtensionDescriptionNameFilter"
                id="description.section.representationExtensionDescription.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.RepresentationExtensionDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.RepresentationExtensionDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.representationtemplate.RepresentationTemplateNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.representationtemplate.RepresentationTemplateNameFilter"
                id="description.section.representationTemplate.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.RepresentationTemplate"/>
+        <input type="org.eclipse.sirius.viewpoint.description.RepresentationTemplate"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.representationdescription.RepresentationDescriptionShowOnStartupPropertySection"
@@ -1055,7 +1066,7 @@
                id="description.section.representationDescription.ShowOnStartup"
                afterSection="description.section.representationDescription.Metamodel"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.RepresentationDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.RepresentationDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.representationdescription.RepresentationDescriptionMetamodelPropertySection"
@@ -1063,7 +1074,7 @@
                id="description.section.representationDescription.Metamodel"
                afterSection="description.section.representationDescription.TitleExpression"
                 tab="viewpoint.tab.metamodels">
-        <input type="org.eclipse.sirius.viewpoint.description.RepresentationDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.RepresentationDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.representationdescription.RepresentationDescriptionTitleExpressionPropertySection"
@@ -1071,7 +1082,7 @@
                id="description.section.representationDescription.TitleExpression"
                afterSection="description.section.identifiedElement.Label"
                 tab="viewpoint.tab.advanced">
-        <input type="org.eclipse.sirius.viewpoint.description.RepresentationDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.RepresentationDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.representationdescription.RepresentationDescriptionInitialisationPropertySection"
@@ -1079,7 +1090,7 @@
                id="description.section.representationDescription.Initialisation"
                afterSection="description.section.identifiedElement.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.RepresentationDescription"/>
+        <input type="org.eclipse.sirius.viewpoint.description.RepresentationDescription"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.viewpoint.ViewpointCustomizesPropertySection"
@@ -1087,7 +1098,7 @@
                id="description.section.viewpoint.Customizes"
                afterSection="description.section.viewpoint.Reuses"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.Viewpoint"/>
+        <input type="org.eclipse.sirius.viewpoint.description.Viewpoint"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.viewpoint.ViewpointReusesPropertySection"
@@ -1095,7 +1106,7 @@
                id="description.section.viewpoint.Reuses"
                afterSection="description.section.viewpoint.Conflicts"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.Viewpoint"/>
+        <input type="org.eclipse.sirius.viewpoint.description.Viewpoint"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.viewpoint.ViewpointConflictsPropertySection"
@@ -1103,7 +1114,7 @@
                id="description.section.viewpoint.Conflicts"
                afterSection="description.section.viewpoint.Icon"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.Viewpoint"/>
+        <input type="org.eclipse.sirius.viewpoint.description.Viewpoint"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.viewpoint.ViewpointIconPropertySection"
@@ -1111,7 +1122,7 @@
                id="description.section.viewpoint.Icon"
                afterSection="description.section.viewpoint.ModelFileExtension"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.Viewpoint"/>
+        <input type="org.eclipse.sirius.viewpoint.description.Viewpoint"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.viewpoint.ViewpointModelFileExtensionPropertySection"
@@ -1119,29 +1130,25 @@
                id="description.section.viewpoint.ModelFileExtension"
                afterSection="description.section.identifiedElement.Label"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.Viewpoint"/>
+        <input type="org.eclipse.sirius.viewpoint.description.Viewpoint"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.documentedelement.DocumentedElementDocumentationPropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.documentedelement.DocumentedElementDocumentationFilter"
                id="description.section.documentedElement.Documentation"
                 tab="viewpoint.tab.documentation">
-        <input type="org.eclipse.sirius.viewpoint.description.DocumentedElement"/>
+        <input type="org.eclipse.sirius.viewpoint.description.DocumentedElement"/>        
       </propertySection>
   	  <propertySection
                class="org.eclipse.sirius.editor.properties.sections.description.group.GroupNamePropertySection"
                filter="org.eclipse.sirius.editor.properties.filters.description.group.GroupNameFilter"
                id="description.section.group.Name"
                 tab="viewpoint.tab.general">
-        <input type="org.eclipse.sirius.viewpoint.description.Group"/>
+        <input type="org.eclipse.sirius.viewpoint.description.Group"/>        
       </propertySection>
-  	<!-- Start of user code propertySections of org.eclipse.sirius.editor.editorPlugin.SiriusEditorContributor  -->
-  	
-  	<!-- End of user code propertySections of org.eclipse.sirius.editor.editorPlugin.SiriusEditorContributor  -->
     </propertySections>
   </extension>
-
-<!-- Start of user code plugin.xml end specifics  -->
+  <!-- Start of user code plugin.xml end specifics  -->
 
   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
     <propertySections contributorId="org.eclipse.sirius.editor.editorPlugin.SiriusEditorContributor">
@@ -1321,5 +1328,5 @@
      </override>
   </extension>
     
+ <!-- End of user code plugin.xml end specifics  -->
 </plugin>
-<!-- End of user code plugin.xml end specifics  -->
