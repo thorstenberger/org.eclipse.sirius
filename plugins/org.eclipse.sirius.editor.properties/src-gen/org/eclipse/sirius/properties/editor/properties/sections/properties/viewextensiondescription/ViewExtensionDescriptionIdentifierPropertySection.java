@@ -27,7 +27,7 @@ public class ViewExtensionDescriptionIdentifierPropertySection extends AbstractT
      */
     @Override
     protected String getDefaultLabelText() {
-        return "Extension Id"; //$NON-NLS-1$
+        return "Identifier"; //$NON-NLS-1$
     }
 
     /**
