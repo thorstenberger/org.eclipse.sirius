@@ -50,7 +50,6 @@ import org.eclipse.sirius.business.api.migration.DescriptionResourceVersionMisma
 import org.eclipse.sirius.business.api.migration.ResourceVersionMismatchDiagnostic;
 import org.eclipse.sirius.business.api.query.DAnalysisQuery;
 import org.eclipse.sirius.business.api.query.FileQuery;
-import org.eclipse.sirius.business.api.query.RepresentationDescriptionQuery;
 import org.eclipse.sirius.business.api.query.ResourceQuery;
 import org.eclipse.sirius.business.api.resource.ResourceDescriptor;
 import org.eclipse.sirius.business.api.resource.strategy.ResourceStrategyRegistry;
@@ -101,7 +100,6 @@ import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.sirius.viewpoint.Messages;
 import org.eclipse.sirius.viewpoint.SiriusPlugin;
 import org.eclipse.sirius.viewpoint.ViewpointPackage;
-import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
 import org.eclipse.sirius.viewpoint.impl.DAnalysisSessionEObjectImpl;
 
