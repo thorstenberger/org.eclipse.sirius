@@ -38,7 +38,6 @@ import org.eclipse.sirius.common.tools.api.util.EqualityHelper;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.MetamodelDescriptor;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
 import org.eclipse.sirius.viewpoint.DAnalysis;
-import org.eclipse.sirius.viewpoint.DRepresentationContainer;
 import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.sirius.viewpoint.Messages;
 import org.eclipse.sirius.viewpoint.ViewpointFactory;
