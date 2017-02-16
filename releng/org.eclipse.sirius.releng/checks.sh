@@ -51,10 +51,10 @@ done
 # All the about.html should be identical
 # find . -name "about.html" -exec md5sum {} \; | sort | cut -d' ' -f1 | sort -u
 
-readonly BREE="JavaSE-1.7"
+readonly BREE="JavaSE-1.8"
 check "All plug-ins have a consistent BREE ($BREE)"
 BREES=$(git grep Bundle-RequiredExecutionEnvironment -- '**/MANIFEST.MF' | awk '{print $2}' | sort -u)
-[ "$BREES" = "JavaSE-1.7" ] || {
+[ "$BREES" = "JavaSE-1.8" ] || {
     error "Inconsistent BREE detected: " $(echo "$BREES")
 }
 
@@ -62,7 +62,7 @@ check "All plug-ins have 'Bundle-Localization: plugin'"
 find plugins -name MANIFEST.MF -path "*/META-INF/*" | while read m; do grep -q "Bundle-Localization: plugin" $m || error "$m"; done
 
 check "All plug-ins must externalize their 'Bundle-Name' and 'Bundle-Vendor'"
-find plugins -name MANIFEST.MF -path "*/META-INF/*" | \
+find plugins -name MANIFEST.MF -path "*/META-INF/*" -not -path '*/contents/*' | \
     while read m; do
         grep -q "Bundle-Name: %pluginName" "$m" || error "Bundle-Name not externalized for $m"
         grep -q "Bundle-Vendor: %providerName" "$m" || error "Bundle-Vendor not externalized for $m"
@@ -71,7 +71,7 @@ find plugins -name MANIFEST.MF -path "*/META-INF/*" | \
 
 readonly PROVIDER_NAME="Eclipse Modeling Project"
 check "All plug-ins should have the same providerName ($PROVIDER_NAME)"
-PROVIDERS=$(find plugins -name "plugin.properties" -exec grep providerName {} \; | sort -u)
+PROVIDERS=$(find plugins -name "plugin.properties" -not -path '*/contents/*'  -exec grep providerName {} \; | sort -u)
 [ "$PROVIDERS" = "providerName = $PROVIDER_NAME" ] || {
     error "Inconsistent plug-in providerName detected: " $(echo "$PROVIDERS" | sed -e 's/\s/./g')
 }
