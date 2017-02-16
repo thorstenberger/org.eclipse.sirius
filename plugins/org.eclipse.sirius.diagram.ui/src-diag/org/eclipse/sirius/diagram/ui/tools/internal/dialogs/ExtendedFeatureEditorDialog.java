@@ -179,7 +179,7 @@ public class ExtendedFeatureEditorDialog extends Dialog {
             choiceTable.setLayoutData(choiceTableGridData);
         }
 
-        final TableViewer choiceTableViewer = this.choices == null ? null : new TableViewer(choiceTable);
+        final TableViewer choiceTableViewer = this.choices == null ? null : new TableViewer(choiceTable, SWT.VIRTUAL);
         if (choiceTableViewer != null) {
             choiceTableViewer.setContentProvider(new AdapterFactoryContentProvider(new AdapterFactoryImpl()));
             choiceTableViewer.setLabelProvider(labelProvider);
