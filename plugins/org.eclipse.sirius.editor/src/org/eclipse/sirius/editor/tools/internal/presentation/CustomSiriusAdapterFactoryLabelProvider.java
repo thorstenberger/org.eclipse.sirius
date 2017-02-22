@@ -21,7 +21,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 class CustomSiriusAdapterFactoryLabelProvider extends AdapterFactoryLabelProvider {
     private boolean showTypes;
 
-    public CustomSiriusAdapterFactoryLabelProvider(AdapterFactory adapterFactory) {
+    CustomSiriusAdapterFactoryLabelProvider(AdapterFactory adapterFactory) {
         super(adapterFactory);
     }
 
