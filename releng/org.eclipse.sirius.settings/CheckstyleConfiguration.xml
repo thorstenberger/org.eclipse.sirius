@@ -227,6 +227,7 @@
     </module>
     <module name="ReturnCount">
       <property name="severity" value="error"/>
+      <property name="maxForVoid" value="2"/>
       <property name="format" value="^insertionIndexFor$"/>
     </module>
     <module name="SimplifyBooleanExpression">
