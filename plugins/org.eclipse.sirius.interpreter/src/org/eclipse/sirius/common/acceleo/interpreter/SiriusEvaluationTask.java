@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2015 THALES GLOBAL SERVICES and others.
+ * Copyright (c) 2011-2018 THALES GLOBAL SERVICES and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -34,8 +34,6 @@ import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.common.tools.api.interpreter.CompoundInterpreter;
 import org.eclipse.sirius.common.tools.api.interpreter.EvaluationException;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreter;
-import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterWithDiagnostic;
-import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterWithDiagnostic.IEvaluationResult;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.EcoreMetamodelDescriptor;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.MetamodelDescriptor;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
@@ -117,15 +115,9 @@ public class SiriusEvaluationTask implements Callable<EvaluationResult> {
 
         EvaluationResult evaluationResult = null;
         try {
-            if (vpInterpreter instanceof IInterpreterWithDiagnostic) {
-                IEvaluationResult result = ((IInterpreterWithDiagnostic) vpInterpreter).evaluateExpression(target, expression);
-                final IStatus status = createResultStatus(result);
-                evaluationResult = new EvaluationResult(result.getValue(), status);
-            } else {
-                Object result = vpInterpreter.evaluate(target, expression);
-                final IStatus status = createResultStatus(result);
-                evaluationResult = new EvaluationResult(result, status);
-            }
+            IInterpreter.IEvaluationResult result = vpInterpreter.evaluateExpression(target, expression);
+            final IStatus status = createResultStatus(result);
+            evaluationResult = new EvaluationResult(result.getValue(), status);
         } catch (EvaluationException e) {
             final IStatus status = new Status(IStatus.ERROR, InterpreterViewPlugin.PLUGIN_ID, e.getMessage(), e);
             evaluationResult = new EvaluationResult(status);
@@ -189,8 +181,8 @@ public class SiriusEvaluationTask implements Callable<EvaluationResult> {
      */
     private IStatus createResultStatus(Object result) {
         IStatus status = new Status(IStatus.OK, InterpreterViewPlugin.PLUGIN_ID, ""); //$NON-NLS-1$
-        if (result instanceof IEvaluationResult) {
-            IEvaluationResult evaluationResult = (IEvaluationResult) result;
+        if (result instanceof IInterpreter.IEvaluationResult) {
+            IInterpreter.IEvaluationResult evaluationResult = (IInterpreter.IEvaluationResult) result;
             status = this.getStatus(evaluationResult);
         } else if (result != null) {
             // Fallback to the original behavior if we are not using an
@@ -208,7 +200,7 @@ public class SiriusEvaluationTask implements Callable<EvaluationResult> {
      *            The evaluation result
      * @return The status to be displayed to the end user
      */
-    private IStatus getStatus(IEvaluationResult evaluationResult) {
+    private IStatus getStatus(IInterpreter.IEvaluationResult evaluationResult) {
         Object result = evaluationResult.getValue();
 
         String message = this.getDefaultMessage(result);
