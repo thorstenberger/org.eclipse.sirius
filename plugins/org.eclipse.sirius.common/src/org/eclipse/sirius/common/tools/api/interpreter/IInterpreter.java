@@ -13,7 +13,6 @@ package org.eclipse.sirius.common.tools.api.interpreter;
 import java.util.Collection;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.MetamodelDescriptor;
@@ -280,28 +279,6 @@ public interface IInterpreter {
     void activateMetamodels(Collection<MetamodelDescriptor> metamodels);
     
     /**
-     * This interface represents the result of the evaluation of an expression
-     * with its value and a diagnostic.
-     * 
-     * @author <a href="mailto:stephane.begaudeau@obeo.fr">Stephane Begaudeau</a>
-     */
-    interface IEvaluationResult {
-        /**
-         * Returns the value computed from the evaluation of the expression.
-         * 
-         * @return The value
-         */
-        Object getValue();
-
-        /**
-         * The diagnostic computed during the evaluation of the expression.
-         * 
-         * @return The diagnostic
-         */
-        Diagnostic getDiagnostic();
-    }
-
-    /**
      * Wrapper method to evaluate an expression and return the result and its
      * diagnostic. This method should have the same behavior as the method
      * {@link IInterpreter#evaluate(EObject, String)} but with a result
@@ -317,18 +294,7 @@ public interface IInterpreter {
      */
     default IEvaluationResult evaluateExpression(EObject target, String expression) throws EvaluationException {
         final Object result = this.evaluate(target, expression);
-        return new IEvaluationResult() {
-
-            @Override
-            public Object getValue() {
-                return result;
-            }
-
-            @Override
-            public Diagnostic getDiagnostic() {
-                return Diagnostic.OK_INSTANCE;
-            }
-        };
+        return EvaluationResult.withValue(result);
     }
 
 }

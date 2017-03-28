@@ -164,10 +164,12 @@
 				<code>org.eclipse.sirius.common.tools.api.interpreter.IVariableStatusListener</code>. These correspond to obsolete and unused mechanisms.
 			</li>
 			<li><span class="label label-danger">Removed</span> The interface 
-				<code>org.eclipse.sirius.common.tools.api.interpreter.IInterpreterWithDiagnostic</code> has been removed. Its API (a single 
-				<code>evaluateExpression()</code> method and an internal 
-				<code>IEvaluationResult</code>) have been moved directly into the general 
-				<code>org.eclipse.sirius.common.tools.api.interpreter.IInterpreter</code> interface.
+				<code>org.eclipse.sirius.common.tools.api.interpreter.IInterpreterWithDiagnostic</code> has been removed. Its single 
+				<code>evaluateExpression()</code> method has been moved directly into the general 
+				<code>org.eclipse.sirius.common.tools.api.interpreter.IInterpreter</code> interface, and the 
+				<code>IEvaluationResult</code> internal type it defined has been made a top-level type 
+				<code>org.eclipse.sirius.common.tools.api.interpreter.IEvaluationResult</code> with a default implementation in 
+				<code>org.eclipse.sirius.common.tools.api.interpreter.EvaluationResult</code>.
 			</li>
 		</ul>
 		<h4 id="Changesinorg.eclipse.sirius">Changes in 

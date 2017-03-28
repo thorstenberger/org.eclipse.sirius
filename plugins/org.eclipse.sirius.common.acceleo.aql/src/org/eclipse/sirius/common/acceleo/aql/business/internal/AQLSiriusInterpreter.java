@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2015, 2017 Obeo.
+ * Copyright (c) 2015-2018 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -65,6 +65,7 @@ import org.eclipse.sirius.common.acceleo.aql.business.api.TypesUtil;
 import org.eclipse.sirius.common.tools.api.interpreter.ClassLoadingCallback;
 import org.eclipse.sirius.common.tools.api.interpreter.EPackageLoadingCallback;
 import org.eclipse.sirius.common.tools.api.interpreter.EvaluationException;
+import org.eclipse.sirius.common.tools.api.interpreter.IEvaluationResult;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterContext;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterStatus;
 import org.eclipse.sirius.common.tools.api.interpreter.IJavaAwareInterpreter;
@@ -199,7 +200,7 @@ public class AQLSiriusInterpreter extends AcceleoAbstractInterpreter implements 
             String message = MessageFormat.format(Messages.AQLInterpreter_errorWithExpression, fullExpression, diagnostic.toString(), uri, target);
             throw new EvaluationException(message, diagnostic.getException());
         }
-        return evaluationResult.getValue();
+        return evaluationResult.getRawValue();
     }
 
     @Override
@@ -222,23 +223,15 @@ public class AQLSiriusInterpreter extends AcceleoAbstractInterpreter implements 
                 diagnostic.merge(evalResult.getDiagnostic());
             }
 
-            return new IEvaluationResult() {
+            final Diagnostic diag;
+            List<Diagnostic> children = diagnostic.getChildren();
+            if (children.size() == 1) {
+                diag = children.get(0);
+            } else {
+                diag = diagnostic;
+            }
+            return org.eclipse.sirius.common.tools.api.interpreter.EvaluationResult.of(evalResult.getResult(), diag);
 
-                @Override
-                public Object getValue() {
-                    return evalResult.getResult();
-                }
-
-                @Override
-                public Diagnostic getDiagnostic() {
-                    List<Diagnostic> children = diagnostic.getChildren();
-                    if (children.size() == 1) {
-                        return children.get(0);
-                    } else {
-                        return diagnostic;
-                    }
-                }
-            };
         } catch (ExecutionException e) {
             throw new EvaluationException(e.getCause());
         }
