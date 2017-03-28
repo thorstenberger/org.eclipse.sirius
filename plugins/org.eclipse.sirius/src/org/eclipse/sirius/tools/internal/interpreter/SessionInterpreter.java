@@ -34,7 +34,6 @@ import org.eclipse.sirius.common.tools.api.interpreter.IInterpreter;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterContext;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterProvider;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterStatus;
-import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterWithDiagnostic;
 import org.eclipse.sirius.common.tools.api.interpreter.VariableManager;
 import org.eclipse.sirius.common.tools.api.profiler.ProfilerTask;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.MetamodelDescriptor;
@@ -48,7 +47,7 @@ import org.eclipse.sirius.viewpoint.SiriusPlugin;
  * 
  * @author ymortier
  */
-public class SessionInterpreter implements IInterpreter, IProposalProvider, IInterpreterWithDiagnostic {
+public class SessionInterpreter implements IInterpreter, IProposalProvider {
 
     /** Maps provider with interpreters. */
     private final Map<IInterpreterProvider, IInterpreter> loadedInterpreters = new HashMap<IInterpreterProvider, IInterpreter>();
@@ -138,26 +137,10 @@ public class SessionInterpreter implements IInterpreter, IProposalProvider, IInt
 
     @Override
     public IEvaluationResult evaluateExpression(final EObject target, final String expression) throws EvaluationException {
-        final IInterpreter interpreter = getInterpreter(expression);
         IEvaluationResult result = null;
         try {
-            if (interpreter instanceof IInterpreterWithDiagnostic) {
-                result = ((IInterpreterWithDiagnostic) interpreter).evaluateExpression(target, expression);
-            } else {
-                // Fall back on the default behavior otherwise with an OK diagnostic
-                final Object value = interpreter.evaluate(target, expression);
-                result = new IEvaluationResult() {
-                    @Override
-                    public Object getValue() {
-                        return value;
-                    }
-
-                    @Override
-                    public Diagnostic getDiagnostic() {
-                        return Diagnostic.OK_INSTANCE;
-                    }
-                };
-            }
+            IInterpreter interpreter = getInterpreter(expression);
+            result = interpreter.evaluateExpression(target, expression);
         } catch (EvaluationException evx) {
             this.evaluationErrorHandler.get().handleException(evx);
             result = creatErrorResult(evx);

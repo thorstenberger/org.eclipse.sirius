@@ -148,6 +148,12 @@
 				<code>removeVariableStatusListener()</code> have been removed, along with the corresponding type 
 				<code>org.eclipse.sirius.common.tools.api.interpreter.IVariableStatusListener</code>. These correspond to obsolete and unused mechanisms.
 			</li>
+			<li><span class="label label-danger">Removed</span> The interface 
+				<code>org.eclipse.sirius.common.tools.api.interpreter.IInterpreterWithDiagnostic</code> has been removed. Its API (a single 
+				<code>evaluateExpression()</code> method and an internal 
+				<code>IEvaluationResult</code>) have been moved directly into the general 
+				<code>org.eclipse.sirius.common.tools.api.interpreter.IInterpreter</code> interface.
+			</li>
 		</ul>
 		<h4 id="Migrations">Migrations</h4>
 		<h4 id="TranslationKeysChanges">Translation Keys Changes</h4>
