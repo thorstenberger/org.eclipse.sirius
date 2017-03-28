@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.sirius.common.tools.api.interpreter.EvaluationException;
@@ -199,22 +198,5 @@ public abstract class AbstractInterpreter implements IInterpreter, TypedValidati
     @Override
     public void activateMetamodels(Collection<MetamodelDescriptor> metamodels) {
         // Nothing to do.
-    }
-
-    @Override
-    public IEvaluationResult evaluateExpression(EObject target, String expression) throws EvaluationException {
-        final Object result = this.evaluate(target, expression);
-        return new IEvaluationResult() {
-
-            @Override
-            public Object getValue() {
-                return result;
-            }
-
-            @Override
-            public Diagnostic getDiagnostic() {
-                return Diagnostic.OK_INSTANCE;
-            }
-        };
     }
 }
