@@ -30,6 +30,8 @@ import org.eclipse.sirius.common.tools.api.contentassist.ContentProposal;
 import org.eclipse.sirius.common.tools.api.contentassist.IProposalProvider;
 import org.eclipse.sirius.common.tools.api.interpreter.CompoundInterpreter;
 import org.eclipse.sirius.common.tools.api.interpreter.EvaluationException;
+import org.eclipse.sirius.common.tools.api.interpreter.EvaluationResult;
+import org.eclipse.sirius.common.tools.api.interpreter.IEvaluationResult;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreter;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterContext;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterProvider;
@@ -155,17 +157,7 @@ public class SessionInterpreter implements IInterpreter, IProposalProvider {
 
     private IEvaluationResult creatErrorResult(Exception ex) {
         final BasicDiagnostic diag = new BasicDiagnostic(Diagnostic.ERROR, SiriusPlugin.ID, 0, Messages.SessionInterpreter_evaluationError, new Object[] { ex });
-        return new IEvaluationResult() {
-            @Override
-            public Object getValue() {
-                return null;
-            }
-
-            @Override
-            public Diagnostic getDiagnostic() {
-                return diag;
-            }
-        };
+        return EvaluationResult.withError(diag);
     }
 
     @Override

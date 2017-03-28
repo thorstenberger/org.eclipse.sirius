@@ -33,6 +33,7 @@ import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.common.tools.api.interpreter.CompoundInterpreter;
 import org.eclipse.sirius.common.tools.api.interpreter.EvaluationException;
+import org.eclipse.sirius.common.tools.api.interpreter.IEvaluationResult;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreter;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.EcoreMetamodelDescriptor;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.MetamodelDescriptor;
@@ -115,7 +116,7 @@ public class SiriusEvaluationTask implements Callable<EvaluationResult> {
 
         EvaluationResult evaluationResult = null;
         try {
-            IInterpreter.IEvaluationResult result = vpInterpreter.evaluateExpression(target, expression);
+            IEvaluationResult result = vpInterpreter.evaluateExpression(target, expression);
             final IStatus status = createResultStatus(result);
             evaluationResult = new EvaluationResult(result.getValue(), status);
         } catch (EvaluationException e) {
@@ -181,8 +182,8 @@ public class SiriusEvaluationTask implements Callable<EvaluationResult> {
      */
     private IStatus createResultStatus(Object result) {
         IStatus status = new Status(IStatus.OK, InterpreterViewPlugin.PLUGIN_ID, ""); //$NON-NLS-1$
-        if (result instanceof IInterpreter.IEvaluationResult) {
-            IInterpreter.IEvaluationResult evaluationResult = (IInterpreter.IEvaluationResult) result;
+        if (result instanceof IEvaluationResult) {
+            IEvaluationResult evaluationResult = (IEvaluationResult) result;
             status = this.getStatus(evaluationResult);
         } else if (result != null) {
             // Fallback to the original behavior if we are not using an
@@ -200,7 +201,7 @@ public class SiriusEvaluationTask implements Callable<EvaluationResult> {
      *            The evaluation result
      * @return The status to be displayed to the end user
      */
-    private IStatus getStatus(IInterpreter.IEvaluationResult evaluationResult) {
+    private IStatus getStatus(IEvaluationResult evaluationResult) {
         Object result = evaluationResult.getValue();
 
         String message = this.getDefaultMessage(result);
