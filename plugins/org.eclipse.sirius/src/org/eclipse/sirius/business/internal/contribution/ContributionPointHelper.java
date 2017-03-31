@@ -11,13 +11,12 @@
 package org.eclipse.sirius.business.internal.contribution;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.description.contribution.ContributionFactory;
 import org.eclipse.sirius.description.contribution.ContributionPoint;
-
-import com.google.common.base.Objects;
 
 /**
  * Helper class to deal with {@link ContributionPoint}s.
@@ -82,6 +81,6 @@ public final class ContributionPointHelper {
     }
 
     private static boolean sameContribution(ContributionPoint oldPoint, ContributionPoint newPoint) {
-        return Objects.equal(oldPoint.getContributed(), newPoint.getContributed()) && Objects.equal(oldPoint.getOrigin(), newPoint.getOrigin());
+        return Objects.equals(oldPoint.getContributed(), newPoint.getContributed()) && Objects.equals(oldPoint.getOrigin(), newPoint.getOrigin());
     }
 }

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
@@ -29,8 +30,6 @@ import org.eclipse.sirius.ext.base.Options;
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
-
-import com.google.common.base.Objects;
 
 /**
  * An helper uses to manage the Sirius resource (between the {@link ResourceSet}
@@ -223,7 +222,7 @@ public final class SiriusResourceHelper {
             if (editingDomainResource != null) {
                 for (Viewpoint vp : registry.getSiriusResourceHandler().collectViewpointDefinitions(editingDomainResource)) {
                     Option<URI> vpURI = new ViewpointQuery(vp).getViewpointURI();
-                    if (vpURI.some() && Objects.equal(vpURI.get(), uri)) {
+                    if (vpURI.some() && Objects.equals(vpURI.get(), uri)) {
                         return Options.newSome(vp);
                     }
                 }

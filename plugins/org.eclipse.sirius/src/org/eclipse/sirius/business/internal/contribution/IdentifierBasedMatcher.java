@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
@@ -12,20 +12,19 @@ package org.eclipse.sirius.business.internal.contribution;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Objects;
 
 import org.eclipse.emf.ecore.EObject;
 
 import com.google.common.base.Function;
-import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Maps;
 
 /**
- * A matcher that uses logical identifiers to match elements from two different
- * models.
- * 
+ * A matcher that uses logical identifiers to match elements from two different models.
+ *
  * @author <a href="mailto:laurent.goubet@obeo.fr">Laurent Goubet</a>
  */
 public class IdentifierBasedMatcher implements Matcher {
@@ -33,27 +32,22 @@ public class IdentifierBasedMatcher implements Matcher {
 
     /**
      * Constructor.
-     * 
+     *
      * @param idFunction
-     *            the function to use to obtain the identifier from a model
-     *            element.
+     *            the function to use to obtain the identifier from a model element.
      */
     public IdentifierBasedMatcher(Function<EObject, Object> idFunction) {
         this.idFunction = Preconditions.checkNotNull(idFunction);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public boolean areSameLogicalElement(EObject obj1, EObject obj2) {
         Object id1 = idFunction.apply(Preconditions.checkNotNull(obj1));
         Object id2 = idFunction.apply(Preconditions.checkNotNull(obj2));
-        return Objects.equal(id1, id2);
+        return Objects.equals(id1, id2);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public BiMap<EObject, EObject> computeMatches(Collection<EObject> values1, Collection<EObject> values2) {
         BiMap<EObject, EObject> result = HashBiMap.create();
         Map<Object, EObject> matchingElements = computeIds(values2);
