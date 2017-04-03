@@ -13,6 +13,7 @@ package org.eclipse.sirius.common.tools.api.interpreter;
 import java.util.Collection;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.MetamodelDescriptor;
@@ -153,7 +154,15 @@ public interface IInterpreter {
      * @throws EvaluationException
      *             if the evaluation fails.
      */
-    Integer evaluateInteger(EObject context, String expression) throws EvaluationException;
+    default Integer evaluateInteger(EObject context, String expression) throws EvaluationException {
+        IEvaluationResult result = evaluateExpression(context, expression);
+        if (result.success()) {
+            return result.asInt();
+        } else {
+            Diagnostic diag = result.getDiagnostic();
+            throw new EvaluationException(diag.getMessage(), diag.getException());
+        }
+    }
 
     /**
      * Clear all dependencies of this interpreter.
