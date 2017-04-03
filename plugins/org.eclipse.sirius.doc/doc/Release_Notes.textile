@@ -16,8 +16,8 @@ h3. Developer-Visible Changes
 
 h4. Changes in @org.eclipse.sirius.common@
 
-* <span class="label label-danger">Removed</span> The interface @org.eclipse.sirius.common.tools.api.interpreter.IExpressionProposal@ and its only implementation @DefaultExpressionProposal@ (in the same package) have been removed. They were not used anywhere, expression completion API is actually defined in package @org.eclipse.sirius.common.tools.api.contentassist@ which has its own types.  
-
+* <span class="label label-danger">Removed</span> The interface @org.eclipse.sirius.common.tools.api.interpreter.IExpressionProposal@ and its only implementation @DefaultExpressionProposal@ (in the same package) have been removed. They were not used anywhere, expression completion API is actually defined in package @org.eclipse.sirius.common.tools.api.contentassist@ which has its own types.
+* <span class="label label-danger">Removed</span> In interface @org.eclipse.sirius.common.tools.api.interpreter.IInterpreter@ (and all its implementations shipped with Sirius), the methods @addVariableStatusListener()@ and @removeVariableStatusListener()@ have been removed, along with the corresponding type @org.eclipse.sirius.common.tools.api.interpreter.IVariableStatusListener@. These correspond to obsolete and unused mechanisms.
 
 h4. Migrations
 

@@ -217,22 +217,6 @@ public interface IInterpreter {
     void dispose();
 
     /**
-     * Adds a listener on the variables of the interpreter.
-     * 
-     * @param newListener
-     *            the listener.
-     */
-    void addVariableStatusListener(IVariableStatusListener newListener);
-
-    /**
-     * Removes a variables listener.
-     * 
-     * @param listener
-     *            the listener.
-     */
-    void removeVariableStatusListener(IVariableStatusListener listener);
-
-    /**
      * Returns all declared variables.
      * 
      * @return all declared variables.
