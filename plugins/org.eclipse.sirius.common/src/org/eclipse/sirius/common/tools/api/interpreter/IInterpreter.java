@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007, 2009 THALES GLOBAL SERVICES.
+ * Copyright (c) 2007-2018 THALES GLOBAL SERVICES and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -215,22 +215,6 @@ public interface IInterpreter {
      * all data that is no longer needed
      */
     void dispose();
-
-    /**
-     * Adds a listener on the variables of the interpreter.
-     * 
-     * @param newListener
-     *            the listener.
-     */
-    void addVariableStatusListener(IVariableStatusListener newListener);
-
-    /**
-     * Removes a variables listener.
-     * 
-     * @param listener
-     *            the listener.
-     */
-    void removeVariableStatusListener(IVariableStatusListener listener);
 
     /**
      * Returns all declared variables.
