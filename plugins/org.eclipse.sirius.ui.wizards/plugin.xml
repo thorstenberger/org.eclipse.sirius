@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.eclipse.sirius.ui.wizards" name="EPackageExtraData" schema="schema/org.eclipse.sirius.ui.wizards.exsd"/>
+
+</plugin>
