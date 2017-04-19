@@ -45,12 +45,14 @@ public interface IEvaluationResult {
     boolean success();
 
     /**
-     * Coerces the value as a collection of EObject if possible.
+     * Coerces the value as a boolean.
      *
-     * @return a collection of {@link EObject}, which will be empty if the raw value could not be coerced.
+     * @return a boolean representation of the value, which will be empty if the raw value could not be coerced
+     *         meaningfully.
      */
-    Collection<EObject> asEObjects();
+    boolean asBoolean();
 
+    
     /**
      * Coerces the value as a string.
      *
@@ -58,12 +60,26 @@ public interface IEvaluationResult {
      *         meaningfully.
      */
     String asString();
-    
+
     /**
      * Coerces the value as an int.
      *
-     * @return an int representation of the value, or <code>0</code> the raw value could not be coerced
-     *         meaningfully.
+     * @return an int representation of the value, or <code>0</code> if the raw value could not be coerced meaningfully.
      */
     int asInt();
+
+    /**
+     * Coerces the value as an {@link EObject}.
+     *
+     * @return an {@link EObject} representation of the value> the raw value could not be coerced meaningfully.
+     */
+    EObject asEObject();
+
+    /**
+     * Coerces the value as a collection of EObject if possible.
+     *
+     * @return a collection of {@link EObject}, which will be empty if the raw value could not be coerced.
+     */
+    Collection<EObject> asEObjects();
+
 }

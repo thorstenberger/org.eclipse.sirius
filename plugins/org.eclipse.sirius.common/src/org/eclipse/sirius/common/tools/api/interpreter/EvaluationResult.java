@@ -17,9 +17,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
-
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
+import org.eclipse.sirius.common.tools.internal.interpreter.DefaultConverter;
+import org.eclipse.sirius.common.tools.internal.interpreter.IConverter;
 
 /**
  * Default implementaiton of {@link IEvaluationResult}, suitable for most cases.
@@ -37,6 +36,11 @@ public class EvaluationResult implements IEvaluationResult {
      * The status of the evaluation.
      */
     private final IStatus status;
+
+    /**
+     * The converter used to coerce the raw values.
+     */
+    private final IConverter converter = new DefaultConverter();
 
     /**
      * Create a new {@link EvaluationResult}.
@@ -123,34 +127,26 @@ public class EvaluationResult implements IEvaluationResult {
 
     @Override
     public Collection<EObject> asEObjects() {
-        final Collection<EObject> result;
-        if (rawValue instanceof Collection<?>) {
-            result = Lists.newArrayList(Iterables.filter((Collection<?>) rawValue, EObject.class));
-        } else if (rawValue instanceof EObject) {
-            result = Collections.singleton((EObject) rawValue);
-        } else if (rawValue != null && rawValue.getClass().isArray()) {
-            result = Lists.newArrayList(Iterables.filter(Lists.newArrayList((Object[]) rawValue), EObject.class));
-        } else {
-            result = Collections.emptySet();
-        }
-        return result;
+        return converter.toEObjectCollection(rawValue).orElse(Collections.emptySet());
     }
 
     @Override
     public String asString() {
-        if (rawValue != null) {
-            return String.valueOf(rawValue);
-        } else {
-            return ""; //$NON-NLS-1$
-        }
+        return converter.toString(rawValue).orElse(""); //$NON-NLS-1$
     }
 
     @Override
     public int asInt() {
-        try {
-            return Integer.parseInt(String.valueOf(rawValue));
-        } catch (NumberFormatException e) {
-            return 0;
-        }
+        return converter.toInt(rawValue).orElse(0);
+    }
+    
+    @Override
+    public boolean asBoolean() {
+        return converter.toBoolean(rawValue).orElse(false);
+    }
+    
+    @Override
+    public EObject asEObject() {
+        return converter.toEObject(rawValue).orElse(null);
     }
 }
