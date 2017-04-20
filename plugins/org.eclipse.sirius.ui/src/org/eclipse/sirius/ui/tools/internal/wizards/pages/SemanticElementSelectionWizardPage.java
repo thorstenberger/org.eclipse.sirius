@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011, 2015 THALES GLOBAL SERVICES and others.
+ * Copyright (c) 2011, 2017 THALES GLOBAL SERVICES and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,9 +10,12 @@
  *******************************************************************************/
 package org.eclipse.sirius.ui.tools.internal.wizards.pages;
 
+import java.lang.reflect.Field;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -36,7 +39,8 @@ import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
 
 /**
- * Page to select the semantic element of the new representation.
+ * This page provides a UI interface allowing the user to see its semantic models loaded by the current session and to
+ * select an element compatible with a representation description to create a representation instance.
  *
  * @author nlepine
  */
@@ -47,24 +51,30 @@ public class SemanticElementSelectionWizardPage extends WizardPage {
     /** The table viewer. */
     private TreeViewer treeViewer;
 
-    /** The Session. */
-    private final Session root;
+    /** The session from which representation instance will be created. */
+    private final Session session;
 
-    /** The representation. */
+    /**
+     * The representation description that must be compatible with the semantic model element selected by user with this
+     * page UI interface.
+     */
     private RepresentationDescription representationDescription;
 
+    /**
+     * The tree containing the semantic models and all their elements.
+     */
     private FilteredTree tree;
 
     /**
      * Create a new <code>SemanticElementSelectionWizardPage</code>.
      *
-     * @param root
-     *            the root object
+     * @param theSession
+     *            the session from which representation instance will be created.
      */
-    public SemanticElementSelectionWizardPage(final Session root) {
+    public SemanticElementSelectionWizardPage(final Session theSession) {
         super(Messages.SemanticElementSelectionWizardPage_title);
         this.setTitle(Messages.SemanticElementSelectionWizardPage_title);
-        this.root = root;
+        this.session = theSession;
         setMessage(Messages.SemanticElementSelectionWizardPage_message);
     }
 
@@ -85,7 +95,7 @@ public class SemanticElementSelectionWizardPage extends WizardPage {
             }
         });
 
-        treeViewer.setInput(root);
+        treeViewer.setInput(session);
         setControl(pageComposite);
     }
 
@@ -98,7 +108,21 @@ public class SemanticElementSelectionWizardPage extends WizardPage {
      */
     private TreeViewer createTreeViewer(final Composite parent) {
         final int style = SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER;
-        tree = SWTUtil.createFilteredTree(parent, style, new EObjectFilter());
+        EObjectFilter filter = new EObjectFilter();
+        filter.setIncludeLeadingWildcard(true);
+        try {
+            // we set the attribute to false so the filter EObjectFilter of no compatible semantic model element with
+            // representation
+            // description can be filtered even without filtering text present.
+            Class<?> c = filter.getClass().getSuperclass();
+            Field f = c.getDeclaredField("useEarlyReturnIfMatcherIsNull"); //$NON-NLS-1$
+            f.setAccessible(true);
+            f.setBoolean(filter, Boolean.FALSE);
+
+        } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException x) {
+            // This feature enhanced user experience but is not mandatory to work.
+        }
+        tree = SWTUtil.createFilteredTree(parent, style, filter);
         /*
          * If there is a problem accessing/enabling the quick selection mode the best course of action is to fail
          * silently, this mode only provides a slightly improved user experience by automatically selecting the first
@@ -113,6 +137,7 @@ public class SemanticElementSelectionWizardPage extends WizardPage {
         viewer.getTree().setLinesVisible(false);
         viewer.setContentProvider(new SessionContentProvider());
         viewer.setLabelProvider(new AdapterFactoryLabelProvider(ViewHelper.INSTANCE.createAdapterFactory()));
+
         return viewer;
     }
 
@@ -124,7 +149,7 @@ public class SemanticElementSelectionWizardPage extends WizardPage {
     public EObject getSelectedElement() {
         ISelection selection = treeViewer.getSelection();
         if (selection instanceof StructuredSelection && ((StructuredSelection) selection).getFirstElement() instanceof EObject
-                && DialectManager.INSTANCE.canCreate((EObject) ((StructuredSelection) selection).getFirstElement(), representationDescription)) {
+                && DialectManager.INSTANCE.canCreate((EObject) ((StructuredSelection) selection).getFirstElement(), representationDescription, false)) {
             return (EObject) ((StructuredSelection) selection).getFirstElement();
         }
         return null;
@@ -178,10 +203,12 @@ public class SemanticElementSelectionWizardPage extends WizardPage {
     }
 
     /**
-     * Set the representation.
+     * Set the representation description that must be compatible with the semantic model element selected by user with
+     * this page UI interface.
      *
      * @param representation
-     *            RepresentationDescription
+     *            the representation description that must be compatible with the semantic model element selected by
+     *            user with this page UI interface.
      */
     public void setRepresentation(RepresentationDescription representation) {
         this.representationDescription = representation;
@@ -194,18 +221,22 @@ public class SemanticElementSelectionWizardPage extends WizardPage {
         if (treeViewer != null) {
             treeViewer.refresh();
             if (tree.getFilterControl() != null) {
+                treeViewer.expandToLevel(2);
                 /*
                  * By setting the text to 'wilcard' ourselves we make sure to trigger the filtering. As the tree has
                  * "QuickSelectionMode" enabled it also makes the tree pre-select the first matching node, saving the
-                 * user a manual selection in many cases.
+                 * user a manual selection in many cases. XXX: this does not work in the case where the representation
+                 * page from CreateRepresentationWizard is automatically filled and this page is provided by default.
                  */
                 tree.getFilterControl().setText("*"); //$NON-NLS-1$
             }
+
         }
     }
 
     /**
-     * Viewer filter for representation creation on EObject.
+     * Viewer filter for representation creation on EObject. It filters leafs not compatible with representation
+     * description either when a filtering text is present or not.
      *
      * @author nlepine
      *
@@ -213,11 +244,70 @@ public class SemanticElementSelectionWizardPage extends WizardPage {
     private class EObjectFilter extends PatternFilter {
 
         @Override
-        protected boolean isLeafMatch(Viewer viewer, Object element) {
-            if (representationDescription != null && element instanceof EObject && DialectManager.INSTANCE.canCreate((EObject) element, representationDescription)) {
-                return super.isLeafMatch(viewer, element);
+        public Object[] filter(Viewer viewer, Object parent, Object[] elements) {
+            return super.filter(viewer, parent, elements);
+        }
+
+        @Override
+        public boolean isElementVisible(Viewer viewer, Object element) {
+            return super.isElementVisible(viewer, element);
+        }
+
+        @Override
+        protected boolean isParentMatch(Viewer viewer, Object element) {
+            Object[] children = ((ITreeContentProvider) ((AbstractTreeViewer) viewer).getContentProvider()).getChildren(element);
+
+            if ((children != null) && (children.length > 0)) {
+                return isAnyVisible(viewer, element, children);
             }
             return false;
+        }
+
+        /**
+         * Returns true if any of the elements makes it through the filter. This method uses caching if enabled; the
+         * computation is done in computeAnyVisible.
+         * 
+         * This is a clone of {@link PatternFilter#isAnyVisible(Viewer, Object, Object[])} that is private. It does not
+         * use the cache system that is also private. If it causes some performance issues, another system should be
+         * use.
+         *
+         * @param viewer
+         * @param parent
+         * @param elements
+         *            the elements (must not be an empty array)
+         * @return true if any of the elements makes it through the filter.
+         */
+        private boolean isAnyVisible(Viewer viewer, Object parent, Object[] elements) {
+            return computeAnyVisible(viewer, elements);
+        }
+
+        /**
+         * Returns true if any of the elements makes it through the filter.
+         * 
+         * This is a clone of {@link PatternFilter#computeAnyVisible(Viewer, Object[])} that is private.
+         *
+         * @param viewer
+         *            the viewer
+         * @param elements
+         *            the elements to test
+         * @return <code>true</code> if any of the elements makes it through the filter
+         */
+        private boolean computeAnyVisible(Viewer viewer, Object[] elements) {
+            boolean elementFound = false;
+            for (int i = 0; i < elements.length && !elementFound; i++) {
+                Object element = elements[i];
+                elementFound = isElementVisible(viewer, element);
+            }
+            return elementFound;
+        }
+
+        @Override
+        protected boolean isLeafMatch(Viewer viewer, Object element) {
+            boolean result = false;
+            if (representationDescription != null && element instanceof EObject && DialectManager.INSTANCE.canCreate((EObject) element, representationDescription, false)) {
+                result = super.isLeafMatch(viewer, element);
+            }
+            return result;
         }
 
     }

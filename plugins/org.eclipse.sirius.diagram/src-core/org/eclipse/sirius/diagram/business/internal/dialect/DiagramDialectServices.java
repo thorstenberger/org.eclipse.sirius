@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007, 2016 THALES GLOBAL SERVICES.
+ * Copyright (c) 2007, 2017 THALES GLOBAL SERVICES.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -123,12 +123,17 @@ public class DiagramDialectServices extends AbstractRepresentationDialectService
      */
     @Override
     public boolean canCreate(final EObject semantic, final RepresentationDescription desc) {
+        return canCreate(semantic, desc, true);
+    }
+
+    @Override
+    public boolean canCreate(EObject semantic, RepresentationDescription desc, boolean checkSelectedViewpoint) {
         boolean result = false;
         if (semantic != null && isSupported(desc)) {
             Session session = new EObjectQuery(semantic).getSession();
             // If the semantic doesn't belong to a session we don't check
             // viewpoint selection but only others things like domainClass
-            if (session == null || isRelatedViewpointSelected(session, desc)) {
+            if (session == null || (checkSelectedViewpoint && isRelatedViewpointSelected(session, desc)) || !checkSelectedViewpoint) {
                 DiagramDescription diagDesc = (DiagramDescription) desc;
                 ModelAccessor accessor = SiriusPlugin.getDefault().getModelAccessorRegistry().getModelAccessor(semantic);
                 if (accessor != null) {
@@ -243,8 +248,7 @@ public class DiagramDialectServices extends AbstractRepresentationDialectService
     }
 
     /**
-     * The <code>fullRefresh</code> is not taken into account for diagram
-     * dialect.
+     * The <code>fullRefresh</code> is not taken into account for diagram dialect.
      * 
      * {@inheritDoc}
      */
@@ -461,8 +465,7 @@ public class DiagramDialectServices extends AbstractRepresentationDialectService
     /**
      * {@inheritDoc}
      * 
-     * The diagram dialect allows the feature customizations on style
-     * descriptions.
+     * The diagram dialect allows the feature customizations on style descriptions.
      */
     @Override
     public boolean allowsEStructuralFeatureCustomization(EObject element) {
