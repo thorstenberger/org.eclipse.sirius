@@ -14,8 +14,10 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
+import org.eclipse.sirius.common.tools.DslCommonPlugin;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.MetamodelDescriptor;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
 
@@ -302,8 +304,12 @@ public interface IInterpreter {
      *             if the evaluation was not successful.
      */
     default IEvaluationResult evaluateExpression(EObject target, String expression) throws EvaluationException {
-        final Object result = this.evaluate(target, expression);
-        return EvaluationResult.of(result);
+        try {
+            Object result = this.evaluate(target, expression);
+            return EvaluationResult.of(result);
+        } catch (EvaluationException e) {
+            return EvaluationResult.withError(new Status(IStatus.ERROR, DslCommonPlugin.PLUGIN_ID, e.getMessage(), e));
+        }
     }
 
 }

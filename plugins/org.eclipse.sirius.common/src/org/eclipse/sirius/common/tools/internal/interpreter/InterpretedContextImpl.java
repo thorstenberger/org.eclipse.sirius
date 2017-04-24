@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012 THALES GLOBAL SERVICES.
+ * Copyright (c) 2012, 2018 THALES GLOBAL SERVICES and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,51 +11,53 @@
 package org.eclipse.sirius.common.tools.internal.interpreter;
 
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterContext;
-import org.eclipse.sirius.common.tools.api.interpreter.TypeName;
 import org.eclipse.sirius.common.tools.api.interpreter.VariableType;
 
 /**
  * Default implementation for of {@link IInterpreterContext}.
- * 
+ *
  * @author alagarde
  */
 public class InterpretedContextImpl implements IInterpreterContext {
 
-    private EStructuralFeature field;
-
-    private Map<String, VariableType> variables;
-
-    private Collection<EPackage> avalaiblePackages;
-
-    private VariableType targetTypes;
-
+    /**
+     * The VSM element on which the target expression is defined. 
+     */
     private final EObject element;
+    
+    /**
+     * The feature of {@code element} which defines the target expression.
+     */
+    private final EStructuralFeature field;
+
+    private final Map<String, VariableType> variables;
+
+    private final Collection<EPackage> avalaiblePackages;
+
+    private final VariableType targetTypes;
 
     private final Collection<String> dependencies;
 
     /**
-     * Indicates if the expression need all possibles type that can be held by
-     * "current" element to be validated. It can not be true, for example when
-     * considering a PopupMenuContribution's precondition, that is only
-     * evaluated with variables.
+     * Indicates if the expression need all possibles type that can be held by "current" element to be validated. It can
+     * not be true, for example when considering a PopupMenuContribution's precondition, that is only evaluated with
+     * variables.
      */
     private boolean requiresTargetType;
 
     /**
      * Default constructor.
-     * 
+     *
      * @param element
      *            the concerned element
      * @param requiresTargetType
-     *            indicates whether this expression requires a targetType for
-     *            the "current" element
+     *            indicates whether this expression requires a targetType for the "current" element
      * @param field
      *            the concerned field
      * @param targetTypes
@@ -78,84 +80,38 @@ public class InterpretedContextImpl implements IInterpreterContext {
         this.dependencies = dependencies;
     }
 
-    /**
-     * 
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.common.tools.api.interpreter.IInterpreterContext#getElement()
-     */
+    @Override
     public EObject getElement() {
         return element;
     }
 
-    /**
-     * 
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.common.tools.api.interpreter.IInterpreterContext#getTargetType()
-     */
+    @Override
     public VariableType getTargetType() {
         return targetTypes;
     }
 
-    /**
-     * 
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.common.tools.api.interpreter.IInterpreterContext#getAvailableEPackages()
-     */
+    @Override
     public Collection<EPackage> getAvailableEPackages() {
         return avalaiblePackages;
     }
 
-    /**
-     * 
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.common.tools.api.interpreter.IInterpreterContext#getVariables()
-     */
+    @Override
     public Map<String, VariableType> getVariables() {
         return variables;
     }
 
-    /**
-     * 
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.common.tools.api.interpreter.IInterpreterContext#getField()
-     */
+    @Override
     public EStructuralFeature getField() {
         return field;
     }
 
-    /**
-     * 
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.common.tools.api.interpreter.IInterpreterContext#getDependencies()
-     */
+    @Override
     public Collection<String> getDependencies() {
         return dependencies;
     }
 
-    /**
-     * 
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.common.tools.api.interpreter.IInterpreterContext#requiresTargetType()
-     */
+    @Override
     public boolean requiresTargetType() {
         return requiresTargetType;
     }
-
-    @Override
-    public Collection<String> getTargetTypes() {
-        Collection<String> typeNames = new LinkedHashSet<>();
-        for (TypeName type : getTargetType().getPossibleTypes()) {
-            typeNames.add(type.getCompleteName());
-        }
-        return typeNames;
-
-    }
-
 }
