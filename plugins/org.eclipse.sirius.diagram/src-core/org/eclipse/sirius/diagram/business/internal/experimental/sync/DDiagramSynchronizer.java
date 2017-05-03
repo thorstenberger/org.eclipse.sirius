@@ -102,6 +102,8 @@ import org.eclipse.sirius.ext.base.collect.SetIntersection;
 import org.eclipse.sirius.tools.api.command.ui.NoUICallback;
 import org.eclipse.sirius.tools.api.command.ui.UICallBack;
 import org.eclipse.sirius.tools.api.profiler.SiriusTasksKey;
+import org.eclipse.sirius.tools.internal.interpreter.EvaluationErrorHandler;
+import org.eclipse.sirius.tools.internal.interpreter.SessionInterpreter;
 import org.eclipse.sirius.viewpoint.description.RepresentationElementMapping;
 import org.eclipse.sirius.viewpoint.description.SemanticBasedDecoration;
 import org.eclipse.sirius.viewpoint.description.style.StyleDescription;
@@ -312,7 +314,7 @@ public class DDiagramSynchronizer {
      */
     public void refresh(final IProgressMonitor monitor) {
         DslCommonPlugin.PROFILER.startWork(SiriusTasksKey.REFRESH_DIAGRAM_KEY);
-        refreshOperation(monitor);
+        ((SessionInterpreter) this.session.getInterpreter()).withErrorHandler(EvaluationErrorHandler.IGNORE, () ->  refreshOperation(monitor));
         DslCommonPlugin.PROFILER.stopWork(SiriusTasksKey.REFRESH_DIAGRAM_KEY);
     }
 

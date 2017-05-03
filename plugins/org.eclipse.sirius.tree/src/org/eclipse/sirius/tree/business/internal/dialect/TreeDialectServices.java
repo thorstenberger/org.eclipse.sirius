@@ -40,6 +40,8 @@ import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.tools.api.interpreter.InterpreterRegistry;
 import org.eclipse.sirius.tools.api.interpreter.InterpreterUtil;
+import org.eclipse.sirius.tools.internal.interpreter.EvaluationErrorHandler;
+import org.eclipse.sirius.tools.internal.interpreter.SessionInterpreter;
 import org.eclipse.sirius.tree.DTree;
 import org.eclipse.sirius.tree.DTreeElement;
 import org.eclipse.sirius.tree.DTreeElementSynchronizer;
@@ -203,13 +205,15 @@ public class TreeDialectServices extends AbstractRepresentationDialectServices {
 
     private void refreshTree(DTree tree, boolean fullRefresh, IProgressMonitor monitor) {
         Session session = SessionManager.INSTANCE.getSession(tree.getTarget());
-        IInterpreter interpreter = SiriusPlugin.getDefault().getInterpreterRegistry().getInterpreter(tree.getTarget());
-        InterpreterRegistry.prepareImportsFromSession(interpreter, session);
-        ModelAccessor accessor = SiriusPlugin.getDefault().getModelAccessorRegistry().getModelAccessor(tree.getTarget());
+        ((SessionInterpreter) session.getInterpreter()).withErrorHandler(EvaluationErrorHandler.IGNORE, () -> {
+            IInterpreter interpreter = SiriusPlugin.getDefault().getInterpreterRegistry().getInterpreter(tree.getTarget());
+            InterpreterRegistry.prepareImportsFromSession(interpreter, session);
+            ModelAccessor accessor = SiriusPlugin.getDefault().getModelAccessorRegistry().getModelAccessor(tree.getTarget());
 
-        DTreeUserInteraction interaction = new DTreeUserInteraction(tree,
-                new TreeRefreshContext(accessor, session.getInterpreter(), session.getSemanticResources(), session.getTransactionalEditingDomain()));
-        interaction.refreshContent(fullRefresh, new SubProgressMonitor(monitor, 1));
+            DTreeUserInteraction interaction = new DTreeUserInteraction(tree,
+                    new TreeRefreshContext(accessor, session.getInterpreter(), session.getSemanticResources(), session.getTransactionalEditingDomain()));
+            interaction.refreshContent(fullRefresh, new SubProgressMonitor(monitor, 1));
+        });
 
     }
 

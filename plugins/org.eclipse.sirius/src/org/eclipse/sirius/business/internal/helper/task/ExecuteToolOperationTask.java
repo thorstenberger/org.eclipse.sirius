@@ -10,12 +10,14 @@
  *******************************************************************************/
 package org.eclipse.sirius.business.internal.helper.task;
 
+import java.text.MessageFormat;
 import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.business.api.helper.task.AbstractCommandTask;
 import org.eclipse.sirius.business.api.helper.task.ICommandTask;
 import org.eclipse.sirius.business.api.query.EObjectQuery;
+import org.eclipse.sirius.business.api.query.IdentifiedElementQuery;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.internal.helper.task.operations.AbstractOperationTask;
 import org.eclipse.sirius.business.internal.helper.task.operations.ForTask;
@@ -24,9 +26,12 @@ import org.eclipse.sirius.ecore.extender.business.api.accessor.exception.Feature
 import org.eclipse.sirius.ecore.extender.business.api.accessor.exception.MetaClassNotFoundException;
 import org.eclipse.sirius.tools.api.command.CommandContext;
 import org.eclipse.sirius.tools.api.command.ui.UICallBack;
+import org.eclipse.sirius.tools.internal.interpreter.EvaluationErrorHandler;
+import org.eclipse.sirius.tools.internal.interpreter.SessionInterpreter;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.Messages;
 import org.eclipse.sirius.viewpoint.SiriusPlugin;
+import org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription;
 import org.eclipse.sirius.viewpoint.description.tool.ContainerModelOperation;
 import org.eclipse.sirius.viewpoint.description.tool.ModelOperation;
 
@@ -38,6 +43,27 @@ import com.google.common.base.Preconditions;
  * @author mchauvin
  */
 public class ExecuteToolOperationTask extends AbstractCommandTask {
+
+    /**
+     * The handler for interpreted expressions evaluation errors occuring during the tool's execution.
+     *
+     * @author pcdavid
+     */
+    private final class ToolErrorHandler extends EvaluationErrorHandler {
+        @Override
+        public void handleException(Exception ex) {
+            String toolName;
+            if (rootOperationTask.getSourceTool() != null) {
+                toolName = new IdentifiedElementQuery((AbstractToolDescription) rootOperationTask.getSourceTool()).getLabel();
+            } else {
+                toolName = getLabel();
+            }
+            String msg = MessageFormat.format("An error occured while executing {0}.", toolName); //$NON-NLS-1$
+            logWarning(msg, ex);
+            SiriusPlugin.getDefault().getUiCallback().openError("Tool Execution Error", msg + "\nPartial changes will be reverted; see the error log for error details."); //$NON-NLS-1$ //$NON-NLS-2$
+            requestTransactionRollback(ex);
+        }
+    }
 
     /** The root operation task. */
     private AbstractOperationTask rootOperationTask;
@@ -100,22 +126,17 @@ public class ExecuteToolOperationTask extends AbstractCommandTask {
         this.getChildrenTasks().add(rootOperationTask);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.business.api.helper.task.ICommandTask#execute()
-     */
     @Override
     public void execute() {
         final CommandContext context = this.rootOperationTask.getContext();
-        executeTask(this.rootOperationTask, context);
+        if (session != null) {
+            EvaluationErrorHandler toolErrorHandler = new ToolErrorHandler();
+            ((SessionInterpreter) session.getInterpreter()).withErrorHandler(toolErrorHandler, () -> executeTask(this.rootOperationTask, context));
+        } else {
+            executeTask(this.rootOperationTask, context);
+        }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.business.api.helper.task.ICommandTask#getLabel()
-     */
     @Override
     public String getLabel() {
         return Messages.ExecuteToolOperationTask_label;
@@ -168,11 +189,6 @@ public class ExecuteToolOperationTask extends AbstractCommandTask {
         return new ModelOperationToTask(extPackage, uiCallback, session, context).createTask(op);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.business.api.helper.task.AbstractCommandTask#executeMyselfChildrenTasks()
-     */
     @Override
     public boolean executeMyselfChildrenTasks() {
         return true;

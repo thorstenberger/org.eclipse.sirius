@@ -67,6 +67,8 @@ import org.eclipse.sirius.table.tools.internal.Messages;
 import org.eclipse.sirius.table.tools.internal.command.TableCommandFactory;
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.tools.api.interpreter.InterpreterUtil;
+import org.eclipse.sirius.tools.internal.interpreter.EvaluationErrorHandler;
+import org.eclipse.sirius.tools.internal.interpreter.SessionInterpreter;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
@@ -273,7 +275,11 @@ public class TableDialectServices extends AbstractRepresentationDialectServices 
             TableDescription description = isHandledByMovida(table) ? (TableDescription) efSupplier.get() : table.getDescription();
             DTableSynchronizer sync = new DTableSynchronizerImpl(description, accessor, interpreter);
             sync.setTable(table);
-            sync.refresh(new SubProgressMonitor(monitor, 1));
+            if (interpreter instanceof SessionInterpreter) {
+                ((SessionInterpreter) interpreter).withErrorHandler(EvaluationErrorHandler.IGNORE, () -> sync.refresh(new SubProgressMonitor(monitor, 1)));
+            } else {
+                sync.refresh(new SubProgressMonitor(monitor, 1));
+            }
         } finally {
             monitor.done();
         }
