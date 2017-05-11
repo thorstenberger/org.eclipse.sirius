@@ -16,12 +16,14 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.sirius.common.tools.api.ecore.EPackageMetaData;
 import org.eclipse.sirius.common.tools.api.editing.EditingDomainFactoryRegistry;
 import org.eclipse.sirius.common.tools.api.profiler.TimeProfiler;
 import org.eclipse.sirius.common.tools.api.profiler.TimeProfiler2;
 import org.eclipse.sirius.common.tools.internal.assist.ProposalProviderRegistry;
 import org.eclipse.sirius.common.tools.internal.assist.ProposalProviderRegistryListener;
 import org.eclipse.sirius.common.tools.internal.ecore.DynamicPackageRegistryReader;
+import org.eclipse.sirius.common.tools.internal.ecore.EPackageMetaDataRegistry;
 import org.eclipse.sirius.common.tools.internal.editing.EditingDomainFactoryRegistryListener;
 import org.osgi.framework.BundleContext;
 
@@ -34,7 +36,7 @@ public class DslCommonPlugin extends EMFPlugin {
 
     /** The plugin id. */
     public static final String PLUGIN_ID = "org.eclipse.sirius.common"; //$NON-NLS-1$
-    
+
     /** Keep track of the singleton.. */
     public static final DslCommonPlugin INSTANCE = new DslCommonPlugin();
 
@@ -70,16 +72,19 @@ public class DslCommonPlugin extends EMFPlugin {
     public static class Implementation extends EclipsePlugin {
 
         /**
-         * The registry listener that will be used to listen to extension
-         * changes.
+         * The registry listener that will be used to listen to extension changes.
          */
         private EditingDomainFactoryRegistryListener editingDomainFactoryRegistryListener = new EditingDomainFactoryRegistryListener();
 
         /**
-         * The registry listener that will be used to react to changes against
-         * the proposal providers extension point.
+         * The registry listener that will be used to react to changes against the proposal providers extension point.
          */
         private final ProposalProviderRegistryListener proposalProviderRegistryListener = new ProposalProviderRegistryListener();
+
+        /**
+         * The registry of known EPackageMetaData.
+         */
+        private final EPackageMetaDataRegistry packageExtraDataRegistry = new EPackageMetaDataRegistry(Platform.getExtensionRegistry());
 
         /**
          * Creates an instance.
@@ -93,11 +98,11 @@ public class DslCommonPlugin extends EMFPlugin {
             super.start(context);
             initExtensionRegistries();
             new DynamicPackageRegistryReader().readRegistry();
+            packageExtraDataRegistry.start();
         }
 
         /**
-         * Initializes the extension registries and their listeners for this
-         * plugin.
+         * Initializes the extension registries and their listeners for this plugin.
          */
         private void initExtensionRegistries() {
             IExtensionRegistry registry = Platform.getExtensionRegistry();
@@ -111,13 +116,24 @@ public class DslCommonPlugin extends EMFPlugin {
 
         @Override
         public void stop(final BundleContext context) throws Exception {
+            packageExtraDataRegistry.stop();
             super.stop(context);
             clearExtensionRegistries();
         }
 
         /**
-         * Clears the extension registries for this plugin and remove their
-         * corresponding listeners.
+         * Returns tha extra meta-data associated to a given EPackage.
+         * 
+         * @param nsURI
+         *            the nsURI of the EPackage.
+         * @return extra meta-data associated to the EPackage.
+         */
+        public EPackageMetaData getEPackageMetaData(String nsURI) {
+            return packageExtraDataRegistry.getExtraData(nsURI);
+        }
+
+        /**
+         * Clears the extension registries for this plugin and remove their corresponding listeners.
          */
         private void clearExtensionRegistries() {
             IExtensionRegistry registry = Platform.getExtensionRegistry();
