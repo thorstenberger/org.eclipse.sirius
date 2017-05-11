@@ -8,7 +8,7 @@
  * Contributors:
  *  Obeo - initial API and implementation
  */
-package org.eclipse.sirius.ui.wizards;
+package org.eclipse.sirius.ui.tools.internal.wizards.newmodel;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -24,8 +24,9 @@ import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.sirius.ui.wizards.internal.EPackageExtraDataRegistry;
-import org.eclipse.sirius.ui.wizards.internal.SiriusUIWizards;
+import org.eclipse.sirius.common.tools.DslCommonPlugin;
+import org.eclipse.sirius.common.tools.api.ecore.EPackageMetaData;
+import org.eclipse.sirius.viewpoint.provider.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.KeyEvent;
@@ -41,7 +42,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.FilteredList;
 
 /**
- * A wizard page allowing to select a root element ({@link EClass}) from an {@link EPackage}.
+ * A wizard page allowing to select a root element ({@link EClass}) from an
+ * {@link EPackage}.
  * 
  * @see CreateEMFModelWizard
  * 
@@ -53,7 +55,8 @@ public class SelectRootElementWizardPage extends WizardPage implements PropertyC
     private Text rootElementText;
 
     /**
-     * The checkbox allowing to only display root elements that are not child of other elements.
+     * The checkbox allowing to only display root elements that are not child of
+     * other elements.
      */
     private Button rootElementCheckbox;
 
@@ -62,9 +65,6 @@ public class SelectRootElementWizardPage extends WizardPage implements PropertyC
 
     /** The filter used by the text field and the filtered list. */
     private String rootElementFilter;
-
-    /** The registry of EPackages extra data */
-    private EPackageExtraDataRegistry extraDataRegistry = SiriusUIWizards.getDefault().getExtraDataRegistry();
 
     /** The data model used by the wizard and its pages. */
     private CreateEMFModelWizardDataModel dataModel;
@@ -121,7 +121,8 @@ public class SelectRootElementWizardPage extends WizardPage implements PropertyC
 
     /*
      * (non-Javadoc)
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans. PropertyChangeEvent)
+     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.
+     * PropertyChangeEvent)
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -158,8 +159,8 @@ public class SelectRootElementWizardPage extends WizardPage implements PropertyC
     }
 
     /**
-     * Create the checkbox widget used to display only elements that are not child of other elements in the filtered
-     * list.
+     * Create the checkbox widget used to display only elements that are not
+     * child of other elements in the filtered list.
      * 
      * @param parent
      *            the parent composite.
@@ -182,8 +183,8 @@ public class SelectRootElementWizardPage extends WizardPage implements PropertyC
     }
 
     /**
-     * Create the filtered list widget used to display the root elements. contained in the given
-     * {@link #selectedPackage}.
+     * Create the filtered list widget used to display the root elements.
+     * contained in the given {@link #selectedPackage}.
      * 
      * @param parent
      *            the parent composite.
@@ -225,7 +226,8 @@ public class SelectRootElementWizardPage extends WizardPage implements PropertyC
     }
 
     /**
-     * Update the root element filtered list according to the value of the {@link #rootElementCheckbox}.
+     * Update the root element filtered list according to the value of the
+     * {@link #rootElementCheckbox}.
      */
     private void updateRootElementFilteredList() {
         if (this.rootElementCheckbox != null) {
@@ -244,8 +246,8 @@ public class SelectRootElementWizardPage extends WizardPage implements PropertyC
     }
 
     /**
-     * Get the concrete classes from the given {@link EPackage} (classes that are not abstract and that are not
-     * interfaces).
+     * Get the concrete classes from the given {@link EPackage} (classes that
+     * are not abstract and that are not interfaces).
      * 
      * @param ePackage
      *            the given {@link EPackage}.
@@ -264,8 +266,9 @@ public class SelectRootElementWizardPage extends WizardPage implements PropertyC
     }
 
     /**
-     * Get the filtered concrete classes from the given {@link EPackage} (classes that are not abstract and that are not
-     * interfaces, and that are not child of other classes).
+     * Get the filtered concrete classes from the given {@link EPackage}
+     * (classes that are not abstract and that are not interfaces, and that are
+     * not child of other classes).
      * 
      * @param ePackage
      *            the given {@link EPackage}.
@@ -297,19 +300,30 @@ public class SelectRootElementWizardPage extends WizardPage implements PropertyC
     }
 
     /**
-     * Get the preferred root element for the given {@link EPackage} from the registry of EPackageExtraData.
+     * Get the preferred root element for the given {@link EPackage} from the
+     * registry of EPackageExtraData.
      * 
      * @see EPackageExtraDataRegistry
      * @param ePackage
      *            the given {@link EPackage}.
-     * @return the preferred root element for the given {@link EPackage}, or null if it can't be found.
+     * @return the preferred root element for the given {@link EPackage}, or
+     *         null if it can't be found.
      */
     private EClass getPreferredRootElementFromEPackageExtraData(EPackage ePackage) {
-        return this.extraDataRegistry.getPreferredRootElement(ePackage);
+        String nsURI = ePackage.getNsURI();
+        EPackageMetaData metaData = DslCommonPlugin.getDefault().getEPackageMetaData(nsURI);
+        if (!metaData.getSuggestedRoots().isEmpty()) {
+            EClassifier result = ePackage.getEClassifier(metaData.getSuggestedRoots().get(0));
+            if (result instanceof EClass) {
+                return (EClass) result;
+            }
+        }
+        return null;
     }
 
     /**
-     * A label provider for the {@link SelectRootElementWizardPage#rootElementFilteredList}.
+     * A label provider for the
+     * {@link SelectRootElementWizardPage#rootElementFilteredList}.
      *
      */
     private class RootElementsListLabelProvider extends LabelProvider {

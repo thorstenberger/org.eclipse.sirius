@@ -8,7 +8,7 @@
  * Contributors:
  *  Obeo - initial API and implementation
  */
-package org.eclipse.sirius.ui.wizards;
+package org.eclipse.sirius.ui.tools.internal.wizards.newmodel;
 
 import java.util.Map.Entry;
 
@@ -17,8 +17,9 @@ import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.sirius.ui.wizards.internal.EPackageExtraDataRegistry;
-import org.eclipse.sirius.ui.wizards.internal.SiriusUIWizards;
+import org.eclipse.sirius.common.tools.DslCommonPlugin;
+import org.eclipse.sirius.common.tools.api.ecore.EPackageMetaData;
+import org.eclipse.sirius.viewpoint.provider.Messages;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.CLabel;
@@ -60,9 +61,6 @@ public class SelectEMFMetamodelWizardPage extends WizardPage {
 
     /** The EPackage.Registry containing the metamodels to display. */
     private EPackage.Registry packageRegistry;
-
-    /** The registry of EPackages extra data */
-    private EPackageExtraDataRegistry extraDataRegistry = SiriusUIWizards.getDefault().getExtraDataRegistry();
 
     /** The data model used by the wizard and its pages. */
     private CreateEMFModelWizardDataModel dataModel;
@@ -175,7 +173,7 @@ public class SelectEMFMetamodelWizardPage extends WizardPage {
                     setPageComplete(true);
                 } else {
                     dataModel.setSelectedPackage(null);
-                    documentationBrowser.setText("");
+                    documentationBrowser.setText(""); //$NON-NLS-1$
                     setPageComplete(false);
                 }
             }
@@ -226,7 +224,12 @@ public class SelectEMFMetamodelWizardPage extends WizardPage {
      * @return the label for the given {@link EPackage}, or null if it can't be found.
      */
     private String getLabelFromEPackageExtraData(EPackage ePackage) {
-        return this.extraDataRegistry.getLabel(ePackage);
+        EPackageMetaData metaData = DslCommonPlugin.getDefault().getEPackageMetaData(ePackage.getNsURI());
+        if (metaData != null) {
+            return metaData.getDisplayName();
+        } else {
+            return ePackage.getName();
+        }
     }
 
     /**
@@ -238,7 +241,12 @@ public class SelectEMFMetamodelWizardPage extends WizardPage {
      * @return the documentation for the given {@link EPackage}, or null if it can't be found.
      */
     private String getDocumentationFromEPackageExtraData(EPackage ePackage) {
-        return this.extraDataRegistry.getDocumentation(ePackage);
+        EPackageMetaData metaData = DslCommonPlugin.getDefault().getEPackageMetaData(ePackage.getNsURI());
+        if (metaData != null) {
+            return metaData.getDocumentation();
+        } else {
+            return ""; //$NON-NLS-1$
+        }
     }
 
     /**

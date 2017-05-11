@@ -8,7 +8,7 @@
  * Contributors:
  *  Obeo - initial API and implementation
  */
-package org.eclipse.sirius.ui.wizards;
+package org.eclipse.sirius.ui.tools.internal.wizards.newmodel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

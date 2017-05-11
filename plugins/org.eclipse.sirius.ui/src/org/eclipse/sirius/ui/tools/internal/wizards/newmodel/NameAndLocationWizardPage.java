@@ -8,7 +8,7 @@
  * Contributors:
  *  Obeo - initial API and implementation
  */
-package org.eclipse.sirius.ui.wizards;
+package org.eclipse.sirius.ui.tools.internal.wizards.newmodel;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -18,6 +18,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.sirius.viewpoint.provider.Messages;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
 /**

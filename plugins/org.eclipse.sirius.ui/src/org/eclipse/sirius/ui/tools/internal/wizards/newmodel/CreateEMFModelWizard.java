@@ -8,7 +8,7 @@
  * Contributors:
  *  Obeo - initial API and implementation
  */
-package org.eclipse.sirius.ui.wizards;
+package org.eclipse.sirius.ui.tools.internal.wizards.newmodel;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -31,7 +31,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.sirius.ui.wizards.internal.SiriusUIWizards;
+import org.eclipse.sirius.viewpoint.provider.Messages;
+import org.eclipse.sirius.viewpoint.provider.SiriusEditPlugin;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -142,7 +143,7 @@ public class CreateEMFModelWizard extends Wizard {
                     }
                     resource.save(Collections.EMPTY_MAP);
                 } catch (IllegalArgumentException | IOException e) {
-                    SiriusUIWizards.getDefault().getLog().log(new Status(IStatus.ERROR, SiriusUIWizards.PLUGIN_ID, e.getMessage()));
+                    SiriusEditPlugin.getPlugin().getLog().log(new Status(IStatus.ERROR, SiriusEditPlugin.ID, e.getMessage()));
                 } finally {
                     progressMonitor.done();
                 }
@@ -152,9 +153,9 @@ public class CreateEMFModelWizard extends Wizard {
         try {
             getContainer().run(false, false, operation);
         } catch (InterruptedException e) {
-            SiriusUIWizards.getDefault().getLog().log(new Status(IStatus.ERROR, SiriusUIWizards.PLUGIN_ID, e.getMessage()));
+            SiriusEditPlugin.getPlugin().getLog().log(new Status(IStatus.ERROR, SiriusEditPlugin.ID, e.getMessage()));
         } catch (InvocationTargetException e) {
-            SiriusUIWizards.getDefault().getLog().log(new Status(IStatus.ERROR, SiriusUIWizards.PLUGIN_ID, e.getTargetException().getMessage()));
+            SiriusEditPlugin.getPlugin().getLog().log(new Status(IStatus.ERROR, SiriusEditPlugin.ID, e.getTargetException().getMessage()));
         }
 
         IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
