@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.ui.editor.internal.graphicalcomponents;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -18,17 +19,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionListener;
@@ -36,6 +44,7 @@ import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.business.api.session.SessionManagerListener;
 import org.eclipse.sirius.common.ui.tools.api.util.SWTUtil;
 import org.eclipse.sirius.ui.editor.Messages;
+import org.eclipse.sirius.ui.editor.SessionEditorPlugin;
 import org.eclipse.sirius.ui.tools.api.views.common.item.ProjectDependenciesItem;
 import org.eclipse.sirius.ui.tools.internal.actions.analysis.AddModelDependencyAction;
 import org.eclipse.sirius.ui.tools.internal.actions.analysis.RemoveSemanticResourceAction;
@@ -47,11 +56,13 @@ import org.eclipse.sirius.ui.tools.internal.views.common.navigator.SiriusCommonL
 import org.eclipse.sirius.ui.tools.internal.views.common.navigator.sorter.CommonItemSorter;
 import org.eclipse.sirius.ui.tools.internal.views.modelexplorer.DeleteActionHandler;
 import org.eclipse.sirius.ui.tools.internal.views.modelexplorer.RenameActionHandler;
+import org.eclipse.sirius.ui.tools.internal.wizards.newmodel.CreateEMFModelWizard;
 import org.eclipse.sirius.viewpoint.DAnalysisSessionEObject;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
+import org.eclipse.sirius.viewpoint.provider.SiriusEditPlugin;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -62,9 +73,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionContext;
-import org.eclipse.ui.actions.NewWizardAction;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
@@ -212,7 +223,7 @@ public class GraphicalSemanticModelsHandler implements SessionListener, SessionM
         buttonsLayout.spacing = 5;
         buttonsComposite.setLayout(buttonsLayout);
         addButton(buttonsComposite, Messages.UI_SessionEditor_new_semantic_model_action_label, () -> {
-            new NewWizardAction(PlatformUI.getWorkbench().getActiveWorkbenchWindow()).run();
+            createAndRegisterNewSemanticModel();
         });
         addButton(buttonsComposite, Messages.UI_SessionEditor_models_button_newSemanticModel, () -> {
             AddModelDependencyAction addModelDependencyAction = new AddModelDependencyAction(session);
@@ -232,7 +243,29 @@ public class GraphicalSemanticModelsHandler implements SessionListener, SessionM
         removeSemanticModelOrRepresentationButton.setEnabled(false);
         deleteActionHandler.setEnabled(false);
         renameActionHandler.setEnabled(false);
+    }
 
+    private void createAndRegisterNewSemanticModel() {
+        IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+        ISelection selection = window.getSelectionService().getSelection();
+        CreateEMFModelWizard wizard = new CreateEMFModelWizard(session.getTransactionalEditingDomain().getResourceSet().getPackageRegistry(), (IStructuredSelection) selection);
+        if (new WizardDialog(window.getShell(), wizard).open() == Window.OK) {
+            IFile newModel = wizard.getResult();
+            if (newModel != null) {
+                try {
+                    new ProgressMonitorDialog(window.getShell()).run(false, false, monitor -> {
+                        session.getTransactionalEditingDomain().getCommandStack().execute(new RecordingCommand(session.getTransactionalEditingDomain()) {
+                            @Override
+                            protected void doExecute() {
+                                session.addSemanticResource(URI.createPlatformResourceURI(newModel.getFullPath().toString(), true), monitor);
+                            }
+                        });
+                    });
+                } catch (InvocationTargetException | InterruptedException e) {
+                    SessionEditorPlugin.getPlugin().getLog().log(new Status(IStatus.ERROR, SiriusEditPlugin.ID, e.getMessage(), e));
+                }
+            }
+        }
     }
 
     /**
