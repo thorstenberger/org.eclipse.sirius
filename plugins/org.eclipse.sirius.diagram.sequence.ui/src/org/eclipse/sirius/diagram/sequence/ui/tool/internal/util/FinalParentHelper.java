@@ -246,7 +246,7 @@ public class FinalParentHelper {
      * @return list of {@link ISequenceEvent}
      */
     public static ArrayList<ISequenceEvent> computeLinkedSiblings(RequestQuery request) {
-        final ArrayList<ISequenceEvent> linkedSiblings = Lists.newArrayList();
+        final ArrayList<ISequenceEvent> linkedSiblings = new ArrayList<>();
         Set<Execution> parts = request.getExecutions();
         for (Execution execution : parts) {
             linkedSiblings.add(execution);

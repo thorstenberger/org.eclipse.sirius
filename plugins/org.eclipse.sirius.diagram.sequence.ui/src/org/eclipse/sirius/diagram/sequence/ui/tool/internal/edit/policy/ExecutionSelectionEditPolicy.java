@@ -101,7 +101,7 @@ public class ExecutionSelectionEditPolicy extends SpecificBorderItemSelectionEdi
     /**
      * Additional figures for feedback.
      */
-    protected Collection<Figure> guides = Lists.newArrayList();
+    protected Collection<Figure> guides = new ArrayList<>();
 
     /**
      * {@inheritDoc}
@@ -357,7 +357,7 @@ public class ExecutionSelectionEditPolicy extends SpecificBorderItemSelectionEdi
         bounds.resize(logicalDelta.getSize());
         Range thisFinalRange = RangeHelper.verticalRange(bounds);
 
-        List<ISequenceEvent> toIgnore = Lists.newArrayList();
+        List<ISequenceEvent> toIgnore = new ArrayList<>();
         boolean isReplyMessage = message.getKind() == Message.Kind.REPLY;
         boolean isReflective = message.isReflective();
         ISequenceNode sourceElement = message.getSourceElement();
@@ -443,7 +443,7 @@ public class ExecutionSelectionEditPolicy extends SpecificBorderItemSelectionEdi
             movingExecutions.addAll(exec.findLinkedExecutions(true));
         }
 
-        ArrayList<Execution> subExecutions = Lists.newArrayList();
+        ArrayList<Execution> subExecutions = new ArrayList<>();
         for (Execution eep : movingExecutions) {
             subExecutions.addAll(new ISequenceEventQuery(eep).getAllExecutions());
         }

@@ -347,7 +347,7 @@ public class WorkspaceClassLoading extends BundleClassLoading {
 
     @Override
     protected Collection<EPackageLoadingCallback.EPackageDeclarationSource> getEPackagesDeclaredInBundles(Collection<String> bundles) {
-        Collection<EPackageLoadingCallback.EPackageDeclarationSource> result = Lists.newArrayList();
+        Collection<EPackageLoadingCallback.EPackageDeclarationSource> result = new ArrayList<>();
         IWorkspaceRoot root = EcorePlugin.getWorkspaceRoot();
         Set<String> bundlesToSearchInPlatform = Sets.newLinkedHashSet();
         if (root != null) {
@@ -358,7 +358,7 @@ public class WorkspaceClassLoading extends BundleClassLoading {
                     for (IPluginExtension extensions : workspaceVersion.getExtensions().getExtensions()) {
                         if (EMF_GENERATED_PACKAGE_EXTENSIONPOINT.equals(extensions.getPoint())) {
                             String symbolicNameForProject = workspaceVersion.getBundleDescription().getSymbolicName();
-                            List<EPackageLoadingCallback.EPackageDeclaration> declarations = Lists.newArrayList();
+                            List<EPackageLoadingCallback.EPackageDeclaration> declarations = new ArrayList<>();
 
                             for (IPluginObject object : extensions.getChildren()) {
                                 if (object instanceof IPluginElement) {
@@ -433,8 +433,8 @@ public class WorkspaceClassLoading extends BundleClassLoading {
     private URLClassLoader createClassLoader(String projectName, IWorkspaceRoot root) {
         Map<String, IPluginModelBase> symbolicNamestoModels = getBundlesInWorkspace();
 
-        final Collection<IPluginModelBase> workspaceDependencies = Lists.newArrayList();
-        final Collection<Bundle> installedDependencies = Lists.newArrayList();
+        final Collection<IPluginModelBase> workspaceDependencies = new ArrayList<>();
+        final Collection<Bundle> installedDependencies = new ArrayList<>();
 
         collectAllClassPath(projectName, root, symbolicNamestoModels, workspaceDependencies, installedDependencies);
 

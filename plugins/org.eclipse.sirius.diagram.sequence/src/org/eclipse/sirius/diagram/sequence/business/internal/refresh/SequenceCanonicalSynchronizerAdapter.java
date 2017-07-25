@@ -69,9 +69,8 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 
 /**
- * {@link ModelChangeTrigger} which return a {@link Command} to be executed just
- * a SynchronizeGMFModelCommand to correct y location of execution (Node) and
- * bendpoints of message (Edge).
+ * {@link ModelChangeTrigger} which return a {@link Command} to be executed just a SynchronizeGMFModelCommand to correct
+ * y location of execution (Node) and bendpoints of message (Edge).
  * 
  * @author edugueperoux
  */
@@ -83,8 +82,7 @@ public class SequenceCanonicalSynchronizerAdapter implements ModelChangeTrigger 
     public static final int SEQUENCE_CANONICAL_REFRESH_PRIORITY = FilterListener.COMPOSITE_FILTER_REFRESH_PRIORITY + 1;
 
     /**
-     * Overridden to return a Command to adapt CanonicalSynchronizer work for
-     * sequence.
+     * Overridden to return a Command to adapt CanonicalSynchronizer work for sequence.
      * 
      * {@inheritDoc}
      */
@@ -248,9 +246,8 @@ public class SequenceCanonicalSynchronizerAdapter implements ModelChangeTrigger 
     }
 
     /*
-     * Simple Execution creation implies that GMF Node at creation have a
-     * LayoutConstants.DEFAULT_EXECUTION_HEIGHT as minimum height and tries to
-     * take the maximum available space up to the next event.
+     * Simple Execution creation implies that GMF Node at creation have a LayoutConstants.DEFAULT_EXECUTION_HEIGHT as
+     * minimum height and tries to take the maximum available space up to the next event.
      */
     private void expandSimpleExecution(Node newNode, Command fixSequenceNodeLowerBoundCmd, TransactionalEditingDomain domain, int y) {
         Option<Execution> execOption = ISequenceElementAccessor.getExecution(newNode);
@@ -344,8 +341,7 @@ public class SequenceCanonicalSynchronizerAdapter implements ModelChangeTrigger 
     }
 
     /**
-     * Overridden to specify a priority upper than
-     * {@link CollapseFilterListener#COLLAPSE_FILTER_REFRESH_PRIORITY} to be
+     * Overridden to specify a priority upper than {@link CollapseFilterListener#COLLAPSE_FILTER_REFRESH_PRIORITY} to be
      * executed after it.
      * 
      * {@inheritDoc}

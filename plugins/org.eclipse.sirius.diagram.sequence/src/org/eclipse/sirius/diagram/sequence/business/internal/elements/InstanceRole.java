@@ -44,8 +44,7 @@ public class InstanceRole extends AbstractSequenceNode {
     public static final int VISUAL_ID = 2001;
 
     /**
-     * Predicate to check whether a Sirius DDiagramElement represents an
-     * instance role.
+     * Predicate to check whether a Sirius DDiagramElement represents an instance role.
      */
     private enum SiriusElementPredicate implements Predicate<DDiagramElement> {
         INSTANCE;
@@ -69,33 +68,28 @@ public class InstanceRole extends AbstractSequenceNode {
     }
 
     /**
-     * Returns a predicate to check whether a GMF View represents an instance
-     * role.
+     * Returns a predicate to check whether a GMF View represents an instance role.
      * 
-     * @return a predicate to check whether a GMF View represents an instance
-     *         role.
+     * @return a predicate to check whether a GMF View represents an instance role.
      */
     public static Predicate<View> notationPredicate() {
         return new NotationPredicate(NotationPackage.eINSTANCE.getNode(), VISUAL_ID, InstanceRole.viewpointElementPredicate());
     }
 
     /**
-     * Returns a predicate to check whether a Sirius DDiagramElement
-     * represents an instance role.
+     * Returns a predicate to check whether a Sirius DDiagramElement represents an instance role.
      * 
-     * @return a predicate to check whether a Sirius DDiagramElement
-     *         represents an instance role.
+     * @return a predicate to check whether a Sirius DDiagramElement represents an instance role.
      */
     public static Predicate<DDiagramElement> viewpointElementPredicate() {
         return SiriusElementPredicate.INSTANCE;
     }
 
     /**
-     * Tests whether the instance role is explicitly created by a creation
-     * message, or if it starts from the beginning of the sequence.
+     * Tests whether the instance role is explicitly created by a creation message, or if it starts from the beginning
+     * of the sequence.
      * 
-     * @return <code>true</code> if the instance role is explicitly created by a
-     *         creation message.
+     * @return <code>true</code> if the instance role is explicitly created by a creation message.
      */
     public boolean isExplicitlyCreated() {
         return getCreationMessage().some();
@@ -139,11 +133,9 @@ public class InstanceRole extends AbstractSequenceNode {
     }
 
     /**
-     * Return the name of the DRepresentationElement associated to this Instance
-     * role.
+     * Return the name of the DRepresentationElement associated to this Instance role.
      * 
-     * @return the name of the DRepresentationElement associated to this
-     *         Instance role
+     * @return the name of the DRepresentationElement associated to this Instance role
      */
     public String getName() {
         EObject targetElement = getNotationNode().getElement();
@@ -154,11 +146,9 @@ public class InstanceRole extends AbstractSequenceNode {
     }
 
     /**
-     * Return the background color of the style of the DRepresentationElement
-     * associated to this Instance role.
+     * Return the background color of the style of the DRepresentationElement associated to this Instance role.
      * 
-     * @return the background color of the style of the DRepresentationElement
-     *         associated to this Instance role.
+     * @return the background color of the style of the DRepresentationElement associated to this Instance role.
      */
     public Option<RGBValues> getBackgroundColor() {
         EObject targetElement = getNotationNode().getElement();
@@ -169,11 +159,9 @@ public class InstanceRole extends AbstractSequenceNode {
     }
 
     /**
-     * Return the label color of the style of the DRepresentationElement
-     * associated to this Instance role.
+     * Return the label color of the style of the DRepresentationElement associated to this Instance role.
      * 
-     * @return the label color of the style of the DRepresentationElement
-     *         associated to this Instance role.
+     * @return the label color of the style of the DRepresentationElement associated to this Instance role.
      */
     public Option<RGBValues> getLabelColor() {
         EObject targetElement = getNotationNode().getElement();

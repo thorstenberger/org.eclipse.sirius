@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.validator;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -249,14 +250,14 @@ public class ISEComplexMoveValidator extends AbstractSequenceInteractionValidato
     }
 
     private boolean checkConflictesInFinalPositions() {
-        List<Integer> conflicts = Lists.newArrayList();
+        List<Integer> conflicts = new ArrayList<>();
         conflicts.addAll(new PositionsChecker(getDiagram(), rangeFunction).getInvalidPositions());
 
         if (!conflicts.isEmpty()) {
             // try with global moved range...
             if (!expansionZone.isEmpty() && globalMovedRange != expansionZone) {
                 expansionZone = globalMovedRange;
-                conflicts = Lists.newArrayList();
+                conflicts = new ArrayList<>();
                 conflicts.addAll(new PositionsChecker(getDiagram(), rangeFunction).getInvalidPositions());
             }
         }
@@ -267,7 +268,7 @@ public class ISEComplexMoveValidator extends AbstractSequenceInteractionValidato
 
     private boolean checkTitleZonesInFinalPositions() {
         SequenceDiagram diagram = getDiagram();
-        Collection<Range> conflicts = Lists.newArrayList();
+        Collection<Range> conflicts = new ArrayList<>();
         Collection<Range> titleZones = getTitleZoneRanges(diagram);
 
         for (ISequenceEvent movedElement : movedElements) {
@@ -287,7 +288,7 @@ public class ISEComplexMoveValidator extends AbstractSequenceInteractionValidato
     }
 
     private Collection<Range> getTitleZoneRanges(SequenceDiagram diagram) {
-        Collection<Range> titleZones = Lists.newArrayList();
+        Collection<Range> titleZones = new ArrayList<>();
         for (CombinedFragment unmovedCF : Iterables.filter(diagram.getAllCombinedFragments(), Predicates.not(Predicates.in(movedElements)))) {
             int titleZoneLowerBound = rangeFunction.apply(unmovedCF).getLowerBound();
             int titleZoneUpperBound = rangeFunction.apply(unmovedCF.getFirstOperand()).getLowerBound();

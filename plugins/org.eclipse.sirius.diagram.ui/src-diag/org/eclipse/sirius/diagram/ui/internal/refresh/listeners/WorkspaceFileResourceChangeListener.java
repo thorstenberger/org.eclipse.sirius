@@ -13,6 +13,7 @@ package org.eclipse.sirius.diagram.ui.internal.refresh.listeners;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +33,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.sirius.common.tools.api.resource.FileProvider;
 import org.eclipse.sirius.diagram.ui.provider.DiagramUIPlugin;
-
-import com.google.common.collect.Lists;
 
 /**
  * An {@link IResourceChangeListener} that removes the resource from a cache of
@@ -103,7 +102,7 @@ public class WorkspaceFileResourceChangeListener implements IResourceChangeListe
 
     protected class ResourceDeltaVisitor implements IResourceDeltaVisitor {
 
-        List<String> changedFilesURI = Lists.<String> newArrayList();
+        List<String> changedFilesURI = new ArrayList<>();
 
         public ResourceDeltaVisitor() {
         }

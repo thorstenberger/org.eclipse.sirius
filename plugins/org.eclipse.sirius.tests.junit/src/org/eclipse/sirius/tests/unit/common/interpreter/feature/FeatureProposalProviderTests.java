@@ -26,6 +26,8 @@ import org.eclipse.sirius.diagram.description.DiagramDescription;
 import org.eclipse.sirius.tests.unit.common.interpreter.AbstractCompletionTestCase;
 import org.eclipse.sirius.tools.api.interpreter.context.SiriusInterpreterContextFactory;
 
+import junit.framework.TestCase;
+
 /**
  * Tests for the {@link FeatureProposalProvider} .
  * 

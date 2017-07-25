@@ -51,8 +51,6 @@ import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.osgi.framework.Bundle;
 
-import com.google.common.collect.Lists;
-
 // Disable checkstyle. This class comes from Acceleo.
 // CHECKSTYLE:OFF
 
@@ -242,7 +240,7 @@ public class SelectFilesWizardPage extends WizardPage {
                     }
                     return results.toArray();
                 } else if (o instanceof List) {
-                    List<Object> result = Lists.newArrayList();
+                    List<Object> result = new ArrayList<>();
                     Iterator<?> it = ((List<?>) o).iterator();
                     while (it.hasNext()) {
                         Object element = it.next();

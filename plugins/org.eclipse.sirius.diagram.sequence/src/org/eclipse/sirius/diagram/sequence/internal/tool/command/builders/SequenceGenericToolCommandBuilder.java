@@ -53,14 +53,12 @@ public class SequenceGenericToolCommandBuilder extends GenericToolCommandBuilder
     private final Diagram gmfDiagram;
 
     /**
-     * Constructor to renseign default elts needed by NodeCreationCommandBuilder
-     * and value needed by StateCreationTool.
+     * Constructor to renseign default elts needed by NodeCreationCommandBuilder and value needed by StateCreationTool.
      * 
      * @param tool
      *            the StateCreationTool tool
      * @param containerView
-     *            the diagram element in which the created element should be
-     *            displayed
+     *            the diagram element in which the created element should be displayed
      * @param endBefore
      *            the eventEnd starting
      * @param location

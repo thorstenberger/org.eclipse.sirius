@@ -49,7 +49,6 @@ import org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription;
 import org.eclipse.sirius.viewpoint.description.tool.DragSource;
 import org.eclipse.sirius.viewpoint.description.tool.ToolPackage;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -316,7 +315,7 @@ public final class DDiagramElementContainerSpecOperations {
         ContainerDropDescription bestDropDescription = null;
 
         /* find valid candidates */
-        final Collection<ContainerDropDescription> candidates = Lists.newArrayList();
+        final Collection<ContainerDropDescription> candidates = new ArrayList<>();
         for (final ContainerDropDescription dropTool : DDiagramElementContainerSpecOperations.getDropToolsOnActivatedLayers(diagram, description)) {
             if (DDiagramElementContainerSpecOperations.checkDragSource(dropTool, dragSource)
                     && DDiagramElementContainerSpecOperations.checkDroppedDiagramElement(dropTool, droppedDiagramElement, newViewContainer)) {

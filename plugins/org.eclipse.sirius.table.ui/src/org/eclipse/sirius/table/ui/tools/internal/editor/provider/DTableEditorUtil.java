@@ -13,12 +13,6 @@ package org.eclipse.sirius.table.ui.tools.internal.editor.provider;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.TreeColumn;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-
 import org.eclipse.sirius.table.business.api.helper.TableHelper;
 import org.eclipse.sirius.table.metamodel.table.DColumn;
 import org.eclipse.sirius.table.metamodel.table.DTable;
@@ -26,6 +20,11 @@ import org.eclipse.sirius.table.ui.tools.internal.editor.DTableTreeViewer;
 import org.eclipse.sirius.table.ui.tools.internal.editor.DTableViewerManager;
 import org.eclipse.sirius.table.ui.tools.internal.editor.utils.TreeColumnWidthQuery;
 import org.eclipse.sirius.ui.tools.internal.editor.AbstractDTableViewerManager;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.TreeColumn;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 /**
  * Utility class providing facilities for manipulating a

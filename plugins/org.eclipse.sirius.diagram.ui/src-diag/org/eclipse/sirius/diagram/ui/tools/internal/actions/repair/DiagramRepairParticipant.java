@@ -71,7 +71,6 @@ import org.eclipse.sirius.viewpoint.description.validation.ValidationRule;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
@@ -236,7 +235,7 @@ public class DiagramRepairParticipant implements IRepairParticipant {
         // Work only with DDiagramElement
         final Iterator<EObject> analysisIterator = new DViewQuery(view).getAllContentInRepresentations(DDiagramElement.class::isInstance);
 
-        final List<EObject> elementsToRemove = Lists.newArrayList();
+        final List<EObject> elementsToRemove = new ArrayList<>();
 
         while (analysisIterator.hasNext()) {
             final DDiagramElement diagramElement = (DDiagramElement) analysisIterator.next();
@@ -358,7 +357,7 @@ public class DiagramRepairParticipant implements IRepairParticipant {
      * @return the list of elements that can be safety removed.
      */
     private List<EObject> computeElementsToDeleteOrDeletedElements(final DView view) {
-        final List<EObject> toBeRemoved = Lists.newArrayList();
+        final List<EObject> toBeRemoved = new ArrayList<>();
 
         lostNodesByDelete.clear();
         lostEdgesByDelete.clear();

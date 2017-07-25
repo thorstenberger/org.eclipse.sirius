@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.tests.swtbot.layout;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -462,7 +463,7 @@ public class StraightenToTest extends AbstractSiriusSwtBotGefTestCase {
             // Map only used if checkOtherEdges is true
             Map<AbstractDiagramEdgeEditPart, PointList> otherEdgeEditParts2ExpectedPointList = Maps.newHashMap();
             for (String edgeName : edgeNames) {
-                gefEditParts2ExpectedPointList.put(editor.getEditPart(edgeName, AbstractDiagramEdgeEditPart.class), Lists.<Point> newArrayList());
+                gefEditParts2ExpectedPointList.put(editor.getEditPart(edgeName, AbstractDiagramEdgeEditPart.class), new ArrayList<>());
             }
             editor.select(gefEditParts2ExpectedPointList.keySet());
             try {

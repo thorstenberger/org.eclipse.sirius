@@ -47,8 +47,8 @@ public class ObservationPointCreationCommandBuilder extends NodeCreationCommandB
     protected EventEnd finishingEndPredecessor;
 
     /**
-     * Constructor to renseign default elts needed by NodeCreationCommandBuilder
-     * and value needed by ExecutionCreationTool.
+     * Constructor to renseign default elts needed by NodeCreationCommandBuilder and value needed by
+     * ExecutionCreationTool.
      * 
      * @param tool
      *            the ObservationPoint creation tool
@@ -66,8 +66,8 @@ public class ObservationPointCreationCommandBuilder extends NodeCreationCommandB
     }
 
     /**
-     * Constructor to renseign default elts needed by NodeCreationCommandBuilder
-     * and value needed by ExecutionCreationTool.
+     * Constructor to renseign default elts needed by NodeCreationCommandBuilder and value needed by
+     * ExecutionCreationTool.
      * 
      * @param tool
      *            the ObservationPoint creation tool
@@ -128,8 +128,7 @@ public class ObservationPointCreationCommandBuilder extends NodeCreationCommandB
      * {@inheritDoc}
      * 
      * Overridden to have OrderedElementCreationTool.startingEndPredecessor &
-     * OrderedElementCreationTool.finishingEndPredecessor variables in tool's
-     * precondition expression.
+     * OrderedElementCreationTool.finishingEndPredecessor variables in tool's precondition expression.
      */
     @Override
     protected boolean evaluatePrecondition(IInterpreter interpreter, EObject semanticContainer, String precondition) {

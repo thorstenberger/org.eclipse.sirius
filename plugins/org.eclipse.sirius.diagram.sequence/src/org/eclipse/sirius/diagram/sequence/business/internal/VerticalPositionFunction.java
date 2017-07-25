@@ -24,15 +24,13 @@ import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 
 /**
- * A function which computes the vertical position (in absolute, normalized
- * coordinates) of an {@link EventEnd}.
+ * A function which computes the vertical position (in absolute, normalized coordinates) of an {@link EventEnd}.
  * 
  * @author pcdavid
  */
 public class VerticalPositionFunction implements Function<EventEnd, Integer> {
     /**
-     * The value returned by the function to indicate an invalid input from
-     * which a position can not be determined.
+     * The value returned by the function to indicate an invalid input from which a position can not be determined.
      */
     public static final int INVALID_POSITION = Integer.MAX_VALUE;
 
@@ -49,14 +47,12 @@ public class VerticalPositionFunction implements Function<EventEnd, Integer> {
     }
 
     /**
-     * Returns the vertical position of the specified end as it appears on the
-     * diagram associated to this function, or <code>INVALID_POSITION</code> if
-     * the end is invalid or is not part of the diagram.
+     * Returns the vertical position of the specified end as it appears on the diagram associated to this function, or
+     * <code>INVALID_POSITION</code> if the end is invalid or is not part of the diagram.
      * 
      * @param end
      *            the end for which to compute the position.
-     * @return the vertical position of the end, or
-     *         <code>INVALID_POSITION</code>.
+     * @return the vertical position of the end, or <code>INVALID_POSITION</code>.
      */
     public Integer apply(EventEnd end) {
         Integer result;

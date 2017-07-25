@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.ui.tools.internal.actions.analysis;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -26,7 +27,6 @@ import org.eclipse.sirius.viewpoint.provider.SiriusEditPlugin;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -70,7 +70,7 @@ public class AddSemanticResourceAction extends Action {
     public void run() {
         super.run();
 
-        List<Session> sessions = Lists.newArrayList();
+        List<Session> sessions = new ArrayList<>();
         for (final URI sessionURI : sessionsURI) {
             Session session = SessionManager.INSTANCE.getExistingSession(sessionURI);
             if (session != null) {

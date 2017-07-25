@@ -28,8 +28,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 
 /**
- * Represents the ObservationPoint marker which can appear to represent a
- * EventEnd location.
+ * Represents the ObservationPoint marker which can appear to represent a EventEnd location.
  * 
  * @author mporhel
  */
@@ -37,14 +36,12 @@ public class ObservationPoint extends AbstractSequenceNode {
     /**
      * The visual ID. Same as a standard node.
      * 
-     * see org.eclipse.sirius.diagram.internal.edit.parts.DNodeEditPart.
-     * VISUAL_ID
+     * see org.eclipse.sirius.diagram.internal.edit.parts.DNodeEditPart. VISUAL_ID
      */
     public static final int VISUAL_ID = 2001;
 
     /**
-     * Predicate to check whether a Sirius DDiagramElement represents an
-     * ObservationPoint.
+     * Predicate to check whether a Sirius DDiagramElement represents an ObservationPoint.
      */
     private enum SiriusElementPredicate implements Predicate<DDiagramElement> {
         INSTANCE;
@@ -67,22 +64,18 @@ public class ObservationPoint extends AbstractSequenceNode {
     }
 
     /**
-     * Returns a predicate to check whether a GMF View represents an
-     * ObservationPoint.
+     * Returns a predicate to check whether a GMF View represents an ObservationPoint.
      * 
-     * @return a predicate to check whether a GMF View represents an
-     *         ObservationPoint.
+     * @return a predicate to check whether a GMF View represents an ObservationPoint.
      */
     public static Predicate<View> notationPredicate() {
         return new NotationPredicate(NotationPackage.eINSTANCE.getNode(), VISUAL_ID, ObservationPoint.viewpointElementPredicate());
     }
 
     /**
-     * Returns a predicate to check whether a Sirius DDiagramElement
-     * represents an ObservationPoint.
+     * Returns a predicate to check whether a Sirius DDiagramElement represents an ObservationPoint.
      * 
-     * @return a predicate to check whether a Sirius DDiagramElement
-     *         represents an ObservationPoint.
+     * @return a predicate to check whether a Sirius DDiagramElement represents an ObservationPoint.
      */
     public static Predicate<DDiagramElement> viewpointElementPredicate() {
         return SiriusElementPredicate.INSTANCE;
@@ -104,9 +97,8 @@ public class ObservationPoint extends AbstractSequenceNode {
     }
 
     /**
-     * Look in its diagram'semantic ordering for the observed eventEnd: and
-     * event end whose semantic end is the observation point semantic target
-     * element.
+     * Look in its diagram'semantic ordering for the observed eventEnd: and event end whose semantic end is the
+     * observation point semantic target element.
      * 
      * @return the observed EventEnd if valid.
      */
@@ -123,8 +115,7 @@ public class ObservationPoint extends AbstractSequenceNode {
     }
 
     /**
-     * Get the observed logical location (ie: it corresponds to the center of
-     * the logical bounds).
+     * Get the observed logical location (ie: it corresponds to the center of the logical bounds).
      * 
      * @return the observed logical location.
      */

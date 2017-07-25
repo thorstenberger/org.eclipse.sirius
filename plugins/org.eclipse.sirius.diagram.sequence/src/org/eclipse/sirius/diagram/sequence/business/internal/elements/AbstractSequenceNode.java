@@ -18,8 +18,7 @@ import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.ui.tools.api.util.GMFNotationHelper;
 
 /**
- * Abstract base class for sequence elements which are represented by a GMF
- * Node.
+ * Abstract base class for sequence elements which are represented by a GMF Node.
  * 
  * @author mporhel, pcdavid
  */

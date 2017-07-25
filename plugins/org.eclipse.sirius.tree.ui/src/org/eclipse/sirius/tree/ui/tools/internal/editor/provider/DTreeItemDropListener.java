@@ -11,6 +11,7 @@
 package org.eclipse.sirius.tree.ui.tools.internal.editor.provider;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -86,7 +87,7 @@ public class DTreeItemDropListener extends ViewerDropAdapter implements DropTarg
     /**
      * The preceding siblings of the current DnD operation.
      */
-    private final Collection<DTreeItem> precedingSiblings = Lists.newArrayList();
+    private final Collection<DTreeItem> precedingSiblings = new ArrayList<>();
 
     /**
      * Creates a new DTreeItemDropListener.
@@ -502,7 +503,7 @@ public class DTreeItemDropListener extends ViewerDropAdapter implements DropTarg
             }
         };
 
-        Collection<TreeItemContainerDropTool> availableTools = Lists.newArrayList();
+        Collection<TreeItemContainerDropTool> availableTools = new ArrayList<>();
         if (dropTarget instanceof DTree) {
             availableTools.addAll(((DTree) dropTarget).getDescription().getDropTools());
         } else if (dropTarget instanceof DTreeItem) {

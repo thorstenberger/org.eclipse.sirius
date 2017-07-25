@@ -38,8 +38,7 @@ import com.google.common.base.Predicate;
  */
 public abstract class AbstractNodeEvent extends AbstractSequenceNode implements ISequenceEvent {
     /**
-     * Predicate to filter Frames and Operand from possible new parents of an
-     * execution reparent.
+     * Predicate to filter Frames and Operand from possible new parents of an execution reparent.
      */
     public static final Predicate<ISequenceEvent> NO_REPARENTABLE_EVENTS = new Predicate<ISequenceEvent>() {
         @Override
@@ -51,22 +50,21 @@ public abstract class AbstractNodeEvent extends AbstractSequenceNode implements 
     /**
      * The visual ID. Same as a normal bordered node.
      * 
-     * see org.eclipse.sirius.diagram.internal.edit.parts.DNode2EditPart.
-     * VISUAL_ID
+     * see org.eclipse.sirius.diagram.internal.edit.parts.DNode2EditPart. VISUAL_ID
      */
     public static final int VISUAL_ID = 3001;
 
     /**
-     * Predicate to check whether a Sirius DDiagramElement represents an
-     * execution.
+     * Predicate to check whether a Sirius DDiagramElement represents an execution.
      */
     private enum SiriusElementPredicate implements Predicate<DDiagramElement> {
         INSTANCE;
 
         @Override
         public boolean apply(DDiagramElement input) {
-            return (AbstractSequenceElement.isSequenceDiagramElement(input, DescriptionPackage.eINSTANCE.getExecutionMapping()) || AbstractSequenceElement.isSequenceDiagramElement(input,
-                    DescriptionPackage.eINSTANCE.getStateMapping())) && !InstanceRole.viewpointElementPredicate().apply((DDiagramElement) input.eContainer());
+            return (AbstractSequenceElement.isSequenceDiagramElement(input, DescriptionPackage.eINSTANCE.getExecutionMapping())
+                    || AbstractSequenceElement.isSequenceDiagramElement(input, DescriptionPackage.eINSTANCE.getStateMapping()))
+                    && !InstanceRole.viewpointElementPredicate().apply((DDiagramElement) input.eContainer());
         }
     }
 
@@ -91,11 +89,9 @@ public abstract class AbstractNodeEvent extends AbstractSequenceNode implements 
     }
 
     /**
-     * Returns a predicate to check whether a Sirius DDiagramElement
-     * represents an execution.
+     * Returns a predicate to check whether a Sirius DDiagramElement represents an execution.
      * 
-     * @return a predicate to check whether a Sirius DDiagramElement
-     *         represents an execution.
+     * @return a predicate to check whether a Sirius DDiagramElement represents an execution.
      */
     public static Predicate<DDiagramElement> viewpointElementPredicate() {
         return SiriusElementPredicate.INSTANCE;
@@ -188,18 +184,16 @@ public abstract class AbstractNodeEvent extends AbstractSequenceNode implements 
 
         if (Lifeline.notationPredicate().apply(parent.getNotationView()) || this instanceof State) {
             /*
-             * Top-level executions which are directly on a lifeline are
-             * horizontally centered on the lifeline.
+             * Top-level executions which are directly on a lifeline are horizontally centered on the lifeline.
              */
             Point top = parentLogicalBounds.getTop();
             int width = bounds.getWidth();
             x = top.x - width / 2;
         } else {
             /*
-             * Sub-executions horizontally overlap partially their parent
-             * execution of IBorderItemOffsets.DEFAULT_OFFSET.width. We can not
-             * depend on that type here (it is in a UI plug-in, but we use its
-             * value: 8 pixels.
+             * Sub-executions horizontally overlap partially their parent execution of
+             * IBorderItemOffsets.DEFAULT_OFFSET.width. We can not depend on that type here (it is in a UI plug-in, but
+             * we use its value: 8 pixels.
              */
             Point topRight = parentLogicalBounds.getTopRight();
             x = topRight.x - 5;
@@ -208,22 +202,17 @@ public abstract class AbstractNodeEvent extends AbstractSequenceNode implements 
     }
 
     /**
-     * Returns all the messages linked to one of the sides (top or bottom) of
-     * this execution. The resulting list can be:
+     * Returns all the messages linked to one of the sides (top or bottom) of this execution. The resulting list can be:
      * <ul>
-     * <li>empty, meaning there is no messages linked to any of this execution's
-     * sides.</li>
-     * <li>a list with a single element, in which case that element is the
-     * message linked to the top side of this execution.</li>
-     * <li>a list with two element, in which case the first element is the
-     * message linked to the top side of this execution and the second is the
-     * message linked to the bottom side.</li>
+     * <li>empty, meaning there is no messages linked to any of this execution's sides.</li>
+     * <li>a list with a single element, in which case that element is the message linked to the top side of this
+     * execution.</li>
+     * <li>a list with two element, in which case the first element is the message linked to the top side of this
+     * execution and the second is the message linked to the bottom side.</li>
      * </ul>
-     * Note that the case where there is only one linked message and it is
-     * linked to the bottom side is not supported.
+     * Note that the case where there is only one linked message and it is linked to the bottom side is not supported.
      * 
-     * @return all the messages linked to one of the sides (top or bottom) of
-     *         this execution.
+     * @return all the messages linked to one of the sides (top or bottom) of this execution.
      */
     public abstract List<Message> getLinkedMessages();
 }

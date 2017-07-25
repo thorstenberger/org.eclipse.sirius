@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.business.internal.elements;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -69,8 +70,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
     }
 
     /**
-     * Predicate to check whether a Sirius DDiagram represents a sequence
-     * diagram.
+     * Predicate to check whether a Sirius DDiagram represents a sequence diagram.
      */
     private enum SiriusElementPredicate implements Predicate<DDiagram> {
         INSTANCE;
@@ -87,8 +87,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
     }
 
     /**
-     * Indicate if this class should use cache or not. Use
-     * {@link #useCache(boolean))} to enable/disable this mode and {
+     * Indicate if this class should use cache or not. Use {@link #useCache(boolean))} to enable/disable this mode and {
      * {@link #clearAllCaches()} to clear caches.
      */
     private boolean useCache;
@@ -151,22 +150,18 @@ public class SequenceDiagram extends AbstractSequenceElement {
     }
 
     /**
-     * Returns a predicate to check whether a GMF View represents a sequence
-     * diagram.
+     * Returns a predicate to check whether a GMF View represents a sequence diagram.
      * 
-     * @return a predicate to check whether a GMF View represents a sequence
-     *         diagram.
+     * @return a predicate to check whether a GMF View represents a sequence diagram.
      */
     public static Predicate<View> notationPredicate() {
         return NotationPredicate.INSTANCE;
     }
 
     /**
-     * Returns a predicate to check whether a Sirius DDiagram represents a
-     * sequence diagram.
+     * Returns a predicate to check whether a Sirius DDiagram represents a sequence diagram.
      * 
-     * @return a predicate to check whether a Sirius DDiagram represents a
-     *         sequence diagram.
+     * @return a predicate to check whether a Sirius DDiagram represents a sequence diagram.
      */
     public static Predicate<DDiagram> viewpointElementPredicate() {
         return SiriusElementPredicate.INSTANCE;
@@ -181,17 +176,14 @@ public class SequenceDiagram extends AbstractSequenceElement {
     }
 
     /**
-     * Finds all the lifelines in this diagram which are at least partially
-     * covered by the specified rectangular area.
+     * Finds all the lifelines in this diagram which are at least partially covered by the specified rectangular area.
      * 
      * @param area
-     *            the rectangular area to check for lifelines (in logical
-     *            coordinates).
-     * @return all the lifelines in this diagram which are at least partially
-     *         covered by the area.
+     *            the rectangular area to check for lifelines (in logical coordinates).
+     * @return all the lifelines in this diagram which are at least partially covered by the area.
      */
     public Set<Lifeline> getGraphicallyCoveredLifelines(final Rectangle area) {
-        List<Lifeline> result = Lists.newArrayList();
+        List<Lifeline> result = new ArrayList<>();
         Iterables.addAll(result, Iterables.filter(getAllLifelines(), new Predicate<Lifeline>() {
             @Override
             public boolean apply(Lifeline input) {
@@ -233,7 +225,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
             allInstanceRoles = allInstanceRolesCache;
         }
         if (allInstanceRoles == null) {
-            allInstanceRoles = Lists.newArrayList();
+            allInstanceRoles = new ArrayList<>();
             for (View child : Iterables.filter(getNotationView().getChildren(), View.class)) {
                 if (InstanceRole.notationPredicate().apply(child)) {
                     Option<InstanceRole> instanceRole = ISequenceElementAccessor.getInstanceRole(child);
@@ -265,7 +257,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
         }
         if (allOrderedLifelinesCache == null) {
             if (allLifelines == null) {
-                allLifelines = Lists.newArrayList();
+                allLifelines = new ArrayList<>();
                 Collection<InstanceRole> allInstanceRoles = getAllInstanceRoles();
                 Function<ISequenceNode, Lifeline> lifelineFunction = new Function<ISequenceNode, Lifeline>() {
                     @Override
@@ -286,12 +278,10 @@ public class SequenceDiagram extends AbstractSequenceElement {
     }
 
     /**
-     * Returns all the {@link Node}s in the specified diagram which represent an
-     * ObservationPoint.
+     * Returns all the {@link Node}s in the specified diagram which represent an ObservationPoint.
      * 
-     * @return the Nodes inside this diagram which represent sequence
-     *         ObservationPoint. An empty iterator is returned if the diagram is
-     *         not a sequence diagram.
+     * @return the Nodes inside this diagram which represent sequence ObservationPoint. An empty iterator is returned if
+     *         the diagram is not a sequence diagram.
      */
     public Collection<ObservationPoint> getAllObservationPoints() {
         Collection<ObservationPoint> allObservationPoints = null;
@@ -300,7 +290,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
             allObservationPoints = allObservationPointsCache;
         }
         if (allObservationPoints == null) {
-            allObservationPoints = Lists.newArrayList();
+            allObservationPoints = new ArrayList<>();
             for (View child : Iterables.filter(getNotationView().getChildren(), View.class)) {
                 if (ObservationPoint.notationPredicate().apply(child)) {
                     Option<ObservationPoint> obsPoint = ISequenceElementAccessor.getObservationPoint(child);
@@ -318,12 +308,10 @@ public class SequenceDiagram extends AbstractSequenceElement {
     }
 
     /**
-     * Returns all the {@link Node}s in the specified diagram which represent a
-     * lost sequence message end.
+     * Returns all the {@link Node}s in the specified diagram which represent a lost sequence message end.
      * 
-     * @return the Nodes inside this diagram which represent lost sequence
-     *         messages end. An empty iterator is returned if the diagram is not
-     *         a sequence diagram.
+     * @return the Nodes inside this diagram which represent lost sequence messages end. An empty iterator is returned
+     *         if the diagram is not a sequence diagram.
      */
     public Collection<LostMessageEnd> getAllLostMessageEnds() {
         Collection<LostMessageEnd> allLostMessageEnd = null;
@@ -332,7 +320,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
             allLostMessageEnd = allLostMessageEndCache;
         }
         if (allLostMessageEnd == null) {
-            allLostMessageEnd = Lists.newArrayList();
+            allLostMessageEnd = new ArrayList<>();
             for (View child : Iterables.filter(getNotationView().getChildren(), View.class)) {
                 if (LostMessageEnd.notationPredicate().apply(child)) {
                     Option<LostMessageEnd> lostMessageEnd = ISequenceElementAccessor.getLostMessageEnd(child);
@@ -350,12 +338,10 @@ public class SequenceDiagram extends AbstractSequenceElement {
     }
 
     /**
-     * Returns all the {@link Edge}s in the specified diagram which represent a
-     * sequence message of any kind.
+     * Returns all the {@link Edge}s in the specified diagram which represent a sequence message of any kind.
      * 
-     * @return the Edges inside this diagram which represent sequence messages.
-     *         An empty iterator is returned if the diagram is not a sequence
-     *         diagram.
+     * @return the Edges inside this diagram which represent sequence messages. An empty iterator is returned if the
+     *         diagram is not a sequence diagram.
      */
     public Set<Message> getAllMessages() {
         List<Message> allMessages = null;
@@ -369,7 +355,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
         }
         if (allOrderedMessages == null) {
             if (allMessages == null) {
-                allMessages = Lists.newArrayList();
+                allMessages = new ArrayList<>();
                 for (Edge edge : Iterables.filter(Iterables.filter(getNotationDiagram().getEdges(), Edge.class), Message.notationPredicate())) {
                     Option<Message> message = ISequenceElementAccessor.getMessage(edge);
                     assert message.some() : Messages.SequenceDiagram_InternalError;
@@ -407,7 +393,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
         }
         if (allOrderedAbstractNodeEvents == null) {
             if (allAbstractNodeEvents == null) {
-                allAbstractNodeEvents = Lists.newArrayList();
+                allAbstractNodeEvents = new ArrayList<>();
                 for (Node node : Iterables.filter(Iterables.filter(AllContents.of(getNotationDiagram()), Node.class), AbstractNodeEvent.notationPredicate())) {
                     Option<AbstractNodeEvent> exec = ISequenceElementAccessor.getAbstractNodeEvent(node);
                     assert exec.some() : Messages.SequenceDiagram_InternalError;
@@ -445,7 +431,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
         }
         if (allOrderedExecutions == null) {
             if (allExecutions == null) {
-                allExecutions = Lists.newArrayList();
+                allExecutions = new ArrayList<>();
                 for (Node node : Iterables.filter(Iterables.filter(AllContents.of(getNotationDiagram()), Node.class), Execution.notationPredicate())) {
                     Option<Execution> exec = ISequenceElementAccessor.getExecution(node);
                     assert exec.some() : Messages.SequenceDiagram_InternalError;
@@ -483,7 +469,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
         }
         if (allOrderedStates == null) {
             if (allStates == null) {
-                allStates = Lists.newArrayList();
+                allStates = new ArrayList<>();
                 for (Node node : Iterables.filter(Iterables.filter(AllContents.of(getNotationDiagram()), Node.class), State.notationPredicate())) {
                     Option<State> exec = ISequenceElementAccessor.getState(node);
                     assert exec.some() : Messages.SequenceDiagram_InternalError;
@@ -521,7 +507,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
         }
         if (allOrderedFrames == null) {
             if (allFrames == null) {
-                allFrames = Lists.newArrayList();
+                allFrames = new ArrayList<>();
                 for (Node node : Iterables.filter(Iterables.filter(getNotationDiagram().getChildren(), Node.class), AbstractFrame.notationPredicate())) {
                     Option<ISequenceEvent> exec = ISequenceElementAccessor.getISequenceEvent(node);
                     assert exec.some() : Messages.SequenceDiagram_InternalError;
@@ -561,7 +547,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
         }
         if (allOrderedInteractionUses == null) {
             if (allInteractionUses == null) {
-                allInteractionUses = Lists.newArrayList();
+                allInteractionUses = new ArrayList<>();
                 for (Node node : Iterables.filter(Iterables.filter(getNotationDiagram().getChildren(), Node.class), InteractionUse.notationPredicate())) {
                     Option<InteractionUse> exec = ISequenceElementAccessor.getInteractionUse(node);
                     assert exec.some() : Messages.SequenceDiagram_InternalError;
@@ -599,7 +585,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
         }
         if (allOrderedCombinedFragments == null) {
             if (allCombinedFragments == null) {
-                allCombinedFragments = Lists.newArrayList();
+                allCombinedFragments = new ArrayList<>();
                 for (Node node : Iterables.filter(Iterables.filter(getNotationDiagram().getChildren(), Node.class), CombinedFragment.notationPredicate())) {
                     Option<CombinedFragment> exec = ISequenceElementAccessor.getCombinedFragment(node);
                     assert exec.some() : Messages.SequenceDiagram_InternalError;
@@ -637,7 +623,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
         }
         if (allOrderedOperands == null) {
             if (allOperands == null) {
-                allOperands = Lists.newArrayList();
+                allOperands = new ArrayList<>();
                 for (Node node : Iterables.filter(Iterables.filter(AllContents.of(getNotationDiagram()), Node.class), Operand.notationPredicate())) {
                     Option<Operand> exec = ISequenceElementAccessor.getOperand(node);
                     assert exec.some() : Messages.SequenceDiagram_InternalError;
@@ -685,8 +671,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
     }
 
     /**
-     * Returns all sequence events in the given diagram. The result is ordered
-     * regarding the lower bound ordering.
+     * Returns all sequence events in the given diagram. The result is ordered regarding the lower bound ordering.
      * 
      * @return all sequence events on the given diagram.
      */
@@ -697,7 +682,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
             allOrderedDelimitedSequenceEvents = allOrderedDelimitedSequenceEventsCache;
         }
         if (allOrderedDelimitedSequenceEvents == null) {
-            List<ISequenceEvent> result = Lists.newArrayList();
+            List<ISequenceEvent> result = new ArrayList<>();
             Iterables.addAll(result, getAllDelimitedSequenceEvents());
 
             Collections.sort(result, RangeHelper.lowerBoundOrdering().onResultOf(ISequenceEvent.VERTICAL_RANGE));
@@ -711,8 +696,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
     }
 
     /**
-     * Returns all sequence events in the given diagram. The result is not
-     * ordered and will be computed on iteration.
+     * Returns all sequence events in the given diagram. The result is not ordered and will be computed on iteration.
      * 
      * @return all sequence events on the given diagram.
      */
@@ -736,7 +720,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
      * @return the EventEnds corresponding to the given part
      */
     public List<EventEnd> findEnds(ISequenceEvent event) {
-        List<EventEnd> ends = Lists.newArrayList();
+        List<EventEnd> ends = new ArrayList<>();
         EObject seqDiag = getNotationDiagram().getElement();
         Option<EObject> semanticEvent = event.getSemanticTargetElement();
         if (seqDiag instanceof SequenceDDiagram && semanticEvent.some()) {
@@ -800,8 +784,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
     }
 
     /**
-     * Clear all the ordered caches. The order has been changed and it must be
-     * computed again.
+     * Clear all the ordered caches. The order has been changed and it must be computed again.
      */
     public void clearOrderedCaches() {
         this.allOrderedAbstractNodeEventsCache = null;

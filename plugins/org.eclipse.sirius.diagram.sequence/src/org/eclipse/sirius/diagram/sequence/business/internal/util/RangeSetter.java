@@ -56,9 +56,8 @@ public final class RangeSetter {
     }
 
     /**
-     * Common implementation of
-     * {@link ISequenceEventEditPart#setVerticalRange(Range)} for lifelines and
-     * executions. Assumes the {@link ISequenceEventEditPart} is a Node.
+     * Common implementation of {@link ISequenceEventEditPart#setVerticalRange(Range)} for lifelines and executions.
+     * Assumes the {@link ISequenceEventEditPart} is a Node.
      * 
      * @param self
      *            the (root) execution edit part.
@@ -74,9 +73,8 @@ public final class RangeSetter {
     }
 
     /**
-     * Common implementation of
-     * {@link ISequenceEventEditPart#setVerticalRange(Range)} for states.
-     * Assumes the {@link ISequenceEventEditPart} is a Node.
+     * Common implementation of {@link ISequenceEventEditPart#setVerticalRange(Range)} for states. Assumes the
+     * {@link ISequenceEventEditPart} is a Node.
      * 
      * @param self
      *            the state edit part.
@@ -92,9 +90,8 @@ public final class RangeSetter {
     }
 
     /**
-     * Common implementation of
-     * {@link ISequenceEventEditPart#setVerticalRange(Range)} for interaction
-     * uses. Assumes the {@link ISequenceEventEditPart} is a Node.
+     * Common implementation of {@link ISequenceEventEditPart#setVerticalRange(Range)} for interaction uses. Assumes the
+     * {@link ISequenceEventEditPart} is a Node.
      * 
      * @param self
      *            the InteractionUse.
@@ -110,9 +107,8 @@ public final class RangeSetter {
     }
 
     /**
-     * Common implementation of
-     * {@link ISequenceEventEditPart#setVerticalRange(Range)} for combined
-     * fragments. Assumes the {@link ISequenceEventEditPart} is a Node.
+     * Common implementation of {@link ISequenceEventEditPart#setVerticalRange(Range)} for combined fragments. Assumes
+     * the {@link ISequenceEventEditPart} is a Node.
      * 
      * @param self
      *            the CombinedFragment.
@@ -128,9 +124,8 @@ public final class RangeSetter {
     }
 
     /**
-     * Common implementation of
-     * {@link ISequenceEventEditPart#setVerticalRange(Range)} for combined
-     * fragments. Assumes the {@link ISequenceEventEditPart} is a Node.
+     * Common implementation of {@link ISequenceEventEditPart#setVerticalRange(Range)} for combined fragments. Assumes
+     * the {@link ISequenceEventEditPart} is a Node.
      * 
      * @param self
      *            the CombinedFragment.
@@ -146,9 +141,8 @@ public final class RangeSetter {
     }
 
     /**
-     * Common implementation of
-     * {@link ISequenceEventEditPart#setVerticalRange(Range)} for lifelines and
-     * executions. Assumes the {@link ISequenceEventEditPart} is a Node.
+     * Common implementation of {@link ISequenceEventEditPart#setVerticalRange(Range)} for lifelines and executions.
+     * Assumes the {@link ISequenceEventEditPart} is a Node.
      * 
      * @param self
      *            the (root) execution edit part.
@@ -242,9 +236,8 @@ public final class RangeSetter {
     }
 
     /**
-     * Common implementation of
-     * {@link ISequenceEventEditPart#setVerticalRange(Range)} for lifelines and
-     * executions. Assumes the {@link ISequenceEventEditPart} is a Node.
+     * Common implementation of {@link ISequenceEventEditPart#setVerticalRange(Range)} for lifelines and executions.
+     * Assumes the {@link ISequenceEventEditPart} is a Node.
      * 
      * @param self
      *            the (root) execution edit part.

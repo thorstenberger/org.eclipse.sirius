@@ -14,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -42,7 +43,6 @@ import org.eclipse.sirius.common.tools.internal.interpreter.ClassLoadingService;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
@@ -85,9 +85,9 @@ public final class JavaExtensionsManager {
 
     private ClassLoading classLoading;
 
-    private List<ClassLoadingCallback> callbacks = Lists.newArrayList();
+    private List<ClassLoadingCallback> callbacks = new ArrayList<>();
 
-    private List<EPackageLoadingCallback> ePackageCallbacks = Lists.newArrayList();
+    private List<EPackageLoadingCallback> ePackageCallbacks = new ArrayList<>();
 
     private boolean shouldLoadServices = true;
 
@@ -250,7 +250,7 @@ public final class JavaExtensionsManager {
         Multimap<String, EPackage> newDeclarations = HashMultimap.create();
         Set<String> newDeclarersAsBundles = Sets.newLinkedHashSet();
         Collection<EPackageDeclarationSource> ecoreDeclarationSources = this.classLoading.findEcoreDeclarations(this.viewpointProjects, this.viewpointPlugins);
-        Collection<EPackageDeclarationSource> workspaceDeclarations = Lists.newArrayList();
+        Collection<EPackageDeclarationSource> workspaceDeclarations = new ArrayList<>();
         for (EPackageLoadingCallback.EPackageDeclarationSource declarer : ecoreDeclarationSources) {
             if (declarer.isBundle()) {
                 newDeclarersAsBundles.add(declarer.getSymbolicName());

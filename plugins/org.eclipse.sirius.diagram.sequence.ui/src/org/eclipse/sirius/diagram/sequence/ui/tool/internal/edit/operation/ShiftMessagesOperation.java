@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.operation;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -22,7 +23,6 @@ import org.eclipse.sirius.diagram.sequence.ui.Messages;
 import org.eclipse.sirius.diagram.ui.business.internal.operation.AbstractModelChangeOperation;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -41,7 +41,7 @@ public class ShiftMessagesOperation extends AbstractModelChangeOperation<Void> {
     /**
      * Message to shift.
      */
-    protected final Collection<Message> messagesToShift = Lists.newArrayList();
+    protected final Collection<Message> messagesToShift = new ArrayList<>();
 
     /**
      * Moved elements.
@@ -149,7 +149,7 @@ public class ShiftMessagesOperation extends AbstractModelChangeOperation<Void> {
 
         RelativeBendpoints bp = (RelativeBendpoints) edge.getBendpoints();
         List<?> oldPoints = bp.getPoints();
-        List<RelativeBendpoint> newPoints = Lists.newArrayList();
+        List<RelativeBendpoint> newPoints = new ArrayList<>();
         for (int i = 0; i < oldPoints.size(); i++) {
             RelativeBendpoint old = (RelativeBendpoint) oldPoints.get(i);
             newPoints.add(new RelativeBendpoint(old.getSourceX(), old.getSourceY() + currentSourceDeltaY, old.getTargetX(), old.getTargetY() + currentTargetDeltaY));

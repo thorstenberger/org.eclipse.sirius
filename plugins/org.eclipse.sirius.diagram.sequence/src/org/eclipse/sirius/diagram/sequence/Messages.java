@@ -19,13 +19,13 @@ import org.eclipse.sirius.ext.base.I18N.TranslatableMessage;
  * @author mporhel
  */
 public final class Messages {
-    
+
     static {
         I18N.initializeMessages(Messages.class, SequenceDiagramPlugin.INSTANCE);
     }
 
     // CHECKSTYLE:OFF
-    
+
     @TranslatableMessage
     public static String AbstractFrame_coverageProfilerTaskCategory;
 
@@ -106,10 +106,10 @@ public final class Messages {
 
     @TranslatableMessage
     public static String RefreshLayoutCommand_profilerTaskCategory;
-    
+
     @TranslatableMessage
     public static String RefreshLayoutCommand_profilerTaskName;
-    
+
     @TranslatableMessage
     public static String RefreshSemanticOrderingsOperation_operationName;
 
@@ -177,7 +177,7 @@ public final class Messages {
     public static String VerticalSpaceExpansion_operationName;
 
     // CHECKSTYLE:ON
-    
+
     private Messages() {
         // Prevents instanciation.
     }

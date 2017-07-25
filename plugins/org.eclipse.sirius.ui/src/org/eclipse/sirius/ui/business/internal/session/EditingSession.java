@@ -164,7 +164,7 @@ public class EditingSession implements IEditingSession, ISaveablesSource, Refres
     }
 
     private void reorderEditorsIfNeeded(ISiriusEditor justAddedEditor) {
-        List<ISiriusEditor> reorderedList = Lists.newArrayList();
+        List<ISiriusEditor> reorderedList = new ArrayList<>();
         IEditorReference[] editorReferences = null;
 
         IWorkbenchPage page = EclipseUIUtil.getActivePage();

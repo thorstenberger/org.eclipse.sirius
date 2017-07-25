@@ -22,6 +22,8 @@ import org.eclipse.sirius.viewpoint.description.Viewpoint;
 
 import junit.framework.TestCase;
 
+import junit.framework.TestCase;
+
 /**
  * Test class.
  * 

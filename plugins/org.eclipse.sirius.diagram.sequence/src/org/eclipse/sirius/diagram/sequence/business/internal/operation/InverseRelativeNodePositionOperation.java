@@ -18,9 +18,8 @@ import org.eclipse.sirius.diagram.ui.business.internal.operation.AbstractModelCh
 import com.google.common.base.Preconditions;
 
 /**
- * An operation to inverse the relative position of a node on both axes. This is
- * used for labels on messages to make sure they are always above the message,
- * regardless of its direction (left-to-right or right-to-left).
+ * An operation to inverse the relative position of a node on both axes. This is used for labels on messages to make
+ * sure they are always above the message, regardless of its direction (left-to-right or right-to-left).
  * 
  * @author pcdavid, smonnier
  */

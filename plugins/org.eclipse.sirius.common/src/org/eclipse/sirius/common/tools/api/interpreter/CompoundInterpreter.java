@@ -42,7 +42,6 @@ import org.eclipse.sirius.common.tools.internal.assist.ProposalProviderRegistry;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.MetamodelDescriptor;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -668,7 +667,7 @@ public final class CompoundInterpreter implements IInterpreter, IProposalProvide
          * that expression (blame it on the interpreter that is not really an
          * interpreter :p).
          */
-        List<ContentProposal> proposals = Lists.newArrayList();
+        List<ContentProposal> proposals = new ArrayList<>();
         IInterpreter interpreter = getInterpreterForExpression(context.getContents());
         if (interpreter != null) {
             if (interpreter instanceof IProposalProvider) {
@@ -724,7 +723,7 @@ public final class CompoundInterpreter implements IInterpreter, IProposalProvide
      * @since 0.9.0
      */
     public List<ContentProposal> getAllNewEmtpyExpressions() {
-        List<ContentProposal> prefixes = Lists.newArrayList();
+        List<ContentProposal> prefixes = new ArrayList<>();
 
         final List<IProposalProvider> proposalProviders = ProposalProviderRegistry.getAllProviders();
         for (IProposalProvider provider : proposalProviders) {
@@ -797,7 +796,7 @@ public final class CompoundInterpreter implements IInterpreter, IProposalProvide
          * that expression (blame it on the interpreter that is not really an
          * interpreter :p).
          */
-        List<ContentProposal> proposals = Lists.newArrayList();
+        List<ContentProposal> proposals = new ArrayList<>();
         IInterpreter interpreterForExpression = getInterpreterForExpression(context.getTextSoFar());
         if (interpreterForExpression != null) {
             if (interpreterForExpression instanceof IProposalProvider) {
@@ -865,7 +864,7 @@ public final class CompoundInterpreter implements IInterpreter, IProposalProvide
      * @return list of proposal for empty expressions
      */
     private List<ContentProposal> getEmptyExpressionProposals(String context) {
-        List<ContentProposal> proposals = Lists.newArrayList();
+        List<ContentProposal> proposals = new ArrayList<>();
 
         // Provides all interpreters compatible with the context
         final List<IProposalProvider> proposalProviders = ProposalProviderRegistry.getAllProviders();

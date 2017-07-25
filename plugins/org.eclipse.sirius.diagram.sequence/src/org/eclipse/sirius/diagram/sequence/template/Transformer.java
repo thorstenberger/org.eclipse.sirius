@@ -11,8 +11,7 @@
 package org.eclipse.sirius.diagram.sequence.template;
 
 /**
- * Simple interface to implement a transformation from an input value to an
- * output value.
+ * Simple interface to implement a transformation from an input value to an output value.
  * 
  * @param <F>
  *            the type of the input value.

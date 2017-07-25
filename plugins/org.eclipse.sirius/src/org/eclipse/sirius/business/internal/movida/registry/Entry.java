@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.business.internal.movida.registry;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +27,6 @@ import org.eclipse.sirius.ext.base.Option;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -79,7 +79,7 @@ public class Entry {
      * Any diagnostics related to this entry, in particular errors and warnings
      * which can explain the state of the entry.
      */
-    private final Collection<Diagnostic> diagnostics = Lists.newArrayList();
+    private final Collection<Diagnostic> diagnostics = new ArrayList<>();
 
     /**
      * Creates a new entry representing a Sirius.

@@ -11,6 +11,7 @@
 package org.eclipse.sirius.tests.unit.common.interpreter.acceleo.mtl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -134,7 +135,7 @@ public class InterpretedExpressionTargetSwitchTest extends SiriusTestCase {
     }
 
     private Scope getGlobalScope() {
-        List<EPackage> scope = Lists.newArrayList();
+        List<EPackage> scope = new ArrayList<>();
         scope.add(org.eclipse.sirius.diagram.sequence.description.DescriptionPackage.eINSTANCE);
         scope.add(DescriptionPackage.eINSTANCE);
         scope.add(org.eclipse.sirius.diagram.description.DescriptionPackage.eINSTANCE);
@@ -146,7 +147,7 @@ public class InterpretedExpressionTargetSwitchTest extends SiriusTestCase {
             scope.addAll(pkg.getESubpackages());
         }
 
-        List<EClass> doNotInstanciate = Lists.newArrayList();
+        List<EClass> doNotInstanciate = new ArrayList<>();
         // doNotInstanciate.add(org.eclipse.sirius.table.metamodel.table.description.DescriptionPackage.eINSTANCE.getEditionTableExtensionDescription());
 
         return new Scope(scope, doNotInstanciate);
@@ -286,7 +287,7 @@ public class InterpretedExpressionTargetSwitchTest extends SiriusTestCase {
 
         final Collection<EAttribute> abstractIntExp = Sets.newLinkedHashSet();
         final Collection<EAttribute> instanciatedIntExp = Sets.newLinkedHashSet();
-        final Collection<EAttribute> nonDirectlyIntExp = Lists.newArrayList();
+        final Collection<EAttribute> nonDirectlyIntExp = new ArrayList<>();
 
         // Check all classes of the scope.
         inspectTestedData(scope, instanciatedEClasses, abstractIntExp, instanciatedIntExp, nonDirectlyIntExp);

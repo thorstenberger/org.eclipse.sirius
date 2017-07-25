@@ -46,8 +46,7 @@ public class SequenceNodeQuery {
     }
 
     /**
-     * Returns the vertical range of a sequence diagram element from its GMF
-     * notation node.
+     * Returns the vertical range of a sequence diagram element from its GMF notation node.
      * 
      * @return the vertical range of the element.
      */

@@ -56,7 +56,6 @@ import org.eclipse.sirius.viewpoint.description.tool.ModelOperation;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -275,7 +274,7 @@ public abstract class AbstractRepresentationDialectServices implements DialectSe
      */
     @Override
     public Collection<RepresentationDescription> getAvailableRepresentationDescriptions(Collection<Viewpoint> vps, EObject semantic) {
-        final Collection<RepresentationDescription> result = Lists.newArrayList();
+        final Collection<RepresentationDescription> result = new ArrayList<>();
         for (Viewpoint vp : vps) {
             Iterables.addAll(result, getAvailableRepresentationDescriptions(vp, semantic));
         }

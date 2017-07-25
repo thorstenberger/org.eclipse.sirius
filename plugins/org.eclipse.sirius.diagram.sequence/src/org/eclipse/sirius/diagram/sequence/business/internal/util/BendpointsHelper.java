@@ -19,8 +19,8 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 /**
- * Helper to compare two lists of GMF RelativeBenpoint to help avoid re-setting
- * the same values (which can trigger unwanted notifications).
+ * Helper to compare two lists of GMF RelativeBenpoint to help avoid re-setting the same values (which can trigger
+ * unwanted notifications).
  * 
  * @author pcdavid
  */
@@ -30,16 +30,14 @@ public final class BendpointsHelper {
     }
 
     /**
-     * Checks whether two objects are lists of GMF Bendpoints which are
-     * equivalent (i.e. the same number of points with the same coordinates in
-     * the same order).
+     * Checks whether two objects are lists of GMF Bendpoints which are equivalent (i.e. the same number of points with
+     * the same coordinates in the same order).
      * 
      * @param oldValue
      *            the first (old) value.
      * @param newValue
      *            the second (new) value.
-     * @return <code>true</code> if the two given values are equivalent lists of
-     *         GMF Bendpoints.
+     * @return <code>true</code> if the two given values are equivalent lists of GMF Bendpoints.
      */
     public static boolean areSameBendpoints(Object oldValue, Object newValue) {
         boolean isTouch = false;

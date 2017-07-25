@@ -38,7 +38,6 @@ import org.eclipse.sirius.diagram.ui.tools.api.util.GMFNotationHelper;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -245,7 +244,7 @@ public class ShiftDescendantMessagesOperation extends ShiftMessagesOperation {
             movedElements.add(parent);
         }
         // Finds compounds events of each ExecutionEditPart found in descendants
-        ArrayList<ISequenceEvent> compoundEvents = Lists.newArrayList();
+        ArrayList<ISequenceEvent> compoundEvents = new ArrayList<>();
         for (AbstractNodeEvent eep : Iterables.filter(descendants, AbstractNodeEvent.class)) {
             compoundEvents.addAll(EventEndHelper.getCompoundEvents(eep));
         }

@@ -28,13 +28,10 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.State;
 import org.eclipse.sirius.diagram.sequence.description.DescriptionPackage;
 
 /**
- * <!-- begin-user-doc --> The <b>Switch</b> for the sequence elements's
- * inheritance hierarchy. It supports the call
- * {@link #doSwitch(ISequenceElement) doSwitch(ise)} to invoke the
- * <code>caseXXX</code> method for each class of the model, starting with the
- * actual class of the object and proceeding up the inheritance hierarchy until
- * a non-null result is returned, which is the result of the switch. <!--
- * end-user-doc -->
+ * <!-- begin-user-doc --> The <b>Switch</b> for the sequence elements's inheritance hierarchy. It supports the call
+ * {@link #doSwitch(ISequenceElement) doSwitch(ise)} to invoke the <code>caseXXX</code> method for each class of the
+ * model, starting with the actual class of the object and proceeding up the inheritance hierarchy until a non-null
+ * result is returned, which is the result of the switch. <!-- end-user-doc -->
  * 
  * 
  * @param <T>
@@ -52,14 +49,12 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns
-     * a non null result; it yields that result. <!-- begin-user-doc --> <!--
-     * end-user-doc -->
+     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that
+     * result. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param element
      *            the element on which to do the switch.
-     * @return the first non-null result returned by a <code>caseXXX</code>
-     *         call.
+     * @return the first non-null result returned by a <code>caseXXX</code> call.
      */
     public T doSwitch(ISequenceElement element) {
         DDiagramElement dde = null;
@@ -77,16 +72,14 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns
-     * a non null result; it yields that result. <!-- begin-user-doc --> <!--
-     * end-user-doc -->
+     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that
+     * result. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
      * @param mapping
      *            the considered mapping for the swith (mapping of the element).
      * @param element
      *            the element on which to do the switch.
-     * @return the first non-null result returned by a <code>caseXXX</code>
-     *         call.
+     * @return the first non-null result returned by a <code>caseXXX</code> call.
      */
     protected T doSwitch(DiagramElementMapping mapping, ISequenceElement element) {
         if (mapping != null && mapping.eClass().getEPackage() == DescriptionPackage.eINSTANCE) {
@@ -97,12 +90,10 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns
-     * a non null result; it yields that result. <!-- begin-user-doc --> <!--
-     * end-user-doc -->
+     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that
+     * result. <!-- begin-user-doc --> <!-- end-user-doc -->
      * 
-     * @return the first non-null result returned by a <code>caseXXX</code>
-     *         call.
+     * @return the first non-null result returned by a <code>caseXXX</code> call.
      * @generated
      */
     // CHECKSTYLE:OFF
@@ -291,15 +282,13 @@ public class ISequenceElementSwitch<T> {
     // CHECKSTYLE:ON
 
     /**
-     * Returns the result of interpreting the object as an instance of '
-     * <em>Sequence Diagram Description</em>'. <!-- begin-user-doc --> This
-     * implementation returns null; returning a non-null result will terminate
-     * the switch. <!-- end-user-doc -->
+     * Returns the result of interpreting the object as an instance of ' <em>Sequence Diagram Description</em>'. <!--
+     * begin-user-doc --> This implementation returns null; returning a non-null result will terminate the switch. <!--
+     * end-user-doc -->
      * 
      * @param object
      *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '
-     *         <em>Sequence Diagram</em>'.
+     * @return the result of interpreting the object as an instance of ' <em>Sequence Diagram</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
@@ -308,15 +297,13 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '
-     * <em>Instance Role </em>'. <!-- begin-user-doc --> This implementation
-     * returns null; returning a non-null result will terminate the switch. <!--
-     * end-user-doc -->
+     * Returns the result of interpreting the object as an instance of ' <em>Instance Role </em>'. <!-- begin-user-doc
+     * --> This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc
+     * -->
      * 
      * @param object
      *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '
-     *         <em>Instance Role </em>'.
+     * @return the result of interpreting the object as an instance of ' <em>Instance Role </em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
@@ -325,15 +312,12 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '
-     * <em>Event </em>'. <!-- begin-user-doc --> This implementation returns
-     * null; returning a non-null result will terminate the switch. <!--
-     * end-user-doc -->
+     * Returns the result of interpreting the object as an instance of ' <em>Event </em>'. <!-- begin-user-doc --> This
+     * implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
      * 
      * @param object
      *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '
-     *         <em>Event </em>'.
+     * @return the result of interpreting the object as an instance of ' <em>Event </em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
@@ -342,15 +326,13 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '
-     * <em>Delimited Event </em>'. <!-- begin-user-doc --> This implementation
-     * returns null; returning a non-null result will terminate the switch. <!--
-     * end-user-doc -->
+     * Returns the result of interpreting the object as an instance of ' <em>Delimited Event </em>'. <!-- begin-user-doc
+     * --> This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc
+     * -->
      * 
      * @param object
      *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '
-     *         <em>Delimited Event </em>'.
+     * @return the result of interpreting the object as an instance of ' <em>Delimited Event </em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
@@ -359,15 +341,12 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '
-     * <em>Execution </em>'. <!-- begin-user-doc --> This implementation returns
-     * null; returning a non-null result will terminate the switch. <!--
-     * end-user-doc -->
+     * Returns the result of interpreting the object as an instance of ' <em>Execution </em>'. <!-- begin-user-doc -->
+     * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
      * 
      * @param object
      *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '
-     *         <em>Execution </em>'.
+     * @return the result of interpreting the object as an instance of ' <em>Execution </em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
@@ -376,15 +355,12 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '
-     * <em>State </em>'. <!-- begin-user-doc --> This implementation returns
-     * null; returning a non-null result will terminate the switch. <!--
-     * end-user-doc -->
+     * Returns the result of interpreting the object as an instance of ' <em>State </em>'. <!-- begin-user-doc --> This
+     * implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
      * 
      * @param object
      *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '
-     *         <em>State </em>'.
+     * @return the result of interpreting the object as an instance of ' <em>State </em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
@@ -393,15 +369,12 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '
-     * <em>End Of Life </em>'. <!-- begin-user-doc --> This implementation
-     * returns null; returning a non-null result will terminate the switch. <!--
-     * end-user-doc -->
+     * Returns the result of interpreting the object as an instance of ' <em>End Of Life </em>'. <!-- begin-user-doc -->
+     * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
      * 
      * @param object
      *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '
-     *         <em>End Of Life </em>'.
+     * @return the result of interpreting the object as an instance of ' <em>End Of Life </em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
@@ -410,15 +383,12 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '
-     * <em>Message </em>'. <!-- begin-user-doc --> This implementation returns
-     * null; returning a non-null result will terminate the switch. <!--
-     * end-user-doc -->
+     * Returns the result of interpreting the object as an instance of ' <em>Message </em>'. <!-- begin-user-doc -->
+     * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
      * 
      * @param object
      *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '
-     *         <em>Message </em>'.
+     * @return the result of interpreting the object as an instance of ' <em>Message </em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
@@ -427,15 +397,13 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '
-     * <em>Basic Message </em>'. <!-- begin-user-doc --> This implementation
-     * returns null; returning a non-null result will terminate the switch. <!--
-     * end-user-doc -->
+     * Returns the result of interpreting the object as an instance of ' <em>Basic Message </em>'. <!-- begin-user-doc
+     * --> This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc
+     * -->
      * 
      * @param object
      *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '
-     *         <em>Basic Message </em>'.
+     * @return the result of interpreting the object as an instance of ' <em>Basic Message </em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
@@ -444,15 +412,13 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '
-     * <em>Return Message </em>'. <!-- begin-user-doc --> This implementation
-     * returns null; returning a non-null result will terminate the switch. <!--
-     * end-user-doc -->
+     * Returns the result of interpreting the object as an instance of ' <em>Return Message </em>'. <!-- begin-user-doc
+     * --> This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc
+     * -->
      * 
      * @param object
      *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '
-     *         <em>Return Message </em>'.
+     * @return the result of interpreting the object as an instance of ' <em>Return Message </em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
@@ -461,15 +427,13 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '
-     * <em>Creation Message </em>'. <!-- begin-user-doc --> This implementation
-     * returns null; returning a non-null result will terminate the switch. <!--
+     * Returns the result of interpreting the object as an instance of ' <em>Creation Message </em>'. <!--
+     * begin-user-doc --> This implementation returns null; returning a non-null result will terminate the switch. <!--
      * end-user-doc -->
      * 
      * @param object
      *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '
-     *         <em>Creation Message </em>'.
+     * @return the result of interpreting the object as an instance of ' <em>Creation Message </em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
@@ -478,15 +442,13 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '
-     * <em>Destruction Message </em>'. <!-- begin-user-doc --> This
-     * implementation returns null; returning a non-null result will terminate
-     * the switch. <!-- end-user-doc -->
+     * Returns the result of interpreting the object as an instance of ' <em>Destruction Message </em>'. <!--
+     * begin-user-doc --> This implementation returns null; returning a non-null result will terminate the switch. <!--
+     * end-user-doc -->
      * 
      * @param object
      *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '
-     *         <em>Destruction Message </em>'.
+     * @return the result of interpreting the object as an instance of ' <em>Destruction Message </em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
@@ -495,15 +457,12 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '
-     * <em>Frame </em>'. <!-- begin-user-doc --> This implementation returns
-     * null; returning a non-null result will terminate the switch. <!--
-     * end-user-doc -->
+     * Returns the result of interpreting the object as an instance of ' <em>Frame </em>'. <!-- begin-user-doc --> This
+     * implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
      * 
      * @param object
      *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '
-     *         <em>Frame </em>'.
+     * @return the result of interpreting the object as an instance of ' <em>Frame </em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
@@ -512,15 +471,13 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '
-     * <em>Interaction Use </em>'. <!-- begin-user-doc --> This implementation
-     * returns null; returning a non-null result will terminate the switch. <!--
-     * end-user-doc -->
+     * Returns the result of interpreting the object as an instance of ' <em>Interaction Use </em>'. <!-- begin-user-doc
+     * --> This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc
+     * -->
      * 
      * @param object
      *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '
-     *         <em>Interaction Use </em>'.
+     * @return the result of interpreting the object as an instance of ' <em>Interaction Use </em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
@@ -529,15 +486,13 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '
-     * <em>Combined Fragment </em>'. <!-- begin-user-doc --> This implementation
-     * returns null; returning a non-null result will terminate the switch. <!--
+     * Returns the result of interpreting the object as an instance of ' <em>Combined Fragment </em>'. <!--
+     * begin-user-doc --> This implementation returns null; returning a non-null result will terminate the switch. <!--
      * end-user-doc -->
      * 
      * @param object
      *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '
-     *         <em>Combined Fragment </em>'.
+     * @return the result of interpreting the object as an instance of ' <em>Combined Fragment </em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
@@ -546,15 +501,12 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '
-     * <em>Operand </em>'. <!-- begin-user-doc --> This implementation returns
-     * null; returning a non-null result will terminate the switch. <!--
-     * end-user-doc -->
+     * Returns the result of interpreting the object as an instance of ' <em>Operand </em>'. <!-- begin-user-doc -->
+     * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
      * 
      * @param object
      *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '
-     *         <em>Operand </em>'.
+     * @return the result of interpreting the object as an instance of ' <em>Operand </em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
      * @generated
      */
@@ -563,15 +515,13 @@ public class ISequenceElementSwitch<T> {
     }
 
     /**
-     * Returns the result of interpreting the object as an instance of '
-     * <em>EObject</em>'. <!-- begin-user-doc --> This implementation returns
-     * null; returning a non-null result will terminate the switch, but this is
-     * the last case anyway. <!-- end-user-doc -->
+     * Returns the result of interpreting the object as an instance of ' <em>EObject</em>'. <!-- begin-user-doc --> This
+     * implementation returns null; returning a non-null result will terminate the switch, but this is the last case
+     * anyway. <!-- end-user-doc -->
      * 
      * @param object
      *            the target of the switch.
-     * @return the result of interpreting the object as an instance of '
-     *         <em>EObject</em>'.
+     * @return the result of interpreting the object as an instance of ' <em>EObject</em>'.
      * @see #doSwitch(org.eclipse.emf.ecore.EObject)
      * @generated
      */

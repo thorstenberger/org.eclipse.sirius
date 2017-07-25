@@ -12,6 +12,7 @@
 package org.eclipse.sirius.ui.tools.internal.views.common.navigator.filter;
 
 import java.text.BreakIterator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,6 @@ import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.internal.misc.StringMatcher;
 import org.eclipse.ui.navigator.CommonViewer;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
@@ -399,7 +399,7 @@ public class PatternFilter extends ViewerFilter {
      * @return an array of words
      */
     private String[] getWords(String text) {
-        List<String> words = Lists.newArrayList();
+        List<String> words = new ArrayList<>();
         // Break the text up into words, separating based on whitespace and
         // common punctuation.
         // Previously used String.split(..., "\\W"), where "\W" is a regular

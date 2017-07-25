@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.ui.tools.internal.layout.data.extension;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -118,7 +119,7 @@ public final class LayoutDataManagerRegistry {
      * @return a list of {@link SiriusLayoutDataManager} instances.
      */
     public static List<SiriusLayoutDataManager> getSiriusLayoutDataManagers(DDiagram diagram) {
-        List<SiriusLayoutDataManager> applicableManagers = Lists.newArrayList();
+        List<SiriusLayoutDataManager> applicableManagers = new ArrayList<>();
         for (LayoutDataManagerDescriptor descriptor : getRegisteredExtensions()) {
             ILayoutDataManagerProvider provider = descriptor.getLayoutDataManagerProvider();
             if (provider != null && provider.provides(diagram)) {
@@ -143,7 +144,7 @@ public final class LayoutDataManagerRegistry {
      * @return a list of {@link SiriusLayoutDataManager} instances.
      */
     public static List<SiriusLayoutDataManager> getAllSiriusLayoutDataManagers() {
-        List<SiriusLayoutDataManager> applicableManagers = Lists.newArrayList();
+        List<SiriusLayoutDataManager> applicableManagers = new ArrayList<>();
         for (LayoutDataManagerDescriptor descriptor : getRegisteredExtensions()) {
             ILayoutDataManagerProvider provider = descriptor.getLayoutDataManagerProvider();
             if (provider != null) {

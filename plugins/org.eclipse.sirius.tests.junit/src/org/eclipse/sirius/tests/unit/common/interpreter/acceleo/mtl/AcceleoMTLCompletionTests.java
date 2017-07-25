@@ -597,7 +597,7 @@ public class AcceleoMTLCompletionTests extends AbstractCompletionTestCase {
     }
 
     private Collection<String> getDependenciesProposals(Collection<String> dependencies, boolean implicitContext) {
-        Collection<String> services = Lists.newArrayList();
+        Collection<String> services = new ArrayList<>();
         if (dependencies == null) {
             return services;
         }

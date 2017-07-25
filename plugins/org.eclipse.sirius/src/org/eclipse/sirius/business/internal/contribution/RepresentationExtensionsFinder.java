@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.business.internal.contribution;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -159,7 +160,7 @@ public class RepresentationExtensionsFinder {
     }
 
     private List<RepresentationExtensionDescription> findApplicableExtensions(Iterable<Viewpoint> context, String targetSiriusURI, String targetRepresentationName) {
-        List<RepresentationExtensionDescription> result = Lists.newArrayList();
+        List<RepresentationExtensionDescription> result = new ArrayList<>();
         for (Viewpoint vp : context) {
             for (RepresentationExtensionDescription ext : vp.getOwnedRepresentationExtensions()) {
                 if (appliesTo(ext, targetSiriusURI, targetRepresentationName)) {

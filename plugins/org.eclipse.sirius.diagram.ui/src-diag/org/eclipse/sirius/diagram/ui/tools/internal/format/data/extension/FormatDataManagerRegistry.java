@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.ui.tools.internal.format.data.extension;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -118,7 +119,7 @@ public final class FormatDataManagerRegistry {
      * @return a list of {@link SiriusFormatDataManager} instances.
      */
     public static List<SiriusFormatDataManager> getSiriusFormatDataManagers(DDiagram diagram) {
-        List<SiriusFormatDataManager> applicableManagers = Lists.newArrayList();
+        List<SiriusFormatDataManager> applicableManagers = new ArrayList<>();
         for (FormatDataManagerDescriptor descriptor : getRegisteredExtensions()) {
             IFormatDataManagerProvider provider = descriptor.getFormatDataManagerProvider();
             if (provider != null && provider.provides(diagram)) {
@@ -143,7 +144,7 @@ public final class FormatDataManagerRegistry {
      * @return a list of {@link SiriusFormatDataManager} instances.
      */
     public static List<SiriusFormatDataManager> getAllSiriusFormatDataManagers() {
-        List<SiriusFormatDataManager> applicableManagers = Lists.newArrayList();
+        List<SiriusFormatDataManager> applicableManagers = new ArrayList<>();
         for (FormatDataManagerDescriptor descriptor : getRegisteredExtensions()) {
             IFormatDataManagerProvider provider = descriptor.getFormatDataManagerProvider();
             if (provider != null) {

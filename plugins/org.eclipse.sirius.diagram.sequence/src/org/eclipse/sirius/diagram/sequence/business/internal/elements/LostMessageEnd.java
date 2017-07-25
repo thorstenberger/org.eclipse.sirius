@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.business.internal.elements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -28,11 +29,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
+
 /**
- * Represents the LostMEssageEnd marker which can appear at at the end of a
- * message. This element can be present if a message do not have a starting end
- * or a finishing end.
+ * Represents the LostMEssageEnd marker which can appear at at the end of a message. This element can be present if a
+ * message do not have a starting end or a finishing end.
  * 
  * @author mporhel
  */
@@ -40,14 +40,12 @@ public class LostMessageEnd extends AbstractSequenceNode {
     /**
      * The visual ID. Same as a standard node.
      * 
-     * see org.eclipse.sirius.diagram.internal.edit.parts.DNodeEditPart.
-     * VISUAL_ID
+     * see org.eclipse.sirius.diagram.internal.edit.parts.DNodeEditPart. VISUAL_ID
      */
     public static final int VISUAL_ID = 2001;
 
     /**
-     * Predicate to check whether a Sirius DDiagramElement represents an Lost
-     * Message End.
+     * Predicate to check whether a Sirius DDiagramElement represents an Lost Message End.
      */
     private enum SiriusElementPredicate implements Predicate<DDiagramElement> {
         INSTANCE;
@@ -60,7 +58,7 @@ public class LostMessageEnd extends AbstractSequenceNode {
                 result = result && Iterables.any(Iterables.concat(et.getIncomingEdges(), et.getOutgoingEdges()), Message.viewpointElementPredicate());
             }
 
-            List<Predicate<DDiagramElement>> potentialMessageTarget = Lists.newArrayList();
+            List<Predicate<DDiagramElement>> potentialMessageTarget = new ArrayList<>();
             potentialMessageTarget.add(EndOfLife.viewpointElementPredicate());
             potentialMessageTarget.add(AbstractNodeEvent.viewpointElementPredicate());
             potentialMessageTarget.add(Lifeline.viewpointElementPredicate());
@@ -84,22 +82,18 @@ public class LostMessageEnd extends AbstractSequenceNode {
     }
 
     /**
-     * Returns a predicate to check whether a GMF View represents an Lost
-     * Message End.
+     * Returns a predicate to check whether a GMF View represents an Lost Message End.
      * 
-     * @return a predicate to check whether a GMF View represents an Lost
-     *         Message End.
+     * @return a predicate to check whether a GMF View represents an Lost Message End.
      */
     public static Predicate<View> notationPredicate() {
         return new NotationPredicate(NotationPackage.eINSTANCE.getNode(), VISUAL_ID, LostMessageEnd.viewpointElementPredicate());
     }
 
     /**
-     * Returns a predicate to check whether a Sirius DDiagramElement represents
-     * an EndOfLife.
+     * Returns a predicate to check whether a Sirius DDiagramElement represents an EndOfLife.
      * 
-     * @return a predicate to check whether a Sirius DDiagramElement represents
-     *         an EndOfLife.
+     * @return a predicate to check whether a Sirius DDiagramElement represents an EndOfLife.
      */
     public static Predicate<DDiagramElement> viewpointElementPredicate() {
         return SiriusElementPredicate.INSTANCE;

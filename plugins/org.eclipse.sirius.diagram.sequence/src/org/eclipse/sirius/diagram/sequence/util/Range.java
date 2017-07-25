@@ -17,16 +17,16 @@ import org.eclipse.sirius.diagram.sequence.Messages;
 import com.google.common.base.Preconditions;
 
 /**
- * Represents a closed interval between two numbers. The starting and ending
- * points of the range are considered inside the interval.
+ * Represents a closed interval between two numbers. The starting and ending points of the range are considered inside
+ * the interval.
  * 
  * @author pcdavid
  */
 public class Range {
 
     /**
-     * A sentinel object to represent the empty range. It is technically not
-     * empty but this instance is treated specially.
+     * A sentinel object to represent the empty range. It is technically not empty but this instance is treated
+     * specially.
      */
     private static final Range EMPTY_RANGE = new Range(0, 0);
 
@@ -49,8 +49,7 @@ public class Range {
     }
 
     /**
-     * Returns the single Range instance which represents an empty range (
-     * <code>null</code> object pattern).
+     * Returns the single Range instance which represents an empty range ( <code>null</code> object pattern).
      * 
      * @return an empty range, which contains no element.
      */
@@ -108,37 +107,31 @@ public class Range {
     }
 
     /**
-     * Returns the lower bound of this range, or <code>NaN</code> if the range
-     * is empty.
+     * Returns the lower bound of this range, or <code>NaN</code> if the range is empty.
      * 
-     * @return the lower bound of this range, or <code>NaN</code> if the range
-     *         is empty.
+     * @return the lower bound of this range, or <code>NaN</code> if the range is empty.
      */
     public int getLowerBound() {
         return isEmpty() ? Integer.MIN_VALUE : lower;
     }
 
     /**
-     * Returns the upper bound of this range, or <code>NaN</code> if the range
-     * is empty.
+     * Returns the upper bound of this range, or <code>NaN</code> if the range is empty.
      * 
-     * @return the upper bound of this range, or <code>NaN</code> if the range
-     *         is empty.
+     * @return the upper bound of this range, or <code>NaN</code> if the range is empty.
      */
     public int getUpperBound() {
         return isEmpty() ? Integer.MIN_VALUE : upper;
     }
 
     /**
-     * Constrain a value inside this range. If the specified value if less than
-     * this range's lower bound (resp. greater than this range's upper bound),
-     * returns the lower bound (resp. the upper bound). Otherwise return the
-     * value itself.
+     * Constrain a value inside this range. If the specified value if less than this range's lower bound (resp. greater
+     * than this range's upper bound), returns the lower bound (resp. the upper bound). Otherwise return the value
+     * itself.
      * 
      * @param value
      *            the value to constrain.
-     * @return the value closest to the specified input value which is inside
-     *         the range.
+     * @return the value closest to the specified input value which is inside the range.
      */
     public int clamp(int value) {
         final int result;
@@ -196,9 +189,8 @@ public class Range {
     }
 
     /**
-     * Returns a new range which is the union of this range and the other. The
-     * union range is the smallest range which includes all the elements of both
-     * initial ranges.
+     * Returns a new range which is the union of this range and the other. The union range is the smallest range which
+     * includes all the elements of both initial ranges.
      * 
      * @param other
      *            the other range.
@@ -244,8 +236,7 @@ public class Range {
      * 
      * @param other
      *            the other range.
-     * @return <code>true</code> if this range intersects with
-     *         <code>other</code>.
+     * @return <code>true</code> if this range intersects with <code>other</code>.
      */
     public boolean intersects(Range other) {
         return !intersection(other).isEmpty();
@@ -256,44 +247,38 @@ public class Range {
      * 
      * @param other
      *            the other range to test for inclusion.
-     * @return <code>true</code> if <code>other</code> is included in this
-     *         range.
+     * @return <code>true</code> if <code>other</code> is included in this range.
      */
     public boolean includes(Range other) {
         return this.intersection(other).equals(other);
     }
 
     /**
-     * Tests whether only one bound of the specified range is included inside
-     * this one.
+     * Tests whether only one bound of the specified range is included inside this one.
      * 
      * @param other
      *            the other range to test for inclusion.
-     * @return <code>true</code> if <code>other</code> is included in this
-     *         range.
+     * @return <code>true</code> if <code>other</code> is included in this range.
      */
     public boolean includesOneBoundOnly(Range other) {
         return (this.includes(other.getLowerBound()) && !this.includes(other.getUpperBound())) || (!this.includes(other.getLowerBound()) && this.includes(other.getUpperBound()));
     }
 
     /**
-     * Tests whether only one bound of the specified range is included inside
-     * this one.
+     * Tests whether only one bound of the specified range is included inside this one.
      * 
      * @param other
      *            the other range to test for inclusion.
-     * @return <code>true</code> if <code>other</code> is included in this
-     *         range.
+     * @return <code>true</code> if <code>other</code> is included in this range.
      */
     public boolean includesAtLeastOneBound(Range other) {
         return includes(other) || includesOneBoundOnly(other);
     }
 
     /**
-     * Returns a new range corresponding to this range shifted by the specified
-     * distance (which can be positive or negative). Shifting an empty range
-     * produces an empty range. Otherwise the resulting range has the same width
-     * as the original.
+     * Returns a new range corresponding to this range shifted by the specified distance (which can be positive or
+     * negative). Shifting an empty range produces an empty range. Otherwise the resulting range has the same width as
+     * the original.
      * 
      * @param distance
      *            the distance to shift this range.
@@ -308,11 +293,9 @@ public class Range {
     }
 
     /**
-     * Returns a new range corresponding to this range grown by the specified
-     * distance (which must be positive). Growing an empty range produces an
-     * empty range. Otherwise the resulting range has a bigger width than
-     * original (+ 2 * distance). The middle value of this range is kept
-     * constant.
+     * Returns a new range corresponding to this range grown by the specified distance (which must be positive). Growing
+     * an empty range produces an empty range. Otherwise the resulting range has a bigger width than original (+ 2 *
+     * distance). The middle value of this range is kept constant.
      * 
      * @param distance
      *            the positive distance to grow this range.
@@ -328,11 +311,9 @@ public class Range {
     }
 
     /**
-     * Returns a new range corresponding to this range shrinked by the specified
-     * distance (which must be positive). Shrinking an empty range produces an
-     * empty range. Otherwise the resulting range has a smaller width than
-     * original (- 2 * distance). The middle value of this range is kept
-     * constant.
+     * Returns a new range corresponding to this range shrinked by the specified distance (which must be positive).
+     * Shrinking an empty range produces an empty range. Otherwise the resulting range has a smaller width than original
+     * (- 2 * distance). The middle value of this range is kept constant.
      * 
      * @param distance
      *            the positive distance to shrink this range.
@@ -349,15 +330,13 @@ public class Range {
     }
 
     /**
-     * Returns a percentage of how much the given absolute number is inside this
-     * range.
+     * Returns a percentage of how much the given absolute number is inside this range.
      * 
      * @param n
      *            an integer.
-     * @return a number between 0.0 and 1.0 representing how much <code>n</code>
-     *         is inside this range (0.0 meaning n is the range's lower bound or
-     *         below, 1.0 meaning n is the range's upper bound or above), or
-     *         Double.NaN if this range is empty.
+     * @return a number between 0.0 and 1.0 representing how much <code>n</code> is inside this range (0.0 meaning n is
+     *         the range's lower bound or below, 1.0 meaning n is the range's upper bound or above), or Double.NaN if
+     *         this range is empty.
      */
     public double getProportionalLocation(int n) {
         double result = Double.NaN;
@@ -374,13 +353,11 @@ public class Range {
     }
 
     /**
-     * Validates that this range bounds does not match any bounds of the other
-     * range.
+     * Validates that this range bounds does not match any bounds of the other range.
      * 
      * @param other
      *            the other range.
-     * @return if this range bounds does not match any bounds of the other
-     *         range.
+     * @return if this range bounds does not match any bounds of the other range.
      */
     public boolean validatesBoundsAreDifferent(Range other) {
         return getLowerBound() != other.getLowerBound() && getLowerBound() != other.getUpperBound() && getUpperBound() != other.getLowerBound() && getUpperBound() != other.getUpperBound();

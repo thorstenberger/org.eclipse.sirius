@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.tests.unit.diagram.tools.palette;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -36,7 +37,6 @@ import org.eclipse.ui.IEditorPart;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -255,7 +255,7 @@ public abstract class AbstractPaletteManagerTest extends SiriusDiagramTestCase {
     }
 
     private List<String> getLabelEntries(PaletteEntry paletteEntry) {
-        List<String> result = Lists.newArrayList();
+        List<String> result = new ArrayList<>();
 
         Iterable<PaletteEntry> filtered2 = Iterables.filter((List<PaletteEntry>) ((PaletteContainer) paletteEntry).getChildren(), VISIBLE_ENTRY);
 

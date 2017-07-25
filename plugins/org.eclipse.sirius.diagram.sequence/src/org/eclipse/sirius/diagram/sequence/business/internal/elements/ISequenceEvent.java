@@ -20,10 +20,10 @@ import org.eclipse.sirius.ext.base.Option;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+
 /**
- * Common interface for all the elements of a sequence diagram which represent
- * an event associated to a (logical) time interval and thus a range of vertical
- * coordinates. This includes lifelines (considered as a special case of
+ * Common interface for all the elements of a sequence diagram which represent an event associated to a (logical) time
+ * interval and thus a range of vertical coordinates. This includes lifelines (considered as a special case of
  * executions), executions and messages.
  * 
  * @author mporhel
@@ -47,20 +47,16 @@ public interface ISequenceEvent extends ISequenceElement {
     };
 
     /**
-     * Tests whether this event should be considered logically to be
-     * instantaneous. Depending on its graphical representation, it may still
-     * cover a significant vertical space.
+     * Tests whether this event should be considered logically to be instantaneous. Depending on its graphical
+     * representation, it may still cover a significant vertical space.
      * 
-     * @return <code>true</code> if this event should be considered
-     *         instantaneous.
+     * @return <code>true</code> if this event should be considered instantaneous.
      */
     boolean isLogicallyInstantaneous();
 
     /**
-     * Returns the vertical range of coordinates this event covers. The
-     * coordinates are normalized y coordinates (relative to the origin of the
-     * logical plane, whatever the scroll state is, and independent of the zoom
-     * level).
+     * Returns the vertical range of coordinates this event covers. The coordinates are normalized y coordinates
+     * (relative to the origin of the logical plane, whatever the scroll state is, and independent of the zoom level).
      * 
      * @return the vertical range of coordinates this event covers.
      */
@@ -77,61 +73,53 @@ public interface ISequenceEvent extends ISequenceElement {
     void setVerticalRange(Range range) throws IllegalStateException;
 
     /**
-     * Returns the parent event of this event (from a business point of view),
-     * if any. Returns <code>null</code> for top-level events, i.e. lifelines.
+     * Returns the parent event of this event (from a business point of view), if any. Returns <code>null</code> for
+     * top-level events, i.e. lifelines.
      * 
      * @return the parent event of this event, if any.
      */
     ISequenceEvent getParentEvent();
 
     /**
-     * Returns the hierarchical parent event of this event (from a Notation
-     * point of view), if any. Returns <code>null</code> for top-level events
-     * i.e. lifelines / frames / messages.
+     * Returns the hierarchical parent event of this event (from a Notation point of view), if any. Returns
+     * <code>null</code> for top-level events i.e. lifelines / frames / messages.
      * 
      * @return the hierarchical parent event of this event, if any.
      */
     ISequenceEvent getHierarchicalParentEvent();
 
     /**
-     * Returns the list of direct sub-events of this event, in chronological
-     * (and thus also graphical) order. This includes both events which are
-     * directly owned by this event (e.g. the messages sent by an execution) and
-     * events not owned but connected to this event (e.g. the messages received
-     * by an execution).
+     * Returns the list of direct sub-events of this event, in chronological (and thus also graphical) order. This
+     * includes both events which are directly owned by this event (e.g. the messages sent by an execution) and events
+     * not owned but connected to this event (e.g. the messages received by an execution).
      * 
-     * @return the list of direct sub-events of this event, in chronological
-     *         order.
+     * @return the list of direct sub-events of this event, in chronological order.
      */
     List<ISequenceEvent> getSubEvents();
 
     /**
-     * Returns the vertical range of coordinates inside which direct sub-events
-     * of this event can be. The coordinates are normalized y coordinates. The
-     * range returned is guaranteed to be a sub-range of
-     * {@link #getVerticalRange()} or the empty range for events which can not
-     * have children.
+     * Returns the vertical range of coordinates inside which direct sub-events of this event can be. The coordinates
+     * are normalized y coordinates. The range returned is guaranteed to be a sub-range of {@link #getVerticalRange()}
+     * or the empty range for events which can not have children.
      * 
      * @return the vertical range in
      */
     Range getValidSubEventsRange();
 
     /**
-     * Tests whether a given child can be placed anywhere in the specified
-     * vertical range.
+     * Tests whether a given child can be placed anywhere in the specified vertical range.
      * 
      * @param child
      *            the child.
      * @param range
      *            the vertical range to test.
-     * @return <code>true</code> if the child can be placed anywhere inside the
-     *         specified vertical range (including occupying the whole range).
+     * @return <code>true</code> if the child can be placed anywhere inside the specified vertical range (including
+     *         occupying the whole range).
      */
     boolean canChildOccupy(ISequenceEvent child, Range range);
 
     /**
-     * Tests whether a given child can be placed anywhere in the specified
-     * vertical range.
+     * Tests whether a given child can be placed anywhere in the specified vertical range.
      * 
      * @param child
      *            the child.
@@ -141,16 +129,16 @@ public interface ISequenceEvent extends ISequenceElement {
      *            the list of events to ignore while computing canChildOccupy.
      * @param lifelines
      *            lifelines to inspect.
-     * @return <code>true</code> if the child can be placed anywhere inside the
-     *         specified vertical range (including occupying the whole range).
+     * @return <code>true</code> if the child can be placed anywhere inside the specified vertical range (including
+     *         occupying the whole range).
      */
     boolean canChildOccupy(ISequenceEvent child, Range range, List<ISequenceEvent> eventsToIgnore, Collection<Lifeline> lifelines);
 
     /**
      * Calculate the maximal occupied range of this event.
      * 
-     * @return the maximal range occupied by children of this event, from the
-     *         beginning of the first sub-event to the end of the last one.
+     * @return the maximal range occupied by children of this event, from the beginning of the first sub-event to the
+     *         end of the last one.
      */
     Range getOccupiedRange();
 

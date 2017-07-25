@@ -34,8 +34,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 
 /**
- * An operation to re-compute the graphical ordering in which events appear on a
- * diagram.
+ * An operation to re-compute the graphical ordering in which events appear on a diagram.
  * 
  * <pre>
  * GMF View Model ------> GraphicalMessageOrdering
@@ -47,8 +46,8 @@ public class RefreshGraphicalOrderingOperation extends AbstractModelChangeOperat
     private final SequenceDDiagram sequenceDiagram;
 
     /**
-     * Creates a command which updates the graphical ordering of events store in
-     * the model using the latest available graphical informations.
+     * Creates a command which updates the graphical ordering of events store in the model using the latest available
+     * graphical informations.
      * 
      * @param sequenceDiagram
      *            the diagram whose graphical ordering should be refreshed.
@@ -81,8 +80,7 @@ public class RefreshGraphicalOrderingOperation extends AbstractModelChangeOperat
      *            the diagram.
      * 
      * @param verticalPosition
-     *            the function to use to obtain the vertical position of the
-     *            event ends.
+     *            the function to use to obtain the vertical position of the event ends.
      */
     private boolean refreshGlobalOrdering(EventEndsOrdering graphicalOrdering, VerticalPositionFunction verticalPosition) {
         final LoadingCache<EventEnd, Integer> positions = CacheBuilder.newBuilder().build(CacheLoader.from(verticalPosition));
@@ -114,8 +112,8 @@ public class RefreshGraphicalOrderingOperation extends AbstractModelChangeOperat
     /**
      * Returns all the event ends of the current Sequence diagram.
      * 
-     * The default implementation does the computation on each call, subclasses
-     * may override this method to change this behavior.
+     * The default implementation does the computation on each call, subclasses may override this method to change this
+     * behavior.
      * 
      * @return an Iterable with all event ends.
      */
@@ -124,9 +122,8 @@ public class RefreshGraphicalOrderingOperation extends AbstractModelChangeOperat
     }
 
     /**
-     * Custom vertical function which do not return the real location of an
-     * event end but allow to correctly order event end from logically
-     * instantaneous ISequenceEvent.
+     * Custom vertical function which do not return the real location of an event end but allow to correctly order event
+     * end from logically instantaneous ISequenceEvent.
      * 
      * @author mPorhel
      */
@@ -144,11 +141,9 @@ public class RefreshGraphicalOrderingOperation extends AbstractModelChangeOperat
             Integer customPos = super.apply(end);
             if (customPos != INVALID_POSITION || customPos != -INVALID_POSITION) {
                 /*
-                 * Simulates a 10x zoom so that we can adjust the
-                 * SingleEventEnds position to get the proper ordering. This
-                 * manipulation gives us the right ordering, but the actual
-                 * Integer values returned by the function should not be used
-                 * for anything else than comparing relative positions.
+                 * Simulates a 10x zoom so that we can adjust the SingleEventEnds position to get the proper ordering.
+                 * This manipulation gives us the right ordering, but the actual Integer values returned by the function
+                 * should not be used for anything else than comparing relative positions.
                  */
                 customPos *= 10;
 

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.business.internal.query;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.sirius.diagram.DDiagram;
@@ -24,7 +25,6 @@ import org.eclipse.sirius.viewpoint.description.PasteTargetDescription;
 import org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription;
 import org.eclipse.sirius.viewpoint.description.tool.PasteDescription;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -56,7 +56,7 @@ public class PasteTargetQuery {
      *         PasteTargetDescription.
      */
     public Collection<PasteDescription> getAvailablePasteTools() {
-        final Collection<PasteDescription> result = Lists.newArrayList();
+        final Collection<PasteDescription> result = new ArrayList<>();
         if (semDec instanceof DDiagram) {
             DDiagram diag = (DDiagram) semDec;
             result.addAll(getPasteToolsOnActivatedLayers(diag, diag.getDescription()));

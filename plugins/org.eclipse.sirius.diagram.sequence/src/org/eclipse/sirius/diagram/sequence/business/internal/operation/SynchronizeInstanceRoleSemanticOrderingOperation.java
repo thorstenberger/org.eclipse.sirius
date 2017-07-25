@@ -42,14 +42,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
- * Refreshes the semantic ordering of a an element of a sequence diagram to
- * reflect the current graphical ordering. This command assumes that the
- * <code>GraphicalMessageOrdering</code> and the
- * <code>SemanticMessageOrdering</code> are up to date according to the current
- * visual (resp. semantic) order but that when they do not match, the graphical
- * ordering is the authoritative one and the semantic ordering should be changed
- * to match it, through the appropriate use of the user-specified
- * <code>ReorderTool</code>.
+ * Refreshes the semantic ordering of a an element of a sequence diagram to reflect the current graphical ordering. This
+ * command assumes that the <code>GraphicalMessageOrdering</code> and the <code>SemanticMessageOrdering</code> are up to
+ * date according to the current visual (resp. semantic) order but that when they do not match, the graphical ordering
+ * is the authoritative one and the semantic ordering should be changed to match it, through the appropriate use of the
+ * user-specified <code>ReorderTool</code>.
  * 
  * @author pcdavid, smonnier
  */
@@ -68,8 +65,7 @@ public class SynchronizeInstanceRoleSemanticOrderingOperation extends AbstractMo
      * Constructor.
      * 
      * @param instanceRole
-     *            the instance role to move to its new location in the semantic
-     *            order.
+     *            the instance role to move to its new location in the semantic order.
      */
     public SynchronizeInstanceRoleSemanticOrderingOperation(InstanceRole instanceRole) {
         super(Messages.SynchronizeInstanceRoleSemanticOrderingOperation_operationName);
@@ -82,8 +78,7 @@ public class SynchronizeInstanceRoleSemanticOrderingOperation extends AbstractMo
      * Constructor.
      * 
      * @param instanceRole
-     *            the instance role to move to its new location in the semantic
-     *            order.
+     *            the instance role to move to its new location in the semantic order.
      * @param selection
      *            additional events to reorder
      */

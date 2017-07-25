@@ -917,7 +917,7 @@ public abstract class AbstractCanonicalSynchronizer implements CanonicalSynchron
      * @return list of edges
      */
     private List<Edge> getIncomingOutgoingEdges(View view) {
-        List<Edge> edgesToDelete = Lists.newArrayList();
+        List<Edge> edgesToDelete = new ArrayList<>();
         Iterables.addAll(edgesToDelete, Iterables.filter(view.getSourceEdges(), Edge.class));
         Iterables.addAll(edgesToDelete, Iterables.filter(view.getTargetEdges(), Edge.class));
 

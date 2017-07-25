@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.business.internal.elements;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -35,7 +36,6 @@ import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.sirius.viewpoint.ViewpointPackage;
 
 import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
 
 /**
  * Accessor to get the sequence element corresponding to a notation one.
@@ -63,13 +63,11 @@ public final class ISequenceElementAccessor {
     }
 
     /**
-     * Tell if the specified GMF {@link View} represents a sequence element or a
-     * part of it.
+     * Tell if the specified GMF {@link View} represents a sequence element or a part of it.
      * 
      * @param notationView
      *            the specified GMF view
-     * @return true if the specified GMF view is a sequence element or a part of
-     *         it, false otherwise
+     * @return true if the specified GMF view is a sequence element or a part of it, false otherwise
      */
     public static boolean isPartOfSequenceElement(View notationView) {
         boolean isPartOfSequenceElement = false;
@@ -248,8 +246,7 @@ public final class ISequenceElementAccessor {
     }
 
     /**
-     * Get the existing {@link ISequenceElement} corresponding to the given View
-     * or create it.
+     * Get the existing {@link ISequenceElement} corresponding to the given View or create it.
      * 
      * @param notationView
      *            the notation view.
@@ -310,22 +307,20 @@ public final class ISequenceElementAccessor {
     }
 
     /**
-     * Finds all the events in the specified diagram which have a specific
-     * semantic target.
+     * Finds all the events in the specified diagram which have a specific semantic target.
      * 
      * @param diagram
      *            the sequence diagram.
      * @param semanticElement
      *            the semantic element.
-     * @return all the events in the diagram which have the specified semantic
-     *         element as target.
+     * @return all the events in the diagram which have the specified semantic element as target.
      */
     public static Collection<ISequenceEvent> getEventsForSemanticElement(SequenceDiagram diagram, EObject semanticElement) {
         ECrossReferenceAdapter xref = ISequenceElementAccessor.getCrossReferencer(semanticElement);
         if (xref == null) {
             return Collections.emptySet();
         } else {
-            Collection<ISequenceEvent> result = Lists.newArrayList();
+            Collection<ISequenceEvent> result = new ArrayList<>();
             for (Setting setting : xref.getInverseReferences(semanticElement)) {
                 if (ISequenceElementAccessor.isDiagramElementTargetReference(setting)) {
                     DDiagramElement dde = (DDiagramElement) setting.getEObject();
@@ -343,22 +338,20 @@ public final class ISequenceElementAccessor {
     }
 
     /**
-     * Finds all the events in the specified diagram which have a specific
-     * semantic target.
+     * Finds all the events in the specified diagram which have a specific semantic target.
      * 
      * @param diagram
      *            the sequence diagram.
      * @param semanticElement
      *            the semantic element.
-     * @return all the events in the diagram which have the specified semantic
-     *         element as target.
+     * @return all the events in the diagram which have the specified semantic element as target.
      */
     public static Collection<View> getViewsForSemanticElement(SequenceDDiagram diagram, EObject semanticElement) {
         ECrossReferenceAdapter xref = ISequenceElementAccessor.getCrossReferencer(semanticElement);
         if (xref == null || diagram == null) {
             return Collections.emptySet();
         } else {
-            Collection<View> result = Lists.newArrayList();
+            Collection<View> result = new ArrayList<>();
             for (Setting setting : xref.getInverseReferences(semanticElement)) {
                 if (ISequenceElementAccessor.isDiagramElementTargetReference(setting)) {
                     DDiagramElement dde = (DDiagramElement) setting.getEObject();
@@ -379,22 +372,20 @@ public final class ISequenceElementAccessor {
     }
 
     /**
-     * Finds all the events in the specified diagram which have a specific
-     * semantic target.
+     * Finds all the events in the specified diagram which have a specific semantic target.
      * 
      * @param diagram
      *            the sequence diagram.
      * @param semanticElement
      *            the semantic element.
-     * @return all the events in the diagram which have the specified semantic
-     *         element as target.
+     * @return all the events in the diagram which have the specified semantic element as target.
      */
     public static Collection<DDiagramElement> getDiagramElementsForSemanticElement(SequenceDiagram diagram, EObject semanticElement) {
         ECrossReferenceAdapter xref = ISequenceElementAccessor.getCrossReferencer(semanticElement);
         if (xref == null) {
             return Collections.emptySet();
         } else {
-            Collection<DDiagramElement> result = Lists.newArrayList();
+            Collection<DDiagramElement> result = new ArrayList<>();
             for (Setting setting : xref.getInverseReferences(semanticElement)) {
                 if (ISequenceElementAccessor.isDiagramElementTargetReference(setting)) {
                     result.add((DDiagramElement) setting.getEObject());

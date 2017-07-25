@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.validator;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
@@ -89,7 +90,7 @@ public abstract class AbstractInteractionFrameValidator {
 
     private boolean initialized;
 
-    private final Collection<Integer> invalidPositions = Lists.newArrayList();
+    private final Collection<Integer> invalidPositions = new ArrayList<>();
 
     private Predicate<Object> unMove = Predicates.instanceOf(Lifeline.class);
 
@@ -184,7 +185,7 @@ public abstract class AbstractInteractionFrameValidator {
     }
 
     private Collection<ISequenceEvent> getFinalParentsWithAutoExpand() {
-        Collection<ISequenceEvent> finalParentsWithAutoExpand = Lists.newArrayList();
+        Collection<ISequenceEvent> finalParentsWithAutoExpand = new ArrayList<>();
         Collection<ISequenceEvent> finalParents = getFinalParents();
         Collection<Lifeline> coveredLifelines = frame.computeCoveredLifelines();
         for (ISequenceEvent localParent : finalParents) {

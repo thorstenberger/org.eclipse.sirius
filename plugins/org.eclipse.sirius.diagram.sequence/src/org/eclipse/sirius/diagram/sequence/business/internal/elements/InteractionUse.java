@@ -36,14 +36,12 @@ public class InteractionUse extends AbstractFrame {
     /**
      * The visual ID. Same as a normal bordered node.
      * 
-     * see org.eclipse.sirius.diagram.internal.edit.parts.
-     * DNodeContainerEditPart.VISUAL_ID
+     * see org.eclipse.sirius.diagram.internal.edit.parts. DNodeContainerEditPart.VISUAL_ID
      */
     public static final int VISUAL_ID = 2002;
 
     /**
-     * Predicate to check whether a Sirius DDiagramElement represents an
-     * execution.
+     * Predicate to check whether a Sirius DDiagramElement represents an execution.
      */
     private enum SiriusElementPredicate implements Predicate<DDiagramElement> {
         INSTANCE;
@@ -76,11 +74,9 @@ public class InteractionUse extends AbstractFrame {
     }
 
     /**
-     * Returns a predicate to check whether a Sirius DDiagramElement
-     * represents an execution.
+     * Returns a predicate to check whether a Sirius DDiagramElement represents an execution.
      * 
-     * @return a predicate to check whether a Sirius DDiagramElement
-     *         represents an execution.
+     * @return a predicate to check whether a Sirius DDiagramElement represents an execution.
      */
     public static Predicate<DDiagramElement> viewpointElementPredicate() {
         return SiriusElementPredicate.INSTANCE;

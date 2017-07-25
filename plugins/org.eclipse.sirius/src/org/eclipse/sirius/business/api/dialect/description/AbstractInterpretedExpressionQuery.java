@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.business.api.dialect.description;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -64,7 +65,6 @@ import org.eclipse.sirius.viewpoint.description.validation.ValidationPackage;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -782,7 +782,7 @@ public abstract class AbstractInterpretedExpressionQuery implements IInterpreted
         if (name != null) {
             Collection<VariableType> defs = definitions.get(name);
             if (defs == null) {
-                defs = Lists.newArrayList();
+                defs = new ArrayList<>();
                 definitions.put(name, defs);
             }
             defs.add(type);

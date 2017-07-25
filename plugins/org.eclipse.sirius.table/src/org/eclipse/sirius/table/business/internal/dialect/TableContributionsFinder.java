@@ -18,6 +18,18 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.sirius.business.api.query.EObjectQuery;
+import org.eclipse.sirius.business.api.query.ViewpointQuery;
+import org.eclipse.sirius.business.internal.contribution.ReuseHelper;
+import org.eclipse.sirius.description.contribution.Contribution;
+import org.eclipse.sirius.description.contribution.ContributionPackage;
+import org.eclipse.sirius.ext.base.Option;
+import org.eclipse.sirius.ext.emf.AllContents;
+import org.eclipse.sirius.table.metamodel.table.description.TableDescription;
+import org.eclipse.sirius.viewpoint.description.DescriptionPackage;
+import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
+import org.eclipse.sirius.viewpoint.description.RepresentationExtensionDescription;
+import org.eclipse.sirius.viewpoint.description.Viewpoint;
 
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
@@ -25,19 +37,6 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
-import org.eclipse.sirius.description.contribution.Contribution;
-import org.eclipse.sirius.description.contribution.ContributionPackage;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.emf.AllContents;
-import org.eclipse.sirius.business.api.query.EObjectQuery;
-import org.eclipse.sirius.business.api.query.ViewpointQuery;
-import org.eclipse.sirius.business.internal.contribution.ReuseHelper;
-import org.eclipse.sirius.table.metamodel.table.description.TableDescription;
-import org.eclipse.sirius.viewpoint.description.DescriptionPackage;
-import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
-import org.eclipse.sirius.viewpoint.description.RepresentationExtensionDescription;
-import org.eclipse.sirius.viewpoint.description.Viewpoint;
 
 /**
  * Helper to find all the contributions which should be applied to produce the
@@ -68,7 +67,7 @@ public class TableContributionsFinder implements Function<Iterable<EObject>, Ite
         ArrayList<EObject> reversed = Lists.newArrayList(sortedRepresentations);
         Collections.reverse(reversed);
 
-        List<Contribution> result = Lists.newArrayList();
+        List<Contribution> result = new ArrayList<>();
         for (EObject root : reversed) {
             Iterables.addAll(result, Iterables.filter(AllContents.of(root, ContributionPackage.eINSTANCE.getContribution(), true), Contribution.class));
         }

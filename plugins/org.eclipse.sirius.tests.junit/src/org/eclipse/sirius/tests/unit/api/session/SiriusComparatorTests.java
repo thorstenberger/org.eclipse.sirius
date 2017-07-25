@@ -12,8 +12,6 @@ package org.eclipse.sirius.tests.unit.api.session;
 
 import java.util.Set;
 
-import junit.framework.TestCase;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.sirius.business.api.componentization.ViewpointRegistry;
 import org.eclipse.sirius.business.api.componentization.ViewpointRegistry.ViewpointComparator;
@@ -23,6 +21,8 @@ import org.eclipse.sirius.tests.support.api.EclipseTestsSupportHelper;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
 
 import com.google.common.collect.Sets;
+
+import junit.framework.TestCase;
 
 public class SiriusComparatorTests extends TestCase {
 

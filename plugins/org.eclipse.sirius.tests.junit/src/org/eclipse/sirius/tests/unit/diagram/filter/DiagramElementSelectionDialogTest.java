@@ -12,6 +12,7 @@ package org.eclipse.sirius.tests.unit.diagram.filter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -46,7 +47,6 @@ import org.eclipse.ui.dialogs.CheckedTreeSelectionDialog;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
 
@@ -216,7 +216,7 @@ public class DiagramElementSelectionDialogTest extends SiriusDiagramTestCase imp
     }
 
     private String[] getElementNamesAndLabels(String... elementNames) {
-        List<String> namesAndLabels = Lists.newArrayList();
+        List<String> namesAndLabels = new ArrayList<>();
         for (int i = 0; i < elementNames.length; i++) {
             namesAndLabels.add(elementNames[i]);
             namesAndLabels.add(elementNames[i] + " label");

@@ -11,6 +11,7 @@
 package org.eclipse.sirius.diagram.sequence.business.internal.operation;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -52,14 +53,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
- * Refreshes the semantic ordering of a an element of a sequence diagram to
- * reflect the current graphical ordering. This command assumes that the
- * <code>GraphicalMessageOrdering</code> and the
- * <code>SemanticMessageOrdering</code> are up to date according to the current
- * visual (resp. semantic) order but that when they do not match, the graphical
- * ordering is the authoritative one and the semantic ordering should be changed
- * to match it, through the appropriate use of the user-specified
- * <code>ReorderTool</code>.
+ * Refreshes the semantic ordering of a an element of a sequence diagram to reflect the current graphical ordering. This
+ * command assumes that the <code>GraphicalMessageOrdering</code> and the <code>SemanticMessageOrdering</code> are up to
+ * date according to the current visual (resp. semantic) order but that when they do not match, the graphical ordering
+ * is the authoritative one and the semantic ordering should be changed to match it, through the appropriate use of the
+ * user-specified <code>ReorderTool</code>.
  * 
  * @author pcdavid, smonnier
  */
@@ -224,7 +222,7 @@ public class SynchronizeISequenceEventsSemanticOrderingOperation extends Abstrac
 
         EventEnd startEventEnd = null;
         EventEnd endEventEnd = null;
-        List<EObject> startSemanticEvents = Lists.newArrayList();
+        List<EObject> startSemanticEvents = new ArrayList<>();
 
         // The main event has been reordered, the order of its ends might have
         // changed.
@@ -268,8 +266,8 @@ public class SynchronizeISequenceEventsSemanticOrderingOperation extends Abstrac
             }
         };
 
-        final Set<EObject> semanticDescendants = Sets.newHashSet(Iterables.filter(Iterables.transform(new ISequenceEventQuery(ise).getAllDescendants(), ISequenceElement.SEMANTIC_TARGET),
-                Predicates.notNull()));
+        final Set<EObject> semanticDescendants = Sets
+                .newHashSet(Iterables.filter(Iterables.transform(new ISequenceEventQuery(ise).getAllDescendants(), ISequenceElement.SEMANTIC_TARGET), Predicates.notNull()));
         final Predicate<EObject> isSemanticSubEventEnd = new Predicate<EObject>() {
             @Override
             public boolean apply(EObject input) {

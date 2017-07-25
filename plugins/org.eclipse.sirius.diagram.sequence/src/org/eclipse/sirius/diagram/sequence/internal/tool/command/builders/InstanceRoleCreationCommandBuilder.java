@@ -41,8 +41,8 @@ public class InstanceRoleCreationCommandBuilder extends NodeCreationCommandBuild
     private Point location;
 
     /**
-     * Constructor to renseign default elts needed by NodeCreationCommandBuilder
-     * and value needed by InstanceroleCreationTool.
+     * Constructor to renseign default elts needed by NodeCreationCommandBuilder and value needed by
+     * InstanceroleCreationTool.
      * 
      * @param tool
      *            the InstanceRoleCreationTool tool
@@ -106,8 +106,7 @@ public class InstanceRoleCreationCommandBuilder extends NodeCreationCommandBuild
      * {@inheritDoc}
      * 
      * Overridden to have OrderedElementCreationTool.startingEndPredecessor &
-     * OrderedElementCreationTool.finishingEndPredecessor variables in tool's
-     * precondition expression.
+     * OrderedElementCreationTool.finishingEndPredecessor variables in tool's precondition expression.
      */
     @Override
     protected boolean evaluatePrecondition(IInterpreter interpreter, EObject semanticContainer, String precondition) {

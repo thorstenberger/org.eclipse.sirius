@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.tests.swtbot;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +39,6 @@ import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditPart;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.waits.ICondition;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -349,7 +349,7 @@ public class MoveEdgeGroupTest extends AbstractSiriusSwtBotGefTestCase {
                     IGraphicalEditPart target = (IGraphicalEditPart) connectionEditPart.getTarget();
                     Rectangle targetInitalBounds = target.getFigure().getBounds().getCopy();
                     target.getFigure().translateToAbsolute(targetInitalBounds);
-                    List<Rectangle> locations = Lists.newArrayList();
+                    List<Rectangle> locations = new ArrayList<>();
                     locations.add(sourceInitalBounds);
                     locations.add(targetInitalBounds);
                     initialLocations.put(elementToMove, locations);

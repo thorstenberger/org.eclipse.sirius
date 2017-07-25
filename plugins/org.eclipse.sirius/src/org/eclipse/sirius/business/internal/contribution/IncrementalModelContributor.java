@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.business.internal.contribution;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -208,7 +209,7 @@ public class IncrementalModelContributor extends ModelContributor {
                 result.add(contribution);
             }
         }
-        targetsWithEOpposites = Lists.newArrayList();
+        targetsWithEOpposites = new ArrayList<>();
         for (Contribution contribution : result) {
             for (FeatureContribution fc : contribution.getFeatureMask()) {
                 if (fc.getTargetFeature() instanceof EReference && ((EReference) fc.getTargetFeature()).getEOpposite() != null) {

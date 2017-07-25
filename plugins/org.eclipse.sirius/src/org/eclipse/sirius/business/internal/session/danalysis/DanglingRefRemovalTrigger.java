@@ -43,7 +43,6 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -209,7 +208,7 @@ public class DanglingRefRemovalTrigger implements ModelChangeTrigger {
             DslCommonPlugin.PROFILER.startWork(SiriusTasksKey.CLEANING_REMOVEDANGLING_KEY);
 
             // Predicate to ignore attachments to detached elements.
-            Collection<Notifier> allDetachedObjectsAsNotifier = Lists.newArrayList();
+            Collection<Notifier> allDetachedObjectsAsNotifier = new ArrayList<>();
             for (Notifier notifier : allDetachedObjects) {
                 allDetachedObjectsAsNotifier.add(notifier);
             }
@@ -360,7 +359,7 @@ public class DanglingRefRemovalTrigger implements ModelChangeTrigger {
                     @Override
                     public Collection<Setting> getInverseReferences(EObject eObject, boolean resolve) {
                         Collection<Setting> settings = xReferencer.getInverseReferences(eObject, resolve);
-                        Collection<Setting> settingsToTryToUnset = Lists.newArrayList();
+                        Collection<Setting> settingsToTryToUnset = new ArrayList<>();
                         for (Setting s : settings) {
                             if (!toRemoveXRefFrom.contains(s.getEObject())) {
                                 settingsToTryToUnset.add(s);

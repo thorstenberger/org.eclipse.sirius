@@ -21,13 +21,11 @@ import org.eclipse.sirius.ext.base.Option;
 import com.google.common.base.Preconditions;
 
 /**
- * Refreshes the graphical locations of the elements in a sequence diagram to
- * reflect the current semantic ordering. This command assumes that the
- * {@link org.eclipse.sirius.diagram.sequence.ordering.GraphicalOrdering} and
- * the {@link org.eclipse.sirius.diagram.sequence.ordering.SemanticOrdering} are
- * up to date according to the current visual (resp. semantic) order but that
- * when they do not match, the semantic ordering is the authoritative one and
- * the graphical ordering should be changed to match it.
+ * Refreshes the graphical locations of the elements in a sequence diagram to reflect the current semantic ordering.
+ * This command assumes that the {@link org.eclipse.sirius.diagram.sequence.ordering.GraphicalOrdering} and the
+ * {@link org.eclipse.sirius.diagram.sequence.ordering.SemanticOrdering} are up to date according to the current visual
+ * (resp. semantic) order but that when they do not match, the semantic ordering is the authoritative one and the
+ * graphical ordering should be changed to match it.
  * 
  * @author pcdavid, smonnier
  */

@@ -114,7 +114,7 @@ public class EditPartQuery {
         if (part == null) {
             return null;
         }
-        ArrayList<T> result = Lists.newArrayList();
+        ArrayList<T> result = new ArrayList<>();
         EditPart current = part.getParent();
         while (current != null) {
             if (type.isInstance(current)) {

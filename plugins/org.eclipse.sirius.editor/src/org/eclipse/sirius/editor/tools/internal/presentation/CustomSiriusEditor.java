@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.editor.tools.internal.presentation;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EventObject;
 import java.util.HashMap;
@@ -88,7 +89,6 @@ import org.osgi.framework.Version;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -393,7 +393,7 @@ public class CustomSiriusEditor extends SiriusEditor implements IEObjectNavigabl
             public Object[] getElements(Object object) {
                 if (object instanceof ResourceSet) {
                     Set<EObject> viewpoints = getRequiredViewpoints(registry, (ResourceSet) object);
-                    List<Object> elements = Lists.newArrayList();
+                    List<Object> elements = new ArrayList<>();
                     Resource mainResource = ((ResourceSet) object).getResources().get(0);
                     elements.add(mainResource);
                     for (Viewpoint additionalVP : Iterables.filter(viewpoints, Viewpoint.class)) {

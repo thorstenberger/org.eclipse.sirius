@@ -38,8 +38,7 @@ import org.eclipse.sirius.ext.base.Option;
 import com.google.common.collect.Maps;
 
 /**
- * Computes the appropriate graphical locations of observation points on a
- * sequence diagram.
+ * Computes the appropriate graphical locations of observation points on a sequence diagram.
  * 
  * @author mporhel
  */
@@ -51,8 +50,7 @@ public class SequenceObservationLayout extends AbstractSequenceLayout<Observatio
      * Constructor.
      * 
      * @param sequenceDiagram
-     *            the sequence diagram for which to compute the observation
-     *            point locations.
+     *            the sequence diagram for which to compute the observation point locations.
      */
     public SequenceObservationLayout(SequenceDiagram sequenceDiagram) {
         super(sequenceDiagram);

@@ -10,9 +10,8 @@
  */
 package org.eclipse.sirius.tests.support.api;
 
+import java.util.ArrayList;
 import java.util.Collection;
-
-import junit.framework.TestCase;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.ecore.EPackage;
@@ -23,8 +22,9 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+
+import junit.framework.TestCase;
 
 /**
  * Test exposure of item provider adapter factories.
@@ -60,7 +60,7 @@ public abstract class AbstractItemProviderAdapterFactoryRegistryTestCase extends
     private final Function<EPackage, Collection<?>> getKey = new Function<EPackage, Collection<?>>() {
         @Override
         public Collection<?> apply(EPackage from) {
-            Collection<Object> key = Lists.newArrayList();
+            Collection<Object> key = new ArrayList<>();
             key.add(from);
             key.add(IItemLabelProvider.class);
             return key;

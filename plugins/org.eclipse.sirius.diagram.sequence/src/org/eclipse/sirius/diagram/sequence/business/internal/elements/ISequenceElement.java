@@ -80,16 +80,15 @@ public interface ISequenceElement extends Adapter {
     SequenceDiagram getDiagram();
 
     /**
-     * Return an option referencing the current lifeline of the current sequence
-     * event.
+     * Return an option referencing the current lifeline of the current sequence event.
      * 
      * @return the lifeline of the current node.
      */
     Option<Lifeline> getLifeline();
 
     /**
-     * Returns the logical bounds of this element itself, excluding any attached
-     * element (sub-executions, message branches...).
+     * Returns the logical bounds of this element itself, excluding any attached element (sub-executions, message
+     * branches...).
      * 
      * @return the logical bounds of this element itself.
      */

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.business.internal.layout;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,8 +23,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
- * Computes the appropriate graphical locations of sequence events and lifelines
- * on a sequence diagram to reflect the semantic order.
+ * Computes the appropriate graphical locations of sequence events and lifelines on a sequence diagram to reflect the
+ * semantic order.
  * 
  * @param <S>
  *            the layouted element type.
@@ -67,9 +68,9 @@ public abstract class AbstractSequenceOrderingLayout<S, T, U> extends AbstractSe
     public AbstractSequenceOrderingLayout(SequenceDiagram sequenceDiagram) {
         super(sequenceDiagram);
 
-        this.semanticOrdering = Lists.newArrayList();
-        this.graphicalOrdering = Lists.newArrayList();
-        this.flaggedEnds = Lists.newArrayList();
+        this.semanticOrdering = new ArrayList<>();
+        this.graphicalOrdering = new ArrayList<>();
+        this.flaggedEnds = new ArrayList<>();
         this.oldFlaggedLayoutData = Maps.newHashMap();
     }
 
@@ -86,8 +87,8 @@ public abstract class AbstractSequenceOrderingLayout<S, T, U> extends AbstractSe
 
     /**
      * 
-     * Look in the semantic, graphical and flaggedEnds orderings to retrieve the
-     * safest predecessor and try to keep a stable delta regarding it.
+     * Look in the semantic, graphical and flaggedEnds orderings to retrieve the safest predecessor and try to keep a
+     * stable delta regarding it.
      * 
      * @param currentPos
      *            the current position (x or y)

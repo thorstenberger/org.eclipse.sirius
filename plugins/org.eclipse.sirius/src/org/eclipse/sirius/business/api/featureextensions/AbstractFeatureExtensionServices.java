@@ -21,38 +21,31 @@ import org.eclipse.sirius.viewpoint.DFeatureExtension;
 import org.eclipse.sirius.viewpoint.description.FeatureExtensionDescription;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
 
-import com.google.common.collect.Lists;
-
 /**
  * Base implementation to subclass.
- * 
+ *
  * @author mchauvin
  */
 public abstract class AbstractFeatureExtensionServices implements FeatureExtensionServices {
 
     /**
      * get the class which extends {@link FeatureExtensionDescription}.
-     * 
+     *
      * @return the class
      */
     protected abstract Class<? extends FeatureExtensionDescription> getFeatureExtensionDescriptionClass();
 
     /**
      * get the class which extends {@link FeatureExtensionDescription}.
-     * 
+     *
      * @return the class
      */
     protected abstract Class<? extends DFeatureExtension> getFeatureExtensionClass();
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.business.api.featureextensions.FeatureExtensionServices#getFeatureExtensionDescriptions(org.eclipse.sirius.viewpoint.description.Viewpoint,
-     *      java.lang.Class)
-     */
+    @Override
     public <T extends FeatureExtensionDescription> List<T> getFeatureExtensionDescriptions(final Viewpoint viewpoint, final Class<T> clazz) {
         if (getFeatureExtensionDescriptionClass().isAssignableFrom(clazz)) {
-            final List<? super FeatureExtensionDescription> descs = Lists.newArrayList();
+            final List<? super FeatureExtensionDescription> descs = new ArrayList<>();
             for (FeatureExtensionDescription desc : viewpoint.getOwnedFeatureExtensions()) {
                 if (getFeatureExtensionDescriptionClass().isInstance(desc)) {
                     descs.add(desc);
@@ -63,15 +56,10 @@ public abstract class AbstractFeatureExtensionServices implements FeatureExtensi
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.business.api.featureextensions.FeatureExtensionServices#retrieveFeatureExtensionData(java.lang.String,
-     *      org.eclipse.sirius.business.api.session.Session)
-     */
+    @Override
     public Collection<DFeatureExtension> retrieveFeatureExtensionData(final String id, final Session session) {
         final Collection<EObject> data = session.getServices().getCustomData(CustomDataConstants.DFEATUREEXTENSION, null);
-        final Collection<DFeatureExtension> conformanceExtensions = new ArrayList<DFeatureExtension>();
+        final Collection<DFeatureExtension> conformanceExtensions = new ArrayList<>();
         for (final EObject pieceOfData : data) {
             if (getFeatureExtensionClass().isInstance(pieceOfData)) {
                 conformanceExtensions.add((DFeatureExtension) pieceOfData);
@@ -80,14 +68,7 @@ public abstract class AbstractFeatureExtensionServices implements FeatureExtensi
         return conformanceExtensions;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.eclipse.sirius.business.api.featureextensions.FeatureExtensionServices#saveFeatureExtensionData(java.lang.String,
-     *      org.eclipse.sirius.business.api.session.Session,
-     *      org.eclipse.emf.ecore.EObject,
-     *      org.eclipse.sirius.viewpoint.DFeatureExtension)
-     */
+    @Override
     public void saveFeatureExtensionData(final String id, final Session session, final EObject associatedInstance, final DFeatureExtension data) {
         session.getServices().putCustomData(CustomDataConstants.DFEATUREEXTENSION, associatedInstance, data);
     }

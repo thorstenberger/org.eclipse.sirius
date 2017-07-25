@@ -11,6 +11,7 @@
 package org.eclipse.sirius.table.business.internal.dialect;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +76,6 @@ import org.eclipse.sirius.viewpoint.description.Viewpoint;
 
 import com.google.common.base.Function;
 import com.google.common.base.Supplier;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -233,7 +233,7 @@ public class TableDialectServices extends AbstractRepresentationDialectServices 
     }
 
     private void updateContributionPoints(DTable table, Supplier<EObject> efSupplier, Supplier<EList<ContributionPoint>> cpSupplier, IncrementalModelContributor imc) {
-        List<ContributionPoint> newPoints = Lists.newArrayList();
+        List<ContributionPoint> newPoints = new ArrayList<>();
         newPoints.add(ContributionPointHelper.make(efSupplier.get(), new IntrinsicPathIdentifier().apply(table.getDescription())));
         Map<EObject, Object> cps = imc.getContributionPoints();
         for (Map.Entry<EObject, Object> entry : cps.entrySet()) {

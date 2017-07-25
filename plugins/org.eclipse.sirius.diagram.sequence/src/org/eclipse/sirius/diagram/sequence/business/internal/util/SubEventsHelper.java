@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.business.internal.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -52,7 +53,7 @@ import com.google.common.collect.Sets;
  */
 public final class SubEventsHelper {
 
-    private static Collection<Class<?>> types = Lists.newArrayList();
+    private static Collection<Class<?>> types = new ArrayList<>();
     {
         types.add(Execution.class);
         types.add(Lifeline.class);
@@ -69,8 +70,7 @@ public final class SubEventsHelper {
      * Default constructor.
      * 
      * @param event
-     *            a supported {@link ISequenceEvent} : {@linkLifeline},
-     *            {@link AbstractNodeEvent}, {@link Operand}.
+     *            a supported {@link ISequenceEvent} : {@linkLifeline}, {@link AbstractNodeEvent}, {@link Operand}.
      */
     public SubEventsHelper(ISequenceEvent event) {
         Preconditions.checkArgument(types.contains(event.getClass()));
@@ -82,8 +82,8 @@ public final class SubEventsHelper {
     /**
      * Common implementation of {@link ISequenceEvent#getSubEvents()}.
      * 
-     * @return the sub-events of the (root) execution, ordered by their starting
-     *         position (graphically) from top to bottom.
+     * @return the sub-events of the (root) execution, ordered by their starting position (graphically) from top to
+     *         bottom.
      */
     public List<ISequenceEvent> getSubEvents() {
         List<ISequenceEvent> result = getValidSubEvents();
@@ -97,7 +97,7 @@ public final class SubEventsHelper {
      * @return the sub events.
      */
     private List<ISequenceEvent> getValidSubEvents() {
-        List<ISequenceEvent> childrenEvents = Lists.newArrayList();
+        List<ISequenceEvent> childrenEvents = new ArrayList<>();
 
         Set<ISequenceEvent> localParents = Sets.newLinkedHashSet();
         Set<Lifeline> coveredLifelines = Sets.newLinkedHashSet();
@@ -262,35 +262,32 @@ public final class SubEventsHelper {
     }
 
     /**
-     * Implementation of
-     * {@link ISequenceEvent#canChildOccupy(ISequenceEvent, Range)} .
+     * Implementation of {@link ISequenceEvent#canChildOccupy(ISequenceEvent, Range)} .
      * 
      * @param child
      *            the child.
      * @param range
      *            the vertical range to test.
-     * @return <code>true</code> if the child can be placed anywhere inside the
-     *         specified vertical range (including occupying the whole range).
+     * @return <code>true</code> if the child can be placed anywhere inside the specified vertical range (including
+     *         occupying the whole range).
      */
     public boolean canChildOccupy(ISequenceEvent child, Range range) {
         return canChildOccupy(child, range, null, child == null ? getCoverage(parentEvent) : getCoverage(child));
     }
 
     /**
-     * Implementation of
-     * {@link ISequenceEvent#canChildOccupy(ISequenceEvent, Range)} .
+     * Implementation of {@link ISequenceEvent#canChildOccupy(ISequenceEvent, Range)} .
      * 
      * @param child
-     *            the child, if child is null it means that it is a insertion
-     *            point request from a CreationTool.
+     *            the child, if child is null it means that it is a insertion point request from a CreationTool.
      * @param range
      *            the vertical range to test.
      * @param eventsToIgnore
      *            the list of events to ignore while compute canChildOccupy.
      * @param lifelines
      *            lifelines to inspect
-     * @return <code>true</code> if the child can be placed anywhere inside the
-     *         specified vertical range (including occupying the whole range).
+     * @return <code>true</code> if the child can be placed anywhere inside the specified vertical range (including
+     *         occupying the whole range).
      */
     public boolean canChildOccupy(ISequenceEvent child, final Range range, List<ISequenceEvent> eventsToIgnore, Collection<Lifeline> lifelines) {
         boolean result = true;

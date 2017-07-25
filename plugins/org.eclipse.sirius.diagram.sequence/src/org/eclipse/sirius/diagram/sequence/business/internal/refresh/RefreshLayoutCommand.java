@@ -47,8 +47,8 @@ public class RefreshLayoutCommand extends RecordingCommand {
      * Default constructor.
      * 
      * @param diagram
-     *            {@link Diagram} to refresh, used also to access
-     *            {@link SequenceDDiagram} & {@link SequenceDiagram} to refresh
+     *            {@link Diagram} to refresh, used also to access {@link SequenceDDiagram} & {@link SequenceDiagram} to
+     *            refresh
      * 
      * @param refreshDiagram
      *            <code>true</code> if we should actually update the GMF model
@@ -76,8 +76,8 @@ public class RefreshLayoutCommand extends RecordingCommand {
             sequenceDiagram.useCache(true);
             try {
                 /*
-                 * Everything has been committed, so we should be in a stable
-                 * state where it is safe to refresh both orderings.
+                 * Everything has been committed, so we should be in a stable state where it is safe to refresh both
+                 * orderings.
                  */
 
                 // Compute only once (and not three times) the event ends.
@@ -109,8 +109,8 @@ public class RefreshLayoutCommand extends RecordingCommand {
                     AbstractModelChangeOperation<Boolean> synchronizeGraphicalOrderingOperation = new SynchronizeGraphicalOrderingOperation(diagram, false);
                     synchronizeGraphicalOrderingOperation.execute();
                     /*
-                     * The layout has probably changed graphical positions:
-                     * re-compute the ordering to make sure it is up-to-date.
+                     * The layout has probably changed graphical positions: re-compute the ordering to make sure it is
+                     * up-to-date.
                      */
                     if (refreshGraphicalOrderingOperation.execute()) {
                         sequenceDiagram.clearOrderedCaches();

@@ -15,6 +15,8 @@ package org.eclipse.sirius.common.ui.tools.api.dialog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.sirius.common.ui.Messages;
+import org.eclipse.sirius.common.ui.SiriusTransPlugin;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -24,8 +26,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.sirius.common.ui.Messages;
-import org.eclipse.sirius.common.ui.SiriusTransPlugin;
 
 /**
  * A standard file creation dialog.

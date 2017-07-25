@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.ui.tools.internal.graphical.edit.policies;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -33,7 +34,6 @@ import org.eclipse.sirius.tools.api.command.NoNullResourceCommand;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -91,7 +91,7 @@ public final class DeleteHelper {
     }
 
     private static List<Command> getWrappedCommands(Command command) {
-        List<Command> result = Lists.newArrayList();
+        List<Command> result = new ArrayList<>();
         if (command instanceof NoNullResourceCommand) {
             Object adapter = ((NoNullResourceCommand) command).getAdapter(DCommand.class);
             if (adapter instanceof Command) {
@@ -266,7 +266,7 @@ public final class DeleteHelper {
 
         @Override
         public void execute() throws MetaClassNotFoundException, FeatureNotFoundException {
-            List<View> linkedViews = Lists.newArrayList();
+            List<View> linkedViews = new ArrayList<>();
 
             for (Edge sourceEdge : Iterables.filter(view.getSourceEdges(), Edge.class)) {
                 if (GMFNotationHelper.isNoteAttachment(sourceEdge)) {

@@ -48,20 +48,19 @@ public class SequenceSelectionWizardCommandBuilder extends SelectionWizardComman
     private Point location;
 
     /**
-     * Constructor to renseign default elts needed by SelectionWizardDescription
-     * on a sequence diagram.
+     * Constructor to renseign default elts needed by SelectionWizardDescription on a sequence diagram.
      * 
      * @param tool
      *            the SelectionWizardDescription tool
      * @param containerView
-     *            the diagram element in which the created element should be
-     *            displayed
+     *            the diagram element in which the created element should be displayed
      * @param selectedElements
      *            the selected elements.
      * @param endBefore
      *            the eventEnd starting * @param location the location for flag.
      */
-    public SequenceSelectionWizardCommandBuilder(final SelectionWizardDescription tool, final DSemanticDecorator containerView, Collection<EObject> selectedElements, EventEnd endBefore, Point location) {
+    public SequenceSelectionWizardCommandBuilder(final SelectionWizardDescription tool, final DSemanticDecorator containerView, Collection<EObject> selectedElements, EventEnd endBefore,
+            Point location) {
         super(tool, containerView, selectedElements);
         this.endBefore = endBefore;
         this.location = location;

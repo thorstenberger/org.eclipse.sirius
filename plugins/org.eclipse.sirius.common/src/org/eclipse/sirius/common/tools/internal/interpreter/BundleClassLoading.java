@@ -11,6 +11,7 @@
 package org.eclipse.sirius.common.tools.internal.interpreter;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
@@ -34,7 +35,6 @@ import org.osgi.framework.wiring.BundleWiring;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
@@ -128,7 +128,7 @@ public class BundleClassLoading implements ClassLoading {
      *         those bundles.
      */
     protected Collection<EPackageLoadingCallback.EPackageDeclarationSource> getEPackagesDeclaredInBundles(Collection<String> bundles) {
-        Collection<EPackageLoadingCallback.EPackageDeclarationSource> result = Lists.newArrayList();
+        Collection<EPackageLoadingCallback.EPackageDeclarationSource> result = new ArrayList<>();
         if (EMFPlugin.IS_ECLIPSE_RUNNING) {
             final IExtensionRegistry reg = Platform.getExtensionRegistry();
             Multimap<String, EPackageDeclaration> contributions = HashMultimap.create();

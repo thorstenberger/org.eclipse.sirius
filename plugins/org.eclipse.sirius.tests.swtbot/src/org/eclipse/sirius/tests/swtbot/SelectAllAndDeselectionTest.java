@@ -11,6 +11,7 @@
 package org.eclipse.sirius.tests.swtbot;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -356,7 +357,7 @@ public class SelectAllAndDeselectionTest extends AbstractSiriusSwtBotGefTestCase
      * @return all the editParts associated to the given collection of names
      */
     protected Collection<? extends SWTBotGefEditPart> getEditPartsFromNames(String... names) {
-        List<SWTBotGefEditPart> editPartsThatSouldBeSelected = Lists.newArrayList();
+        List<SWTBotGefEditPart> editPartsThatSouldBeSelected = new ArrayList<>();
         for (int i = 0; i < names.length; i++) {
             SWTBotGefEditPart editPart = editor.getEditPart(names[i], ShapeNodeEditPart.class);
             editPartsThatSouldBeSelected.add(editPart);
@@ -415,14 +416,14 @@ public class SelectAllAndDeselectionTest extends AbstractSiriusSwtBotGefTestCase
         // referenced by
         // the SWTBotEditParts that should be selected
         Iterator<? extends SWTBotGefEditPart> iterator = editPartsSWTThatSouldBeSelected.iterator();
-        Collection<EditPart> editPartsThatShouldBeSelected = Lists.newArrayList();
+        Collection<EditPart> editPartsThatShouldBeSelected = new ArrayList<>();
         while (iterator.hasNext()) {
             editPartsThatShouldBeSelected.add(iterator.next().part());
         }
 
         // Step 2 : we get the selected elements as a collection
         Iterator<?> selectedEditPartsIterator = ((IStructuredSelection) editor.getSelection()).iterator();
-        Collection<EditPart> selectedEditPartsAsCollection = Lists.newArrayList();
+        Collection<EditPart> selectedEditPartsAsCollection = new ArrayList<>();
         while (selectedEditPartsIterator.hasNext()) {
             selectedEditPartsAsCollection.add((EditPart) selectedEditPartsIterator.next());
         }

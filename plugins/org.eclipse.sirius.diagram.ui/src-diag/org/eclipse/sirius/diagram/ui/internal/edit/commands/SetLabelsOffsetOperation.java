@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.ui.internal.edit.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -28,7 +29,6 @@ import org.eclipse.sirius.diagram.ui.graphical.edit.policies.SetConnectionBendpo
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.AbstractDEdgeNameEditPart;
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.locator.EdgeLabelQuery;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
@@ -95,7 +95,7 @@ public class SetLabelsOffsetOperation {
      *            update
      */
     public void setLabelsToUpdate(ConnectionEditPart connectionEditPart) {
-        List<AbstractDEdgeNameEditPart> labelEditPartsToUpdate = Lists.newArrayList();
+        List<AbstractDEdgeNameEditPart> labelEditPartsToUpdate = new ArrayList<>();
         List<?> children = connectionEditPart.getChildren();
         for (Object child : children) {
             if (child instanceof AbstractDEdgeNameEditPart) {

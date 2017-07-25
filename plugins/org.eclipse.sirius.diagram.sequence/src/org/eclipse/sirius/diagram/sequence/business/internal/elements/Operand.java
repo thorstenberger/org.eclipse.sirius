@@ -53,14 +53,12 @@ public class Operand extends AbstractSequenceNode implements ISequenceEvent {
     /**
      * The visual ID of the compartment contained by the operand.
      * 
-     * see org.eclipse.sirius.diagram.internal.edit.parts.
-     * DNodeContainerViewNodeContainerCompartment2EditPart.VISUAL_ID
+     * see org.eclipse.sirius.diagram.internal.edit.parts. DNodeContainerViewNodeContainerCompartment2EditPart.VISUAL_ID
      */
     public static final int COMPARTMENT_VISUAL_ID = 7002;
 
     /**
-     * Predicate to check whether a Sirius DDiagramElement represents an
-     * execution.
+     * Predicate to check whether a Sirius DDiagramElement represents an execution.
      */
     private enum SiriusElementPredicate implements Predicate<DDiagramElement> {
         INSTANCE;
@@ -92,22 +90,18 @@ public class Operand extends AbstractSequenceNode implements ISequenceEvent {
     }
 
     /**
-     * Returns a predicate to check whether a GMF View represents an combined
-     * fragment compartment.
+     * Returns a predicate to check whether a GMF View represents an combined fragment compartment.
      * 
-     * @return a predicate to check whether a GMF View represents an combined
-     *         fragment compartment.
+     * @return a predicate to check whether a GMF View represents an combined fragment compartment.
      */
     public static Predicate<View> compartmentNotationPredicate() {
         return new NotationPredicate(NotationPackage.eINSTANCE.getNode(), COMPARTMENT_VISUAL_ID, Operand.viewpointElementPredicate());
     }
 
     /**
-     * Returns a predicate to check whether a Sirius DDiagramElement
-     * represents an execution.
+     * Returns a predicate to check whether a Sirius DDiagramElement represents an execution.
      * 
-     * @return a predicate to check whether a Sirius DDiagramElement
-     *         represents an execution.
+     * @return a predicate to check whether a Sirius DDiagramElement represents an execution.
      */
     public static Predicate<DDiagramElement> viewpointElementPredicate() {
         return SiriusElementPredicate.INSTANCE;
@@ -210,19 +204,16 @@ public class Operand extends AbstractSequenceNode implements ISequenceEvent {
     /**
      * Check if this operand is the last in the parent {@link CombinedFragment}.
      * 
-     * @return if this operand is the last in the parent
-     *         {@link CombinedFragment}.
+     * @return if this operand is the last in the parent {@link CombinedFragment}.
      */
     public boolean isLastOperand() {
         return getIndex() == getCombinedFragment().getOperands().size() - 1;
     }
 
     /**
-     * Check if this operand is the first in the parent {@link CombinedFragment}
-     * .
+     * Check if this operand is the first in the parent {@link CombinedFragment} .
      * 
-     * @return if this operand is the first in the parent
-     *         {@link CombinedFragment}.
+     * @return if this operand is the first in the parent {@link CombinedFragment}.
      */
     public boolean isFirstOperand() {
         return getIndex() == 0;
@@ -278,9 +269,8 @@ public class Operand extends AbstractSequenceNode implements ISequenceEvent {
     }
 
     /**
-     * Returns the last event end (in semantic order) which is contained inside
-     * this operand, excluding the operand's finishing end. If the operand is
-     * empty, this is the starting end of the operand itself.
+     * Returns the last event end (in semantic order) which is contained inside this operand, excluding the operand's
+     * finishing end. If the operand is empty, this is the starting end of the operand itself.
      * 
      * @return the last event end which is contained inside this operand.
      */

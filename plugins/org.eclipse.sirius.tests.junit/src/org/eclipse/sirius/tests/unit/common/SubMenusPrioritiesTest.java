@@ -11,11 +11,10 @@
  *******************************************************************************/
 package org.eclipse.sirius.tests.unit.common;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.MissingResourceException;
 import java.util.Set;
-
-import junit.framework.TestCase;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -25,8 +24,9 @@ import org.eclipse.sirius.ext.emf.AllContents;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+
+import junit.framework.TestCase;
 
 /**
  * Check that the priorities for the elements in the VSM editor's context menu
@@ -68,7 +68,7 @@ public class SubMenusPrioritiesTest extends TestCase {
         Set<String> invalid = Sets.newTreeSet();
 
         // Collect concrete classes which can have priorities associated
-        List<EClass> classes = Lists.newArrayList();
+        List<EClass> classes = new ArrayList<>();
         for (EClass klass : Iterables.filter(AllContents.of(ePackage, true), EClass.class)) {
             if (!klass.isAbstract() && !klass.isInterface()) {
                 classes.add(klass);

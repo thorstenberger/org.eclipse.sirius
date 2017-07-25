@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.internal.tool.command.builders;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.draw2d.geometry.Point;
@@ -69,8 +70,7 @@ public class SequenceCreatedEventsFlaggingSiriusCommand extends SiriusCommand {
      * @param diagram
      *            the current diagram
      * @param shouldFlag
-     *            predicates to select created {@link DDiagramElement} eleemnts
-     *            to flag.
+     *            predicates to select created {@link DDiagramElement} eleemnts to flag.
      */
     public SequenceCreatedEventsFlaggingSiriusCommand(TransactionalEditingDomain domain, String name, DDiagram diagram, Predicate<DDiagramElement> shouldFlag) {
         super(domain, name);
@@ -131,11 +131,10 @@ public class SequenceCreatedEventsFlaggingSiriusCommand extends SiriusCommand {
     }
 
     /**
-     * Flag indirectly created by tool elements, distinguish the main semantics
-     * from other semantics elements.
+     * Flag indirectly created by tool elements, distinguish the main semantics from other semantics elements.
      */
     private Collection<DDiagramElement> flagPostRefresh(final Collection<EObject> mainSemantics, final Collection<EObject> createdSemantics) {
-        Collection<DDiagramElement> flags = Lists.newArrayList();
+        Collection<DDiagramElement> flags = new ArrayList<>();
 
         if (parentDiagram != null && shouldFlag != null) {
             for (DDiagramElement dde : Iterables.filter(parentDiagram.getDiagramElements(), shouldFlag)) {
@@ -191,14 +190,13 @@ public class SequenceCreatedEventsFlaggingSiriusCommand extends SiriusCommand {
     }
 
     /**
-     * Post refresh factory to flag elements created during precommit
-     * representation refresh.
+     * Post refresh factory to flag elements created during precommit representation refresh.
      */
     private final class SequencePostRefreshFactory implements PostRefreshCommandFactory {
 
-        private final Collection<EObject> mainSemantics = Lists.newArrayList();
+        private final Collection<EObject> mainSemantics = new ArrayList<>();
 
-        private final Collection<EObject> createdObjects = Lists.newArrayList();
+        private final Collection<EObject> createdObjects = new ArrayList<>();
 
         private final Session session;
 
@@ -235,9 +233,9 @@ public class SequenceCreatedEventsFlaggingSiriusCommand extends SiriusCommand {
      */
     private final class SequenceFlagAndSyncCommand extends RecordingCommand {
 
-        private final Collection<EObject> mainSemantics = Lists.newArrayList();
+        private final Collection<EObject> mainSemantics = new ArrayList<>();
 
-        private final Collection<EObject> createdObjects = Lists.newArrayList();
+        private final Collection<EObject> createdObjects = new ArrayList<>();
 
         private final Diagram gmfDiag;
 

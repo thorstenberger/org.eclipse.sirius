@@ -49,7 +49,6 @@ import org.eclipse.sirius.diagram.ui.tools.api.figure.locator.DBorderItemLocator
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -307,7 +306,7 @@ public class MoveEdgeGroupManager {
             bounds.setBounds(newBounds);
         }
 
-        List<IFigure> figureToIgnore = Lists.newArrayList();
+        List<IFigure> figureToIgnore = new ArrayList<>();
         figureToIgnore.add(figure);
         for (ConnectionEditPart connectionEditPart : Iterables.filter(editPart.getViewer().getSelectedEditParts(), ConnectionEditPart.class)) {
             EditPart source = connectionEditPart.getSource();

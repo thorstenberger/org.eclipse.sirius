@@ -13,6 +13,7 @@ package org.eclipse.sirius.tests.ui.properties.internal.vsm;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -92,7 +93,7 @@ public class PropertiesVSMExpressionValidationTest {
     public static Collection<Object[]> data() throws IOException {
         URI uri = URI.createPlatformPluginURI(ODESIGN_TO_CHECK, true);
 
-        List<Object[]> parameters = Lists.newArrayList();
+        List<Object[]> parameters = new ArrayList<>();
         Group group = loadVSM(uri);
         if (group != null) {
             Iterator<EObject> it = group.eAllContents();
@@ -233,7 +234,7 @@ class InterpretedExpression {
     }
 
     private String qualifiedName(EObject target) {
-        List<String> segments = Lists.newArrayList();
+        List<String> segments = new ArrayList<>();
 
         EObject cur = target;
         while (cur != null) {

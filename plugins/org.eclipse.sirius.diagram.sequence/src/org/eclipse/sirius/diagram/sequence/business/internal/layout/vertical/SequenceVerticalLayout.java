@@ -102,7 +102,7 @@ public class SequenceVerticalLayout extends AbstractSequenceOrderingLayout<ISequ
     /**
      * Semantic flagged event ends at creation.
      */
-    protected final List<EventEnd> toolCreatedEnds = Lists.newArrayList();
+    protected final List<EventEnd> toolCreatedEnds = new ArrayList<>();
 
     /**
      * A map to link an {@link EventEnd} to the attached {@link ISequenceEvent}.
@@ -207,7 +207,7 @@ public class SequenceVerticalLayout extends AbstractSequenceOrderingLayout<ISequ
         this.creators = Maps.newHashMap();
         this.destructors = Maps.newHashMap();
         this.losts = Maps.newHashMap();
-        this.unconnectedLostEnds = Lists.newArrayList();
+        this.unconnectedLostEnds = new ArrayList<>();
     }
 
     /**

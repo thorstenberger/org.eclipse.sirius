@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.template;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
@@ -42,8 +43,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
- * Class responsible for refreshing the computed representations based on the
- * given sequence diagram template.
+ * Class responsible for refreshing the computed representations based on the given sequence diagram template.
  * 
  * @author cbrun
  * 
@@ -59,9 +59,8 @@ public class TemplateToDiagramDescriptionTransformer {
     private Template2SequenceDiag template2SequenceDiag = new Template2SequenceDiag(marker);
 
     /**
-     * A TSequenceDiagram produces a SequenceDiagramDescription element with the
-     * same name, domainClass and endsOrdering. The lifelineMappings and
-     * messageMappings produce concrete mappings inside the
+     * A TSequenceDiagram produces a SequenceDiagramDescription element with the same name, domainClass and
+     * endsOrdering. The lifelineMappings and messageMappings produce concrete mappings inside the
      * SequenceDiagramDescription as specified below.
      * 
      * @author cbrun
@@ -264,7 +263,7 @@ public class TemplateToDiagramDescriptionTransformer {
                     to.getSourceMapping().clear();
                     to.getSourceMapping().addAll(Lists.newArrayList(Iterables.filter(sourceOutputs, AbstractNodeMapping.class)));
 
-                    Collection<EObject> targetOutputs = Lists.newArrayList();
+                    Collection<EObject> targetOutputs = new ArrayList<>();
                     targetOutputs.addAll(AbstractRule.collectGeneratedElements(lifeline2InstanceRoleMapping, DescriptionPackage.eINSTANCE.getInstanceRoleMapping(), from.getTarget()));
                     to.getTargetMapping().clear();
                     to.getTargetMapping().addAll(Lists.newArrayList(Iterables.filter(targetOutputs, AbstractNodeMapping.class)));
@@ -300,7 +299,7 @@ public class TemplateToDiagramDescriptionTransformer {
                     to.getSourceMapping().clear();
                     to.getSourceMapping().addAll(Lists.newArrayList(Iterables.filter(sourceOutputs, AbstractNodeMapping.class)));
 
-                    Collection<EObject> targetOutputs = Lists.newArrayList();
+                    Collection<EObject> targetOutputs = new ArrayList<>();
                     targetOutputs.addAll(AbstractRule.collectGeneratedElements(lifeline2EndOfLineMapping, DescriptionPackage.eINSTANCE.getEndOfLifeMapping(), from.getTarget()));
                     to.getTargetMapping().clear();
                     to.getTargetMapping().addAll(Lists.newArrayList(Iterables.filter(targetOutputs, AbstractNodeMapping.class)));
@@ -480,7 +479,7 @@ public class TemplateToDiagramDescriptionTransformer {
      */
     public TemplateToDiagramDescriptionTransformer(TSequenceDiagram template) {
         this.template = template;
-        posts = Lists.newArrayList();
+        posts = new ArrayList<>();
     }
 
     private void copyMappingData(final TSourceTargetMessageMapping from, final MessageMapping to) {
@@ -528,15 +527,13 @@ public class TemplateToDiagramDescriptionTransformer {
     }
 
     /**
-     * Return true if the transformation is going to override the given feature
-     * in the given EObject.
+     * Return true if the transformation is going to override the given feature in the given EObject.
      * 
      * @param eObj
      *            eObject to update.
      * @param feature
      *            feature to check.
-     * @return true if the transformation is going to override the given feature
-     *         in the given EObject.
+     * @return true if the transformation is going to override the given feature in the given EObject.
      * 
      */
     public boolean isOverriding(EObject eObj, EStructuralFeature feature) {

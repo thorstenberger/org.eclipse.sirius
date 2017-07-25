@@ -90,8 +90,7 @@ public class SequenceDiagramRepairParticipant implements IRepairParticipant {
      *            the current session model
      * @param domain
      *            the current {@link TransactionalEditingDomain}
-     * @return a {@link CompoundCommand} of sequence diagrams reparing commands
-     *         in each {@link DView}
+     * @return a {@link CompoundCommand} of sequence diagrams reparing commands in each {@link DView}
      */
     private Command migrateModel(Resource model, TransactionalEditingDomain domain) {
         CompoundCommand cc = new CompoundCommand(Messages.SequenceDiagramRepairParticipant_repairCommandName);
@@ -109,9 +108,8 @@ public class SequenceDiagramRepairParticipant implements IRepairParticipant {
     }
 
     /**
-     * Add a {@link SequenceInstanceRoleRepairCommand} and a
-     * {@link FlagSequenceEventsCommand} for each {@link SequenceDDiagram}
-     * founds in the {@link DView}.
+     * Add a {@link SequenceInstanceRoleRepairCommand} and a {@link FlagSequenceEventsCommand} for each
+     * {@link SequenceDDiagram} founds in the {@link DView}.
      * 
      * @param container
      *            a {@link DView} to scan for {@link SequenceDDiagram}
@@ -141,8 +139,7 @@ public class SequenceDiagramRepairParticipant implements IRepairParticipant {
     }
 
     /**
-     * Command to fix sequence diagram instance role with gmf size at -1 for
-     * height and/or width.
+     * Command to fix sequence diagram instance role with gmf size at -1 for height and/or width.
      * 
      * @author mporhel
      * 

@@ -11,6 +11,7 @@
 package org.eclipse.sirius.diagram.sequence.business.internal.elements;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -40,7 +41,6 @@ import org.eclipse.sirius.ext.base.Options;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -50,8 +50,7 @@ import com.google.common.collect.Sets;
  */
 public class Execution extends AbstractNodeEvent {
     /**
-     * Predicate to filter Frames and Operand from possible new parents of an
-     * execution reparent.
+     * Predicate to filter Frames and Operand from possible new parents of an execution reparent.
      */
     public static final Predicate<ISequenceEvent> NO_REPARENTABLE_EVENTS = new Predicate<ISequenceEvent>() {
         @Override
@@ -66,8 +65,7 @@ public class Execution extends AbstractNodeEvent {
     public static final int VISUAL_ID = 3001;
 
     /**
-     * Predicate to check whether a Sirius DDiagramElement represents an
-     * execution.
+     * Predicate to check whether a Sirius DDiagramElement represents an execution.
      */
     private enum SiriusElementPredicate implements Predicate<DDiagramElement> {
         INSTANCE;
@@ -100,11 +98,9 @@ public class Execution extends AbstractNodeEvent {
     }
 
     /**
-     * Returns a predicate to check whether a Sirius DDiagramElement represents
-     * an execution.
+     * Returns a predicate to check whether a Sirius DDiagramElement represents an execution.
      * 
-     * @return a predicate to check whether a Sirius DDiagramElement represents
-     *         an execution.
+     * @return a predicate to check whether a Sirius DDiagramElement represents an execution.
      */
     public static Predicate<DDiagramElement> viewpointElementPredicate() {
         return SiriusElementPredicate.INSTANCE;
@@ -112,7 +108,7 @@ public class Execution extends AbstractNodeEvent {
 
     @Override
     public List<Message> getLinkedMessages() {
-        List<Message> linkedMessages = Lists.newArrayList();
+        List<Message> linkedMessages = new ArrayList<>();
 
         Option<Message> startMessage = getStartMessage();
         if (startMessage.some()) {
@@ -128,8 +124,7 @@ public class Execution extends AbstractNodeEvent {
     }
 
     /**
-     * Returns the message linked to the start (i.e. top side) of this
-     * execution, if any.
+     * Returns the message linked to the start (i.e. top side) of this execution, if any.
      * 
      * @return the message linked to the start of this execution, if any.
      */
@@ -161,8 +156,7 @@ public class Execution extends AbstractNodeEvent {
     }
 
     /**
-     * Returns the message linked to the end (i.e. bottom side) of this
-     * execution, if any.
+     * Returns the message linked to the end (i.e. bottom side) of this execution, if any.
      * 
      * @return the message linked to the end of this execution, if any.
      */
@@ -173,8 +167,7 @@ public class Execution extends AbstractNodeEvent {
     /**
      * Tests whether this execution starts with a reflective message.
      * 
-     * @return <code>true</code> if this execution has a reflective message
-     *         linked to its start.
+     * @return <code>true</code> if this execution has a reflective message linked to its start.
      */
     public boolean startsWithReflectiveMessage() {
         Option<Message> startMessage = getStartMessage();
@@ -188,8 +181,7 @@ public class Execution extends AbstractNodeEvent {
     /**
      * Tests whether this execution ends with a reflective message.
      * 
-     * @return <code>true</code> if this execution has a reflective message
-     *         linked to its end.
+     * @return <code>true</code> if this execution has a reflective message linked to its end.
      */
     public boolean endsWithReflectiveMessage() {
         Option<Message> finishMessage = getEndMessage();
@@ -201,9 +193,8 @@ public class Execution extends AbstractNodeEvent {
     }
 
     /**
-     * Validate that the execution is reflective. Therefore, its start message
-     * must be reflective and its return message must be null (Asynchronous
-     * message) or reflexive.
+     * Validate that the execution is reflective. Therefore, its start message must be reflective and its return message
+     * must be null (Asynchronous message) or reflexive.
      * 
      * @return if the execution is reflective
      */
@@ -310,7 +301,7 @@ public class Execution extends AbstractNodeEvent {
     }
 
     private Collection<? extends ISequenceEvent> findCoveredExecutions(List<ISequenceEvent> subEvents) {
-        Collection<Execution> coveredExecutions = Lists.newArrayList();
+        Collection<Execution> coveredExecutions = new ArrayList<>();
         for (AbstractFrame frame : Iterables.filter(subEvents, AbstractFrame.class)) {
             Collection<ISequenceEvent> parentEvents = frame.computeParentEvents();
             parentEvents.remove(this);
@@ -355,8 +346,7 @@ public class Execution extends AbstractNodeEvent {
     }
 
     /**
-     * Sub-events can occur anywhere on a normal execution as long as it is
-     * strictly inside.
+     * Sub-events can occur anywhere on a normal execution as long as it is strictly inside.
      * <p>
      * {@inheritDoc}
      */
@@ -371,23 +361,21 @@ public class Execution extends AbstractNodeEvent {
     }
 
     /**
-     * Finds all linked executions (by messages with CompoundEventEnd) from
-     * executionEditPart. Depending on the value of investigateRecursively, it
-     * will recursively investigate the linked execution.
+     * Finds all linked executions (by messages with CompoundEventEnd) from executionEditPart. Depending on the value of
+     * investigateRecursively, it will recursively investigate the linked execution.
      * 
      * @param recurse
      *            investigate recursively if true
      * @return the list of linked {@link Execution} from executionEditPart
      */
     public List<Execution> findLinkedExecutions(boolean recurse) {
-        List<Execution> impactedExecutions = Lists.newArrayList();
+        List<Execution> impactedExecutions = new ArrayList<>();
         findLinkedExecutions(impactedExecutions, this, recurse);
         return impactedExecutions;
     }
 
     /**
-     * Recursive function of the previous one that add the result in the
-     * parameter list impactedExecutionEditPart.
+     * Recursive function of the previous one that add the result in the parameter list impactedExecutionEditPart.
      * 
      * @param impactedExecutioExecutions
      *            the list of linked {@link Execution} from executionEditPart
@@ -419,11 +407,9 @@ public class Execution extends AbstractNodeEvent {
     }
 
     /**
-     * Returns the extended vertical range of this execution, i.e. the vertical
-     * range of the execution including any extensions like branches for linked
-     * start/end reflective messages. This corresponds to the range of all the
-     * elements which are tied to the execution and will move along with it when
-     * the execution is moved.
+     * Returns the extended vertical range of this execution, i.e. the vertical range of the execution including any
+     * extensions like branches for linked start/end reflective messages. This corresponds to the range of all the
+     * elements which are tied to the execution and will move along with it when the execution is moved.
      * 
      * @return the extended vertical range of this execution.
      */

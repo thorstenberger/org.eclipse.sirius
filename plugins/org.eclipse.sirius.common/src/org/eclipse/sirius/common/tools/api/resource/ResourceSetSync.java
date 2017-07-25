@@ -79,9 +79,9 @@ public final class ResourceSetSync extends ResourceSetListenerImpl implements Re
 
     private boolean notificationIsRequired = true;
 
-    private final List<AbstractResourceSyncBackend> backends = Lists.newArrayList();
+    private final List<AbstractResourceSyncBackend> backends = new ArrayList<>();
 
-    private final List<ResourceSyncClient> clients = Lists.newArrayList();
+    private final List<ResourceSyncClient> clients = new ArrayList<>();
 
     private final Map<Resource, ResourceStatus> statuses = Maps.newHashMap();
 
@@ -121,7 +121,7 @@ public final class ResourceSetSync extends ResourceSetListenerImpl implements Re
      */
     @Override
     public void resourceSetChanged(final ResourceSetChangeEvent event) {
-        Collection<ResourceStatusChange> changes = Lists.newArrayList();
+        Collection<ResourceStatusChange> changes = new ArrayList<>();
         for (Notification notif : Iterables.filter(event.getNotifications(), Notification.class)) {
             if (!isCustom(notif)) {
                 notifyChanged(notif, changes);
@@ -517,7 +517,7 @@ public final class ResourceSetSync extends ResourceSetListenerImpl implements Re
     }
 
     private void doSave(final Iterable<Resource> resourcesToSave, final Map<?, ?> saveOptions, Collection<ResourceStatusChange> changesToTransmit) throws InterruptedException, IOException {
-        final Collection<IFile> files2Validate = Lists.newArrayList();
+        final Collection<IFile> files2Validate = new ArrayList<>();
         for (Resource resourceToSave : resourcesToSave) {
             if (resourceToSave.getURI().isPlatformResource()) {
                 IFile file = WorkspaceSynchronizer.getFile(resourceToSave);

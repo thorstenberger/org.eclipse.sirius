@@ -47,9 +47,8 @@ public abstract class AbstractSequenceElement extends AdapterImpl implements ISe
     }
 
     /**
-     * Generic test function used by all the more specific predicates: checks
-     * that a diagram element is valid, is part of a sequence diagram, and has
-     * the specified type of mapping (or a sub-type).
+     * Generic test function used by all the more specific predicates: checks that a diagram element is valid, is part
+     * of a sequence diagram, and has the specified type of mapping (or a sub-type).
      * 
      * This method handle edge mapping imports.
      * 
@@ -115,8 +114,7 @@ public abstract class AbstractSequenceElement extends AdapterImpl implements ISe
     }
 
     /**
-     * Tries to find a lifeline among the ancestors of this element (including
-     * the element itself).
+     * Tries to find a lifeline among the ancestors of this element (including the element itself).
      * 
      * @return option on the parent lifeline of this sequenceElement
      */

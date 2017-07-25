@@ -48,14 +48,12 @@ public class SequencePaneBasedSelectionWizardCommandBuilder extends PaneBasedSel
     private Point location;
 
     /**
-     * Constructor to renseign default elts needed by
-     * PaneBasedSelectionWizardDescription on a sequence diagram.
+     * Constructor to renseign default elts needed by PaneBasedSelectionWizardDescription on a sequence diagram.
      * 
      * @param tool
      *            the PaneBasedSelectionWizardDescription tool
      * @param containerView
-     *            the diagram element in which the created element should be
-     *            displayed
+     *            the diagram element in which the created element should be displayed
      * @param selectedElements
      *            the selected elements.
      * @param endBefore
@@ -107,6 +105,6 @@ public class SequencePaneBasedSelectionWizardCommandBuilder extends PaneBasedSel
     protected void addPostOperationTasks(DCommand command, final IInterpreter interpreter) {
         super.addPostOperationTasks(command, interpreter);
 
-       SequenceGenericToolCommandBuilder.addUnsetEndBeforeTask(command, interpreter);
+        SequenceGenericToolCommandBuilder.addUnsetEndBeforeTask(command, interpreter);
     }
 }

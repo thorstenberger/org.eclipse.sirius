@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.ui.internal.view.factories;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
@@ -24,8 +25,6 @@ import org.eclipse.sirius.diagram.ui.internal.refresh.diagram.ViewPropertiesSync
 import org.eclipse.sirius.diagram.ui.part.SiriusVisualIDRegistry;
 import org.eclipse.sirius.viewpoint.DStylizable;
 
-import com.google.common.collect.Lists;
-
 /**
  * @was-generated
  */
@@ -36,7 +35,7 @@ public class DNodeListElementViewFactory extends AbstractLabelViewFactory {
      */
     @Override
     protected List<?> createStyles(View view) {
-        List<Style> styles = Lists.newArrayList();
+        List<Style> styles = new ArrayList<>();
         styles.add(NotationFactory.eINSTANCE.createFontStyle());
         return styles;
     }

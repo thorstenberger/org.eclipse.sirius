@@ -23,8 +23,7 @@ import org.eclipse.sirius.ext.base.Option;
 import com.google.common.base.Predicate;
 
 /**
- * Predicate used to filter {@link ISequenceEvent} owned by one specified
- * {@link Lifeline}.
+ * Predicate used to filter {@link ISequenceEvent} owned by one specified {@link Lifeline}.
  * 
  * @author edugueperoux
  */
@@ -44,8 +43,7 @@ public class SameLifelinePredicate implements Predicate<ISequenceEvent> {
     }
 
     /**
-     * Overridden to tells if the specified {@link ISequenceEvent} is owned by
-     * the current {@link Lifeline}.
+     * Overridden to tells if the specified {@link ISequenceEvent} is owned by the current {@link Lifeline}.
      * 
      * {@inheritDoc}
      */

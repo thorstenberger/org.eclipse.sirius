@@ -165,7 +165,7 @@ public class SiriusConnectionEndPointEditPolicy extends ConnectionEndpointEditPo
     @SuppressWarnings("unchecked")
     private void saveOriginalConstraint() {
         if (getConnection().getRoutingConstraint() instanceof List) {
-            List<RelativeBendpoint> listBendpoint = Lists.newArrayList();
+            List<RelativeBendpoint> listBendpoint = new ArrayList<>();
             ArrayList<Object> originListBendpoint = new ArrayList<Object>((List<Object>) getConnection().getRoutingConstraint());
             try {
                 // Unfortunately, the vectors (stored as dimensions) and weight

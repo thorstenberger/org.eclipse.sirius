@@ -28,8 +28,8 @@ import org.eclipse.sirius.ext.base.Option;
 import com.google.common.collect.Iterables;
 
 /**
- * Computes the appropriate graphical locations of sequence events and lifelines
- * on a sequence diagram to reflect the semantic order.
+ * Computes the appropriate graphical locations of sequence events and lifelines on a sequence diagram to reflect the
+ * semantic order.
  * 
  * @author pcdavid, mporhel
  */
@@ -47,8 +47,7 @@ public class SequenceLayout {
      * Constructor.
      * 
      * @param diagram
-     *            the sequence diagram for which to compute the messages
-     *            locations.
+     *            the sequence diagram for which to compute the messages locations.
      */
     public SequenceLayout(Diagram diagram) {
         this.sequenceDiagram = ISequenceElementAccessor.getSequenceDiagram(diagram);
@@ -62,8 +61,7 @@ public class SequenceLayout {
     }
 
     /**
-     * Compute and apply horizontal layout. Should be use in a
-     * {@link org.eclipse.emf.transaction.RecordingCommand}.
+     * Compute and apply horizontal layout. Should be use in a {@link org.eclipse.emf.transaction.RecordingCommand}.
      * 
      * @param pack
      *            pack the space between instance roles.
@@ -77,8 +75,7 @@ public class SequenceLayout {
     }
 
     /**
-     * Compute and apply vertical layout. Should be use in a
-     * {@link org.eclipse.emf.transaction.RecordingCommand}.
+     * Compute and apply vertical layout. Should be use in a {@link org.eclipse.emf.transaction.RecordingCommand}.
      * 
      * @param pack
      *            pack the space between sequence events
@@ -92,9 +89,8 @@ public class SequenceLayout {
     }
 
     /**
-     * Compute and apply observation layout. Should be use in a
-     * {@link org.eclipse.emf.transaction.RecordingCommand} and after vertical
-     * and horizontal layout.
+     * Compute and apply observation layout. Should be use in a {@link org.eclipse.emf.transaction.RecordingCommand} and
+     * after vertical and horizontal layout.
      * 
      * It will place the ObservationPoint.
      * 

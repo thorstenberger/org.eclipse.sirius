@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.CodeSource;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -334,7 +335,7 @@ public class AcceleoMTLInterpreter implements IInterpreter, TypedValidation {
      * @return The qualified name of the given EClassifier.
      */
     private static String getQualifiedName(EClassifier classifier) {
-        final List<String> ancestors = Lists.newArrayList();
+        final List<String> ancestors = new ArrayList<>();
 
         EObject current = classifier;
         // this will allow us to break the loop as soon as we encounter a "root"
@@ -635,7 +636,7 @@ public class AcceleoMTLInterpreter implements IInterpreter, TypedValidation {
         EvaluationResult evaluationResult = internalEvaluate(context, expression);
         Object result = evaluationResult.getEvaluationResult();
 
-        Collection<EObject> coercedResult = Lists.newArrayList();
+        Collection<EObject> coercedResult = new ArrayList<>();
         if (result instanceof Collection<?>) {
             Iterables.addAll(coercedResult, Iterables.filter((Collection<?>) result, EObject.class));
         } else if (result != null && result.getClass().isArray()) {

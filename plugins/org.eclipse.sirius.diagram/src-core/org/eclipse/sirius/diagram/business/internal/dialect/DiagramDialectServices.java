@@ -11,6 +11,7 @@
 package org.eclipse.sirius.diagram.business.internal.dialect;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -85,7 +86,6 @@ import org.eclipse.sirius.viewpoint.description.tool.ModelOperation;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -492,7 +492,7 @@ public class DiagramDialectServices extends AbstractRepresentationDialectService
                     EObject eObjectNotifier = (EObject) notifier;
                     List<Notification> currentNotifications = notificationsByNotifer.get(eObjectNotifier);
                     if (currentNotifications == null) {
-                        currentNotifications = Lists.newArrayList();
+                        currentNotifications = new ArrayList<>();
                         notificationsByNotifer.put(eObjectNotifier, currentNotifications);
                     }
                     currentNotifications.add(notification);
@@ -508,7 +508,7 @@ public class DiagramDialectServices extends AbstractRepresentationDialectService
                 }
             });
             // Get the list of notifiers that have been changed
-            List<EObject> changedNotifiers = Lists.newArrayList();
+            List<EObject> changedNotifiers = new ArrayList<>();
             for (final Map.Entry<EObject, List<Notification>> entry : notificationsByNotifer.entrySet()) {
                 if (Iterables.any(entry.getValue(), new Predicate<Notification>() {
                     @Override

@@ -30,9 +30,8 @@ import org.eclipse.sirius.viewpoint.ViewpointPackage;
 import com.google.common.base.Predicate;
 
 /**
- * Default refresh layout scope for sequence diagram. This predicate decides
- * whether or not we need to refresh the graphical layout, i.e. launch a
- * non-packing layout
+ * Default refresh layout scope for sequence diagram. This predicate decides whether or not we need to refresh the
+ * graphical layout, i.e. launch a non-packing layout
  * 
  * @author mporhel
  */
@@ -79,14 +78,12 @@ public class RefreshLayoutScope implements Predicate<Notification> {
     }
 
     /**
-     * Sequence layout must be triggered only if it is a change about sequence
-     * related GMF notation model or a workspace image set on viewpoint model
-     * about a sequence element.
+     * Sequence layout must be triggered only if it is a change about sequence related GMF notation model or a workspace
+     * image set on viewpoint model about a sequence element.
      * 
      * @param notification
      *            the change to analyze
-     * @return true if it is a change which need sequence layout, false
-     *         otherwise
+     * @return true if it is a change which need sequence layout, false otherwise
      */
     private boolean needLayout(Notification notification) {
         if (isSequenceChange(notification)) {

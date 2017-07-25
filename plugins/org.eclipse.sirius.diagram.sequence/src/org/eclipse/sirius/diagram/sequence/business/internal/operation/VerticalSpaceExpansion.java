@@ -41,8 +41,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 /**
- * An operation to shift all the atomic events on a sequence diagram below a
- * certain point to make room.
+ * An operation to shift all the atomic events on a sequence diagram below a certain point to make room.
  * 
  * @author pcdavid, smonnier
  */
@@ -76,11 +75,9 @@ public class VerticalSpaceExpansion extends AbstractModelChangeOperation<Void> {
      * @param shift
      *            the zone to expand.
      * @param move
-     *            how much the main execution which triggered this change is
-     *            vertically moved.
+     *            how much the main execution which triggered this change is vertically moved.
      * @param eventsToIgnore
-     *            the events which should be ignored, as they will be moved into
-     *            the new space.
+     *            the events which should be ignored, as they will be moved into the new space.
      */
     public VerticalSpaceExpansion(SequenceDiagram diagram, Range shift, Integer move, Collection<ISequenceEvent> eventsToIgnore) {
         super(MessageFormat.format(Messages.VerticalSpaceExpansion_operationName, shift));
@@ -143,8 +140,7 @@ public class VerticalSpaceExpansion extends AbstractModelChangeOperation<Void> {
     }
 
     /**
-     * Expand all the lifelines which do not have a destroy message, but keep
-     * the messages they contain stable.
+     * Expand all the lifelines which do not have a destroy message, but keep the messages they contain stable.
      */
     private void expandLifelines() {
         List<Lifeline> lifelines = sequenceDiagram.getAllLifelines();
@@ -175,9 +171,8 @@ public class VerticalSpaceExpansion extends AbstractModelChangeOperation<Void> {
     }
 
     /**
-     * Find all the executions in the diagram which may be affected by the
-     * operation. This is <em>all</em> the executions except the ones we are
-     * explicitly told to ignore (and their descendants).
+     * Find all the executions in the diagram which may be affected by the operation. This is <em>all</em> the
+     * executions except the ones we are explicitly told to ignore (and their descendants).
      */
     private Set<ISequenceNode> findAllSequenceNodesToConsider() {
         Set<ISequenceNode> sequenceNodes = Sets.newLinkedHashSet();
@@ -204,13 +199,11 @@ public class VerticalSpaceExpansion extends AbstractModelChangeOperation<Void> {
     }
 
     /**
-     * Validate if the message is a reflexive message between two ignored
-     * executions
+     * Validate if the message is a reflexive message between two ignored executions
      * 
      * @param msg
      *            a Message
-     * @return if the message "msg" is a reflexive message between two ignored
-     *         executions
+     * @return if the message "msg" is a reflexive message between two ignored executions
      */
     private boolean isContainedReflexiveMessage(Message msg) {
         return eventsToIgnore.contains(msg.getSourceElement()) && eventsToIgnore.contains(msg.getTargetElement()) && msg.isReflective();
@@ -232,14 +225,12 @@ public class VerticalSpaceExpansion extends AbstractModelChangeOperation<Void> {
      * Decide what needs to be done for each of the specified ISequenceNode:
      * <ul>
      * <li>nothing if it is above the expansion zone.</li>
-     * <li>a resize if it intersects the insertion point, i.e. its top is above
-     * the point but its bottom is below.</li>
+     * <li>a resize if it intersects the insertion point, i.e. its top is above the point but its bottom is below.</li>
      * <li>a complete shift if it is completely below the insertion point.</li>
      * </ul>
      * <p>
-     * After completion of this method, <code>toResize</code> contains all the
-     * executions which need to be resized and <code>toShift</code> all the
-     * executions which need to be shifted.
+     * After completion of this method, <code>toResize</code> contains all the executions which need to be resized and
+     * <code>toShift</code> all the executions which need to be shifted.
      */
     private void categorizeSequenceNodes(Set<? extends ISequenceNode> sequenceNodes) {
         eventsToResize = Sets.newHashSet();
@@ -269,9 +260,8 @@ public class VerticalSpaceExpansion extends AbstractModelChangeOperation<Void> {
                 continue;
             }
             /*
-             * Only actually shift the "top-level" executions. The rest will be
-             * moved along with their shifted ancestor, as execution position is
-             * relative to its parent.
+             * Only actually shift the "top-level" executions. The rest will be moved along with their shifted ancestor,
+             * as execution position is relative to its parent.
              */
 
             if (!containsAncestors(eventsToShift, execution)) {

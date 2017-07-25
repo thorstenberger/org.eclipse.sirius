@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.business.internal.util;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -28,8 +29,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
 /**
  * Helper to locate sequence events inside a given context event.
  * 
@@ -60,8 +61,7 @@ public class EventFinder {
      * Constructor.
      * 
      * @param context
-     *            the event in which to look for. Only sub-events of the context
-     *            are considered in the search.
+     *            the event in which to look for. Only sub-events of the context are considered in the search.
      */
     public EventFinder(Lifeline context) {
         this.context = context;
@@ -72,8 +72,7 @@ public class EventFinder {
      * Constructor.
      * 
      * @param context
-     *            the event in which to look for. Only sub-events of the context
-     *            are considered in the search.
+     *            the event in which to look for. Only sub-events of the context are considered in the search.
      */
     public EventFinder(AbstractNodeEvent context) {
         this.context = context;
@@ -85,8 +84,7 @@ public class EventFinder {
      * Constructor.
      * 
      * @param context
-     *            the event in which to look for. Only sub-events of the context
-     *            are considered in the search.
+     *            the event in which to look for. Only sub-events of the context are considered in the search.
      * 
      * @param lifeline
      *            the lifeline on which to look for an event.
@@ -97,8 +95,7 @@ public class EventFinder {
     }
 
     /**
-     * Allow to use another way to compute the range of the context (iG range
-     * after move?..).
+     * Allow to use another way to compute the range of the context (iG range after move?..).
      * 
      * @param rangeFunction
      *            the range function to use to compute the context range.
@@ -134,13 +131,13 @@ public class EventFinder {
     }
 
     /**
-     * Returns the deepest event in the hierarchy of sub-event starting from
-     * this finder's context which includes completely the specified range.
+     * Returns the deepest event in the hierarchy of sub-event starting from this finder's context which includes
+     * completely the specified range.
      * 
      * @param range
      *            the range to look for.
-     * @return the deepest event, starting from this finder's context, which
-     *         includes the specified range, or <code>null</code>.
+     * @return the deepest event, starting from this finder's context, which includes the specified range, or
+     *         <code>null</code>.
      */
     public ISequenceEvent findMostSpecificEvent(Range range) {
         if (context instanceof Message) {
@@ -158,7 +155,7 @@ public class EventFinder {
         }
         if (contextIncludesRange(range) || isReparent()) {
             Predicate<ISequenceEvent> sameLifeline = new SameLifelinePredicate(lifeline);
-            List<ISequenceEvent> eventsToInspect = Lists.newArrayList();
+            List<ISequenceEvent> eventsToInspect = new ArrayList<>();
             if ((reconnect || reparent) && (context instanceof AbstractNodeEvent || context instanceof Lifeline)) {
                 for (View view : Iterables.filter(context.getNotationView().getChildren(), View.class)) {
                     Option<ISequenceEvent> ise = ISequenceElementAccessor.getISequenceEvent(view);
@@ -197,8 +194,8 @@ public class EventFinder {
     }
 
     /**
-     * Tests whether this finder's context element includes the specified range,
-     * considering the optional expansion step.
+     * Tests whether this finder's context element includes the specified range, considering the optional expansion
+     * step.
      */
     private boolean contextIncludesRange(Range range) {
         Range currentContextRange = verticalRangeFunction.apply(context);
@@ -206,8 +203,7 @@ public class EventFinder {
     }
 
     /**
-     * Returns a predicate which tests whether an element should be ignored in
-     * the search for descendants.
+     * Returns a predicate which tests whether an element should be ignored in the search for descendants.
      */
     private Predicate<ISequenceEvent> shouldIgnore() {
         if (eventsToIgnore == null) {

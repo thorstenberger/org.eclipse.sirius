@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import junit.framework.TestCase;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -37,6 +35,8 @@ import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
+import junit.framework.TestCase;
 
 /**
  * Tests for the {@link AcceleoMTLInterpreter} utility class.
@@ -657,7 +657,7 @@ public class AcceleoMTLInterpreterTests extends TestCase {
         eClass.setName("c2");
 
         final String varName = "c";
-        final List<Object> varVals = Lists.newArrayList();
+        final List<Object> varVals = new ArrayList<>();
 
         IVariableStatusListener listener = new IVariableStatusListener() {
 

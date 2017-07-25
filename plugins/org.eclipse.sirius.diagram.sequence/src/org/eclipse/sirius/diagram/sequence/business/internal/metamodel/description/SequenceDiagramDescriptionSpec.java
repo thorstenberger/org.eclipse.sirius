@@ -36,8 +36,7 @@ public class SequenceDiagramDescriptionSpec extends SequenceDiagramDescriptionIm
     /**
      * {@inheritDoc}
      * 
-     * SequenceDiagramDescription produce <code>SequenceDDiagram</code>s at
-     * runtime.
+     * SequenceDiagramDescription produce <code>SequenceDDiagram</code>s at runtime.
      */
     @Override
     public DSemanticDiagram createDiagram() {

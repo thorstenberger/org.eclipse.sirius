@@ -58,8 +58,8 @@ import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
 
 /**
- * Computes the appropriate graphical locations of sequence events and lifelines
- * on a sequence diagram to reflect the semantic order.
+ * Computes the appropriate graphical locations of sequence events and lifelines on a sequence diagram to reflect the
+ * semantic order.
  * 
  * @author pcdavid, mporhel
  */
@@ -73,7 +73,7 @@ public class SequenceHorizontalLayout extends AbstractSequenceOrderingLayout<ISe
 
     private final Insets padding = new Insets(LayoutConstants.LIFELINES_START_Y, LayoutConstants.LIFELINES_START_X, 0, LayoutConstants.LIFELINES_MIN_X_GAP - LayoutConstants.LIFELINES_START_X);
 
-    private final Collection<AbstractFrame> frames = Lists.newArrayList();
+    private final Collection<AbstractFrame> frames = new ArrayList<>();
 
     private final Multimap<AbstractFrame, Lifeline> coverage = HashMultimap.create();
 
@@ -93,8 +93,7 @@ public class SequenceHorizontalLayout extends AbstractSequenceOrderingLayout<ISe
      * Constructor.
      * 
      * @param diagram
-     *            the sequence diagram for which to compute the horizontal
-     *            locations.
+     *            the sequence diagram for which to compute the horizontal locations.
      */
     public SequenceHorizontalLayout(SequenceDiagram diagram) {
         super(diagram);
@@ -258,7 +257,7 @@ public class SequenceHorizontalLayout extends AbstractSequenceOrderingLayout<ISe
     }
 
     private void populateFrames() {
-        Collection<AbstractFrame> allFrames = Lists.newArrayList();
+        Collection<AbstractFrame> allFrames = new ArrayList<>();
         allFrames.addAll(sequenceDiagram.getAllInteractionUses());
         allFrames.addAll(sequenceDiagram.getAllCombinedFragments());
 
@@ -390,8 +389,7 @@ public class SequenceHorizontalLayout extends AbstractSequenceOrderingLayout<ISe
      * @param lostEndsDelta
      * @param reflexiveMessagesMoves
      * 
-     * @return a map associating each instance role edit part to the new
-     *         absolute horizontal location it should have.
+     * @return a map associating each instance role edit part to the new absolute horizontal location it should have.
      */
     private Map<InstanceRole, Rectangle> computeInstanceRoleHorizontalLocations(boolean pack, Map<LostMessageEnd, Integer> lostEndsDelta) {
         final Map<InstanceRole, Rectangle> computedMoves = new HashMap<InstanceRole, Rectangle>();
@@ -405,8 +403,8 @@ public class SequenceHorizontalLayout extends AbstractSequenceOrderingLayout<ISe
     }
 
     /**
-     * Compute and store the new bounds of the instance roles, the x location
-     * will be the only modified value. Return the next minimum x.
+     * Compute and store the new bounds of the instance roles, the x location will be the only modified value. Return
+     * the next minimum x.
      */
     private int computeLocation(final int currentX, final InstanceRole instanceRole, boolean pack, Map<LostMessageEnd, Integer> lostEndsDelta, final Map<InstanceRole, Rectangle> computedMoves) {
         final Rectangle oldBounds = instanceRole.getProperLogicalBounds();
@@ -495,8 +493,7 @@ public class SequenceHorizontalLayout extends AbstractSequenceOrderingLayout<ISe
      * @param lifeline
      *            the current lifeline.
      * @param zone
-     *            if not null, the restricted vertical range to look for
-     *            execution and lost ends.
+     *            if not null, the restricted vertical range to look for execution and lost ends.
      * @param irWidth
      *            the instance role width.
      * @param lostEndsDelta
@@ -617,7 +614,7 @@ public class SequenceHorizontalLayout extends AbstractSequenceOrderingLayout<ISe
                     RelativeBendpoint newP1 = new RelativeBendpoint(p1.getSourceX() + deltaX, p1.getSourceY(), p1.getTargetX() + deltaX, p1.getTargetY());
                     RelativeBendpoint newP2 = new RelativeBendpoint(p2.getSourceX() + deltaX, p2.getSourceY(), p2.getTargetX() + deltaX, p2.getTargetY());
 
-                    List<RelativeBendpoint> newPoints = Lists.newArrayList();
+                    List<RelativeBendpoint> newPoints = new ArrayList<>();
                     newPoints.add(p0);
                     newPoints.add(newP1);
                     newPoints.add(newP2);

@@ -43,8 +43,7 @@ import org.eclipse.sirius.diagram.ui.internal.refresh.edge.SlidableAnchor;
 import org.eclipse.sirius.diagram.ui.tools.api.graphical.edit.styles.IBorderItemOffsets;
 
 /**
- * A Command to update sequence message bendpoints after the
- * CanonicalSynchronizer.
+ * A Command to update sequence message bendpoints after the CanonicalSynchronizer.
  * 
  * @author <a href="mailto:esteban.dugueperoux@obeo.fr">Esteban Dugueperoux</a>
  */
@@ -71,8 +70,7 @@ public class FixBendpointsOnCreationCommand extends RecordingCommand {
      * Default constructor.
      * 
      * @param domain
-     *            the {@link TransactionalEditingDomain} on which execute this
-     *            Command
+     *            the {@link TransactionalEditingDomain} on which execute this Command
      * 
      * @param createdEdge
      *            the {@link Edge} for which update the bendpoints
@@ -220,16 +218,14 @@ public class FixBendpointsOnCreationCommand extends RecordingCommand {
     }
 
     /*
-     * Copied from org.eclipse.gmf.runtime.draw2d.ui.figures.BaseSlidableAnchor.
-     * getAnchorRelativeLocation() to avoid a dependency towards just for this.
+     * Copied from org.eclipse.gmf.runtime.draw2d.ui.figures.BaseSlidableAnchor. getAnchorRelativeLocation() to avoid a
+     * dependency towards just for this.
      */
     private PrecisionPoint getAnchorRelativeLocation(Point p, Rectangle bounds) {
         if (bounds.width == 0 || bounds.height == 0) {
             /*
-             * If figure hasn't been laid out yet, we don't want to fail the
-             * slidable anchor creation. Hence, we'll just return the (0.5, 0.5)
-             * meaning that the anchor reference point is the center of the
-             * figure.
+             * If figure hasn't been laid out yet, we don't want to fail the slidable anchor creation. Hence, we'll just
+             * return the (0.5, 0.5) meaning that the anchor reference point is the center of the figure.
              */
             return new PrecisionPoint(0.5, 0.5);
         }

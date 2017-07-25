@@ -22,8 +22,7 @@ import org.eclipse.sirius.diagram.sequence.ordering.EventEnd;
 import org.eclipse.sirius.diagram.sequence.util.Range;
 
 /**
- * {@link Comparator} used to order Set of {@link ISequenceElement} according to
- * their {@link Range#getLowerBound()}.
+ * {@link Comparator} used to order Set of {@link ISequenceElement} according to their {@link Range#getLowerBound()}.
  * 
  * @author <a href="mailto:esteban.dugueperoux@obeo.fr">Esteban Dugueperoux</a>
  */
@@ -35,8 +34,7 @@ public class RangeComparator implements Comparator<ISequenceElement>, Serializab
     private static final long serialVersionUID = -8968333614931292746L;
 
     /**
-     * Overridden to compare {@link ISequenceElement} order according to their
-     * {@link Range}.
+     * Overridden to compare {@link ISequenceElement} order according to their {@link Range}.
      * 
      * {@inheritDoc}
      */

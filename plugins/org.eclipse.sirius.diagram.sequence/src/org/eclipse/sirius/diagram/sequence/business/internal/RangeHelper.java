@@ -17,7 +17,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Ordering;
 
 /**
- * Helper functions and orderings for the Range type. 
+ * Helper functions and orderings for the Range type.
  * 
  * @author pcdavid
  */
@@ -25,6 +25,7 @@ public final class RangeHelper {
     private RangeHelper() {
         // Prevent instanciation
     }
+
     /**
      * A function to obtain the lower bound of a range.
      * 
@@ -82,8 +83,7 @@ public final class RangeHelper {
     }
 
     /**
-     * Returns a range representing the horizontal range occupied by a
-     * rectangle.
+     * Returns a range representing the horizontal range occupied by a rectangle.
      * 
      * @param rect
      *            the rectangle.

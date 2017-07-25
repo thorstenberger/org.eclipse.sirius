@@ -92,7 +92,6 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.PlatformUI;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
@@ -399,7 +398,7 @@ public class DTableViewerManager extends AbstractDTableViewerManager {
 
             final Map<TableMapping, DeleteTargetColumnAction> mappingToDeleteActions = Maps.newHashMap();
             final Map<TableMapping, List<AbstractToolAction>> mappingToCreateActions = Maps.newHashMap();
-            final List<AbstractToolAction> createActionsForTable = Lists.newArrayList();
+            final List<AbstractToolAction> createActionsForTable = new ArrayList<>();
             calculateAvailableMenus(mappingToDeleteActions, mappingToCreateActions, createActionsForTable);
 
             mgr.setRemoveAllWhenShown(true);
@@ -596,7 +595,7 @@ public class DTableViewerManager extends AbstractDTableViewerManager {
      * @return the selected tree items or an empty collection
      */
     public Collection<DLine> getSelectedLines() {
-        Collection<DLine> result = Lists.newArrayList();
+        Collection<DLine> result = new ArrayList<>();
         if (treeViewer.getTree().getSelectionCount() > 0) {
             for (TreeItem item : treeViewer.getTree().getSelection()) {
                 Object data = item.getData();

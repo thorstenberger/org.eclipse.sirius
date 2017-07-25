@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.business.internal.query;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -57,9 +58,8 @@ public class ISequenceEventQuery {
      * 
      * @param child
      *            the potential descendant.
-     * @return <code>true</code> if <em>this</em> event is identical to the
-     *         child, the parent of the child or an indirect ancestor of the
-     *         child.
+     * @return <code>true</code> if <em>this</em> event is identical to the child, the parent of the child or an
+     *         indirect ancestor of the child.
      */
     public boolean isAncestorOrSelf(ISequenceEvent child) {
         ISequenceEvent iSequenceEvent = event;
@@ -89,8 +89,7 @@ public class ISequenceEventQuery {
     }
 
     /**
-     * Computes all the descendants of the specified execution, i.e. the
-     * recursive transitive closure on getSubEvents().
+     * Computes all the descendants of the specified execution, i.e. the recursive transitive closure on getSubEvents().
      * 
      * The current ise is not included.
      * 
@@ -101,8 +100,7 @@ public class ISequenceEventQuery {
     }
 
     /**
-     * Computes all the descendants of the specified execution, i.e. the
-     * recursive transitive closure on getSubEvents().
+     * Computes all the descendants of the specified execution, i.e. the recursive transitive closure on getSubEvents().
      * 
      * @param includeSelf
      *            whether or not to consider "self" as a descendant.
@@ -113,14 +111,12 @@ public class ISequenceEventQuery {
     }
 
     /**
-     * Computes all the descendants of the specified execution, i.e. the
-     * recursive transitive closure on getSubEvents().
+     * Computes all the descendants of the specified execution, i.e. the recursive transitive closure on getSubEvents().
      * 
      * @param includeSelf
      *            whether or not to consider "self" as a descendant.
      * @param predicate
-     *            the predicate to select which descendants to include in the
-     *            collection.
+     *            the predicate to select which descendants to include in the collection.
      * @return all the proper descendant events of the given execution.
      */
     public Set<ISequenceEvent> getAllDescendants(boolean includeSelf, Predicate<? super View> predicate) {
@@ -133,16 +129,13 @@ public class ISequenceEventQuery {
     }
 
     /**
-     * Adds all the descendants of the specified edit part which verify the
-     * predicate into a collection. Only children edit parts are considered, not
-     * source and target connections.
+     * Adds all the descendants of the specified edit part which verify the predicate into a collection. Only children
+     * edit parts are considered, not source and target connections.
      * 
      * @param predicate
-     *            the predicate to select which descendants to include in the
-     *            collection.
+     *            the predicate to select which descendants to include in the collection.
      * @param parts
-     *            the collection in which to add all the descendants of
-     *            <code>element</code> which verify the predicate.
+     *            the collection in which to add all the descendants of <code>element</code> which verify the predicate.
      */
     private void addAllDescendants(Predicate<? super View> predicate, Collection<ISequenceEvent> parts) {
         addAllDescendants(event, predicate, parts);
@@ -171,8 +164,8 @@ public class ISequenceEventQuery {
     }
 
     /**
-     * Finds all the sequence messages whose source or target is the specified
-     * element or any of its descendant edit parts, without duplicates.
+     * Finds all the sequence messages whose source or target is the specified element or any of its descendant edit
+     * parts, without duplicates.
      * 
      * @return the messages found without duplicates.
      */
@@ -184,32 +177,30 @@ public class ISequenceEventQuery {
     }
 
     /**
-     * Finds all the sequence messages whose source is the specified element or
-     * any of its descendant edit parts.
+     * Finds all the sequence messages whose source is the specified element or any of its descendant edit parts.
      * 
      * @return the messages found.
      */
     public List<Message> getAllMessagesFrom() {
-        List<Message> messagesParts = Lists.newArrayList();
+        List<Message> messagesParts = new ArrayList<>();
         addAllMessagesFrom(event.getNotationView(), messagesParts);
         return messagesParts;
     }
 
     /**
-     * Finds all the sequence messages whose target is the specified element or
-     * any of its descendant edit parts.
+     * Finds all the sequence messages whose target is the specified element or any of its descendant edit parts.
      * 
      * @return the messages found.
      */
     public List<Message> getAllMessagesTo() {
-        List<Message> messagesParts = Lists.newArrayList();
+        List<Message> messagesParts = new ArrayList<>();
         addAllMessagesTo(event.getNotationView(), messagesParts);
         return messagesParts;
     }
 
     /**
-     * Finds all the sequence messages whose target is the specified element or
-     * any of its descendant edit parts and add them to a collection.
+     * Finds all the sequence messages whose target is the specified element or any of its descendant edit parts and add
+     * them to a collection.
      * 
      * @param element
      *            the element from which to start the search for messages.
@@ -232,8 +223,8 @@ public class ISequenceEventQuery {
     }
 
     /**
-     * Finds all the sequence messages whose source is the specified element or
-     * any of its descendant edit parts and add them to a collection.
+     * Finds all the sequence messages whose source is the specified element or any of its descendant edit parts and add
+     * them to a collection.
      * 
      * @param element
      *            the element from which to start the search for messages.
@@ -256,8 +247,7 @@ public class ISequenceEventQuery {
     }
 
     /**
-     * Common implementation of
-     * {@link ISequenceEventEditPart#getOccupiedRange()}.
+     * Common implementation of {@link ISequenceEventEditPart#getOccupiedRange()}.
      * 
      * @return the maximal range occupied by children of the event.
      */

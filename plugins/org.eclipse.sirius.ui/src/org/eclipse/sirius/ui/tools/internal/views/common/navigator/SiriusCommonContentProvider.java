@@ -14,6 +14,7 @@ package org.eclipse.sirius.ui.tools.internal.views.common.navigator;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -183,7 +184,7 @@ public class SiriusCommonContentProvider implements ICommonContentProvider {
      */
     @Override
     public Object[] getChildren(Object parentElement) {
-        Collection<Object> allChildren = Lists.newArrayList();
+        Collection<Object> allChildren = new ArrayList<>();
         // Init view extension getChildren call detection.
         shouldAskExtension = true;
 
@@ -216,7 +217,7 @@ public class SiriusCommonContentProvider implements ICommonContentProvider {
     }
 
     private Collection<Object> doGetFileChildren(IFile parentFile) {
-        final Collection<Object> fileChildren = Lists.newArrayList();
+        final Collection<Object> fileChildren = new ArrayList<>();
         IProject parentProject = parentFile.getProject();
         if (parentProject == null) {
             return fileChildren;
@@ -310,7 +311,7 @@ public class SiriusCommonContentProvider implements ICommonContentProvider {
     }
 
     private List<Object> doGetChildrenForTransientSession(Session transientSession, IFile semanticFile) {
-        List<Object> children = Lists.newArrayList();
+        List<Object> children = new ArrayList<>();
         if (defaultContentProvider != null && semanticFile != null && semanticFile.getFullPath() != null) {
             URI semUri = getFileUri(semanticFile);
             for (Object child : safeGetDefaultContentProviderChildren(transientSession, semanticFile)) {

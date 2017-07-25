@@ -14,9 +14,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gmf.runtime.notation.Node;
 
 /**
- * Common interface for all the elements of a sequence diagram which represent
- * an event associated to a (logical) time interval and thus a range of vertical
- * coordinates. This includes lifelines (considered as a special case of
+ * Common interface for all the elements of a sequence diagram which represent an event associated to a (logical) time
+ * interval and thus a range of vertical coordinates. This includes lifelines (considered as a special case of
  * executions), executions and messages.
  * 
  * @author mporhel

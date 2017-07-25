@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.business.internal.dialect.description;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -438,7 +439,7 @@ public class DiagramInterpretedExpressionQuery extends AbstractInterpretedExpres
             availableVariables.put("otherEnd", EDGE_TARGET_POSSIBILITIES); //$NON-NLS-1$
             availableVariables.put("edgeView", VariableType.fromString(DIAGRAM_D_EDGE_TYPE)); //$NON-NLS-1$
 
-            Collection<String> possibleSources = Lists.newArrayList();
+            Collection<String> possibleSources = new ArrayList<>();
             for (EdgeMapping eMapping : tool.getMappings()) {
                 collectSemanticElementType(possibleSources, eMapping);
             }

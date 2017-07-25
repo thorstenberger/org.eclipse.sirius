@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.sirius.common.acceleo.mtl.business.internal.interpreter;
 
-import com.google.common.collect.Sets;
-
 import java.util.Set;
 
 import org.eclipse.acceleo.common.utils.IAcceleoCrossReferenceProvider;
@@ -19,6 +17,8 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
+
+import com.google.common.collect.Sets;
 
 /**
  * Implements the {@link IAcceleoCrossReferenceProvider} interface in order to

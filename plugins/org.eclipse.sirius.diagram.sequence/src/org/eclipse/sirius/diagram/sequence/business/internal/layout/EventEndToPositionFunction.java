@@ -112,8 +112,7 @@ public class EventEndToPositionFunction implements Function<EventEnd, Integer> {
     }
 
     /**
-     * Get the old position of the corresponding event end, regarding the given
-     * event old range. event.
+     * Get the old position of the corresponding event end, regarding the given event old range. event.
      * 
      * @param see
      *            event end

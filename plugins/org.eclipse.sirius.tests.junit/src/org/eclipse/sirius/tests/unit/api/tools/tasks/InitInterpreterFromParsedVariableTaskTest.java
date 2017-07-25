@@ -12,14 +12,14 @@ package org.eclipse.sirius.tests.unit.api.tools.tasks;
 
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.eclipse.sirius.business.api.helper.task.label.InitInterpreterFromParsedVariableTask;
 import org.eclipse.sirius.business.api.helper.task.label.InitInterpreterFromParsedVariableTask2;
 import org.eclipse.sirius.common.tools.api.interpreter.CompoundInterpreter;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreter;
 
 import com.google.common.collect.Maps;
+
+import junit.framework.TestCase;
 
 /**
  * Test the parsing of mask variables and the variable duplication for integer

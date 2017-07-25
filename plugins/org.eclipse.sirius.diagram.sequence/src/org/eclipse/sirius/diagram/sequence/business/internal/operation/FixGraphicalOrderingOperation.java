@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.business.internal.operation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.sirius.diagram.sequence.Messages;
@@ -18,11 +19,8 @@ import org.eclipse.sirius.diagram.sequence.ordering.EventEnd;
 import org.eclipse.sirius.diagram.sequence.ordering.EventEndsOrdering;
 import org.eclipse.sirius.diagram.ui.business.internal.operation.AbstractModelChangeOperation;
 
-import com.google.common.collect.Lists;
-
 /**
- * An operation to remove the invalid ends from the graphical ordering of a
- * sequence diagram.
+ * An operation to remove the invalid ends from the graphical ordering of a sequence diagram.
  * 
  * @author pcdavid
  */
@@ -49,7 +47,7 @@ public final class FixGraphicalOrderingOperation extends AbstractModelChangeOper
     }
 
     private List<EventEnd> findInvalidEnds(EventEndsOrdering graphical) {
-        List<EventEnd> invalids = Lists.newArrayList();
+        List<EventEnd> invalids = new ArrayList<>();
         for (EventEnd end : graphical.getEventEnds()) {
             if (!isValidEnd(end)) {
                 invalids.add(end);

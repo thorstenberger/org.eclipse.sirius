@@ -37,8 +37,7 @@ public class CreationMessageMappingSpec extends CreationMessageMappingImpl {
      * {@inheritDoc}
      * 
      * @see org.eclipse.sirius.viewpoint.description.impl.EdgeMappingImpl#createEdge(org.eclipse.sirius.diagram.EdgeTarget,
-     *      org.eclipse.sirius.diagram.EdgeTarget,
-     *      org.eclipse.emf.ecore.EObject)
+     *      org.eclipse.sirius.diagram.EdgeTarget, org.eclipse.emf.ecore.EObject)
      */
     @Override
     public DEdge createEdge(final EdgeTarget source, final EdgeTarget target, final EObject semanticTarget) {
@@ -49,8 +48,7 @@ public class CreationMessageMappingSpec extends CreationMessageMappingImpl {
      * {@inheritDoc}
      * 
      * @see org.eclipse.sirius.viewpoint.description.impl.EdgeMappingImpl#createEdge(org.eclipse.sirius.diagram.EdgeTarget,
-     *      org.eclipse.sirius.diagram.EdgeTarget,
-     *      org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EObject)
+     *      org.eclipse.sirius.diagram.EdgeTarget, org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EObject)
      */
     @Override
     public DEdge createEdge(final EdgeTarget source, final EdgeTarget target, final EObject container, final EObject semanticTarget) {
@@ -84,8 +82,7 @@ public class CreationMessageMappingSpec extends CreationMessageMappingImpl {
     /**
      * {@inheritDoc}
      * 
-     * @see org.eclipse.sirius.diagram.description.impl.EdgeMappingImpl#getEdgeTargetCandidates(EObject,
-     *      DDiagram)
+     * @see org.eclipse.sirius.diagram.description.impl.EdgeMappingImpl#getEdgeTargetCandidates(EObject, DDiagram)
      */
     @Override
     public EList<EObject> getEdgeTargetCandidates(final EObject semanticOrigin, final DDiagram diagram) {
@@ -97,8 +94,7 @@ public class CreationMessageMappingSpec extends CreationMessageMappingImpl {
     /**
      * {@inheritDoc}
      * 
-     * @see org.eclipse.sirius.diagram.description.impl.EdgeMappingImpl#getEdgeSourceCandidates(EObject,
-     *      DDiagram)
+     * @see org.eclipse.sirius.diagram.description.impl.EdgeMappingImpl#getEdgeSourceCandidates(EObject, DDiagram)
      */
     @Override
     public EList<EObject> getEdgeSourceCandidates(final EObject semanticOrigin, final DDiagram diagram) {
@@ -113,8 +109,8 @@ public class CreationMessageMappingSpec extends CreationMessageMappingImpl {
     /**
      * {@inheritDoc}
      * 
-     * @see org.eclipse.sirius.diagram.description.impl.DiagramElementMappingImpl#checkPrecondition(EObject,
-     *      EObject, EObject)
+     * @see org.eclipse.sirius.diagram.description.impl.DiagramElementMappingImpl#checkPrecondition(EObject, EObject,
+     *      EObject)
      */
     @Override
     public boolean checkPrecondition(final EObject modelElement, final EObject container, final EObject containerView) {

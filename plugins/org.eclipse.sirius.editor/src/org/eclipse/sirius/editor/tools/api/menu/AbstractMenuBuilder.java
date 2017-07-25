@@ -11,6 +11,7 @@
 package org.eclipse.sirius.editor.tools.api.menu;
 
 import java.text.Collator;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -430,7 +431,7 @@ public abstract class AbstractMenuBuilder {
      * @return the list of actions.
      */
     protected Collection<CreateChildAction> generateCreateChildActions(final Collection<?> actionDescriptors, final ISelection selection, final IEditorPart editor) {
-        final Collection<CreateChildAction> actions = Lists.newArrayList();
+        final Collection<CreateChildAction> actions = new ArrayList<>();
         if (actionDescriptors != null) {
             for (final Object actionDescriptor : actionDescriptors) {
                 final CreateChildAction cca;

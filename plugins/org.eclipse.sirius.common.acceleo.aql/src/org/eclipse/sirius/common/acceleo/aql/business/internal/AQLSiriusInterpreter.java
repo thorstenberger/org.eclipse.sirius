@@ -11,6 +11,7 @@
 package org.eclipse.sirius.common.acceleo.aql.business.internal;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -72,7 +73,6 @@ import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -309,8 +309,8 @@ public class AQLSiriusInterpreter extends AcceleoAbstractInterpreter {
                 }
                 result.addStatus(InterpreterStatusFactory.createInterpreterStatus(context, severity, message.getMessage()));
             }
-            List<EClassifier> classifierNames = Lists.newArrayList();
-            List<Class<?>> javaClasses = Lists.newArrayList();
+            List<EClassifier> classifierNames = new ArrayList<>();
+            List<Class<?>> javaClasses = new ArrayList<>();
             for (IType type : aqlValidationResult.getPossibleTypes(aqlValidationResult.getAstResult().getAst())) {
                 IType actualType = type;
                 /*

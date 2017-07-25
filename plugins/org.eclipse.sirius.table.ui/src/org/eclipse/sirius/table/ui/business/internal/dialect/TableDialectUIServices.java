@@ -272,12 +272,12 @@ public class TableDialectUIServices implements DialectUIServices {
 
     @Override
     public Collection<CommandParameter> provideTools(EObject context) {
-        return Lists.newArrayList();
+        return new ArrayList<>();
     }
 
     @Override
     public Collection<CommandParameter> provideAdditionalMappings(EObject object) {
-        return Lists.newArrayList();
+        return new ArrayList<>();
     }
 
     @Override

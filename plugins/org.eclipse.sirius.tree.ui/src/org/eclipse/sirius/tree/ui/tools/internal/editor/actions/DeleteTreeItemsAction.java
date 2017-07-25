@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.tree.ui.tools.internal.editor.actions;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.common.command.CompoundCommand;
@@ -24,8 +25,6 @@ import org.eclipse.sirius.tree.description.TreeItemMapping;
 import org.eclipse.sirius.tree.ui.provider.Messages;
 import org.eclipse.sirius.tree.ui.tools.internal.editor.DTreeViewerManager;
 
-import com.google.common.collect.Lists;
-
 /**
  * This action delete the line (the corresponding semantic element).
  * 
@@ -36,7 +35,7 @@ public class DeleteTreeItemsAction extends Action {
 
     private final TransactionalEditingDomain editingDomain;
 
-    private final Collection<DTreeItem> items = Lists.newArrayList();
+    private final Collection<DTreeItem> items = new ArrayList<>();
 
     /**
      * Constructor. The deleteTool can be null if there is nothing specific to

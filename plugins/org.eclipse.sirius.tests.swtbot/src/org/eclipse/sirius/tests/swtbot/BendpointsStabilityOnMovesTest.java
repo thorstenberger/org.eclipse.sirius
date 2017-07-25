@@ -12,13 +12,12 @@ package org.eclipse.sirius.tests.swtbot;
 
 import static org.junit.Assert.assertNotEquals;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import junit.framework.AssertionFailedError;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.draw2d.geometry.Point;
@@ -60,6 +59,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
+
+import junit.framework.AssertionFailedError;
 
 /**
  * Ensures that when moving, dropping, aligning or arranging nodes, only the
@@ -461,7 +462,7 @@ public class BendpointsStabilityOnMovesTest extends AbstractSiriusSwtBotGefTestC
                 SWTBotGefEditPart editParWithSource = rectilinearDiagramEditor.getEditPart(editPartToMove, IAbstractDiagramNodeEditPart.class);
                 rectilinearDiagramEditor.select(editParWithSource);
                 SWTBotUtils.waitAllUiEvents();
-                Collection<Point> moveSourceDeltas = Lists.newArrayList();
+                Collection<Point> moveSourceDeltas = new ArrayList<>();
                 moveSourceDeltas.add(new Point(50, 50));
                 moveSourceDeltas.add(new Point(500, 500));
                 moveSourceDeltas.add(new Point(500, -500));
@@ -505,7 +506,7 @@ public class BendpointsStabilityOnMovesTest extends AbstractSiriusSwtBotGefTestC
             SWTBotGefEditPart editParWithSource = rectilinearDiagramEditor.getEditPart("B", IAbstractDiagramNodeEditPart.class);
             rectilinearDiagramEditor.select(editParWithSource);
             SWTBotUtils.waitAllUiEvents();
-            Collection<Point> moveSourceDeltas = Lists.newArrayList();
+            Collection<Point> moveSourceDeltas = new ArrayList<>();
             moveSourceDeltas.add(new Point(50, 50));
             moveSourceDeltas.add(new Point(500, 500));
             moveSourceDeltas.add(new Point(500, -500));
@@ -532,7 +533,7 @@ public class BendpointsStabilityOnMovesTest extends AbstractSiriusSwtBotGefTestC
             SWTBotGefEditPart editParWithTarget = rectilinearDiagramEditor.getEditPart("A", IAbstractDiagramNodeEditPart.class);
             rectilinearDiagramEditor.select(editParWithTarget);
             SWTBotUtils.waitAllUiEvents();
-            Collection<Point> moveTargetDeltas = Lists.newArrayList();
+            Collection<Point> moveTargetDeltas = new ArrayList<>();
             moveTargetDeltas.add(new Point(50, 5));
             moveTargetDeltas.add(new Point(500, 5));
             moveTargetDeltas.add(new Point(500, 500));

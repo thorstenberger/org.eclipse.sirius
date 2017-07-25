@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.business.internal.ordering;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -25,19 +26,16 @@ import org.eclipse.sirius.ext.base.Option;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 
 /**
- * Helper class to factor common code for semantic and graphical orders
- * refreshing.
+ * Helper class to factor common code for semantic and graphical orders refreshing.
  * 
  * @author mporhel
  */
 public final class EventEndHelper {
 
     /**
-     * Function to find and returns the EventEnds corresponding to the given
-     * part.
+     * Function to find and returns the EventEnds corresponding to the given part.
      */
     public static final Function<ISequenceEvent, List<EventEnd>> EVENT_ENDS = new Function<ISequenceEvent, List<EventEnd>>() {
         public List<EventEnd> apply(ISequenceEvent from) {
@@ -55,8 +53,7 @@ public final class EventEndHelper {
     };
 
     /**
-     * A predicate which check that the given {@link SingleEventEnd} is a
-     * starting event.
+     * A predicate which check that the given {@link SingleEventEnd} is a starting event.
      */
     public static final Predicate<SingleEventEnd> IS_START = new Predicate<SingleEventEnd>() {
         public boolean apply(SingleEventEnd from) {
@@ -65,8 +62,7 @@ public final class EventEndHelper {
     };
 
     /**
-     * A predicate which check that the given {@link EventEnd} is a punctual
-     * compound event end.
+     * A predicate which check that the given {@link EventEnd} is a punctual compound event end.
      */
     public static final Predicate<EventEnd> PUNCTUAL_COMPOUND_EVENT_END = new Predicate<EventEnd>() {
         public boolean apply(EventEnd input) {
@@ -86,7 +82,7 @@ public final class EventEndHelper {
      * @return a list of semantic element representing the event itself.
      */
     public static List<EObject> getSemanticEvents(EventEnd eventEnd) {
-        List<EObject> result = Lists.newArrayList();
+        List<EObject> result = new ArrayList<>();
         if (eventEnd instanceof SingleEventEnd) {
             result.add(((SingleEventEnd) eventEnd).getSemanticEvent());
         } else if (eventEnd instanceof CompoundEventEnd) {
@@ -124,16 +120,15 @@ public final class EventEndHelper {
     }
 
     /**
-     * Finds and returns the EventEnds corresponding to the given part, using
-     * the semantic ordering instead of the graphical ordering used by the plain
-     * {@link #findEnds(ISequenceEventEditPart)}.
+     * Finds and returns the EventEnds corresponding to the given part, using the semantic ordering instead of the
+     * graphical ordering used by the plain {@link #findEnds(ISequenceEventEditPart)}.
      * 
      * @param part
      *            the part to look for
      * @return the EventEnds corresponding to the given part
      */
     public static List<EventEnd> findEndsFromSemanticOrdering(ISequenceEvent part) {
-        List<EventEnd> ends = Lists.newArrayList();
+        List<EventEnd> ends = new ArrayList<>();
         SequenceDiagram sdep = part.getDiagram();
         SequenceDDiagram seqDiag = (SequenceDDiagram) sdep.getNotationDiagram().getElement();
         Option<EObject> semanticEvent = part.getSemanticTargetElement();
@@ -168,18 +163,16 @@ public final class EventEndHelper {
     }
 
     /**
-     * Returns the list of direct compound-events of this given event, in
-     * chronological (and thus also graphical) order. This includes events with
-     * same semantic ends
+     * Returns the list of direct compound-events of this given event, in chronological (and thus also graphical) order.
+     * This includes events with same semantic ends
      * 
      * @param self
      *            The given {@link ISequenceEventEditPart}.
      * 
-     * @return the list of direct compound-events of this event, in
-     *         chronological order.
+     * @return the list of direct compound-events of this event, in chronological order.
      */
     public static List<ISequenceEvent> getCompoundEvents(ISequenceEvent self) {
-        List<ISequenceEvent> compoundEvents = Lists.newArrayList();
+        List<ISequenceEvent> compoundEvents = new ArrayList<>();
         SequenceDiagram sdep = self.getDiagram();
         EObject semanticEvent = self.getSemanticTargetElement().get();
         List<EventEnd> ends = EventEndHelper.findEndsFromSemanticOrdering(self);
@@ -198,8 +191,7 @@ public final class EventEndHelper {
     }
 
     /**
-     * Finds and returns the ISequenceEvent corresponding to the given
-     * SingleEventEnd.
+     * Finds and returns the ISequenceEvent corresponding to the given SingleEventEnd.
      * 
      * @param end
      *            the end to look for

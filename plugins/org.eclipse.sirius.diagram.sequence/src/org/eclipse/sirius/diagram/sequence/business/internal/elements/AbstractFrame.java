@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.business.internal.elements;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -48,7 +49,7 @@ import com.google.common.collect.Sets;
  */
 public abstract class AbstractFrame extends AbstractSequenceNode implements ISequenceEvent {
 
-    private static final ProfilerTask COVERAGE = new ProfilerTask(Messages.AbstractFrame_coverageProfilerTaskCategory, Messages.AbstractFrame_coverageProfilerTaskName, SiriusTasks.IMAGES_VIEWPOINT); 
+    private static final ProfilerTask COVERAGE = new ProfilerTask(Messages.AbstractFrame_coverageProfilerTaskCategory, Messages.AbstractFrame_coverageProfilerTaskName, SiriusTasks.IMAGES_VIEWPOINT);
 
     /**
      * Constructor.
@@ -77,8 +78,7 @@ public abstract class AbstractFrame extends AbstractSequenceNode implements ISeq
     @Override
     public Rectangle getProperLogicalBounds() {
         /*
-         * Combined Fragments are directly on the diagram itself, so we can use
-         * the raw GMF bounds as is.
+         * Combined Fragments are directly on the diagram itself, so we can use the raw GMF bounds as is.
          */
         return getRawNotationBounds();
     }
@@ -90,8 +90,8 @@ public abstract class AbstractFrame extends AbstractSequenceNode implements ISeq
      */
     public Collection<Lifeline> computeCoveredLifelines() {
         DslCommonPlugin.PROFILER.startWork(COVERAGE);
-        Collection<EObject> semLifelines = Lists.newArrayList();
-        Collection<Lifeline> coveredLifelines = Lists.newArrayList();
+        Collection<EObject> semLifelines = new ArrayList<>();
+        Collection<Lifeline> coveredLifelines = new ArrayList<>();
 
         EObject element = getNotationNode().getElement();
         if (element instanceof DDiagramElement) {
@@ -138,8 +138,7 @@ public abstract class AbstractFrame extends AbstractSequenceNode implements ISeq
      * Get the covered lifelines.
      * 
      * @param coveredLifelines
-     *            a collection of lifelines that should be a subset of computed
-     *            lifelines (NO CHECK)
+     *            a collection of lifelines that should be a subset of computed lifelines (NO CHECK)
      * 
      * @return the covered lifelines.
      */

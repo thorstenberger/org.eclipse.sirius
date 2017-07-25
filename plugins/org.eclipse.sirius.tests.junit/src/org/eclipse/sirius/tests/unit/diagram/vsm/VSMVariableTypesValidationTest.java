@@ -13,6 +13,7 @@ package org.eclipse.sirius.tests.unit.diagram.vsm;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -80,7 +81,7 @@ public class VSMVariableTypesValidationTest {
     public static Collection<Object[]> data() throws IOException {
         URI uri = URI.createPlatformPluginURI(ORG_ECLIPSE_SIRIUS_TESTS_JUNIT_DATA_UNIT_VSM_VALIDATE_VARIABLE_TYPES_ODESIGN, true);
 
-        List<Object[]> parameters = Lists.newArrayList();
+        List<Object[]> parameters = new ArrayList<>();
         Group group = loadVSM(uri);
         if (group != null) {
             for (Viewpoint vp : group.getOwnedViewpoints()) {
@@ -224,7 +225,7 @@ class InterpretedExpression {
     }
 
     private String qualifiedName(EObject declaration) {
-        List<String> segments = Lists.newArrayList();
+        List<String> segments = new ArrayList<>();
 
         EObject cur = declaration;
         while (cur != null) {

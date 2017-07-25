@@ -366,7 +366,7 @@ public class DAnalysisSessionImpl extends DAnalysisSessionEObjectImpl implements
     @Override
     public void addReferencedAnalysis(final DAnalysis newAnalysis) {
         assert newAnalysis.eResource() != null;
-        List<DAnalysis> sources = Lists.newArrayList();
+        List<DAnalysis> sources = new ArrayList<>();
         if (!super.getAnalyses().isEmpty()) {
             DAnalysis referencer = super.getAnalyses().iterator().next();
             if (referencer != null) {
@@ -401,7 +401,7 @@ public class DAnalysisSessionImpl extends DAnalysisSessionEObjectImpl implements
     @Override
     public void removeReferencedAnalysis(final DAnalysis analysis) {
         assert analysis.eResource() != null;
-        Collection<DAnalysis> referencers = Lists.newArrayList();
+        Collection<DAnalysis> referencers = new ArrayList<>();
         for (DAnalysis potentialRef : allAnalyses()) {
             if (potentialRef.getReferencedAnalysis().contains(analysis)) {
                 referencers.add(potentialRef);
@@ -744,7 +744,7 @@ public class DAnalysisSessionImpl extends DAnalysisSessionEObjectImpl implements
     }
 
     private Set<Resource> getSessionResources(boolean includeMainResource) {
-        List<Resource> result = Lists.newArrayList();
+        List<Resource> result = new ArrayList<>();
         for (DAnalysis analysis : allAnalyses()) {
             Resource res = analysis.eResource();
             if (res != null && (includeMainResource || res != sessionResource)) {
@@ -776,7 +776,7 @@ public class DAnalysisSessionImpl extends DAnalysisSessionEObjectImpl implements
      */
     protected final void setSynchronizeStatusofEveryResource(Iterable<Resource> resourcesToConsider) {
         ResourceSetSync rsSetSync = ResourceSetSync.getOrInstallResourceSetSync(transactionalEditingDomain);
-        Collection<ResourceSyncClient.ResourceStatusChange> changes = Lists.newArrayList();
+        Collection<ResourceSyncClient.ResourceStatusChange> changes = new ArrayList<>();
         for (Resource resource : Sets.newHashSet(resourcesToConsider)) {
             ResourceStatus oldStatus = ResourceSetSync.getStatus(resource);
             ResourceStatus newStatus = resource.isModified() ? ResourceStatus.CHANGED : ResourceStatus.SYNC;
@@ -808,7 +808,7 @@ public class DAnalysisSessionImpl extends DAnalysisSessionEObjectImpl implements
     protected void doSave(final Map<?, ?> options, final IProgressMonitor monitor, boolean runExclusive) {
         try {
             monitor.beginTask(Messages.DAnalysisSessionImpl_saveMsg, 3);
-            final Collection<Resource> allResources = Lists.newArrayList();
+            final Collection<Resource> allResources = new ArrayList<>();
             allResources.addAll(getAllSessionResources());
             Collection<Resource> semanticResourcesCollection = getSemanticResources();
             allResources.addAll(semanticResourcesCollection);
@@ -1225,7 +1225,7 @@ public class DAnalysisSessionImpl extends DAnalysisSessionEObjectImpl implements
      * an error.
      */
     private void checkResourceErrors() {
-        Collection<ResourceVersionMismatchDiagnostic> diagnostics = Lists.newArrayList();
+        Collection<ResourceVersionMismatchDiagnostic> diagnostics = new ArrayList<>();
 
         // Prevent loading a session which VSM resource contains errors
         Collection<Viewpoint> activatedViewpoints = getSelectedViewpoints(true);

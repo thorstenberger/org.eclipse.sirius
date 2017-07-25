@@ -10,13 +10,12 @@
  *******************************************************************************/
 package org.eclipse.sirius.tests.unit.common.interpreter;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import junit.framework.TestCase;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -37,6 +36,8 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+
+import junit.framework.TestCase;
 
 /**
  * Abstract base class for completion test cases.
@@ -392,7 +393,7 @@ public class AbstractCompletionTestCase extends TestCase {
      */
     protected void checkEOperations(EClass eClass, boolean implicitContext, Collection<String> proposals, Predicate<String> concerned, Function<EOperation, String> signature, StringBuilder errorMsg) {
         // EOperations
-        Collection<EOperation> opToCheck = Lists.newArrayList();
+        Collection<EOperation> opToCheck = new ArrayList<>();
         Collection<String> opNames = Sets.newHashSet();
         for (EOperation op : eClass.getEAllOperations()) {
             if (!(implicitContext && opNames.contains(op.getName()))) {

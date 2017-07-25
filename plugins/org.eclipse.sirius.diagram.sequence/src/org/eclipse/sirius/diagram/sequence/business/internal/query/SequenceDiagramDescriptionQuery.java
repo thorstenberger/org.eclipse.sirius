@@ -42,13 +42,11 @@ public class SequenceDiagramDescriptionQuery {
     }
 
     /**
-     * return any InstanceRoleMapping contained in the diagram having the given
-     * name.
+     * return any InstanceRoleMapping contained in the diagram having the given name.
      * 
      * @param name
      *            name of the searched element.
-     * @return any InstanceRoleMapping contained in the diagram having the given
-     *         name.
+     * @return any InstanceRoleMapping contained in the diagram having the given name.
      */
     public Iterator<InstanceRoleMapping> getInstanceRoleMappings(final String name) {
         return Iterators.filter(Iterators.filter(diag.eAllContents(), InstanceRoleMapping.class), new Predicate<InstanceRoleMapping>() {
@@ -61,13 +59,11 @@ public class SequenceDiagramDescriptionQuery {
     }
 
     /**
-     * return any ExecutionMapping contained in the diagram having the given
-     * name.
+     * return any ExecutionMapping contained in the diagram having the given name.
      * 
      * @param name
      *            name of the searched element.
-     * @return any ExecutionMapping contained in the diagram having the given
-     *         name.
+     * @return any ExecutionMapping contained in the diagram having the given name.
      */
     public Iterator<ExecutionMapping> getExecutionMappings(final String name) {
         return Iterators.filter(Iterators.filter(diag.eAllContents(), ExecutionMapping.class), new Predicate<ExecutionMapping>() {
@@ -80,13 +76,11 @@ public class SequenceDiagramDescriptionQuery {
     }
 
     /**
-     * return any {@link EndOfLifeMapping} contained in the diagram having the
-     * given name.
+     * return any {@link EndOfLifeMapping} contained in the diagram having the given name.
      * 
      * @param name
      *            name of the searched element.
-     * @return any EndOfLifeMapping contained in the diagram having the given
-     *         name.
+     * @return any EndOfLifeMapping contained in the diagram having the given name.
      */
     public Iterator<EndOfLifeMapping> getEndOfLifeMappings(final String name) {
         return Iterators.filter(Iterators.filter(diag.eAllContents(), EndOfLifeMapping.class), new Predicate<EndOfLifeMapping>() {
@@ -99,13 +93,11 @@ public class SequenceDiagramDescriptionQuery {
     }
 
     /**
-     * return any {@link MessageMapping} contained in the diagram having the
-     * given name.
+     * return any {@link MessageMapping} contained in the diagram having the given name.
      * 
      * @param name
      *            name of the searched element.
-     * @return any MessageMapping contained in the diagram having the given
-     *         name.
+     * @return any MessageMapping contained in the diagram having the given name.
      */
     public Iterator<MessageMapping> getMessageMappings(final String name) {
         return Iterators.filter(Iterators.filter(diag.eAllContents(), MessageMapping.class), new Predicate<MessageMapping>() {

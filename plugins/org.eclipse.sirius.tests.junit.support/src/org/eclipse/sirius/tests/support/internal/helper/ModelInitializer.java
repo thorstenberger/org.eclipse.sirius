@@ -10,6 +10,7 @@
  */
 package org.eclipse.sirius.tests.support.internal.helper;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -102,7 +103,7 @@ public class ModelInitializer {
     public List<EObject> initializeContents(EObject root) {
         Preconditions.checkNotNull(root);
         refToCandidatesMap.clear();
-        List<EObject> created = Lists.newArrayList();
+        List<EObject> created = new ArrayList<>();
         initializeContents(root, created);
         return created;
     }

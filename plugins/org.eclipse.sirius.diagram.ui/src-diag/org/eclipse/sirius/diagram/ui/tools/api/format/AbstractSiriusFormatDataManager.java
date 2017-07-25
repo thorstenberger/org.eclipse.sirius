@@ -11,6 +11,7 @@
 package org.eclipse.sirius.diagram.ui.tools.api.format;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -496,7 +497,7 @@ public abstract class AbstractSiriusFormatDataManager implements SiriusFormatDat
     protected void applyGMFStyle(View newView, AbstractFormatData formatData) {
         if (newView != null && formatData.getGmfView() != null) {
             @SuppressWarnings("rawtypes")
-            List excludedStyles = Lists.newArrayList();
+            List excludedStyles = new ArrayList<>();
             if (newView instanceof Edge) {
                 // The style of RoutingStyle class is considered as format
                 // properties. So they have already been pasted during paste

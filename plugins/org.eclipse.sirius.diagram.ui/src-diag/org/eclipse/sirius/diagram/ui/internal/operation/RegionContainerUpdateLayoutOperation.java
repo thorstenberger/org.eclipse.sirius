@@ -12,6 +12,7 @@ package org.eclipse.sirius.diagram.ui.internal.operation;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -120,7 +121,7 @@ public class RegionContainerUpdateLayoutOperation extends AbstractModelChangeOpe
     }
 
     private List<Node> getRegionsToLayout() {
-        List<Node> regionsToLayout = Lists.newArrayList();
+        List<Node> regionsToLayout = new ArrayList<>();
         if (regionsContainer != null) {
             Node labelNode = SiriusGMFHelper.getLabelNode(regionsContainer);
             List<Node> nodes = Lists.newArrayList(Iterables.filter(regionsContainer.getChildren(), Node.class));
@@ -368,7 +369,7 @@ public class RegionContainerUpdateLayoutOperation extends AbstractModelChangeOpe
      *         others)
      */
     private List<Dimension> computeRegionsSizeAccordingToContainerSize(int nbRegionsToLayout, boolean vertical, boolean containerIsRegion, Size regionsContainerSize) {
-        List<Dimension> result = Lists.newArrayList();
+        List<Dimension> result = new ArrayList<>();
         Dimension regionContainerContentPaneSize = new Dimension(regionsContainerSize.getWidth(), regionsContainerSize.getHeight());
         Dimension regionSize = new Dimension();
         // headerHeight includes the title height (with the icon), the label

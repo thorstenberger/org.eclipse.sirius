@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.business.internal.layout.horizontal;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,14 +37,13 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
 /**
- * Computes the appropriate graphical locations of sequence events and lifelines
- * on a sequence diagram to reflect the semantic order.
+ * Computes the appropriate graphical locations of sequence events and lifelines on a sequence diagram to reflect the
+ * semantic order.
  * 
  * @author pcdavid, mporhel
  */
@@ -69,8 +69,7 @@ public class LostMessageEndHorizontalLayoutHelper {
      * Constructor.
      * 
      * @param diagram
-     *            the sequence diagram for which to compute the horizontal
-     *            locations.
+     *            the sequence diagram for which to compute the horizontal locations.
      */
     public LostMessageEndHorizontalLayoutHelper(SequenceDiagram diagram) {
         this.sequenceDiagram = diagram;
@@ -336,7 +335,7 @@ public class LostMessageEndHorizontalLayoutHelper {
     // Get the first known event in hierarchy.
     private ISequenceEvent getISequenceEvent(EdgeTarget lostNode) {
         ISequenceEvent correspondingEvent = null;
-        List<ISequenceEvent> knownEnds = Lists.newArrayList();
+        List<ISequenceEvent> knownEnds = new ArrayList<>();
         knownEnds.addAll(sequenceDiagram.getAllLifelines());
         knownEnds.addAll(sequenceDiagram.getAllExecutions());
 

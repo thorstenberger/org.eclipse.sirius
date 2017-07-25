@@ -19,8 +19,7 @@ import org.eclipse.sirius.ext.base.Option;
 import com.google.common.base.Function;
 
 /**
- * Computes the absolute vertical range occupied by an element of a sequence
- * diagram, from its GMF View.
+ * Computes the absolute vertical range occupied by an element of a sequence diagram, from its GMF View.
  * 
  * @author pcdavid
  */

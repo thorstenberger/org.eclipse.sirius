@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.ui.internal.edit.commands;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -235,7 +236,7 @@ public class StraightenToCommand extends AbstractTransactionalCommand {
      * @return list of border nodes that will be moved during this command.
      */
     private List<Node> getMovedBorderNodes() {
-        List<Node> movedNodes = Lists.newArrayList();
+        List<Node> movedNodes = new ArrayList<>();
         for (StraightenToCommandData data : edgeEditParts.values()) {
             if ((data.moveSource && data.isSourceABorderNode)) {
                 // The source border node will be moved

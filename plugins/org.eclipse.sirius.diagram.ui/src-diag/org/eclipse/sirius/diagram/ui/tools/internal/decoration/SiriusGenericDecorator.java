@@ -231,9 +231,9 @@ public class SiriusGenericDecorator extends AbstractDecorator {
         for (Position position : groupBoundsAtPosition.keySet()) {
             Map<DecorationDistributionDirection, List<Rectangle>> decoBBPerDistribDirection = Maps.newHashMap();
             decosBoundsPerDistribDirectionAtPosition.put(position, decoBBPerDistribDirection);
-            List<Rectangle> brotherDecosBounds = Lists.newArrayList();
-            List<Rectangle> decosHoriz = Lists.newArrayList();
-            List<Rectangle> decosVert = Lists.newArrayList();
+            List<Rectangle> brotherDecosBounds = new ArrayList<>();
+            List<Rectangle> decosHoriz = new ArrayList<>();
+            List<Rectangle> decosVert = new ArrayList<>();
             decoBBPerDistribDirection.put(DecorationDistributionDirection.HORIZONTAL, decosHoriz);
             decoBBPerDistribDirection.put(DecorationDistributionDirection.VERTICAL, decosVert);
 
@@ -386,14 +386,14 @@ public class SiriusGenericDecorator extends AbstractDecorator {
 
     private List<Position> mergeDecorationsInGoups(Dimension figureDimension, Map<Position, Rectangle> groupBoundsAtPosition, Map<Position, List<Rectangle>> decosBoundsAtPosition,
             Map<Rectangle, List<DecorationDescriptor>> decosBoundsToDecoDescriptors, Map<Position, List<DecorationDescriptor>> decosDescAtPosition) {
-        List<Position> positionWithListDecoration = Lists.newArrayList();
+        List<Position> positionWithListDecoration = new ArrayList<>();
         Collection<Rectangle> groupBBsToCompareOverlapWith = Lists.newArrayList(groupBoundsAtPosition.values());
         for (Position position : groupBoundsAtPosition.keySet()) {
             Rectangle groupBounds = groupBoundsAtPosition.get(position);
             // check if the group bounding box overlaps the diagram element
             // figure
             boolean overlapFigure = false;
-            List<Rectangle> overlappingGroupBBs = Lists.newArrayList();
+            List<Rectangle> overlappingGroupBBs = new ArrayList<>();
             if (groupBounds.width > figureDimension.width || groupBounds.height > figureDimension.height()) {
                 overlapFigure = true;
             } else {

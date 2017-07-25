@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.business.internal.ordering;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -40,13 +41,11 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 
 /**
- * Helper class to factor common code for semantic and graphical orders
- * refreshing.
+ * Helper class to factor common code for semantic and graphical orders refreshing.
  * 
  * @author pcdavid
  */
@@ -60,8 +59,8 @@ public final class RefreshOrderingHelper {
     }
 
     /**
-     * Replaces the content of a list with new contents, but only if there are
-     * actual differences between the two versions.
+     * Replaces the content of a list with new contents, but only if there are actual differences between the two
+     * versions.
      * 
      * @param <T>
      *            the type of elements in the lists.
@@ -81,8 +80,8 @@ public final class RefreshOrderingHelper {
     }
 
     /**
-     * Determines if two lists have the same contents in the same order or not.
-     * Elements are compared using {@link #equals(Object)}.
+     * Determines if two lists have the same contents in the same order or not. Elements are compared using
+     * {@link #equals(Object)}.
      * 
      * @param <T>
      *            the type of elements in the lists.
@@ -90,9 +89,8 @@ public final class RefreshOrderingHelper {
      *            the old list of values.
      * @param newValue
      *            the new lists of values.
-     * @return <code>true</code> if the list of new values have different
-     *         contents or the same elements but in a different order rom the
-     *         old one.
+     * @return <code>true</code> if the list of new values have different contents or the same elements but in a
+     *         different order rom the old one.
      */
     public static <T> boolean differentContents(List<T> oldValue, List<T> newValue) {
         if (oldValue.size() != newValue.size()) {
@@ -103,17 +101,15 @@ public final class RefreshOrderingHelper {
     }
 
     /**
-     * Returns all the starting and finishing ends of all the events in the
-     * specified diagram.
+     * Returns all the starting and finishing ends of all the events in the specified diagram.
      * 
      * @param sequenceDiagram
      *            a sequence diagram.
-     * @return all the starting and finishing ends of all the events in the
-     *         specified diagram.
+     * @return all the starting and finishing ends of all the events in the specified diagram.
      */
     public static Iterable<? extends EventEnd> getAllEventEnds(SequenceDDiagram sequenceDiagram) {
         Multimap<EObject, SingleEventEnd> semanticEndToSingleEventEnds = ArrayListMultimap.<EObject, SingleEventEnd> create();
-        List<EventEnd> result = Lists.newArrayList();
+        List<EventEnd> result = new ArrayList<>();
 
         RefreshOrderingHelper.addAllSingleEventEnds(sequenceDiagram, semanticEndToSingleEventEnds);
 
@@ -162,8 +158,8 @@ public final class RefreshOrderingHelper {
         // Messages
         for (DEdge edge : Iterables.filter(sequenceDiagram.getEdges(), Message.viewpointElementPredicate())) {
             /*
-             * Target may be null if the semantic element has been removed from
-             * the model but the canonical refresh has not happened yet.
+             * Target may be null if the semantic element has been removed from the model but the canonical refresh has
+             * not happened yet.
              */
             if (edge.getTarget() != null) {
                 RefreshOrderingHelper.add(RefreshOrderingHelper.getStartingEnd(edge, DescriptionPackage.eINSTANCE.getMessageMapping_SendingEndFinderExpression()), semanticEndToSingleEventEnd);
@@ -175,8 +171,8 @@ public final class RefreshOrderingHelper {
         // Operands
         for (DDiagramElement node : Iterables.filter(Iterables.filter(AllContents.of(sequenceDiagram), DDiagramElement.class), RefreshOrderingHelper.DELIMITED_EVENT_PREDICATE)) {
             /*
-             * Target may be null if the semantic element has been removed from
-             * the model but the canonical refresh has not happened yet.
+             * Target may be null if the semantic element has been removed from the model but the canonical refresh has
+             * not happened yet.
              */
             if (node.getTarget() != null) {
                 SingleEventEnd startingEnd = RefreshOrderingHelper.getStartingEnd(node, DescriptionPackage.eINSTANCE.getDelimitedEventMapping_StartingEndFinderExpression());
@@ -200,8 +196,7 @@ public final class RefreshOrderingHelper {
      * @param semanticEvent
      *            the semantic element representing the event itself.
      * @param semanticEnd
-     *            the semantic element representing the starting end of the
-     *            event.
+     *            the semantic element representing the starting end of the event.
      * @return an EventEnd representing the starting end of the event.
      */
     public static SingleEventEnd createStartingEventEnd(EObject semanticEvent, EObject semanticEnd) {
@@ -218,8 +213,7 @@ public final class RefreshOrderingHelper {
      * @param semanticEvent
      *            the semantic element representing the event itself.
      * @param semanticEnd
-     *            the semantic element representing the finishing end of the
-     *            event.
+     *            the semantic element representing the finishing end of the event.
      * @return an EventEnd representing the finishing end of the event.
      */
     public static SingleEventEnd createFinishingEventEnd(EObject semanticEvent, EObject semanticEnd) {

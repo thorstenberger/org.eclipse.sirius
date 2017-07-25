@@ -28,8 +28,7 @@ public class ISequenceEventsTreeIterator extends AbstractTreeIterator<ISequenceE
     private static final long serialVersionUID = 3234398995856675133L;
 
     /**
-     * Creates a new tree iterator on the specified event and all its descendant
-     * events.
+     * Creates a new tree iterator on the specified event and all its descendant events.
      * 
      * @param root
      *            the root event of the iteration.

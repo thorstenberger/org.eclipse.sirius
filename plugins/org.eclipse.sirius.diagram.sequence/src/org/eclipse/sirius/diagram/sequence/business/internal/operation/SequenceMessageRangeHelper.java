@@ -40,14 +40,11 @@ public class SequenceMessageRangeHelper {
      * @param edge
      *            the edge representing the message.
      * @param range
-     *            the final range of the message. In practice it is a range of
-     *            width 1 for horizontal messages.
+     *            the final range of the message. In practice it is a range of width 1 for horizontal messages.
      * @param sourceTop
-     *            the logical vertical position of the top of the source element
-     *            of the message.
+     *            the logical vertical position of the top of the source element of the message.
      * @param targetTop
-     *            the logical vertical position of the top of the target element
-     *            of the message.
+     *            the logical vertical position of the top of the target element of the message.
      */
     public void setMessageRangeForNormalMessage(Edge edge, Range range, final int sourceTop, final int targetTop) {
         resetAnchors(edge);
@@ -78,14 +75,11 @@ public class SequenceMessageRangeHelper {
      * @param edge
      *            the edge representing the message.
      * @param range
-     *            the final range of the message. In practice it is a range of
-     *            width 1 for horizontal messages.
+     *            the final range of the message. In practice it is a range of width 1 for horizontal messages.
      * @param sourceTop
-     *            the logical vertical position of the top of the source element
-     *            of the message.
+     *            the logical vertical position of the top of the source element of the message.
      * @param targetTop
-     *            the logical vertical position of the top of the target element
-     *            of the message.
+     *            the logical vertical position of the top of the target element of the message.
      */
     public void setMessageRangeForMessageToSelf(Edge edge, Range range, final int sourceTop, final int targetTop) {
         resetAnchors(edge);
@@ -115,15 +109,13 @@ public class SequenceMessageRangeHelper {
         assert targetX != null && targetX.length == 4;
 
         /*
-         * The vertical offsets of the two first/top bendpoints from the top of
-         * the source/target.
+         * The vertical offsets of the two first/top bendpoints from the top of the source/target.
          */
         int topSourceDeltaY = range.getLowerBound() - sourceTop;
         int topTargetDeltaY = range.getLowerBound() - targetTop;
 
         /*
-         * The vertical offsets of the two last/bottom bendpoints from the top
-         * of the source/target.
+         * The vertical offsets of the two last/bottom bendpoints from the top of the source/target.
          */
         int bottomSourceDeltaY = range.getUpperBound() - sourceTop;
         int bottomTargetDeltaY = range.getUpperBound() - targetTop;
@@ -158,8 +150,8 @@ public class SequenceMessageRangeHelper {
     }
 
     /**
-     * Reset the anchors of an edge to a known, easy to handle location: the
-     * center of the top side of the source or target element.
+     * Reset the anchors of an edge to a known, easy to handle location: the center of the top side of the source or
+     * target element.
      */
     private void resetAnchors(Edge edge) {
         edge.setSourceAnchor(createCanonicalAnchor());

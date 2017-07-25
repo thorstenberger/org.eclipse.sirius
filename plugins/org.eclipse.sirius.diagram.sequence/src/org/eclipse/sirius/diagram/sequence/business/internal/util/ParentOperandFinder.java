@@ -63,8 +63,7 @@ public final class ParentOperandFinder {
      * Default constructor.
      * 
      * @param event
-     *            a supported {@link ISequenceEvent} : {@linkLifeline},
-     *            {@link AbstractNodeEvent}, {@link Operand}.
+     *            a supported {@link ISequenceEvent} : {@linkLifeline}, {@link AbstractNodeEvent}, {@link Operand}.
      */
     public ParentOperandFinder(ISequenceEvent event) {
         Preconditions.checkArgument(types.contains(event.getClass()));
@@ -76,8 +75,7 @@ public final class ParentOperandFinder {
      * Default constructor.
      * 
      * @param event
-     *            a supported {@link ISequenceEvent} : {@linkLifeline},
-     *            {@link AbstractNodeEvent}, {@link Operand}.
+     *            a supported {@link ISequenceEvent} : {@linkLifeline}, {@link AbstractNodeEvent}, {@link Operand}.
      * @param rangeFunction
      *            function to compute expected range.
      */

@@ -17,8 +17,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.viewpoint.description.DocumentedElement;
 
 /**
- * Class responsible for identifying generated model elements from a an output
- * model.
+ * Class responsible for identifying generated model elements from a an output model.
  * 
  * @author cbrun
  * 
@@ -37,8 +36,7 @@ public class ModelGeneratedMaker {
     }
 
     /**
-     * Clear from the given list elements which have been automatically
-     * generated.
+     * Clear from the given list elements which have been automatically generated.
      * 
      * @param list
      *            the list to clear.

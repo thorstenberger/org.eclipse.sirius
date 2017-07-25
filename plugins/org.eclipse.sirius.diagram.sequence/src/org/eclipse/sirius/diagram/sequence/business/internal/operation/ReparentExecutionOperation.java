@@ -23,8 +23,7 @@ import org.eclipse.sirius.diagram.ui.business.internal.operation.AbstractModelCh
 import com.google.common.base.Preconditions;
 
 /**
- * Update the structure of DNodes and GMF Nodes to reflect that an execution has
- * a new parent event.
+ * Update the structure of DNodes and GMF Nodes to reflect that an execution has a new parent event.
  * 
  * @author pcdavid, smonnier, mporhel
  */

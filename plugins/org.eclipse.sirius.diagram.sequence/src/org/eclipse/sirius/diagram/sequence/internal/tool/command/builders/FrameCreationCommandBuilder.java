@@ -35,8 +35,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
 /**
- * Specific ContainerCreationCommandBuilder for InteractionUse &
- * CombinedFragment.
+ * Specific ContainerCreationCommandBuilder for InteractionUse & CombinedFragment.
  * 
  * @author edugueperoux
  */
@@ -58,8 +57,7 @@ public class FrameCreationCommandBuilder extends ContainerCreationCommandBuilder
     protected List<EObject> coverage;
 
     /**
-     * Constructor to renseign default elts needed by NodeCreationCommandBuilder
-     * and value needed by StateCreationTool.
+     * Constructor to renseign default elts needed by NodeCreationCommandBuilder and value needed by StateCreationTool.
      * 
      * @param diagram
      *            the diagram in which the created element should be displayed
@@ -123,9 +121,8 @@ public class FrameCreationCommandBuilder extends ContainerCreationCommandBuilder
      * {@inheritDoc}
      * 
      * Overridden to have OrderedElementCreationTool.startingEndPredecessor &
-     * OrderedElementCreationTool.finishingEndPredecessor &
-     * CoveringElementCreationTool.coveredLifelines variables in tool's
-     * precondition expression.
+     * OrderedElementCreationTool.finishingEndPredecessor & CoveringElementCreationTool.coveredLifelines variables in
+     * tool's precondition expression.
      */
     @Override
     protected boolean evaluatePrecondition(IInterpreter interpreter, EObject semanticContainer, String precondition) {

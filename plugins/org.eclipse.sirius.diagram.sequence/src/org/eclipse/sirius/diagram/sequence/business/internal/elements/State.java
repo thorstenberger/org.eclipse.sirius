@@ -81,11 +81,9 @@ public class State extends AbstractNodeEvent {
     }
 
     /**
-     * Returns a predicate to check whether a Sirius DDiagramElement represents
-     * a state.
+     * Returns a predicate to check whether a Sirius DDiagramElement represents a state.
      * 
-     * @return a predicate to check whether a Sirius DDiagramElement represents
-     *         a state.
+     * @return a predicate to check whether a Sirius DDiagramElement represents a state.
      */
     public static Predicate<DDiagramElement> viewpointElementPredicate() {
         return SiriusElementPredicate.INSTANCE;

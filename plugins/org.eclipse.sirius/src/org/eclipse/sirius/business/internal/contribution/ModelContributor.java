@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.business.internal.contribution;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -123,7 +124,7 @@ public class ModelContributor {
     }
 
     private List<ResolvedContribution> resolve(Collection<Contribution> contributions, List<EObject> roots) {
-        List<ResolvedContribution> result = Lists.newArrayList();
+        List<ResolvedContribution> result = new ArrayList<>();
         for (Contribution contribution : contributions) {
             HashMap<String, Object> context = Maps.newHashMap();
             context.put("self", contribution); //$NON-NLS-1$

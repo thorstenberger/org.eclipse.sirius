@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.common.tools.api.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -24,7 +25,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
@@ -81,7 +81,7 @@ public class ECrossReferenceAdapterWithUnproxyCapability extends SiriusCrossRefe
                         if (resourceURI.equals(keyURI.trimFragment())) {
                             List<EObject> correspondingEObjects = result.get(keyURI);
                             if (correspondingEObjects == null) {
-                                correspondingEObjects = Lists.newArrayList();
+                                correspondingEObjects = new ArrayList<>();
                             }
                             correspondingEObjects.add(eObject);
                             result.put(keyURI, correspondingEObjects);

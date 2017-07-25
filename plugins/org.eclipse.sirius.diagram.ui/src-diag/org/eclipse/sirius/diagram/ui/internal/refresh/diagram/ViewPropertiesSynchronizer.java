@@ -60,8 +60,6 @@ import org.eclipse.sirius.viewpoint.description.FixedColor;
 import org.eclipse.sirius.viewpoint.description.SystemColors;
 import org.eclipse.swt.graphics.RGB;
 
-import com.google.common.collect.Lists;
-
 /**
  * Update the GMF {@link View} properties according to Sirius properties and
  * vice versa.
@@ -321,7 +319,7 @@ public class ViewPropertiesSynchronizer {
     private void updateLabelStyle(View notationView, BasicLabelStyle labelStyle) {
 
         if (labelStyle != null) {
-            List<FontFormat> newFontFormats = Lists.newArrayList();
+            List<FontFormat> newFontFormats = new ArrayList<>();
             final FontStyle fontStyle = (FontStyle) createOrFindStyle(notationView, NotationPackage.eINSTANCE.getFontStyle());
 
             if (fontStyle.isBold()) {

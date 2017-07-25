@@ -34,7 +34,6 @@ import org.eclipse.sirius.common.tools.Messages;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
@@ -192,7 +191,7 @@ public final class EclipseUtil {
                                 key = Optional.ofNullable(key).orElse(""); //$NON-NLS-1$
                                 Collection<T> val = contributors.get(key);
                                 if (val == null) {
-                                    val = Lists.newArrayList();
+                                    val = new ArrayList<>();
                                     contributors.put(key, val);
                                 }
                                 val.add(clazz.cast(obj));
@@ -248,7 +247,7 @@ public final class EclipseUtil {
      *         sources files from the workspace
      */
     public static List<IFile> getFilesFromWorkspace(final String prefix, final String suffix) {
-        final List<IFile> matches = Lists.newArrayList();
+        final List<IFile> matches = new ArrayList<>();
         try {
             IWorkspaceRoot root = EcorePlugin.getWorkspaceRoot();
             if (root != null) {

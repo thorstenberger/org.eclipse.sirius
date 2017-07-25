@@ -39,5 +39,5 @@ public class SequenceDiagramMetamodelsProvider implements MetamodelDescriptorPro
         result.add(new EcoreMetamodelDescriptor(org.eclipse.sirius.diagram.sequence.template.TemplatePackage.eINSTANCE));
         return result;
     }
-    
+
 }

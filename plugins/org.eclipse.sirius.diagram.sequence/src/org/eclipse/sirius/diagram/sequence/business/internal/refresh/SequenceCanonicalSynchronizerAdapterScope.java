@@ -18,8 +18,7 @@ import org.eclipse.gmf.runtime.notation.NotationPackage;
 import com.google.common.base.Predicate;
 
 /**
- * Predicate to notify SequenceCanonicalSynchronizerAdapter only for adding of
- * GMF View.
+ * Predicate to notify SequenceCanonicalSynchronizerAdapter only for adding of GMF View.
  * 
  * @author edugueperoux
  */
@@ -33,14 +32,12 @@ public class SequenceCanonicalSynchronizerAdapterScope implements Predicate<Noti
     }
 
     /**
-     * Checks if this notification is about a add of a {@link Node} to the
-     * parent {@link Node}.
+     * Checks if this notification is about a add of a {@link Node} to the parent {@link Node}.
      * 
      * @param notification
      *            {@link Notification} to check
      * 
-     * @return true if this notification is about a add of a {@link Node} to the
-     *         parent {@link Node}
+     * @return true if this notification is about a add of a {@link Node} to the parent {@link Node}
      */
     public static boolean isNotificationForNodeAdding(Notification notification) {
         boolean isNotificationForNodeAdding = false;
@@ -57,22 +54,21 @@ public class SequenceCanonicalSynchronizerAdapterScope implements Predicate<Noti
      * @param newValue
      *            the object to test
      * 
-     * @return true if newValue is not a GMF Shape which represents a Note,
-     *         false else
+     * @return true if newValue is not a GMF Shape which represents a Note, false else
      */
     private static boolean isNotANote(Object newValue) {
         return ((Node) newValue).getElement() != null;
     }
 
     /**
-     * Checks if this notification is about a add of a {@link Edge} to the
-     * parent {@link org.eclipse.gmf.runtime.notation.Diagram.Diagram}.
+     * Checks if this notification is about a add of a {@link Edge} to the parent
+     * {@link org.eclipse.gmf.runtime.notation.Diagram.Diagram}.
      * 
      * @param notification
      *            {@link Notification} to check
      * 
-     * @return true if this notification is about a add of a {@link Edge} to the
-     *         parent {@link org.eclipse.gmf.runtime.notation.Diagram}
+     * @return true if this notification is about a add of a {@link Edge} to the parent
+     *         {@link org.eclipse.gmf.runtime.notation.Diagram}
      */
     public static boolean isNotificationForEdgeAdding(Notification notification) {
         boolean isNotificationForEdgeAdding = false;

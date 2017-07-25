@@ -31,9 +31,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
- * Specific refresh extension to handle structural changes in sequence diagrams.
- * It allows to keep the last known position when the parent of an abstract node
- * event changes.
+ * Specific refresh extension to handle structural changes in sequence diagrams. It allows to keep the last known
+ * position when the parent of an abstract node event changes.
  * 
  * @author mporhel
  * 

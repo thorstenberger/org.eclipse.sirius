@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.business.internal.elements;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,16 +46,15 @@ public class CombinedFragment extends AbstractFrame {
     public static final int VISUAL_ID = 2002;
 
     /**
-     * The visual ID of the compartment contained by the combined fragment. It
-     * is this compartment that contains the operands.
+     * The visual ID of the compartment contained by the combined fragment. It is this compartment that contains the
+     * operands.
      * 
      * @see DNodeContainerViewNodeContainerCompartmentEditPart.VISUAL_ID.
      */
     public static final int COMPARTMENT_VISUAL_ID = 7001;
 
     /**
-     * Predicate to check whether a Sirius DDiagramElement represents an
-     * execution.
+     * Predicate to check whether a Sirius DDiagramElement represents an execution.
      */
     private enum SiriusElementPredicate implements Predicate<DDiagramElement> {
         INSTANCE;
@@ -77,33 +77,27 @@ public class CombinedFragment extends AbstractFrame {
     }
 
     /**
-     * Returns a predicate to check whether a GMF View represents an combined
-     * fragment.
+     * Returns a predicate to check whether a GMF View represents an combined fragment.
      * 
-     * @return a predicate to check whether a GMF View represents an combined
-     *         fragment.
+     * @return a predicate to check whether a GMF View represents an combined fragment.
      */
     public static Predicate<View> notationPredicate() {
         return new NotationPredicate(NotationPackage.eINSTANCE.getNode(), VISUAL_ID, CombinedFragment.viewpointElementPredicate());
     }
 
     /**
-     * Returns a predicate to check whether a GMF View represents an combined
-     * fragment compartment.
+     * Returns a predicate to check whether a GMF View represents an combined fragment compartment.
      * 
-     * @return a predicate to check whether a GMF View represents an combined
-     *         fragment compartment.
+     * @return a predicate to check whether a GMF View represents an combined fragment compartment.
      */
     public static Predicate<View> compartmentNotationPredicate() {
         return new NotationPredicate(NotationPackage.eINSTANCE.getNode(), COMPARTMENT_VISUAL_ID, CombinedFragment.viewpointElementPredicate());
     }
 
     /**
-     * Returns a predicate to check whether a Sirius DDiagramElement
-     * represents an execution.
+     * Returns a predicate to check whether a Sirius DDiagramElement represents an execution.
      * 
-     * @return a predicate to check whether a Sirius DDiagramElement
-     *         represents an execution.
+     * @return a predicate to check whether a Sirius DDiagramElement represents an execution.
      */
     public static Predicate<DDiagramElement> viewpointElementPredicate() {
         return SiriusElementPredicate.INSTANCE;
@@ -132,7 +126,7 @@ public class CombinedFragment extends AbstractFrame {
      * @return the operands of the current combined fragment.
      */
     public List<Operand> getOperands() {
-        List<Operand> result = Lists.newArrayList();
+        List<Operand> result = new ArrayList<>();
         Predicate<View> compartementView = new Predicate<View>() {
 
             @Override
@@ -161,8 +155,7 @@ public class CombinedFragment extends AbstractFrame {
      * 
      * @param index
      *            the position of the wanted operand
-     * @return an Option of Operand if there is an operand at the given index,
-     *         an Options.newNone() otherwise
+     * @return an Option of Operand if there is an operand at the given index, an Options.newNone() otherwise
      */
     public Option<Operand> getOperand(int index) {
         try {
@@ -173,8 +166,7 @@ public class CombinedFragment extends AbstractFrame {
     }
 
     /**
-     * calculate the index of the operand among the list of operands in this
-     * {@link CombinedFragment}.
+     * calculate the index of the operand among the list of operands in this {@link CombinedFragment}.
      * 
      * @param operand
      *            the operand to find out its index

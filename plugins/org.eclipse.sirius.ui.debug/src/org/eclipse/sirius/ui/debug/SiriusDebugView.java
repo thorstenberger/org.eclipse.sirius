@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -756,7 +757,7 @@ public class SiriusDebugView extends AbstractDebugView {
                 FileDialog dia = new FileDialog(getSite().getShell(), SWT.OPEN | SWT.MULTI);
                 dia.setFilterExtensions(new String[] { "*.odesign" });
                 String path = dia.open();
-                List<String[]> lines = Lists.newArrayList();
+                List<String[]> lines = new ArrayList<>();
                 if (path != null) {
                     for (String file : dia.getFileNames()) {
                         ResourceSet rs = new ResourceSetImpl();
@@ -1083,7 +1084,7 @@ public class SiriusDebugView extends AbstractDebugView {
                     Iterator<EventEnd> so = diag.getSemanticOrdering().getEventEnds().iterator();
                     TabularReport report = new TabularReport("Semantic", "Graphical", "Sync?", "Y");
                     while (so.hasNext() || go.hasNext()) {
-                        List<String> line = Lists.newArrayList();
+                        List<String> line = new ArrayList<>();
 
                         final EObject sosEnd;
                         if (so.hasNext()) {

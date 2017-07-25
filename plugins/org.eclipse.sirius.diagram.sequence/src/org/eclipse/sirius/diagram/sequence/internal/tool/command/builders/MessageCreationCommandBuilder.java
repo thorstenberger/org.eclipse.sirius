@@ -57,17 +57,14 @@ public class MessageCreationCommandBuilder extends EdgeCreationCommandBuilder {
     protected DDiagram diagram;
 
     /**
-     * Constructor to renseign default elts needed by NodeCreationCommandBuilder
-     * and value needed by StateCreationTool.
+     * Constructor to renseign default elts needed by NodeCreationCommandBuilder and value needed by StateCreationTool.
      * 
      * @param tool
      *            the StateCreationTool tool
      * @param source
-     *            the EdgeTarget source from which the created element should be
-     *            displayed
+     *            the EdgeTarget source from which the created element should be displayed
      * @param target
-     *            the EdgeTarget target from which the created element should be
-     *            displayed
+     *            the EdgeTarget target from which the created element should be displayed
      * @param startingEndPredecessor
      *            the eventEnd starting
      * @param finishingEndPredecessor
@@ -121,8 +118,7 @@ public class MessageCreationCommandBuilder extends EdgeCreationCommandBuilder {
      * {@inheritDoc}
      * 
      * Overridden to have OrderedElementCreationTool.startingEndPredecessor &
-     * OrderedElementCreationTool.finishingEndPredecessor variables in tool's
-     * precondition expression.
+     * OrderedElementCreationTool.finishingEndPredecessor variables in tool's precondition expression.
      */
     @Override
     protected boolean evaluatePrecondition(IInterpreter interpreter, EObject semanticContainer, String precondition) {

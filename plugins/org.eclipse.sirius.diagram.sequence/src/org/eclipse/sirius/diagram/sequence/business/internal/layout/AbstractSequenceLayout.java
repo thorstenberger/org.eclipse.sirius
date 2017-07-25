@@ -27,8 +27,8 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 
 /**
- * Computes the appropriate graphical locations of sequence events and lifelines
- * on a sequence diagram to reflect the semantic order.
+ * Computes the appropriate graphical locations of sequence events and lifelines on a sequence diagram to reflect the
+ * semantic order.
  * 
  * @param <S>
  *            the layouted element type.
@@ -63,8 +63,7 @@ public abstract class AbstractSequenceLayout<S, T> {
     }
 
     /**
-     * Compute and apply a specific layout. Should be use in a
-     * {@link org.eclipse.emf.transaction.RecordingCommand}.
+     * Compute and apply a specific layout. Should be use in a {@link org.eclipse.emf.transaction.RecordingCommand}.
      * 
      * @param pack
      *            pack the space between instance roles.
@@ -105,13 +104,11 @@ public abstract class AbstractSequenceLayout<S, T> {
     protected abstract T getOldLayoutData(S ise);
 
     /**
-     * Computes the absolute vertical (Y) location for all the messages in the
-     * sequence diagram.
+     * Computes the absolute vertical (Y) location for all the messages in the sequence diagram.
      * 
      * @param pack
      *            pack the diagram
-     * @return a map associating each message edit part to the new absolute
-     *         vertical location it should have.
+     * @return a map associating each message edit part to the new absolute vertical location it should have.
      */
     protected abstract Map<? extends S, T> computeLayout(boolean pack);
 
@@ -119,8 +116,7 @@ public abstract class AbstractSequenceLayout<S, T> {
      * Apply the computed layout.
      * 
      * @param finalRanges
-     *            a map associating each message edit part to the new absolute
-     *            vertical location it should have.
+     *            a map associating each message edit part to the new absolute vertical location it should have.
      * @param pack
      *            pack the diagram
      * 
@@ -175,8 +171,8 @@ public abstract class AbstractSequenceLayout<S, T> {
     }
 
     /**
-     * Check if the current lost end has been created from a tool application.
-     * Tool creation flags will be erased after the first layout.
+     * Check if the current lost end has been created from a tool application. Tool creation flags will be erased after
+     * the first layout.
      * 
      * @param lostEnd
      *            the current end.
@@ -192,8 +188,8 @@ public abstract class AbstractSequenceLayout<S, T> {
     }
 
     /**
-     * Check if the current lost end has been created from a tool application.
-     * Tool creation flags will be erased after the first layout.
+     * Check if the current lost end has been created from a tool application. Tool creation flags will be erased after
+     * the first layout.
      * 
      * @param lostEnd
      *            the current end.

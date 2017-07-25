@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.ui.tool.internal.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -90,7 +91,7 @@ public final class EditPartsHelper {
      * @return the messages found.
      */
     public static List<SequenceMessageEditPart> getAllMessagesFrom(IGraphicalEditPart element) {
-        List<SequenceMessageEditPart> messagesParts = Lists.newArrayList();
+        List<SequenceMessageEditPart> messagesParts = new ArrayList<>();
         EditPartsHelper.addAllMessagesFrom(element, messagesParts);
         return messagesParts;
     }
@@ -104,7 +105,7 @@ public final class EditPartsHelper {
      * @return the messages found.
      */
     private static List<SequenceMessageEditPart> getAllMessagesTo(IGraphicalEditPart element) {
-        List<SequenceMessageEditPart> messagesParts = Lists.newArrayList();
+        List<SequenceMessageEditPart> messagesParts = new ArrayList<>();
         EditPartsHelper.addAllMessagesTo(element, messagesParts);
         return messagesParts;
     }

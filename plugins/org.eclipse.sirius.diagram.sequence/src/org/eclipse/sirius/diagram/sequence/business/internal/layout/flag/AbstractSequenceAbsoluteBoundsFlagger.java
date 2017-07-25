@@ -34,8 +34,7 @@ import com.google.common.collect.Lists;
 public abstract class AbstractSequenceAbsoluteBoundsFlagger {
 
     /**
-     * Compute absolute bounds flags for each delimited sequence events of the
-     * current diagram.
+     * Compute absolute bounds flags for each delimited sequence events of the current diagram.
      */
     public final void flag() {
         for (ISequenceElement ise : getEventsToFlag()) {

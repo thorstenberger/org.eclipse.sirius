@@ -18,8 +18,8 @@ import org.eclipse.sirius.diagram.sequence.description.tool.impl.MessageCreation
 import org.eclipse.sirius.diagram.tools.api.refresh.BestMappingGetter;
 
 /**
- * Implementation of <code>MessageCreationTool</code>. Uses the same code as the
- * generic <code>EdgeCreationDescription</code>.
+ * Implementation of <code>MessageCreationTool</code>. Uses the same code as the generic
+ * <code>EdgeCreationDescription</code>.
  * 
  * @author pcdavid
  */

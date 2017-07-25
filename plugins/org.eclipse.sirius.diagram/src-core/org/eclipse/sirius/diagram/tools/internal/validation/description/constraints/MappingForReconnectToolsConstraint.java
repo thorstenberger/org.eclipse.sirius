@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.tools.internal.validation.description.constraints;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.core.runtime.IStatus;
@@ -27,7 +28,6 @@ import org.eclipse.sirius.diagram.description.tool.ReconnectionKind;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -83,7 +83,7 @@ public class MappingForReconnectToolsConstraint extends AbstractModelConstraint 
             }
         }
 
-        Collection<String> mappingsLabel = Lists.newArrayList();
+        Collection<String> mappingsLabel = new ArrayList<>();
         for (EdgeMapping mapping : edgeToRegions) {
             mappingsLabel.add(new IdentifiedElementQuery(mapping).getLabel());
         }

@@ -23,6 +23,8 @@ import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
 
 import junit.framework.TestCase;
 
+import junit.framework.TestCase;
+
 /**
  * Test class for RepresentationDescriptionItem.
  * 

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.policy;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -221,7 +222,7 @@ public class ISEComplexMoveCommandBuilder {
     }
 
     private Collection<Reconnection> computeReconnections() {
-        Collection<Reconnection> reconnections = Lists.newArrayList();
+        Collection<Reconnection> reconnections = new ArrayList<>();
         // Reconnect moved and unmoved messages
         for (Message message : validator.getDiagram().getAllMessages()) {
 

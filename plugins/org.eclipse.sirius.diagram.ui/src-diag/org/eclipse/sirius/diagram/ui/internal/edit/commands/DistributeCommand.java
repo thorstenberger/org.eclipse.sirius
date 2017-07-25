@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.ui.internal.edit.commands;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -573,7 +574,7 @@ public class DistributeCommand extends AbstractTransactionalCommand {
             }
         } else {
             HashMap<IGraphicalEditPart, IFigure> partToFigureToIgnore = Maps.newHashMap();
-            List<IFigure> additionalFiguresForConflictsDetection = Lists.newArrayList();
+            List<IFigure> additionalFiguresForConflictsDetection = new ArrayList<>();
             for (IGraphicalEditPart editPart : partsToMove) {
                 partToFigureToIgnore.put(editPart, editPart.getFigure());
             }

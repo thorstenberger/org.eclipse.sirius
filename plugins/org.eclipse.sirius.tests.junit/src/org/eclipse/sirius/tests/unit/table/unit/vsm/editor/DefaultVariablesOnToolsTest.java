@@ -12,8 +12,6 @@ package org.eclipse.sirius.tests.unit.table.unit.vsm.editor;
 
 import java.util.Collection;
 
-import junit.framework.TestCase;
-
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
@@ -28,6 +26,8 @@ import org.eclipse.sirius.table.metamodel.table.description.provider.Description
 import org.eclipse.sirius.table.ui.business.internal.dialect.TableDialectUIServices;
 
 import com.google.common.collect.Sets;
+
+import junit.framework.TestCase;
 
 /**
  * Ensures that the variables created by default when creating a tool are as

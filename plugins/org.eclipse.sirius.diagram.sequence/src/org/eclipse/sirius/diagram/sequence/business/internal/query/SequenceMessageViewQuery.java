@@ -51,8 +51,7 @@ public class SequenceMessageViewQuery {
     }
 
     /**
-     * Tests whether this a reflective message, i.e. both its source and target
-     * are in the context of the same lifeline.
+     * Tests whether this a reflective message, i.e. both its source and target are in the context of the same lifeline.
      * 
      * @return <code>true</code> if this message is reflective.
      */
@@ -130,13 +129,12 @@ public class SequenceMessageViewQuery {
     }
 
     /**
-     * Use only to check stability. Returns the vertical range of the message
-     * calculated with anchor position from source or from target.
+     * Use only to check stability. Returns the vertical range of the message calculated with anchor position from
+     * source or from target.
      * 
      * @param source
      *            anchor selection for range computation.
-     * @return the vertical range of the message from source or target, as
-     *         requested.
+     * @return the vertical range of the message from source or target, as requested.
      */
     public Range getVerticalRange(boolean source) {
         Range result;
@@ -152,14 +150,12 @@ public class SequenceMessageViewQuery {
     }
 
     /**
-     * FIXME this workaround should be remove when business rules will be move from
-     * sequence ui to sequence core. This workaround is needed when dropping an
-     * execution on messages that will be reconnected.
+     * FIXME this workaround should be remove when business rules will be move from sequence ui to sequence core. This
+     * workaround is needed when dropping an execution on messages that will be reconnected.
      * 
      * @param firstY
      *            the vertical position of the first bendpoint
-     * @return if the range should be calculated with the other end of the
-     *         message.
+     * @return if the range should be calculated with the other end of the message.
      */
     private boolean validateFirstPointStability(int firstY) {
         // if (getSource() instanceof ISequenceEvent) {

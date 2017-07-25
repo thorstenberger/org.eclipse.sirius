@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.diagram.sequence.ui.business.api.diagramtype;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -123,7 +124,7 @@ public class SequenceDiagramTypeProvider implements IDiagramDescriptionProvider 
      */
     @Override
     public Collection<? extends CommandParameter> collectToolCommands(EObject context) {
-        Collection<CommandParameter> result = Lists.newArrayList();
+        Collection<CommandParameter> result = new ArrayList<>();
         Collection<EReference> refs = Arrays.asList(ToolPackage.Literals.TOOL_SECTION__OWNED_TOOLS, ToolPackage.Literals.TOOL_GROUP__TOOLS);
         for (EReference ref : refs) {
             if (ref.getEContainingClass().equals(context.eClass())) {
@@ -146,7 +147,7 @@ public class SequenceDiagramTypeProvider implements IDiagramDescriptionProvider 
      */
     @Override
     public Collection<? extends CommandParameter> collectMappingsCommands() {
-        Collection<CommandParameter> result = Lists.newArrayList();
+        Collection<CommandParameter> result = new ArrayList<>();
         // Nodes
         result.add(new CommandParameter(null, org.eclipse.sirius.diagram.description.DescriptionPackage.Literals.LAYER__NODE_MAPPINGS, DescriptionFactory.eINSTANCE.createInstanceRoleMapping()));
         result.add(new CommandParameter(null, org.eclipse.sirius.diagram.description.DescriptionPackage.Literals.LAYER__NODE_MAPPINGS, DescriptionFactory.eINSTANCE.createExecutionMapping()));

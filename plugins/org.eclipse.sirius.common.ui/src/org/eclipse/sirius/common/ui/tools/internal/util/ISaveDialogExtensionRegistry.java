@@ -15,10 +15,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.sirius.common.ui.tools.api.util.ISaveDialogExtension;
+
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-
-import org.eclipse.sirius.common.ui.tools.api.util.ISaveDialogExtension;
 
 /**
  * Registry containing all Lock Strategy extensions that have been parsed from

@@ -68,7 +68,7 @@ public final class SiriusEditorInterpreterMarkerService {
         if (markers != null) {
             validationMarkers = Lists.newArrayList(markers);
         } else {
-            validationMarkers = Lists.newArrayList();
+            validationMarkers = new ArrayList<>();
         }
         ArrayList<IMarker> validationMarkersRelativeToElement = Lists.newArrayList(Iterables.filter(validationMarkers, new Predicate<IMarker>() {
 
@@ -98,7 +98,7 @@ public final class SiriusEditorInterpreterMarkerService {
         if (markers != null) {
             validationMarkers = Lists.newArrayList(markers);
         } else {
-            validationMarkers = Lists.newArrayList();
+            validationMarkers = new ArrayList<>();
         }
         Set<IMarker> elementMarkers = Sets.newLinkedHashSet();
         for (IMarker marker : validationMarkers) {

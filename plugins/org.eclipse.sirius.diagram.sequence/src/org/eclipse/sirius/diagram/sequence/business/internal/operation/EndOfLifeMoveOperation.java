@@ -19,8 +19,7 @@ import org.eclipse.sirius.diagram.ui.business.internal.operation.AbstractModelCh
 import com.google.common.base.Preconditions;
 
 /**
- * Modifies the vertical range of a lifeline edit part to move the end of life
- * edit part.
+ * Modifies the vertical range of a lifeline edit part to move the end of life edit part.
  * 
  * @author mporhel, smonnier
  */

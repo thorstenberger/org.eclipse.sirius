@@ -13,10 +13,8 @@ package org.eclipse.sirius.diagram.sequence.util;
 import com.google.common.base.Objects;
 
 /**
- * Generic helper class to hold two elements of the same type. In some
- * situations this is more convenient and more lightweight than using a generic
- * list or array with exactly two elements. Pairs are immutable, and thus
- * thread-safe.
+ * Generic helper class to hold two elements of the same type. In some situations this is more convenient and more
+ * lightweight than using a generic list or array with exactly two elements. Pairs are immutable, and thus thread-safe.
  * 
  * @author pcdavid
  * 
@@ -29,8 +27,7 @@ public class Pair<T> {
     private final T second;
 
     /**
-     * Creates a new pair with the specified elements. Any of the elements can
-     * be null.
+     * Creates a new pair with the specified elements. Any of the elements can be null.
      * 
      * @param first
      *            the first element of the pair.
