@@ -19,6 +19,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
+import java.util.stream.Stream;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -45,10 +46,6 @@ import org.eclipse.sirius.sample.interactions.Participant;
 import org.eclipse.sirius.sample.interactions.ReturnMessage;
 import org.eclipse.sirius.sample.interactions.State;
 import org.eclipse.sirius.sample.interactions.StateEnd;
-
-import com.google.common.base.Predicates;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 
 /**
  * Java services for the sample 'Interactions' sequence diagrams.
@@ -112,12 +109,8 @@ public class InteractionOrderingServices {
 
     public boolean eolPrecondition(Participant p) {
         Interaction i = (Interaction) new EObjectQuery(p).getFirstAncestorOfType(InteractionsPackage.Literals.INTERACTION).get();
-        for (Message msg : Iterables.filter(i.getMessages(), Predicates.instanceOf(DestroyParticipantMessage.class))) {
-            if (msg.getReceivingEnd() != null && msg.getReceivingEnd().getContext() == p) {
-                return true;
-            }
-        }
-        return false;
+        Stream<DestroyParticipantMessage> destroyMessages = i.getMessages().stream().filter(DestroyParticipantMessage.class::isInstance).map(DestroyParticipantMessage.class::cast);
+        return destroyMessages.anyMatch(msg -> (msg.getReceivingEnd() != null && msg.getReceivingEnd().getContext() == p));
     }
 
     public boolean redimEolPrecondition(Participant p) {
@@ -125,7 +118,7 @@ public class InteractionOrderingServices {
     }
 
     public Collection<EObject> lostMessageEndSemanticCandidates(Interaction i) {
-        Collection<EObject> result = Lists.newArrayList();
+        Collection<EObject> result = new ArrayList<>();
         for (Message msg : i.getMessages()) {
             if ((msg.getSendingEnd() == null && msg.getReceivingEnd() != null) || (msg.getSendingEnd() != null && msg.getReceivingEnd() == null)) {
                 result.add(msg);
