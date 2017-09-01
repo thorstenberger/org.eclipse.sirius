@@ -215,7 +215,12 @@ public abstract class AbstractMetamodelPropertySectionSpec extends AbstractViewp
                     }
                 } else {
                     URI proxyURI = ((InternalEObject) ePackage).eProxyURI();
-                    String ePackageName = proxyURI.lastSegment().substring(0, proxyURI.lastSegment().indexOf('.'));
+                    String segment = proxyURI.lastSegment();
+                    // See https://dev.eclipse.org/recommenders/committers/aeri/v2/#%21/problems/59721630e4b062478a150878
+                    String ePackageName = segment;
+                    if (segment.indexOf('.') != -1) {
+                        ePackageName = segment.substring(0, segment.indexOf('.'));
+                    }
                     item.setText(0, ePackageName);
                     item.setText(1, "null");
                     String ePackageURI = proxyURI.trimFragment().toString();
