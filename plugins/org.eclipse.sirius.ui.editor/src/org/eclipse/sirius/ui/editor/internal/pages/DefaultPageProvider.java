@@ -38,7 +38,7 @@ public class DefaultPageProvider extends PageProvider {
     }
 
     @Override
-    public boolean provides(String pageId) {
+    public boolean provides(String pageId, SessionEditor editor) {
         return SessionEditorPlugin.DEFAULT_PAGE_ID.equals(pageId);
     }
 }

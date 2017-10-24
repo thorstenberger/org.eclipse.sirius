@@ -389,7 +389,7 @@ public class PageOrderer {
                 // should be kept, we ask this provider to know if some
                 // additional already initialized pages should be kept.
                 for (AbstractSessionEditorPage page : alreadyInitializedPages) {
-                    if (pageProvider.provides(page.getId())) {
+                    if (pageProvider.provides(page.getId(), editor)) {
                         pagesToKeep.add(page);
                         PagePositioning pagePositioning = new PagePositioning();
                         pageIdToPageMap.put(page.getId(), pagePositioning);
