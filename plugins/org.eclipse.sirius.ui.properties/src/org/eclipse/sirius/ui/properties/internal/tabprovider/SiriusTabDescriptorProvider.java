@@ -69,7 +69,7 @@ public class SiriusTabDescriptorProvider implements IEEFTabDescriptorProvider {
                 }
             }
         }
-        return new ArrayList<IEEFTabDescriptor>();
+        return new ArrayList<>();
     }
 
     /**
@@ -80,9 +80,13 @@ public class SiriusTabDescriptorProvider implements IEEFTabDescriptorProvider {
      * @return A collection of {@link IEEFTabDescriptor}
      */
     private Collection<IEEFTabDescriptor> getTabDescriptors(SiriusInputDescriptor input) {
-        Session session = input.getFullContext().getSession().get();
-        List<PageDescription> effectivePageDescriptions = computeEffectiveDescription(input, session);
-        return getTabDescriptors(session, input, effectivePageDescriptions);
+        Option<Session> session = input.getFullContext().getSession();
+        if (session.some()) {
+            List<PageDescription> effectivePageDescriptions = computeEffectiveDescription(input, session.get());
+            return getTabDescriptors(session.get(), input, effectivePageDescriptions);
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     private Collection<IEEFTabDescriptor> getTabDescriptors(Session session, SiriusInputDescriptor input, List<PageDescription> effectivePageDescriptions) {
