@@ -13,7 +13,8 @@ package org.eclipse.sirius.common.tools.api.interpreter;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 
@@ -35,7 +36,7 @@ public class EvaluationResult implements IEvaluationResult {
     /**
      * The status of the evaluation.
      */
-    private final Diagnostic status;
+    private final IStatus status;
 
     /**
      * Create a new {@link EvaluationResult}.
@@ -45,7 +46,7 @@ public class EvaluationResult implements IEvaluationResult {
      * @param status
      *            the status of the evaluation.
      */
-    protected EvaluationResult(Object rawValue, Diagnostic status) {
+    protected EvaluationResult(Object rawValue, IStatus status) {
         this.rawValue = rawValue;
         this.status = status;
     }
@@ -53,25 +54,25 @@ public class EvaluationResult implements IEvaluationResult {
     /**
      * Creates an evaluation result indicating a successful evaluation.
      * 
-     * @param o
+     * @param rawResult
      *            the value produced by the evaluation.
-     * @return an {@link EvaluationResult} inducating a successful evaluation which produced <code><o>/code>.
+     * @return an {@link EvaluationResult} inducating a successful evaluation which produced <code>o</code>.
      */
-    public static EvaluationResult of(Object o) {
-        return of(o, Diagnostic.OK_INSTANCE);
+    public static EvaluationResult of(Object rawResult) {
+        return of(rawResult, Status.OK_STATUS);
     }
 
     /**
      * Creates an evaluation result with an associated diagnostic.
      * 
-     * @param o
+     * @param rawResult
      *            the value produced by the evaluation.
-     * @param diag
-     *            the diagnostic describing the outcome of the evaluation.
+     * @param status
+     *            the status describing the outcome of the evaluation.
      * @return an {@link EvaluationResult} inducating an evaluation which produced <code><o>/code>.
      */
-    public static EvaluationResult of(Object o, Diagnostic diag) {
-        return new EvaluationResult(o, diag);
+    public static EvaluationResult of(Object rawResult, IStatus status) {
+        return new EvaluationResult(rawResult, status);
     }
 
     /**
@@ -80,18 +81,18 @@ public class EvaluationResult implements IEvaluationResult {
      * @return an evaluation result for a computation which was canceled or never actually executed.
      */
     public static EvaluationResult noEvaluation() {
-        return new EvaluationResult(null, Diagnostic.CANCEL_INSTANCE);
+        return new EvaluationResult(null, Status.CANCEL_STATUS);
     }
 
     /**
      * Creates an evaluation result for a computation which did not produce a meaningful value because of an error.
      * 
-     * @param diag
+     * @param status
      *            a description of the error.
      * @return an evaluation result for a computation which did not produce a meaningful value because of an error.
      */
-    public static EvaluationResult withError(Diagnostic diag) {
-        return new EvaluationResult(null, diag);
+    public static EvaluationResult withError(IStatus status) {
+        return new EvaluationResult(null, status);
     }
 
     /**
@@ -102,7 +103,7 @@ public class EvaluationResult implements IEvaluationResult {
      * @return an evaluation result for a computation which did not produce a meaningful value because of an error.
      */
     public static EvaluationResult withError(String message) {
-        return new EvaluationResult(null, new BasicDiagnostic(Diagnostic.ERROR, IInterpreter.class.getName(), 0, message, null));
+        return new EvaluationResult(null, new Status(IStatus.ERROR, IInterpreter.class.getName(), message, null));
     }
 
     @Override
@@ -111,7 +112,7 @@ public class EvaluationResult implements IEvaluationResult {
     }
 
     @Override
-    public Diagnostic getDiagnostic() {
+    public IStatus getStatus() {
         return status;
     }
 

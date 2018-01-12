@@ -12,7 +12,7 @@ package org.eclipse.sirius.common.tools.api.interpreter;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -30,11 +30,11 @@ public interface IEvaluationResult {
     Object getValue();
 
     /**
-     * The diagnostic of the evaluation.
+     * The status of the evaluation.
      *
-     * @return the diagnostic
+     * @return the status
      */
-    Diagnostic getDiagnostic();
+    IStatus getStatus();
 
     /**
      * Tests of the evaluation was a success, i.e. it produced an actual (non- <code>null</code>) result and no warnings

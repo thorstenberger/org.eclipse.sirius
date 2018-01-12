@@ -22,9 +22,7 @@ import org.eclipse.acceleo.ui.interpreter.language.EvaluationContext;
 import org.eclipse.acceleo.ui.interpreter.language.EvaluationResult;
 import org.eclipse.acceleo.ui.interpreter.view.Variable;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -184,7 +182,7 @@ public class SiriusEvaluationTask implements Callable<EvaluationResult> {
         IStatus status = new Status(IStatus.OK, InterpreterViewPlugin.PLUGIN_ID, ""); //$NON-NLS-1$
         if (result instanceof IEvaluationResult) {
             IEvaluationResult evaluationResult = (IEvaluationResult) result;
-            status = this.getStatus(evaluationResult);
+            status = evaluationResult.getStatus();
         } else if (result != null) {
             // Fallback to the original behavior if we are not using an
             // IEvaluationResult but a regular object
@@ -192,70 +190,6 @@ public class SiriusEvaluationTask implements Callable<EvaluationResult> {
             status = new Status(IStatus.OK, InterpreterViewPlugin.PLUGIN_ID, message);
         }
         return status;
-    }
-
-    /**
-     * Computes the status representing the given evaluation result.
-     * 
-     * @param evaluationResult
-     *            The evaluation result
-     * @return The status to be displayed to the end user
-     */
-    private IStatus getStatus(IEvaluationResult evaluationResult) {
-        Object result = evaluationResult.getValue();
-
-        String message = this.getDefaultMessage(result);
-
-        Diagnostic diagnostic = evaluationResult.getDiagnostic();
-        int statusCode = this.getStatusCodeFromDiagnostic(diagnostic);
-
-        IStatus status = new Status(statusCode, InterpreterViewPlugin.PLUGIN_ID, message);
-        if (Diagnostic.OK != diagnostic.getSeverity() && diagnostic.getChildren().size() > 0) {
-            MultiStatus multiStatus = new MultiStatus(InterpreterViewPlugin.PLUGIN_ID, statusCode, message, null);
-
-            List<Diagnostic> children = diagnostic.getChildren();
-            for (Diagnostic childDiagnostic : children) {
-                int childStatusCode = this.getStatusCodeFromDiagnostic(childDiagnostic);
-                String childMessage = childDiagnostic.getMessage();
-                IStatus childStatus = new Status(childStatusCode, InterpreterViewPlugin.PLUGIN_ID, childMessage);
-                multiStatus.add(childStatus);
-            }
-
-            status = multiStatus;
-        }
-
-        return status;
-    }
-
-    /**
-     * Computes the status code matching the given {@link Diagnostic}.
-     * 
-     * @param diagnostic
-     *            The diagnostic of the evaluation result
-     * @return A {@link IStatus} code.
-     */
-    private int getStatusCodeFromDiagnostic(Diagnostic diagnostic) {
-        int statusCode = IStatus.OK;
-        switch (diagnostic.getSeverity()) {
-        case Diagnostic.ERROR:
-            statusCode = IStatus.ERROR;
-            break;
-        case Diagnostic.WARNING:
-            statusCode = IStatus.WARNING;
-            break;
-        case Diagnostic.INFO:
-            statusCode = IStatus.INFO;
-            break;
-        case Diagnostic.CANCEL:
-            statusCode = IStatus.CANCEL;
-            break;
-        case Diagnostic.OK:
-            statusCode = IStatus.OK;
-            break;
-        default:
-            statusCode = IStatus.ERROR;
-        }
-        return statusCode;
     }
 
     /**

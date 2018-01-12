@@ -157,7 +157,7 @@ public class SessionInterpreter implements IInterpreter, IProposalProvider {
 
     private IEvaluationResult creatErrorResult(Exception ex) {
         final BasicDiagnostic diag = new BasicDiagnostic(Diagnostic.ERROR, SiriusPlugin.ID, 0, Messages.SessionInterpreter_evaluationError, new Object[] { ex });
-        return EvaluationResult.withError(diag);
+        return EvaluationResult.withError(BasicDiagnostic.toIStatus(diag));
     }
 
     @Override

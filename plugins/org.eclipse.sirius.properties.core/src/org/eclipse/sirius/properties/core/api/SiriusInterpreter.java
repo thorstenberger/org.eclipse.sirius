@@ -61,7 +61,7 @@ public class SiriusInterpreter implements IInterpreter {
             try {
                 setupInterpreter(variables);
                 org.eclipse.sirius.common.tools.api.interpreter.IEvaluationResult evaluationResult = this.interpreter.evaluateExpression((EObject) self, expr);
-                result = EvaluationResult.of(evaluationResult.getValue(), evaluationResult.getDiagnostic());
+                result = EvaluationResult.of(evaluationResult.getValue(), BasicDiagnostic.toDiagnostic(evaluationResult.getStatus()));
             } catch (EvaluationException e) {
                 result = EvaluationResult.withError(BasicDiagnostic.toDiagnostic(e));
             } finally {

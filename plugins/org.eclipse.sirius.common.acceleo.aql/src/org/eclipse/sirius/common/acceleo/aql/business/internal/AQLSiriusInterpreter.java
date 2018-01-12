@@ -191,11 +191,11 @@ public class AQLSiriusInterpreter extends AcceleoAbstractInterpreter {
     public Object evaluate(EObject target, String fullExpression) throws EvaluationException {
         IEvaluationResult evaluationResult = this.evaluateExpression(target, fullExpression);
         // We fire the exception to keep the old behavior
-        Diagnostic diagnostic = evaluationResult.getDiagnostic();
-        if (diagnostic.getSeverity() == Diagnostic.ERROR) {
+        IStatus status = evaluationResult.getStatus();
+        if (status.getSeverity() == IStatus.ERROR) {
             String uri = EcoreUtil.getURI(target).toString();
-            String message = MessageFormat.format(Messages.AQLInterpreter_errorWithExpression, fullExpression, diagnostic.toString(), uri, target);
-            throw new EvaluationException(message, diagnostic.getException());
+            String message = MessageFormat.format(Messages.AQLInterpreter_errorWithExpression, fullExpression, status.toString(), uri, target);
+            throw new EvaluationException(message, status.getException());
         }
         return evaluationResult.getValue();
     }
@@ -227,7 +227,7 @@ public class AQLSiriusInterpreter extends AcceleoAbstractInterpreter {
             } else {
                 diag = diagnostic;
             }
-            return org.eclipse.sirius.common.tools.api.interpreter.EvaluationResult.of(evalResult.getResult(), diag);
+            return org.eclipse.sirius.common.tools.api.interpreter.EvaluationResult.of(evalResult.getResult(), BasicDiagnostic.toIStatus(diag));
 
         } catch (ExecutionException e) {
             throw new EvaluationException(e.getCause());

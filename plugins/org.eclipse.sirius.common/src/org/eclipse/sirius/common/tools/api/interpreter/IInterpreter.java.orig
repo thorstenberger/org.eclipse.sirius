@@ -13,7 +13,12 @@ package org.eclipse.sirius.common.tools.api.interpreter;
 import java.util.Collection;
 import java.util.Map;
 
+<<<<<<< HEAD
+import org.eclipse.emf.common.util.Diagnostic;
+||||||| parent of 41bc7a871... [DRAFT 495036] Use an IStatus instead of a Diagnostic in IEvaluationResult
+=======
 import org.eclipse.core.runtime.IStatus;
+>>>>>>> 41bc7a871... [DRAFT 495036] Use an IStatus instead of a Diagnostic in IEvaluationResult
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.MetamodelDescriptor;
