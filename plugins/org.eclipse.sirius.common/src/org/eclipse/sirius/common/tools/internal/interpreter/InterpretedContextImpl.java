@@ -32,7 +32,7 @@ public class InterpretedContextImpl implements IInterpreterContext {
 
     private Map<String, VariableType> variables;
 
-    private Collection<EPackage> avalaiblePackages;
+    private Collection<EPackage> availablePackages;
 
     private VariableType targetTypes;
 
@@ -72,7 +72,7 @@ public class InterpretedContextImpl implements IInterpreterContext {
         this.element = element;
         this.requiresTargetType = requiresTargetType;
         this.targetTypes = targetTypes;
-        this.avalaiblePackages = avalaiblePackages;
+        this.availablePackages = avalaiblePackages;
         this.variables = variables;
         this.field = field;
         this.dependencies = dependencies;
@@ -105,7 +105,7 @@ public class InterpretedContextImpl implements IInterpreterContext {
      * @see org.eclipse.sirius.common.tools.api.interpreter.IInterpreterContext#getAvailableEPackages()
      */
     public Collection<EPackage> getAvailableEPackages() {
-        return avalaiblePackages;
+        return availablePackages;
     }
 
     /**
