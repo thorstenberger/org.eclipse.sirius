@@ -25,7 +25,7 @@ import org.eclipse.sirius.diagram.business.api.query.DiagramElementMappingQuery;
 import org.eclipse.sirius.diagram.business.api.query.EObjectQuery;
 import org.eclipse.sirius.diagram.description.DiagramElementMapping;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.base.collect.MultipleCollection;
 import org.eclipse.sirius.tools.api.interpreter.InterpreterUtil;
 import org.eclipse.sirius.tools.api.profiler.SiriusTasksKey;
@@ -120,8 +120,8 @@ public abstract class AbstractSynchronizerHelper {
     protected Collection<EObject> getAllCandidates(DiagramElementMapping mapping) {
         final Collection<EObject> semantics = new MultipleCollection<EObject>();
 
-        Option<String> domainClass = new DiagramElementMappingQuery(mapping).getDomainClass();
-        if (domainClass.some()) {
+        java.util.Optional<String> domainClass = new DiagramElementMappingQuery(mapping).getDomainClass();
+        if (domainClass.isPresent()) {
             if (candidatesMap.containsKey(domainClass.get())) {
                 semantics.addAll(candidatesMap.get(domainClass.get()));
             } else {
@@ -180,8 +180,8 @@ public abstract class AbstractSynchronizerHelper {
             final Collection<EObject> allCandidates = evaluateCandidateExpression(container, mapping);
             if (synchronizedAndCreateElement) {
                 /* Check domain class */
-                final Option<String> domainClassOption = new DiagramElementMappingQuery(mapping).getDomainClass();
-                if (domainClassOption.some()) {
+                final java.util.Optional<String> domainClassOption = new DiagramElementMappingQuery(mapping).getDomainClass();
+                if (domainClassOption.isPresent()) {
                     Predicate<EObject> domainClass = new Predicate<EObject>() {
                         @Override
                         public boolean apply(EObject input) {

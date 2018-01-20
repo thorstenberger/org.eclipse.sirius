@@ -32,7 +32,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.SequenceDi
 import org.eclipse.sirius.diagram.sequence.business.internal.tool.ToolCommandBuilder;
 import org.eclipse.sirius.diagram.sequence.description.tool.InstanceRoleReorderTool;
 import org.eclipse.sirius.diagram.ui.business.internal.operation.AbstractModelChangeOperation;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.command.SiriusCommand;
 import org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription;
 
@@ -138,8 +138,8 @@ public class SynchronizeInstanceRoleSemanticOrderingOperation extends AbstractMo
     private List<EObject> getSemanticInstanceRolesByGraphicalOrder() {
         Iterable<Diagram> diagramViews = Iterables.filter(ISequenceElementAccessor.getViewsForSemanticElement(sequenceDiagram, sequenceDiagram.getTarget()), Diagram.class);
         if (!Iterables.isEmpty(diagramViews)) {
-            Option<SequenceDiagram> seqDiag = ISequenceElementAccessor.getSequenceDiagram(diagramViews.iterator().next());
-            if (seqDiag.some()) {
+            java.util.Optional<SequenceDiagram> seqDiag = ISequenceElementAccessor.getSequenceDiagram(diagramViews.iterator().next());
+            if (seqDiag.isPresent()) {
                 return Lists.newArrayList(Iterables.transform(seqDiag.get().getSortedInstanceRole(), ISequenceElement.SEMANTIC_TARGET));
             }
         }

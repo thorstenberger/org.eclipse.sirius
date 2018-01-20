@@ -29,8 +29,8 @@ import org.eclipse.sirius.diagram.sequence.business.internal.util.RangeSetter;
 import org.eclipse.sirius.diagram.sequence.business.internal.util.SubEventsHelper;
 import org.eclipse.sirius.diagram.sequence.description.DescriptionPackage;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -122,18 +122,18 @@ public class Lifeline extends AbstractSequenceNode implements ISequenceEvent {
      * 
      * @return the EOL marker for this lifeline, if any.
      */
-    public Option<EndOfLife> getEndOfLife() {
+    public java.util.Optional<EndOfLife> getEndOfLife() {
         for (View child : Iterables.filter(getNotationView().getChildren(), View.class)) {
             if (EndOfLife.notationPredicate().apply(child)) {
                 return ISequenceElementAccessor.getEndOfLife(child);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     @Override
-    public Option<Lifeline> getLifeline() {
-        return Options.newSome(this);
+    public java.util.Optional<Lifeline> getLifeline() {
+        return java.util.Optional.of(this);
     }
 
     @Override
@@ -198,12 +198,12 @@ public class Lifeline extends AbstractSequenceNode implements ISequenceEvent {
      * 
      * @return the destruction message which destroys the lifeline, if any.
      */
-    public Option<Message> getDestructionMessage() {
-        Option<EndOfLife> optEOL = getEndOfLife();
-        if (optEOL.some()) {
+    public java.util.Optional<Message> getDestructionMessage() {
+        java.util.Optional<EndOfLife> optEOL = getEndOfLife();
+        if (optEOL.isPresent()) {
             return optEOL.get().getDestructionMessage();
         } else {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
     }
 
@@ -215,8 +215,8 @@ public class Lifeline extends AbstractSequenceNode implements ISequenceEvent {
      *         destruction message.
      */
     public boolean isExplicitlyDestroyed() {
-        Option<EndOfLife> optEOL = getEndOfLife();
-        if (optEOL.some()) {
+        java.util.Optional<EndOfLife> optEOL = getEndOfLife();
+        if (optEOL.isPresent()) {
             return optEOL.get().isExplicitelyDestroyed();
         } else {
             return false;
@@ -244,16 +244,16 @@ public class Lifeline extends AbstractSequenceNode implements ISequenceEvent {
      * 
      * @return the destruction message which creates the lifeline, if any.
      */
-    public Option<Message> getCreationMessage() {
+    public java.util.Optional<Message> getCreationMessage() {
         InstanceRole opt = getInstanceRole();
         if (opt != null) {
             return opt.getCreationMessage();
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     @Override
-    public Option<Operand> getParentOperand() {
+    public java.util.Optional<Operand> getParentOperand() {
         return getParentOperand(getVerticalRange());
     }
 
@@ -265,7 +265,7 @@ public class Lifeline extends AbstractSequenceNode implements ISequenceEvent {
      * @return the deepest Operand convering this lifeline at this range
      * @see ISequenceEvent#getParentOperand()
      */
-    public Option<Operand> getParentOperand(final int verticalPosition) {
+    public java.util.Optional<Operand> getParentOperand(final int verticalPosition) {
         return new ParentOperandFinder(this).getParentOperand(new Range(verticalPosition, verticalPosition));
     }
 
@@ -277,7 +277,7 @@ public class Lifeline extends AbstractSequenceNode implements ISequenceEvent {
      * @return the deepest Operand convering this lifeline at this range
      * @see ISequenceEvent#getParentOperand()
      */
-    public Option<Operand> getParentOperand(final Range range) {
+    public java.util.Optional<Operand> getParentOperand(final Range range) {
         return new ParentOperandFinder(this).getParentOperand(range);
     }
 

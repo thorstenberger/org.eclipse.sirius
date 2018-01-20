@@ -27,7 +27,7 @@ import org.eclipse.sirius.diagram.business.api.query.DDiagramElementQuery;
 import org.eclipse.sirius.diagram.ui.business.api.provider.AbstractDDiagramElementLabelItemProvider;
 import org.eclipse.sirius.diagram.ui.provider.DiagramUIPlugin;
 import org.eclipse.sirius.diagram.ui.tools.api.image.DiagramImagesPath;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
@@ -83,8 +83,8 @@ public class OutlineLabelProvider extends LabelProvider implements IFontProvider
         }
         result = DiagramUIPlugin.getPlugin().getImage(descriptor);
 
-        Option<DDiagramElement> optionTarget = element.getDiagramElementTarget();
-        if (optionTarget.some() && new DDiagramElementQuery(optionTarget.get()).isLabelHidden()) {
+        java.util.Optional<DDiagramElement> optionTarget = element.getDiagramElementTarget();
+        if (optionTarget.isPresent() && new DDiagramElementQuery(optionTarget.get()).isLabelHidden()) {
             result = getDecoratedImage(result, DiagramImagesPath.HIDDEN_DECORATOR, IDecoration.TOP_LEFT);
         }
 
@@ -178,8 +178,8 @@ public class OutlineLabelProvider extends LabelProvider implements IFontProvider
                 result = JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT);
             }
         } else if (element instanceof AbstractDDiagramElementLabelItemProvider) {
-            Option<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) element).getDiagramElementTarget();
-            if (optionTarget.some() && new DDiagramElementQuery(optionTarget.get()).isLabelHidden()) {
+            java.util.Optional<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) element).getDiagramElementTarget();
+            if (optionTarget.isPresent() && new DDiagramElementQuery(optionTarget.get()).isLabelHidden()) {
                 result = JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT);
             }
         }

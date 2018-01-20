@@ -17,8 +17,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.sirius.business.api.dialect.description.IInterpretedExpressionTargetSwitch;
 import org.eclipse.sirius.business.api.query.EObjectQuery;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.description.ColorDescription;
 import org.eclipse.sirius.viewpoint.description.ColorStep;
 import org.eclipse.sirius.viewpoint.description.ConditionalStyleDescription;
@@ -47,7 +47,7 @@ import org.eclipse.sirius.viewpoint.description.util.DescriptionSwitch;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  * 
  */
-public class DescriptionInterpretedExpressionTargetSwitch extends DescriptionSwitch<Option<Collection<String>>> {
+public class DescriptionInterpretedExpressionTargetSwitch extends DescriptionSwitch<java.util.Optional<Collection<String>>> {
 
     /**
      * Constant used in switches on feature id to consider the case when the feature must not be considered.
@@ -88,13 +88,13 @@ public class DescriptionInterpretedExpressionTargetSwitch extends DescriptionSwi
      * @see org.eclipse.sirius.viewpoint.description.util.DescriptionSwitch#doSwitch(org.eclipse.emf.ecore.EObject)
      */
     @Override
-    public Option<Collection<String>> doSwitch(EObject theEObject) {
-        Option<Collection<String>> doSwitch = super.doSwitch(theEObject);
+    public java.util.Optional<Collection<String>> doSwitch(EObject theEObject) {
+        java.util.Optional<Collection<String>> doSwitch = super.doSwitch(theEObject);
         if (doSwitch != null) {
             return doSwitch;
         }
         Collection<String> defaultResult = new LinkedHashSet<>();
-        return Options.newSome(defaultResult);
+        return java.util.Optional.of(defaultResult);
     }
 
     /**
@@ -128,8 +128,8 @@ public class DescriptionInterpretedExpressionTargetSwitch extends DescriptionSwi
      * @see org.eclipse.sirius.viewpoint.description.util.DescriptionSwitch#caseSemanticBasedDecoration(org.eclipse.sirius.viewpoint.description.SemanticBasedDecoration)
      */
     @Override
-    public Option<Collection<String>> caseSemanticBasedDecoration(SemanticBasedDecoration object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseSemanticBasedDecoration(SemanticBasedDecoration object) {
+        java.util.Optional<Collection<String>> result = null;
         Collection<String> target = new LinkedHashSet<>();
         switch (featureID) {
         case DescriptionPackage.SEMANTIC_BASED_DECORATION__PRECONDITION_EXPRESSION:
@@ -137,7 +137,7 @@ public class DescriptionInterpretedExpressionTargetSwitch extends DescriptionSwi
         case DescriptionPackage.DECORATION_DESCRIPTION__IMAGE_EXPRESSION:
         case DO_NOT_CONSIDER_FEATURE:
             target.add(object.getDomainClass());
-            result = Options.newSome(target);
+            result = java.util.Optional.of(target);
             break;
         default:
             break;
@@ -147,14 +147,14 @@ public class DescriptionInterpretedExpressionTargetSwitch extends DescriptionSwi
     }
 
     @Override
-    public Option<Collection<String>> caseGenericDecorationDescription(GenericDecorationDescription object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseGenericDecorationDescription(GenericDecorationDescription object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (featureID) {
         case DescriptionPackage.DECORATION_DESCRIPTION__PRECONDITION_EXPRESSION:
         case DescriptionPackage.DECORATION_DESCRIPTION__TOOLTIP_EXPRESSION:
         case DescriptionPackage.DECORATION_DESCRIPTION__IMAGE_EXPRESSION:
         case DO_NOT_CONSIDER_FEATURE:
-            result = Options.newNone();
+            result = java.util.Optional.empty();
             break;
         default:
             break;
@@ -169,9 +169,9 @@ public class DescriptionInterpretedExpressionTargetSwitch extends DescriptionSwi
      * @see org.eclipse.sirius.viewpoint.description.util.DescriptionSwitch#caseConditionalStyleDescription(org.eclipse.sirius.viewpoint.description.ConditionalStyleDescription)
      */
     @Override
-    public Option<Collection<String>> caseConditionalStyleDescription(ConditionalStyleDescription styleDescription) {
+    public java.util.Optional<Collection<String>> caseConditionalStyleDescription(ConditionalStyleDescription styleDescription) {
         Collection<String> target = new LinkedHashSet<>();
-        Option<Collection<String>> result = Options.newSome(target);
+        java.util.Optional<Collection<String>> result = java.util.Optional.of(target);
         switch (featureID) {
         case DescriptionPackage.CONDITIONAL_STYLE_DESCRIPTION__PREDICATE_EXPRESSION:
             result = globalSwitch.doSwitch(getFirstRelevantContainer(styleDescription), false);
@@ -183,27 +183,27 @@ public class DescriptionInterpretedExpressionTargetSwitch extends DescriptionSwi
     }
 
     @Override
-    public Option<Collection<String>> caseColorDescription(ColorDescription object) {
-        return Options.newNone();
+    public java.util.Optional<Collection<String>> caseColorDescription(ColorDescription object) {
+        return java.util.Optional.empty();
     }
 
     @Override
-    public Option<Collection<String>> caseColorStep(ColorStep object) {
-        return Options.newNone();
+    public java.util.Optional<Collection<String>> caseColorStep(ColorStep object) {
+        return java.util.Optional.empty();
     }
 
     @Override
-    public Option<Collection<String>> caseInterpolatedColor(InterpolatedColor object) {
-        return Options.newNone();
+    public java.util.Optional<Collection<String>> caseInterpolatedColor(InterpolatedColor object) {
+        return java.util.Optional.empty();
     }
 
     @Override
-    public Option<Collection<String>> caseVSMElementCustomization(VSMElementCustomization object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseVSMElementCustomization(VSMElementCustomization object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (featureID) {
         case DescriptionPackage.VSM_ELEMENT_CUSTOMIZATION__PREDICATE_EXPRESSION:
         case DO_NOT_CONSIDER_FEATURE:
-            result = Options.newNone();
+            result = java.util.Optional.empty();
             break;
         default:
             break;
@@ -213,12 +213,12 @@ public class DescriptionInterpretedExpressionTargetSwitch extends DescriptionSwi
     }
 
     @Override
-    public Option<Collection<String>> caseEAttributeCustomization(EAttributeCustomization object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseEAttributeCustomization(EAttributeCustomization object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (featureID) {
         case DescriptionPackage.EATTRIBUTE_CUSTOMIZATION__VALUE:
         case DO_NOT_CONSIDER_FEATURE:
-            result = Options.newNone();
+            result = java.util.Optional.empty();
             break;
         default:
             break;
@@ -234,15 +234,15 @@ public class DescriptionInterpretedExpressionTargetSwitch extends DescriptionSwi
      * @see org.eclipse.sirius.viewpoint.description.util.DescriptionSwitch#caseSelectionDescription(org.eclipse.sirius.viewpoint.description.SelectionDescription)
      */
     @Override
-    public Option<Collection<String>> caseSelectionDescription(SelectionDescription selectionDescription) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseSelectionDescription(SelectionDescription selectionDescription) {
+        java.util.Optional<Collection<String>> result = null;
         switch (featureID) {
         case DescriptionPackage.SELECTION_DESCRIPTION__CANDIDATES_EXPRESSION:
         case DescriptionPackage.SELECTION_DESCRIPTION__ROOT_EXPRESSION:
         case DescriptionPackage.SELECTION_DESCRIPTION__CHILDREN_EXPRESSION:
             EObjectQuery query = new EObjectQuery(selectionDescription);
-            Option<EObject> parentRepresentationDescription = query.getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getRepresentationDescription());
-            if (parentRepresentationDescription.some()) {
+            java.util.Optional<EObject> parentRepresentationDescription = query.getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getRepresentationDescription());
+            if (parentRepresentationDescription.isPresent()) {
                 result = globalSwitch.doSwitch(parentRepresentationDescription.get(), false);
             }
             break;
@@ -254,13 +254,13 @@ public class DescriptionInterpretedExpressionTargetSwitch extends DescriptionSwi
     }
 
     @Override
-    public Option<Collection<String>> caseTypedVariable(TypedVariable object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseTypedVariable(TypedVariable object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (featureID) {
         case DescriptionPackage.TYPED_VARIABLE__DEFAULT_VALUE_EXPRESSION:
             EObjectQuery query = new EObjectQuery(object);
-            Option<EObject> parentRepresentationDescription = query.getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getRepresentationDescription());
-            if (parentRepresentationDescription.some()) {
+            java.util.Optional<EObject> parentRepresentationDescription = query.getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getRepresentationDescription());
+            if (parentRepresentationDescription.isPresent()) {
                 result = globalSwitch.doSwitch(parentRepresentationDescription.get(), false);
             }
             break;

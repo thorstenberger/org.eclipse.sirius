@@ -16,8 +16,8 @@ import java.util.LinkedHashSet;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.sirius.business.api.dialect.description.IInterpretedExpressionTargetSwitch;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.description.validation.RuleAudit;
 import org.eclipse.sirius.viewpoint.description.validation.SemanticValidationRule;
 import org.eclipse.sirius.viewpoint.description.validation.ValidationFix;
@@ -48,7 +48,7 @@ import com.google.common.collect.Lists;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class ValidationInterpretedExpressionTargetSwitch extends ValidationSwitch<Option<Collection<String>>> {
+public class ValidationInterpretedExpressionTargetSwitch extends ValidationSwitch<java.util.Optional<Collection<String>>> {
 
     /**
      * Constant used in switches on feature id to consider the case when the
@@ -87,13 +87,13 @@ public class ValidationInterpretedExpressionTargetSwitch extends ValidationSwitc
      * @see org.eclipse.sirius.viewpoint.description.tool.util.ToolSwitch#doSwitch(org.eclipse.emf.ecore.EObject)
      */
     @Override
-    public Option<Collection<String>> doSwitch(EObject theEObject) {
-        Option<Collection<String>> doSwitch = super.doSwitch(theEObject);
+    public java.util.Optional<Collection<String>> doSwitch(EObject theEObject) {
+        java.util.Optional<Collection<String>> doSwitch = super.doSwitch(theEObject);
         if (doSwitch != null) {
             return doSwitch;
         }
         Collection<String> targets = new LinkedHashSet<>();
-        return Options.newSome(targets);
+        return java.util.Optional.of(targets);
     }
 
     /**
@@ -103,8 +103,8 @@ public class ValidationInterpretedExpressionTargetSwitch extends ValidationSwitc
      * @see org.eclipse.sirius.viewpoint.description.validation.util.ValidationSwitch#caseRuleAudit(org.eclipse.sirius.viewpoint.description.validation.RuleAudit)
      */
     @Override
-    public Option<Collection<String>> caseRuleAudit(RuleAudit object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseRuleAudit(RuleAudit object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (featureID) {
         case ValidationPackage.RULE_AUDIT__AUDIT_EXPRESSION:
             // We get the validation rule containing this audit
@@ -130,13 +130,13 @@ public class ValidationInterpretedExpressionTargetSwitch extends ValidationSwitc
      * @see org.eclipse.sirius.viewpoint.description.validation.util.ValidationSwitch#caseSemanticValidationRule(org.eclipse.sirius.viewpoint.description.validation.SemanticValidationRule)
      */
     @Override
-    public Option<Collection<String>> caseSemanticValidationRule(SemanticValidationRule object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseSemanticValidationRule(SemanticValidationRule object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (featureID) {
         case ValidationPackage.SEMANTIC_VALIDATION_RULE__MESSAGE:
         case DO_NOT_CONSIDER_FEATURE:
             Collection<String> targets = Lists.newArrayList(object.getTargetClass());
-            result = Options.newSome(targets);
+            result = java.util.Optional.of(targets);
             break;
         default:
             break;
@@ -151,14 +151,14 @@ public class ValidationInterpretedExpressionTargetSwitch extends ValidationSwitc
      * @see org.eclipse.sirius.viewpoint.description.validation.util.ValidationSwitch#caseViewValidationRule(org.eclipse.sirius.viewpoint.description.validation.ViewValidationRule)
      */
     @Override
-    public Option<Collection<String>> caseViewValidationRule(ViewValidationRule object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseViewValidationRule(ViewValidationRule object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (featureID) {
         case ValidationPackage.VIEW_VALIDATION_RULE__MESSAGE:
         case DO_NOT_CONSIDER_FEATURE:
             // Evaluation on DDiagramElement -> see history if it changes.
             Collection<String> targetTypes = Lists.newArrayList("diagram.DDiagramElement"); //$NON-NLS-1$
-            result = Options.newSome(targetTypes);
+            result = java.util.Optional.of(targetTypes);
             break;
         default:
             break;
@@ -173,8 +173,8 @@ public class ValidationInterpretedExpressionTargetSwitch extends ValidationSwitc
      * @see org.eclipse.sirius.viewpoint.description.validation.util.ValidationSwitch#caseValidationFix(org.eclipse.sirius.viewpoint.description.validation.ValidationFix)
      */
     @Override
-    public Option<Collection<String>> caseValidationFix(ValidationFix object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseValidationFix(ValidationFix object) {
+        java.util.Optional<Collection<String>> result = null;
         // We get the validation rule containing this fix
         EObject validationRule = object.eContainer();
         while (validationRule != null && (!(validationRule instanceof ValidationRule))) {

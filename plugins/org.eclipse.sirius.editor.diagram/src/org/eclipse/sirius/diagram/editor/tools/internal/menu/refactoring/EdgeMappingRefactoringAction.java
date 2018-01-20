@@ -22,8 +22,8 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.sirius.diagram.description.DiagramElementMapping;
 import org.eclipse.sirius.diagram.description.EdgeMapping;
 import org.eclipse.sirius.editor.tools.api.menu.AbstractEObjectRefactoringAction;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
@@ -91,8 +91,8 @@ public class EdgeMappingRefactoringAction extends AbstractEObjectRefactoringActi
      *            the element Mapping that must be refreshed.
      */
     public static void refreshSelection(DiagramElementMapping elementMapping) {
-        Option<ISelectionProvider> activeSiteSelectionProvider = EdgeMappingRefactoringAction.getActiveSiteSelectionProvider();
-        if (activeSiteSelectionProvider.some()) {
+        java.util.Optional<ISelectionProvider> activeSiteSelectionProvider = EdgeMappingRefactoringAction.getActiveSiteSelectionProvider();
+        if (activeSiteSelectionProvider.isPresent()) {
             ISelectionProvider selectionProvider = activeSiteSelectionProvider.get();
             if (selectionProvider.getSelection() instanceof TreeSelection) {
                 TreeSelection newSelection = new TreeSelection(((TreeSelection) selectionProvider.getSelection()).getPathsFor(elementMapping));
@@ -106,29 +106,29 @@ public class EdgeMappingRefactoringAction extends AbstractEObjectRefactoringActi
      * 
      * @return the selectionProvider of the current Active Site
      */
-    private static Option<ISelectionProvider> getActiveSiteSelectionProvider() {
-        Option<IWorkbenchPartSite> site = getSite();
-        if (site.some()) {
+    private static java.util.Optional<ISelectionProvider> getActiveSiteSelectionProvider() {
+        java.util.Optional<IWorkbenchPartSite> site = getSite();
+        if (site.isPresent()) {
             ISelectionProvider selectionProvider = site.get().getSelectionProvider();
             if (selectionProvider != null) {
-                return Options.newSome(selectionProvider);
+                return java.util.Optional.of(selectionProvider);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
-    private static Option<IWorkbenchPartSite> getSite() {
+    private static java.util.Optional<IWorkbenchPartSite> getSite() {
         IWorkbenchWindow activeWorkbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
         if (activeWorkbenchWindow != null) {
             IWorkbenchPage activePage = activeWorkbenchWindow.getActivePage();
             if (activePage != null) {
                 IWorkbenchPart activePart = activePage.getActivePart();
                 if (activePart != null) {
-                    return Options.fromNullable(activePart.getSite());
+                    return java.util.Optional.ofNullable(activePart.getSite());
                 }
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
 }

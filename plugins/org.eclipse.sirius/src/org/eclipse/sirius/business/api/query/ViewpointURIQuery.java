@@ -16,8 +16,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.description.DescriptionPackage;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
 
@@ -76,8 +76,8 @@ public class ViewpointURIQuery {
      * @return a logical viewpoint URI equivalent to the concrete URI, if the
      *         conversion was successful.
      */
-    public static Option<URI> asViewpointURI(URI uri, ResourceSet resourceSet) {
-        Option<URI> result = Options.newNone();
+    public static java.util.Optional<URI> asViewpointURI(URI uri, ResourceSet resourceSet) {
+        java.util.Optional<URI> result = java.util.Optional.empty();
         if (uri.isPlatform()) {
             EObject target = null;
             try {
@@ -95,13 +95,13 @@ public class ViewpointURIQuery {
                 if (target instanceof Viewpoint) {
                     String viewpointName = ((Viewpoint) target).getName();
                     URI logicalViewpointUri = URI.createURI(ViewpointURIQuery.VIEWPOINT_URI_SCHEME + ":/" + pluginId + "/" + viewpointName); //$NON-NLS-1$ //$NON-NLS-2$
-                    result = Options.newSome(logicalViewpointUri);
+                    result = java.util.Optional.of(logicalViewpointUri);
                 } else {
-                    Option<EObject> viewpointContext = new EObjectQuery(target).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getViewpoint());
-                    if (viewpointContext.some()) {
+                    java.util.Optional<EObject> viewpointContext = new EObjectQuery(target).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getViewpoint());
+                    if (viewpointContext.isPresent()) {
                         String viewpointName = ((Viewpoint) viewpointContext.get()).getName();
                         URI logicalViewpointUri = URI.createURI(ViewpointURIQuery.VIEWPOINT_URI_SCHEME + ":/" + pluginId + "/" + viewpointName); //$NON-NLS-1$ //$NON-NLS-2$
-                        result = Options.newSome(logicalViewpointUri.appendFragment(uri.fragment()));
+                        result = java.util.Optional.of(logicalViewpointUri.appendFragment(uri.fragment()));
                     }
                 }
             }

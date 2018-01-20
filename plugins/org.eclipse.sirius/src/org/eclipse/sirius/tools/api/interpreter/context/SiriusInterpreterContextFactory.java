@@ -23,7 +23,7 @@ import org.eclipse.sirius.business.api.dialect.description.IInterpretedExpressio
 import org.eclipse.sirius.common.tools.api.interpreter.DefaultInterpreterContextFactory;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterContext;
 import org.eclipse.sirius.common.tools.api.interpreter.VariableType;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * Provides facilities for creating {@link IInterpreterContext}s, using the
@@ -65,11 +65,11 @@ public final class SiriusInterpreterContextFactory {
         IInterpretedExpressionQuery query = DialectManager.INSTANCE.createInterpretedExpressionQuery(element, feature);
 
         // Step 2 : getting the DomainClass of the target
-        Option<Collection<String>> targetDomainClassesOption = query.getTargetDomainClasses();
+        java.util.Optional<Collection<String>> targetDomainClassesOption = query.getTargetDomainClasses();
 
         // If the considered expression does not need any Target class to be
         // validated
-        if (!targetDomainClassesOption.some()) {
+        if (!targetDomainClassesOption.isPresent()) {
             requiresTargetType = false;
         } else {
             for (String domainClass : targetDomainClassesOption.get()) {
@@ -77,7 +77,7 @@ public final class SiriusInterpreterContextFactory {
             }
         }
 
-        if (!targetDomainClassesOption.some() || !targetDomainClassesOption.get().isEmpty()) {
+        if (!targetDomainClassesOption.isPresent() || !targetDomainClassesOption.get().isEmpty()) {
             // Step 2 : getting the packages to import to evaluate the
             // expression
             avalaiblePackages = query.getPackagesToImport();

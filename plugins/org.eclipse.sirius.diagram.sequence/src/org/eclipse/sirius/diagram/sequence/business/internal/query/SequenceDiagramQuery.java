@@ -26,7 +26,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.SequenceDi
 import org.eclipse.sirius.diagram.sequence.business.internal.layout.LayoutConstants;
 import org.eclipse.sirius.diagram.sequence.util.Range;
 import org.eclipse.sirius.diagram.ui.tools.api.graphical.edit.styles.IBorderItemOffsets;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicates;
@@ -159,17 +159,17 @@ public class SequenceDiagramQuery {
     public Set<ISequenceEvent> getAllSequenceEventsOnLifeline(Lifeline lifeline) {
         Set<ISequenceEvent> allSequenceEventsOnLifeline = new TreeSet<ISequenceEvent>(new RangeComparator());
         for (ISequenceEvent sequenceEvent : Iterables.filter(getAllSequenceEvents(), Predicates.not(Predicates.instanceOf(Lifeline.class)))) {
-            Option<Lifeline> lifelineOfSequenceEventOption = sequenceEvent.getLifeline();
-            if (lifelineOfSequenceEventOption.some() && lifelineOfSequenceEventOption.get().equals(lifeline)) {
+            java.util.Optional<Lifeline> lifelineOfSequenceEventOption = sequenceEvent.getLifeline();
+            if (lifelineOfSequenceEventOption.isPresent() && lifelineOfSequenceEventOption.get().equals(lifeline)) {
                 allSequenceEventsOnLifeline.add(sequenceEvent);
-            } else if (!lifelineOfSequenceEventOption.some()) {
+            } else if (!lifelineOfSequenceEventOption.isPresent()) {
                 if (sequenceEvent instanceof Message) {
                     Message message = (Message) sequenceEvent;
-                    Option<Lifeline> sourceLifelineOption = message.getSourceLifeline();
-                    Option<Lifeline> targetLifelineOption = message.getTargetLifeline();
-                    if (sourceLifelineOption.some() && sourceLifelineOption.get().equals(lifeline)) {
+                    java.util.Optional<Lifeline> sourceLifelineOption = message.getSourceLifeline();
+                    java.util.Optional<Lifeline> targetLifelineOption = message.getTargetLifeline();
+                    if (sourceLifelineOption.isPresent() && sourceLifelineOption.get().equals(lifeline)) {
                         allSequenceEventsOnLifeline.add(message);
-                    } else if (targetLifelineOption.some() && targetLifelineOption.get().equals(lifeline)) {
+                    } else if (targetLifelineOption.isPresent() && targetLifelineOption.get().equals(lifeline)) {
                         allSequenceEventsOnLifeline.add(message);
                     }
                 } else if (sequenceEvent instanceof AbstractFrame) {

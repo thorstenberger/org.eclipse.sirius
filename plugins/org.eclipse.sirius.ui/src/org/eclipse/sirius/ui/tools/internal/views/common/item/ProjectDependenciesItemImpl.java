@@ -12,8 +12,8 @@ package org.eclipse.sirius.ui.tools.internal.views.common.item;
 
 import org.eclipse.sirius.business.api.modelingproject.ModelingProject;
 import org.eclipse.sirius.business.api.session.Session;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * Display the semantic models associated to the session but not in the current project.
@@ -43,11 +43,11 @@ public class ProjectDependenciesItemImpl extends AbstractProjectDependenciesItem
      * @return the session of the modeling project
      */
     @Override
-    public Option<Session> getSession() {
+    public java.util.Optional<Session> getSession() {
         if (modelingProj != null) {
-            return Options.newSome(modelingProj.getSession());
+            return java.util.Optional.of(modelingProj.getSession());
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
 }

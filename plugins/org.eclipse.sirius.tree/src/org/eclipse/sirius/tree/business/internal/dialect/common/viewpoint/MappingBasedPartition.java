@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.sirius.common.tools.api.interpreter.EvaluationException;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterSiriusVariables;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.synchronizer.CreatedOutput;
 import org.eclipse.sirius.synchronizer.EvaluatedSemanticPartition;
 import org.eclipse.sirius.synchronizer.OutputDescriptor;
@@ -44,11 +44,11 @@ public class MappingBasedPartition implements SemanticPartition {
 
     private String domainClass;
 
-    private Option<String> semanticCandidate;
+    private java.util.Optional<String> semanticCandidate;
 
     private GlobalContext ctx;
 
-    private Option<? extends EObject> specificationAttachment;
+    private java.util.Optional<? extends EObject> specificationAttachment;
 
     /**
      * Creates a new MappingBasedPartition.
@@ -62,7 +62,7 @@ public class MappingBasedPartition implements SemanticPartition {
      * @param specificationAttachment
      *            the specification attachment
      */
-    public MappingBasedPartition(GlobalContext ctx, String domainClass, Option<String> semanticCandidate, Option<? extends EObject> specificationAttachment) {
+    public MappingBasedPartition(GlobalContext ctx, String domainClass, java.util.Optional<String> semanticCandidate, java.util.Optional<? extends EObject> specificationAttachment) {
         this.domainClass = domainClass;
         this.ctx = ctx;
         this.semanticCandidate = semanticCandidate;
@@ -73,7 +73,7 @@ public class MappingBasedPartition implements SemanticPartition {
     public EvaluatedSemanticPartition evaluate(EObject root, CreatedOutput parentElement) {
         setTreeElementVariables(parentElement);
         Iterator<EObject> elements = Collections.<EObject> emptyList().iterator();
-        if (semanticCandidate.some()) {
+        if (semanticCandidate.isPresent()) {
             try {
                 elements = ctx.getInterpreter().evaluateCollection(root, semanticCandidate.get()).iterator();
             } catch (EvaluationException e) {

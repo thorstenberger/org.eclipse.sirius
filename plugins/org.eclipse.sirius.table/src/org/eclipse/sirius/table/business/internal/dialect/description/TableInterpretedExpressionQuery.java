@@ -25,8 +25,8 @@ import org.eclipse.sirius.business.api.dialect.description.IInterpretedExpressio
 import org.eclipse.sirius.business.api.query.EObjectQuery;
 import org.eclipse.sirius.common.tools.api.interpreter.VariableType;
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.table.metamodel.table.TablePackage;
 import org.eclipse.sirius.table.metamodel.table.description.ColumnMapping;
 import org.eclipse.sirius.table.metamodel.table.description.CreateCellTool;
@@ -178,8 +178,8 @@ public class TableInterpretedExpressionQuery extends AbstractInterpretedExpressi
                 possibleTypes.add(domainClass);
             }
         } else if (container instanceof FeatureColumnMapping) {
-            Option<EObject> tableDef = new EObjectQuery(container).getFirstAncestorOfType(DescriptionPackage.Literals.TABLE_DESCRIPTION);
-            if (tableDef.some() && tableDef.get() instanceof TableDescription) {
+            java.util.Optional<EObject> tableDef = new EObjectQuery(container).getFirstAncestorOfType(DescriptionPackage.Literals.TABLE_DESCRIPTION);
+            if (tableDef.isPresent() && tableDef.get() instanceof TableDescription) {
                 TableDescription table = (TableDescription) tableDef.get();
                 for (LineMapping lMapping : table.getAllLineMappings()) {
                     String domainClass = lMapping.getDomainClass();
@@ -193,8 +193,8 @@ public class TableInterpretedExpressionQuery extends AbstractInterpretedExpressi
     }
 
     private void declareRootTableType(Map<String, VariableType> availableVariables, EObject operationContext) {
-        Option<EObject> tableDef = new EObjectQuery(operationContext).getFirstAncestorOfType(DescriptionPackage.Literals.TABLE_DESCRIPTION);
-        if (tableDef.some() && tableDef.get() instanceof TableDescription) {
+        java.util.Optional<EObject> tableDef = new EObjectQuery(operationContext).getFirstAncestorOfType(DescriptionPackage.Literals.TABLE_DESCRIPTION);
+        if (tableDef.isPresent() && tableDef.get() instanceof TableDescription) {
             TableDescription table = (TableDescription) tableDef.get();
             String domainClass = table.getDomainClass();
             if (!StringUtil.isEmpty(domainClass)) {
@@ -240,9 +240,9 @@ public class TableInterpretedExpressionQuery extends AbstractInterpretedExpressi
     }
 
     @Override
-    protected Option<EObject> getToolContext() {
-        Option<EObject> result = super.getToolContext();
-        if (!result.some()) {
+    protected java.util.Optional<EObject> getToolContext() {
+        java.util.Optional<EObject> result = super.getToolContext();
+        if (!result.isPresent()) {
             result = new EObjectQuery(target).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getTableTool());
         }
         return result;
@@ -263,9 +263,9 @@ public class TableInterpretedExpressionQuery extends AbstractInterpretedExpressi
         private final TableInterpretedTargetSwitch specificTableSwitch = new TableInterpretedTargetSwitch(feature, this);
 
         @Override
-        public Option<Collection<String>> doSwitch(EObject target, boolean considerFeature) {
+        public java.util.Optional<Collection<String>> doSwitch(EObject target, boolean considerFeature) {
             Collection<String> targetTypes = new LinkedHashSet<>();
-            Option<Collection<String>> expressionTarget = Options.newSome(targetTypes);
+            java.util.Optional<Collection<String>> expressionTarget = java.util.Optional.of(targetTypes);
             if (target != null) {
                 String packageURI = target.eClass().getEPackage().getNsURI();
                 // We first try to apply the Table specific switch
@@ -274,7 +274,7 @@ public class TableInterpretedExpressionQuery extends AbstractInterpretedExpressi
                     expressionTarget = specificTableSwitch.doSwitch(target);
                 }
                 // If no result has been found, we use the default switch
-                if (expressionTarget.some() && expressionTarget.get().isEmpty()) {
+                if (expressionTarget.isPresent() && expressionTarget.get().isEmpty()) {
                     expressionTarget = defaultSwitch.doSwitch(target, considerFeature);
                 }
             }

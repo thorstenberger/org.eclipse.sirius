@@ -24,8 +24,8 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.sirius.business.api.query.ViewpointQuery;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.internal.movida.registry.ViewpointRegistry;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
@@ -214,21 +214,21 @@ public final class SiriusResourceHelper {
      * @return a Sirius instance from the session's editing domain with the
      *         specified logical URI, if it could be found or loaded.
      */
-    public static Option<Viewpoint> getCorrespondingViewpoint(Session session, URI uri, boolean loadOnDemand) {
+    public static java.util.Optional<Viewpoint> getCorrespondingViewpoint(Session session, URI uri, boolean loadOnDemand) {
         ViewpointRegistry registry = (ViewpointRegistry) org.eclipse.sirius.business.api.componentization.ViewpointRegistry.getInstance();
-        Option<URI> providerURI = registry.getProvider(uri);
-        if (providerURI.some()) {
+        java.util.Optional<URI> providerURI = registry.getProvider(uri);
+        if (providerURI.isPresent()) {
             TransactionalEditingDomain domain = session.getTransactionalEditingDomain();
             Resource editingDomainResource = domain.getResourceSet().getResource(providerURI.get(), loadOnDemand);
             if (editingDomainResource != null) {
                 for (Viewpoint vp : registry.getSiriusResourceHandler().collectViewpointDefinitions(editingDomainResource)) {
-                    Option<URI> vpURI = new ViewpointQuery(vp).getViewpointURI();
-                    if (vpURI.some() && Objects.equal(vpURI.get(), uri)) {
-                        return Options.newSome(vp);
+                    java.util.Optional<URI> vpURI = new ViewpointQuery(vp).getViewpointURI();
+                    if (vpURI.isPresent() && Objects.equal(vpURI.get(), uri)) {
+                        return java.util.Optional.of(vp);
                     }
                 }
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 }

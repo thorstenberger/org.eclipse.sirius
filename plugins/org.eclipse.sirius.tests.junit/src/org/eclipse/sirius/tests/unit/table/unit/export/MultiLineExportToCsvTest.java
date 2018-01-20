@@ -15,7 +15,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.table.business.api.helper.TableHelper;
 import org.eclipse.sirius.table.metamodel.table.DCell;
 import org.eclipse.sirius.table.metamodel.table.DTable;
@@ -108,8 +108,8 @@ public class MultiLineExportToCsvTest extends SiriusDiagramTestCase {
         final IEditorPart editor = DialectUIManager.INSTANCE.openEditor(session, dTable, new NullProgressMonitor());
         TestsUtil.synchronizationWithUIThread();
 
-        Option<DCell> cell = TableHelper.getCell(dTable.getLines().get(1), dTable.getColumns().get(0));
-        assertTrue("Review the test data.", cell.some());
+        java.util.Optional<DCell> cell = TableHelper.getCell(dTable.getLines().get(1), dTable.getColumns().get(0));
+        assertTrue("Review the test data.", cell.isPresent());
         assertTrue("Review the test data.", cell.get().getTableElementMapping() instanceof FeatureColumnMapping);
         assertTrue("Review the test data.", StringUtil.isEmpty(((FeatureColumnMapping) cell.get().getTableElementMapping()).getLabelComputationExpression()));
         assertEquals("The table should contain a multi line label.", "multi " + EOL + "line", cell.get().getLabel());

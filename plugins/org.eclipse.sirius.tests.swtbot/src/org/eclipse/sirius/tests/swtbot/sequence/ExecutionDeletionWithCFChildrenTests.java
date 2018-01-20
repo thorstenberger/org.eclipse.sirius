@@ -19,8 +19,8 @@ import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.ExecutionE
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.ISequenceEventEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.LifelineEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.SequenceMessageEditPart;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.sample.interactions.Execution;
 import org.eclipse.sirius.tests.swtbot.support.api.condition.OperationDoneCondition;
 import org.eclipse.sirius.tests.unit.diagram.sequence.InteractionsConstants;
@@ -120,8 +120,8 @@ public class ExecutionDeletionWithCFChildrenTests extends AbstractSequenceDiagra
      * {@inheritDoc}
      */
     @Override
-    protected Option<String> getDRepresentationName() {
-        return Options.newSome(REPRESENTATION_NAME);
+    protected java.util.Optional<String> getDRepresentationName() {
+        return java.util.Optional.of(REPRESENTATION_NAME);
     }
 
     /**

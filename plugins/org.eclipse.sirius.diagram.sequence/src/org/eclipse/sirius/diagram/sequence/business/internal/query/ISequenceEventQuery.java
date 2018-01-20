@@ -25,7 +25,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.ISequenceE
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.ISequenceEvent;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.Message;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -153,8 +153,8 @@ public class ISequenceEventQuery {
     private void addAllDescendants(ISequenceEvent ise, Predicate<? super View> predicate, Collection<ISequenceEvent> parts) {
         View element = ise.getNotationView();
         if (predicate.apply(element)) {
-            Option<ISequenceEvent> iSequenceEvent = ISequenceElementAccessor.getISequenceEvent(element);
-            if (iSequenceEvent.some()) {
+            java.util.Optional<ISequenceEvent> iSequenceEvent = ISequenceElementAccessor.getISequenceEvent(element);
+            if (iSequenceEvent.isPresent()) {
                 parts.add(iSequenceEvent.get());
             }
         }
@@ -220,8 +220,8 @@ public class ISequenceEventQuery {
      */
     private void addAllMessagesTo(View element, Collection<Message> messages) {
         for (Edge connectionPart : Iterables.filter(Iterables.filter(element.getTargetEdges(), Edge.class), Message.notationPredicate())) {
-            Option<Message> message = ISequenceElementAccessor.getMessage(connectionPart);
-            if (message.some()) {
+            java.util.Optional<Message> message = ISequenceElementAccessor.getMessage(connectionPart);
+            if (message.isPresent()) {
                 messages.add(message.get());
             }
         }
@@ -244,8 +244,8 @@ public class ISequenceEventQuery {
      */
     private void addAllMessagesFrom(View element, Collection<Message> messages) {
         for (Edge connectionPart : Iterables.filter(Iterables.filter(element.getSourceEdges(), Edge.class), Message.notationPredicate())) {
-            Option<Message> message = ISequenceElementAccessor.getMessage(connectionPart);
-            if (message.some()) {
+            java.util.Optional<Message> message = ISequenceElementAccessor.getMessage(connectionPart);
+            if (message.isPresent()) {
                 messages.add(message.get());
             }
         }

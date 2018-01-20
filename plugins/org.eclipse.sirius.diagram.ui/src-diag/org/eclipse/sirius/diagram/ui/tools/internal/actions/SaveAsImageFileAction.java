@@ -25,7 +25,7 @@ import org.eclipse.sirius.diagram.ui.edit.api.part.IDiagramElementEditPart;
 import org.eclipse.sirius.diagram.ui.provider.DiagramUIPlugin;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
 import org.eclipse.sirius.diagram.ui.tools.api.ui.actions.ActionIds;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ui.tools.internal.actions.export.AbstractExportRepresentationsAction;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
@@ -57,8 +57,8 @@ public class SaveAsImageFileAction extends AbstractExportRepresentationsAction {
             for (Object selectedObject : structuredSelection.toList()) {
                 if (selectedObject instanceof IDDiagramEditPart) {
                     IDDiagramEditPart dDiagramEditPart = (IDDiagramEditPart) selectedObject;
-                    Option<DDiagram> dDiagramOption = dDiagramEditPart.resolveDDiagram();
-                    if (dDiagramOption.some()) {
+                    java.util.Optional<DDiagram> dDiagramOption = dDiagramEditPart.resolveDDiagram();
+                    if (dDiagramOption.isPresent()) {
                         dRepresentationToExport = dDiagramOption.get();
                         break;
                     }

@@ -20,8 +20,8 @@ import org.eclipse.sirius.diagram.description.EdgeMapping;
 import org.eclipse.sirius.diagram.description.IEdgeMapping;
 import org.eclipse.sirius.diagram.description.style.EdgeStyleDescription;
 import org.eclipse.sirius.diagram.description.style.StylePackage;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.description.style.BasicLabelStyleDescription;
 
 /**
@@ -136,8 +136,8 @@ public class DEdgeQuery extends DDiagramElementQuery {
      *
      * @return a {@link CenterLabelStyle}
      */
-    public Option<CenterLabelStyle> getCenterLabelStyle() {
-        return Options.newSome(edge.getOwnedStyle().getCenterLabelStyle());
+    public java.util.Optional<CenterLabelStyle> getCenterLabelStyle() {
+        return java.util.Optional.of(edge.getOwnedStyle().getCenterLabelStyle());
     }
 
     /**
@@ -145,8 +145,8 @@ public class DEdgeQuery extends DDiagramElementQuery {
      *
      * @return a {@link BeginLabelStyle}
      */
-    public Option<BeginLabelStyle> getBeginLabelStyle() {
-        return Options.newSome(edge.getOwnedStyle().getBeginLabelStyle());
+    public java.util.Optional<BeginLabelStyle> getBeginLabelStyle() {
+        return java.util.Optional.of(edge.getOwnedStyle().getBeginLabelStyle());
     }
 
     /**
@@ -154,8 +154,8 @@ public class DEdgeQuery extends DDiagramElementQuery {
      *
      * @return a {@link EndLabelStyle}
      */
-    public Option<EndLabelStyle> getEndLabelStyle() {
-        return Options.newSome(edge.getOwnedStyle().getEndLabelStyle());
+    public java.util.Optional<EndLabelStyle> getEndLabelStyle() {
+        return java.util.Optional.of(edge.getOwnedStyle().getEndLabelStyle());
     }
 
     /**

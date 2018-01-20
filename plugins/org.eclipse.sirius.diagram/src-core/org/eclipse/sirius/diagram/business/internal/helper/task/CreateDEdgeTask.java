@@ -38,7 +38,7 @@ import org.eclipse.sirius.diagram.description.MappingBasedDecoration;
 import org.eclipse.sirius.diagram.description.tool.EdgeCreationDescription;
 import org.eclipse.sirius.diagram.tools.api.refresh.BestMappingGetter;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.description.SemanticBasedDecoration;
@@ -120,9 +120,9 @@ public class CreateDEdgeTask extends AbstractCommandTask implements ICreationTas
             BestMappingGetter bestMappingGetter = new BestMappingGetter(sourceView, targetView, semanticElt);
             EdgeMapping bestEdgeMapping = bestMappingGetter.getBestEdgeMapping(tool.getEdgeMappings());
             if (bestEdgeMapping != null) {
-                Option<DEdge> createdDEdgeOption = dDiagramSynchronizer.createEdgeMapping(mappingManager, mappingsToEdgeTargets, bestEdgeMapping, edgeToMappingBasedDecoration,
+                java.util.Optional<DEdge> createdDEdgeOption = dDiagramSynchronizer.createEdgeMapping(mappingManager, mappingsToEdgeTargets, bestEdgeMapping, edgeToMappingBasedDecoration,
                         edgeToSemanticBasedDecoration);
-                if (createdDEdgeOption.some()) {
+                if (createdDEdgeOption.isPresent()) {
                     createdDEdges.add(createdDEdgeOption.get());
                 }
             }

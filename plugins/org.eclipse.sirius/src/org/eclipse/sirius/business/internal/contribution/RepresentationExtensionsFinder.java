@@ -23,7 +23,7 @@ import org.eclipse.sirius.business.api.query.RepresentationDescriptionQuery;
 import org.eclipse.sirius.business.api.query.ViewpointQuery;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.internal.movida.registry.ViewpointRelations;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.description.DescriptionPackage;
 import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
 import org.eclipse.sirius.viewpoint.description.RepresentationExtensionDescription;
@@ -112,8 +112,8 @@ public class RepresentationExtensionsFinder {
         if (mainVP != null) {
             BiMap<URI, Viewpoint> candidates = HashBiMap.create();
             for (Viewpoint vp : session.getSelectedViewpoints(false)) {
-                Option<URI> uri = new ViewpointQuery(vp).getViewpointURI();
-                if (uri.some()) {
+                java.util.Optional<URI> uri = new ViewpointQuery(vp).getViewpointURI();
+                if (uri.isPresent()) {
                     candidates.put(uri.get(), vp);
                 }
             }
@@ -148,10 +148,10 @@ public class RepresentationExtensionsFinder {
     }
 
     private String getTargetSiriusURI() {
-        Option<EObject> parentVp = new EObjectQuery(extensionTarget).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getViewpoint());
-        if (parentVp.some()) {
-            Option<URI> viewpointURI = new ViewpointQuery((Viewpoint) parentVp.get()).getViewpointURI();
-            if (viewpointURI.some()) {
+        java.util.Optional<EObject> parentVp = new EObjectQuery(extensionTarget).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getViewpoint());
+        if (parentVp.isPresent()) {
+            java.util.Optional<URI> viewpointURI = new ViewpointQuery((Viewpoint) parentVp.get()).getViewpointURI();
+            if (viewpointURI.isPresent()) {
                 return viewpointURI.get().toString();
             }
         }

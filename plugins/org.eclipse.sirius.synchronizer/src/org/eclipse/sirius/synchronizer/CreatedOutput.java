@@ -13,7 +13,7 @@ package org.eclipse.sirius.synchronizer;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * This interface represents an output element existing in the output model.
@@ -28,7 +28,7 @@ public interface CreatedOutput {
 
     EObject getCreatedElement();
 
-    Option<? extends ChildCreationSupport> getChildSupport();
+    java.util.Optional<? extends ChildCreationSupport> getChildSupport();
 
     /**
      * Tells if we must create and refresh view model elements related to this

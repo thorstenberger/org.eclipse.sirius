@@ -29,7 +29,7 @@ import org.eclipse.sirius.business.api.query.ViewpointQuery;
 import org.eclipse.sirius.business.api.resource.ResourceDescriptor;
 import org.eclipse.sirius.business.internal.movida.ViewpointSelection;
 import org.eclipse.sirius.common.tools.api.util.EqualityHelper;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
@@ -404,8 +404,8 @@ public final class DAnalysisSessionHelper {
             if (rootContainerInSameResource != null) {
                 boolean isMainModelOfReferencedAnalysis = false;
                 for (DAnalysis referencedAnalysis : new DAnalysisQuery(analysis).getAllReferencedAnalyses()) {
-                    Option<EObject> optionalMainModel = new DAnalysisQuery(referencedAnalysis).getMainModel();
-                    if (optionalMainModel.some() && optionalMainModel.get().equals(rootContainerInSameResource)) {
+                    java.util.Optional<EObject> optionalMainModel = new DAnalysisQuery(referencedAnalysis).getMainModel();
+                    if (optionalMainModel.isPresent() && optionalMainModel.get().equals(rootContainerInSameResource)) {
                         isMainModelOfReferencedAnalysis = true;
                     }
                 }

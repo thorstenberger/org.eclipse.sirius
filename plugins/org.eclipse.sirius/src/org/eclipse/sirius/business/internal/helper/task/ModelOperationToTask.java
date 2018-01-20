@@ -37,7 +37,7 @@ import org.eclipse.sirius.business.internal.helper.task.operations.UnexecutableO
 import org.eclipse.sirius.business.internal.helper.task.operations.UnsetTask;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreter;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.command.CommandContext;
 import org.eclipse.sirius.tools.api.command.ui.UICallBack;
 import org.eclipse.sirius.viewpoint.Messages;
@@ -124,8 +124,8 @@ public class ModelOperationToTask implements Function<ModelOperation, ICommandTa
      */
     public AbstractOperationTask createTask(final ModelOperation op) {
         AbstractOperationTask task = null;
-        Option<? extends AbstractCommandTask> optionalDialectTask = DialectManager.INSTANCE.createTask(context, extPackage, op, session, uiCallback);
-        if (optionalDialectTask.some() && optionalDialectTask.get() instanceof AbstractOperationTask) {
+        java.util.Optional<? extends AbstractCommandTask> optionalDialectTask = DialectManager.INSTANCE.createTask(context, extPackage, op, session, uiCallback);
+        if (optionalDialectTask.isPresent() && optionalDialectTask.get() instanceof AbstractOperationTask) {
             task = (AbstractOperationTask) optionalDialectTask.get();
         } else if (op instanceof CreateInstance) {
             task = new CreateInstanceTask(context, extPackage, (CreateInstance) op, interpreter);
@@ -173,8 +173,8 @@ public class ModelOperationToTask implements Function<ModelOperation, ICommandTa
                 task = (AbstractOperationTask) optionalTask.get();
             }
         }
-        Option<EObject> opt = new EObjectQuery(op).getFirstAncestorOfType(ToolPackage.Literals.ABSTRACT_TOOL_DESCRIPTION);
-        if (opt.some()) {
+        java.util.Optional<EObject> opt = new EObjectQuery(op).getFirstAncestorOfType(ToolPackage.Literals.ABSTRACT_TOOL_DESCRIPTION);
+        if (opt.isPresent()) {
             task.setSourceTool((AbstractToolDescription) opt.get());
         }
         return task;

@@ -30,7 +30,7 @@ import org.eclipse.sirius.business.internal.migration.description.VSMResourceHan
 import org.eclipse.sirius.business.internal.migration.description.VSMResourceXMILoad;
 import org.eclipse.sirius.business.internal.migration.description.VSMVersionSAXParser;
 import org.eclipse.sirius.business.internal.migration.description.VSMXMIHelper;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.osgi.framework.Version;
 
 /**
@@ -172,8 +172,8 @@ public class DescriptionResourceImpl extends XMIResourceImpl {
      */
     @Override
     public EObject getEObject(String uriFragment) {
-        Option<String> optionalRewrittenFragment = VSMMigrationService.getInstance().getNewFragment(uriFragment);
-        if (optionalRewrittenFragment.some()) {
+        java.util.Optional<String> optionalRewrittenFragment = VSMMigrationService.getInstance().getNewFragment(uriFragment);
+        if (optionalRewrittenFragment.isPresent()) {
             return getEObject(optionalRewrittenFragment.get());
         } else if (useURIFragmentAsId) {
             return getEObjectUsingURIFragmentAsId(uriFragment);

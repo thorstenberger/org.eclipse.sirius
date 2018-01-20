@@ -18,8 +18,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.sirius.business.api.migration.AbstractVSMMigrationParticipant;
 import org.eclipse.sirius.diagram.description.DescriptionPackage;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.osgi.framework.Version;
 
 import com.google.common.collect.Sets;
@@ -64,10 +64,10 @@ public class OptionalLayersVSMMigrationParticipant extends AbstractVSMMigrationP
     }
 
     @Override
-    public Option<String> getNewFragment(String uriFragment) {
+    public java.util.Optional<String> getNewFragment(String uriFragment) {
         if (uriFragment.contains("@optionalLayers")) { //$NON-NLS-1$
             String newUriFragment = uriFragment.replaceAll("@optionalLayers", "@additionalLayers"); //$NON-NLS-1$ //$NON-NLS-2$
-            return Options.newSome(newUriFragment);
+            return java.util.Optional.of(newUriFragment);
         } else {
             return super.getNewFragment(uriFragment);
         }

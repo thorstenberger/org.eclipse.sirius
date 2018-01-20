@@ -31,7 +31,7 @@ import org.eclipse.sirius.diagram.description.EdgeMappingImport;
 import org.eclipse.sirius.diagram.description.Layer;
 import org.eclipse.sirius.diagram.description.NodeMapping;
 import org.eclipse.sirius.diagram.description.NodeMappingImport;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.description.AbstractMappingImport;
 
 import com.google.common.base.Predicate;
@@ -162,15 +162,15 @@ public class CandidateMappingManager {
             private int compareEM(final EdgeMapping edgeMapping1, final EdgeMapping edgeMapping2) {
                 if (edgeMapping1 instanceof EdgeMappingImport) {
                     IEdgeMappingQuery query = new IEdgeMappingQuery(((EdgeMappingImport) edgeMapping1).getImportedMapping());
-                    Option<EdgeMapping> importedMapping = query.getEdgeMapping();
-                    if (importedMapping.some() && importedMapping.get() == edgeMapping2) {
+                    java.util.Optional<EdgeMapping> importedMapping = query.getEdgeMapping();
+                    if (importedMapping.isPresent() && importedMapping.get() == edgeMapping2) {
                         return +1;
                     }
                 }
                 if (edgeMapping2 instanceof EdgeMappingImport) {
                     IEdgeMappingQuery query = new IEdgeMappingQuery(((EdgeMappingImport) edgeMapping2).getImportedMapping());
-                    Option<EdgeMapping> importedMapping = query.getEdgeMapping();
-                    if (importedMapping.some() && importedMapping.get() == edgeMapping1) {
+                    java.util.Optional<EdgeMapping> importedMapping = query.getEdgeMapping();
+                    if (importedMapping.isPresent() && importedMapping.get() == edgeMapping1) {
                         return -1;
                     }
                 }

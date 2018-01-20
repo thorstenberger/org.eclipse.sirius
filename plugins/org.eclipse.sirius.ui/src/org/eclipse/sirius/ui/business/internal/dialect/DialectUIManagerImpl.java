@@ -29,7 +29,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.sirius.business.api.query.EObjectQuery;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.common.tools.api.util.EclipseUtil;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ui.business.api.dialect.DialectEditor;
 import org.eclipse.sirius.ui.business.api.dialect.DialectUI;
 import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
@@ -377,16 +377,16 @@ public class DialectUIManagerImpl implements DialectUIManager {
     @Override
     public String completeToolTipText(String toolTipText, EObject eObject, EStructuralFeature feature) {
         String toolTip = toolTipText;
-        Option<EObject> parentRepresentationDescription = new EObjectQuery(eObject).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getRepresentationDescription());
-        if (parentRepresentationDescription.some()) {
+        java.util.Optional<EObject> parentRepresentationDescription = new EObjectQuery(eObject).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getRepresentationDescription());
+        if (parentRepresentationDescription.isPresent()) {
             for (final DialectUI dialect : dialects.values()) {
                 if (dialect.getServices().canHandle((RepresentationDescription) parentRepresentationDescription.get())) {
                     toolTip = dialect.getServices().completeToolTipText(toolTipText, eObject, feature);
                 }
             }
         } else {
-            Option<EObject> parentRepresentationExtensionDescription = new EObjectQuery(eObject).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getRepresentationExtensionDescription());
-            if (parentRepresentationDescription.some()) {
+            java.util.Optional<EObject> parentRepresentationExtensionDescription = new EObjectQuery(eObject).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getRepresentationExtensionDescription());
+            if (parentRepresentationDescription.isPresent()) {
                 for (final DialectUI dialect : dialects.values()) {
                     if (dialect.getServices().canHandle((RepresentationExtensionDescription) parentRepresentationExtensionDescription.get())) {
                         toolTip = dialect.getServices().completeToolTipText(toolTipText, eObject, feature);

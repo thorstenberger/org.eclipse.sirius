@@ -23,8 +23,8 @@ import org.eclipse.sirius.diagram.description.ContainerMappingImport;
 import org.eclipse.sirius.diagram.description.DiagramElementMapping;
 import org.eclipse.sirius.diagram.description.EdgeMappingImport;
 import org.eclipse.sirius.diagram.description.NodeMappingImport;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.description.AbstractMappingImport;
 
 /**
@@ -212,7 +212,7 @@ public class MappingsTable<T extends DiagramElementMapping> {
             list.add(0, (T) mappingNode.getMapping());
         }
 
-        while (current.getImporter().some()) {
+        while (current.getImporter().isPresent()) {
             current = current.getImporter().get();
             others = current.getOtherImporters();
             for (final MappingTableEntry mappingNode : others) {
@@ -255,13 +255,13 @@ public class MappingsTable<T extends DiagramElementMapping> {
         }
     }
 
-    private Option<CandidateMapping> getImportedCandidateMapping(Collection<CandidateMapping> candidateMappings, DiagramElementMapping importedMapping) {
+    private java.util.Optional<CandidateMapping> getImportedCandidateMapping(Collection<CandidateMapping> candidateMappings, DiagramElementMapping importedMapping) {
         for (CandidateMapping candidateMapping : candidateMappings) {
             if (candidateMapping.getMapping().equals(importedMapping)) {
-                return Options.newSome(candidateMapping);
+                return java.util.Optional.of(candidateMapping);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     private void addImportMappingInTable(final CandidateMapping candidate, Collection<CandidateMapping> candidateMappings) {
@@ -282,8 +282,8 @@ public class MappingsTable<T extends DiagramElementMapping> {
              * entry as root in the table
              */
             mappingsTable.add(entry);
-            Option<CandidateMapping> importedCandidate = getImportedCandidateMapping(candidateMappings, importedMapping);
-            if (importedCandidate.some()) {
+            java.util.Optional<CandidateMapping> importedCandidate = getImportedCandidateMapping(candidateMappings, importedMapping);
+            if (importedCandidate.isPresent()) {
                 importedMappingExistingEntry = new MappingTableEntry(importedCandidate.get().getMapping(), importedCandidate.get().getParentLayer(), importedCandidate.get().getParentLayers());
                 mappingsTable.add(importedMappingExistingEntry);
             }
@@ -294,8 +294,8 @@ public class MappingsTable<T extends DiagramElementMapping> {
              * imported mapping entry was found => We take the last importer and
              * add the previous one as others
              */
-            final Option<MappingTableEntry> previousImporter = importedMappingExistingEntry.getImporter();
-            if (previousImporter.some()) {
+            final java.util.Optional<MappingTableEntry> previousImporter = importedMappingExistingEntry.getImporter();
+            if (previousImporter.isPresent()) {
                 importedMappingExistingEntry.addOtherImporters(previousImporter.get());
             }
             importedMappingExistingEntry.setImporter(entry);

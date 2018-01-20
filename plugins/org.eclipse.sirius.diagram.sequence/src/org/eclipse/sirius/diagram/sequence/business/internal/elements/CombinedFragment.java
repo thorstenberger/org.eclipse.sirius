@@ -24,8 +24,8 @@ import org.eclipse.sirius.diagram.sequence.business.internal.query.SequenceNodeQ
 import org.eclipse.sirius.diagram.sequence.business.internal.util.RangeSetter;
 import org.eclipse.sirius.diagram.sequence.description.DescriptionPackage;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -147,8 +147,8 @@ public class CombinedFragment extends AbstractFrame {
             // Filtering compartments
             for (View viewChild : Iterables.filter(view.eContents(), View.class)) {
                 // Filtering operands
-                Option<Operand> operand = ISequenceElementAccessor.getOperand(viewChild);
-                if (operand.some()) {
+                java.util.Optional<Operand> operand = ISequenceElementAccessor.getOperand(viewChild);
+                if (operand.isPresent()) {
                     result.add(operand.get());
                 }
             }
@@ -163,13 +163,13 @@ public class CombinedFragment extends AbstractFrame {
      * @param index
      *            the position of the wanted operand
      * @return an Option of Operand if there is an operand at the given index,
-     *         an Options.newNone() otherwise
+     *         an java.util.Optional.empty() otherwise
      */
-    public Option<Operand> getOperand(int index) {
+    public java.util.Optional<Operand> getOperand(int index) {
         try {
-            return Options.newSome(getOperands().get(index));
+            return java.util.Optional.of(getOperands().get(index));
         } catch (IndexOutOfBoundsException e) {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
     }
 

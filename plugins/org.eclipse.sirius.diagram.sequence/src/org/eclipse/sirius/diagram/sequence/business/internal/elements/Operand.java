@@ -31,8 +31,8 @@ import org.eclipse.sirius.diagram.sequence.business.internal.util.SubEventsHelpe
 import org.eclipse.sirius.diagram.sequence.description.DescriptionPackage;
 import org.eclipse.sirius.diagram.sequence.ordering.EventEnd;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -119,8 +119,8 @@ public class Operand extends AbstractSequenceNode implements ISequenceEvent {
      * {@inheritDoc}
      */
     @Override
-    public Option<Lifeline> getLifeline() {
-        return Options.newNone();
+    public java.util.Optional<Lifeline> getLifeline() {
+        return java.util.Optional.empty();
     }
 
     @Override
@@ -180,16 +180,16 @@ public class Operand extends AbstractSequenceNode implements ISequenceEvent {
         EObject viewContainer = this.view.eContainer();
         if (viewContainer instanceof View) {
             View parentView = (View) viewContainer;
-            Option<CombinedFragment> parentElement = ISequenceElementAccessor.getCombinedFragment(parentView);
+            java.util.Optional<CombinedFragment> parentElement = ISequenceElementAccessor.getCombinedFragment(parentView);
             // The parent should be the compartment of the Combined Fragment
-            if (parentElement.some()) {
+            if (parentElement.isPresent()) {
                 return parentElement.get();
             } else {
                 // The grand parent should be the Combined Fragment we are
                 // looking for
                 View grandParentView = (View) viewContainer.eContainer();
-                Option<CombinedFragment> grandparentElement = ISequenceElementAccessor.getCombinedFragment(grandParentView);
-                if (grandparentElement.some()) {
+                java.util.Optional<CombinedFragment> grandparentElement = ISequenceElementAccessor.getCombinedFragment(grandParentView);
+                if (grandparentElement.isPresent()) {
                     return grandparentElement.get();
                 }
             }
@@ -231,9 +231,9 @@ public class Operand extends AbstractSequenceNode implements ISequenceEvent {
     /**
      * Finds the following operand.
      * 
-     * @return the following operand if existing, Options.newNone() otherwise
+     * @return the following operand if existing, java.util.Optional.empty() otherwise
      */
-    public Option<Operand> getFollowingOperand() {
+    public java.util.Optional<Operand> getFollowingOperand() {
         CombinedFragment combinedFragment = getCombinedFragment();
         return combinedFragment.getOperand(combinedFragment.getIndexOfOperand(this) + 1);
     }
@@ -241,9 +241,9 @@ public class Operand extends AbstractSequenceNode implements ISequenceEvent {
     /**
      * Finds the previous operand.
      * 
-     * @return the previous operand if existing, Options.newNone() otherwise
+     * @return the previous operand if existing, java.util.Optional.empty() otherwise
      */
-    public Option<Operand> getPreviousOperand() {
+    public java.util.Optional<Operand> getPreviousOperand() {
         CombinedFragment combinedFragment = getCombinedFragment();
         return combinedFragment.getOperand(combinedFragment.getIndexOfOperand(this) - 1);
     }
@@ -299,7 +299,7 @@ public class Operand extends AbstractSequenceNode implements ISequenceEvent {
     }
 
     @Override
-    public Option<Operand> getParentOperand() {
+    public java.util.Optional<Operand> getParentOperand() {
         return getCombinedFragment().getParentOperand();
     }
 

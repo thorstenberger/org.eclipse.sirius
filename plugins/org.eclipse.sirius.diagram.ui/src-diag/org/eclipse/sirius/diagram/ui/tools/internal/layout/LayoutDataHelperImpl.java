@@ -44,7 +44,7 @@ import org.eclipse.sirius.diagram.ui.tools.api.layout.LayoutDataHelper;
 import org.eclipse.sirius.diagram.ui.tools.api.layout.LayoutDataKey;
 import org.eclipse.sirius.diagram.ui.tools.internal.layout.semantic.SemanticEdgeLayoutDataKey;
 import org.eclipse.sirius.diagram.ui.tools.internal.layout.semantic.SemanticNodeLayoutDataKey;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.draw2d.figure.FigureUtilities;
 import org.eclipse.sirius.viewpoint.DStylizable;
 
@@ -102,8 +102,8 @@ public class LayoutDataHelperImpl implements LayoutDataHelper {
             LayoutConstraint layoutConstraint = node.getLayoutConstraint();
             if (layoutConstraint instanceof Bounds) {
                 NodeQuery nodeQuery = new NodeQuery(node);
-                Option<Bounds> option = nodeQuery.getExtendedBounds();
-                if (option.some()) {
+                java.util.Optional<Bounds> option = nodeQuery.getExtendedBounds();
+                if (option.isPresent()) {
                     Bounds unCollapseBounds = option.get();
                     int deltaX = ((Bounds) layoutConstraint).getX() - unCollapseBounds.getX();
                     int deltaY = ((Bounds) layoutConstraint).getY() - unCollapseBounds.getY();

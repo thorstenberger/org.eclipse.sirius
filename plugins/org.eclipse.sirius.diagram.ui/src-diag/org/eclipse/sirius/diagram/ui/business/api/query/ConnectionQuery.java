@@ -22,8 +22,8 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gmf.runtime.draw2d.ui.geometry.LineSeg;
 import org.eclipse.gmf.runtime.draw2d.ui.internal.routers.ITreeConnection;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterators;
@@ -162,7 +162,7 @@ public class ConnectionQuery {
      * 
      * @return an optional list of {@link RelativeBendpoint}
      */
-    public Option<List<RelativeBendpoint>> getTreeRelativeBendpointsConstraint() {
+    public java.util.Optional<List<RelativeBendpoint>> getTreeRelativeBendpointsConstraint() {
 
         Object cons = connection.getRoutingConstraint();
         if (cons instanceof List) {
@@ -170,7 +170,7 @@ public class ConnectionQuery {
                 return getRelativeBendpointsConstraint();
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -183,7 +183,7 @@ public class ConnectionQuery {
      * 
      * @return an optional list of {@link AbsoluteBendpoint}
      */
-    public Option<List<AbsoluteBendpoint>> getTreeAbsoluteBendpointsConstraint() {
+    public java.util.Optional<List<AbsoluteBendpoint>> getTreeAbsoluteBendpointsConstraint() {
 
         Object cons = connection.getRoutingConstraint();
         if (cons instanceof List) {
@@ -191,7 +191,7 @@ public class ConnectionQuery {
                 return getAbsoluteBendpointsConstraint();
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -200,7 +200,7 @@ public class ConnectionQuery {
      * 
      * @return an optional list of {@link AbsoluteBendpoint}
      */
-    public Option<List<AbsoluteBendpoint>> getAbsoluteBendpointsConstraint() {
+    public java.util.Optional<List<AbsoluteBendpoint>> getAbsoluteBendpointsConstraint() {
 
         Object cons = connection.getRoutingConstraint();
         if (cons instanceof List) {
@@ -210,10 +210,10 @@ public class ConnectionQuery {
                 for (Object object : constraintsList) {
                     result.add((AbsoluteBendpoint) object);
                 }
-                return Options.newSome(result);
+                return java.util.Optional.of(result);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -222,7 +222,7 @@ public class ConnectionQuery {
      * 
      * @return an optional list of {@link RelativeBendpoint}
      */
-    public Option<List<RelativeBendpoint>> getRelativeBendpointsConstraint() {
+    public java.util.Optional<List<RelativeBendpoint>> getRelativeBendpointsConstraint() {
 
         Object cons = connection.getRoutingConstraint();
         if (cons instanceof List) {
@@ -232,9 +232,9 @@ public class ConnectionQuery {
                 for (Object object : constraintsList) {
                     result.add((RelativeBendpoint) object);
                 }
-                return Options.newSome(result);
+                return java.util.Optional.of(result);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 }

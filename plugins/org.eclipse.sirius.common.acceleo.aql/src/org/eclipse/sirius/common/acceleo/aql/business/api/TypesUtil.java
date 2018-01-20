@@ -66,7 +66,7 @@ public final class TypesUtil {
             VariableType typeName = varDef.getValue();
             final Set<IType> potentialTypes = new LinkedHashSet<IType>(2);
             for (TypeName possibleVariableTypes : typeName.getPossibleTypes()) {
-                if (possibleVariableTypes.getJavaClass().some()) {
+                if (possibleVariableTypes.getJavaClass().isPresent()) {
                     potentialTypes.add(new ClassType(queryEnvironment, possibleVariableTypes.getJavaClass().get()));
                 } else {
                     potentialTypes.addAll(searchEClassifierType(queryEnvironment, possibleVariableTypes));
@@ -82,11 +82,11 @@ public final class TypesUtil {
 
     private static Collection<IType> searchEClassifierType(IQueryEnvironment queryEnvironment, TypeName targetTypeName) {
         Collection<IType> types = new LinkedHashSet<>();
-        if (targetTypeName.getJavaClass().some()) {
+        if (targetTypeName.getJavaClass().isPresent()) {
             types.add(new ClassType(queryEnvironment, targetTypeName.getJavaClass().get()));
         } else {
             Collection<EClassifier> found = new LinkedHashSet<>();
-            if (targetTypeName.getPackagePrefix().some()) {
+            if (targetTypeName.getPackagePrefix().isPresent()) {
                 String typeName = targetTypeName.getClassifierName();
                 String name = targetTypeName.getPackagePrefix().get();
                 found.addAll(queryEnvironment.getEPackageProvider().getTypes(name, typeName));

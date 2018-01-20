@@ -68,7 +68,7 @@ import org.eclipse.sirius.diagram.ui.tools.api.util.GMFNotationHelper;
 import org.eclipse.sirius.diagram.ui.tools.internal.commands.emf.CopyToSiriusClipboardCommand;
 import org.eclipse.sirius.diagram.ui.tools.internal.commands.emf.PasteFromSiriusClipboardCommand;
 import org.eclipse.sirius.diagram.ui.tools.internal.delete.DeleteWrapperHookExecutorCommand;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.sirius.viewpoint.SiriusPlugin;
@@ -524,8 +524,8 @@ public class SiriusClipboardGlobalActionHandler extends ImageSupportGlobalAction
     private boolean safeDecorator(DSemanticDecorator dec) {
         boolean safe = dec.getTarget() != null;
         if (dec instanceof DEdge) {
-            Option<EdgeMapping> edgeMapping = new IEdgeMappingQuery(((DEdge) dec).getActualMapping()).getEdgeMapping();
-            if (!(edgeMapping.some() && edgeMapping.get().isUseDomainElement())) {
+            java.util.Optional<EdgeMapping> edgeMapping = new IEdgeMappingQuery(((DEdge) dec).getActualMapping()).getEdgeMapping();
+            if (!(edgeMapping.isPresent() && edgeMapping.get().isUseDomainElement())) {
                 safe = false;
             }
         }

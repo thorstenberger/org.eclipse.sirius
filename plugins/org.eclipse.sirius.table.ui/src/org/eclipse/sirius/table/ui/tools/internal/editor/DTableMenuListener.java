@@ -36,7 +36,7 @@ import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.common.tools.api.interpreter.EvaluationException;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreter;
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.table.business.api.helper.TableHelper;
 import org.eclipse.sirius.table.metamodel.table.DCell;
 import org.eclipse.sirius.table.metamodel.table.DColumn;
@@ -390,8 +390,8 @@ public class DTableMenuListener implements IMenuListener {
             DLine firstSelectedLine = selectedLines.iterator().next();
             if (treeViewManager.getActiveColumn() > 0) {
                 final DColumn column = dTable.getColumns().get(treeViewManager.getActiveColumn() - 1);
-                Option<DCell> optionalCell = TableHelper.getCell(firstSelectedLine, column);
-                if (optionalCell.some()) {
+                java.util.Optional<DCell> optionalCell = TableHelper.getCell(firstSelectedLine, column);
+                if (optionalCell.isPresent()) {
                     result = optionalCell.get();
                 }
             } else {

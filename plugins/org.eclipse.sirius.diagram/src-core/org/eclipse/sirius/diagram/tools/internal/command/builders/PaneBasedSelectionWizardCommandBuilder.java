@@ -24,7 +24,7 @@ import org.eclipse.sirius.common.tools.api.util.EObjectCollectionWrapper;
 import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.business.api.query.EObjectQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.tools.api.interpreter.InterpreterUtil;
 import org.eclipse.sirius.tools.internal.command.builders.ElementsToSelectTask;
@@ -78,8 +78,8 @@ public class PaneBasedSelectionWizardCommandBuilder extends AbstractDiagramComma
         final DCommand result = createEnclosingCommand();
         final IInterpreter interpreter = InterpreterUtil.getInterpreter(containerView);
         if (checkGenericToolPrecondition(interpreter)) {
-            Option<DDiagram> representation = getDDiagram();
-            if (representation.some() && tool.getInitialOperation() != null && tool.getInitialOperation().getFirstModelOperations() != null) {
+            java.util.Optional<DDiagram> representation = getDDiagram();
+            if (representation.isPresent() && tool.getInitialOperation() != null && tool.getInitialOperation().getFirstModelOperations() != null) {
                 addPreOperationTasks(result, interpreter);
 
                 result.getTasks().add(taskHelper.buildTaskFromModelOperation(representation.get(), containerView.getTarget(), tool.getInitialOperation().getFirstModelOperations()));
@@ -120,7 +120,7 @@ public class PaneBasedSelectionWizardCommandBuilder extends AbstractDiagramComma
         } else if (containerView instanceof DDiagram) {
             addRefreshTask((DDiagram) containerView, command, tool);
         }
-        Option<DDiagram> parentDiagram = new EObjectQuery(containerView).getParentDiagram();
+        java.util.Optional<DDiagram> parentDiagram = new EObjectQuery(containerView).getParentDiagram();
         command.getTasks().add(new ElementsToSelectTask(tool, interpreter, containerView.getTarget(), parentDiagram.get()));
     }
 
@@ -171,7 +171,7 @@ public class PaneBasedSelectionWizardCommandBuilder extends AbstractDiagramComma
      * {@inheritDoc}
      */
     @Override
-    protected Option<DDiagram> getDDiagram() {
+    protected java.util.Optional<DDiagram> getDDiagram() {
         return new EObjectQuery(containerView).getParentDiagram();
     }
 }

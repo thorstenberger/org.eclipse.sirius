@@ -29,7 +29,7 @@ import org.eclipse.sirius.business.api.query.FileQuery;
 import org.eclipse.sirius.business.api.resource.strategy.ResourceStrategyRegistry;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.internal.query.ResourceDeltaQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * The visitor used to detect emf resources changes.
@@ -98,9 +98,9 @@ public class ResourceDeltaVisitor implements IResourceDeltaVisitor {
         // IResourceDelta.OPEN can not be used for detecting closing of
         // modeling project because we have not access to nature after
         // project closing.
-        final Option<ModelingProject> optionalModelingProject = ModelingProject.asModelingProject(project);
+        final java.util.Optional<ModelingProject> optionalModelingProject = ModelingProject.asModelingProject(project);
         if (project != null) {
-            if (optionalModelingProject.some()) {
+            if (optionalModelingProject.isPresent()) {
                 if (IResourceDelta.ADDED == delta.getKind() && !project.isSynchronized(IResource.DEPTH_INFINITE)) {
                     // After importing a project, we have this first
                     // notification, but the project is not synchronized so
@@ -162,8 +162,8 @@ public class ResourceDeltaVisitor implements IResourceDeltaVisitor {
     protected boolean visitFile(IResourceDelta delta, IFile file) {
         boolean visitChildren = true;
         IProject project = file.getProject();
-        Option<ModelingProject> modelingProject = ModelingProject.asModelingProject(project);
-        if (project != null && modelingProject.some() && !projectsToInitializeAndLoad.contains(modelingProject.get()) && !projectsToInitialize.contains(project)) {
+        java.util.Optional<ModelingProject> modelingProject = ModelingProject.asModelingProject(project);
+        if (project != null && modelingProject.isPresent() && !projectsToInitializeAndLoad.contains(modelingProject.get()) && !projectsToInitialize.contains(project)) {
             // If the modelingProject is in the list to initialize do
             // nothing on its files
             final Session session = modelingProject.get().getSession();

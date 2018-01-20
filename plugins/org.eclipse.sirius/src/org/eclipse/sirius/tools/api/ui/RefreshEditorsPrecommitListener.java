@@ -29,8 +29,8 @@ import org.eclipse.sirius.business.api.session.ModelChangeTrigger;
 import org.eclipse.sirius.business.api.session.SessionListener;
 import org.eclipse.sirius.business.internal.dialect.command.RefreshImpactedElementsCommand;
 import org.eclipse.sirius.business.internal.session.danalysis.DanglingRefRemovalTrigger;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tools.api.command.ui.RefreshFilterManager;
 import org.eclipse.sirius.tools.internal.ui.RefreshHelper;
 import org.eclipse.sirius.viewpoint.DRepresentation;
@@ -119,7 +119,7 @@ public class RefreshEditorsPrecommitListener implements ModelChangeTrigger, Sess
      * another thing that an aird Resource.
      */
     @Override
-    public Option<Command> localChangesAboutToCommit(Collection<Notification> notifications) {
+    public java.util.Optional<Command> localChangesAboutToCommit(Collection<Notification> notifications) {
         Command result = null;
         if (!disabled) {
             if (needsRefresh()) {
@@ -127,22 +127,22 @@ public class RefreshEditorsPrecommitListener implements ModelChangeTrigger, Sess
                 // Do nothing if the notification concern only elements of aird
                 // resource and that the representationsToForceRefresh is empty.
                 if (impactingNotification || !representationsToForceRefresh.isEmpty()) {
-                    Option<? extends Command> optionCommand = getRefreshOpenedRepresentationsCommand(impactingNotification);
-                    if (optionCommand.some()) {
+                    java.util.Optional<? extends Command> optionCommand = getRefreshOpenedRepresentationsCommand(impactingNotification);
+                    if (optionCommand.isPresent()) {
                         result = optionCommand.get();
                     }
                 }
                 setForceRefresh(false);
                 representationsToForceRefresh.clear();
             } else if (RefreshHelper.isImpactingNotification(notifications)) {
-                Option<? extends Command> optionCommand = getRefreshImpactedElementsCommandForOpenedRepresentations(notifications);
-                if (optionCommand.some()) {
+                java.util.Optional<? extends Command> optionCommand = getRefreshImpactedElementsCommandForOpenedRepresentations(notifications);
+                if (optionCommand.isPresent()) {
                     result = optionCommand.get();
                 }
             }
         }
         disabled = false;
-        return Options.newSome(result);
+        return java.util.Optional.of(result);
     }
 
     /**
@@ -153,10 +153,10 @@ public class RefreshEditorsPrecommitListener implements ModelChangeTrigger, Sess
      *            session, false otherwise
      * @return An optional command if at least one refresh is needed.
      */
-    private Option<? extends Command> getRefreshOpenedRepresentationsCommand(boolean isChanged) {
+    private java.util.Optional<? extends Command> getRefreshOpenedRepresentationsCommand(boolean isChanged) {
         // Get all Sirius editors (that respects the
         // DialectEditor interface) */
-        Option<? extends Command> result = Options.newNone();
+        java.util.Optional<? extends Command> result = java.util.Optional.empty();
         Collection<DRepresentation> representationsToRefresh = new LinkedHashSet<DRepresentation>();
         // if ForceRefresh is activate and automaticRefresh is disable, only the current diagram is refreshed.
         if (isChanged && isAutoRefresh()) {
@@ -177,7 +177,7 @@ public class RefreshEditorsPrecommitListener implements ModelChangeTrigger, Sess
             }
             postRefreshCommandFactories.clear();
 
-            result = Options.newSome(cc);
+            result = java.util.Optional.of(cc);
         }
         return result;
     }
@@ -196,8 +196,8 @@ public class RefreshEditorsPrecommitListener implements ModelChangeTrigger, Sess
         }
     }
 
-    private Option<? extends Command> getRefreshImpactedElementsCommandForOpenedRepresentations(Collection<Notification> notifications) {
-        Option<? extends Command> result = Options.newNone();
+    private java.util.Optional<? extends Command> getRefreshImpactedElementsCommandForOpenedRepresentations(Collection<Notification> notifications) {
+        java.util.Optional<? extends Command> result = java.util.Optional.empty();
         Collection<DRepresentation> representationsToRefresh = new LinkedHashSet<DRepresentation>();
         representationsToRefresh.addAll(RefreshFilterManager.INSTANCE.getOpenedRepresantationsToRefresh());
 
@@ -206,7 +206,7 @@ public class RefreshEditorsPrecommitListener implements ModelChangeTrigger, Sess
         if (!representationsToRefresh.isEmpty()) {
             CompoundCommand cc = new CompoundCommand();
             cc.append(new RefreshImpactedElementsCommand(transactionalEditingDomain, new NullProgressMonitor(), representationsToRefresh, notifications));
-            result = Options.newSome(cc);
+            result = java.util.Optional.of(cc);
         }
         return result;
     }
@@ -254,9 +254,9 @@ public class RefreshEditorsPrecommitListener implements ModelChangeTrigger, Sess
                 // because
                 // of an outside modification of the resource) so we must also
                 // launch a refresh.
-                Option<? extends Command> optionCommand = getRefreshOpenedRepresentationsCommand(true);
+                java.util.Optional<? extends Command> optionCommand = getRefreshOpenedRepresentationsCommand(true);
                 representationsToForceRefresh.clear();
-                if (optionCommand.some()) {
+                if (optionCommand.isPresent()) {
                     transactionalEditingDomain.getCommandStack().execute(optionCommand.get());
                 }
             }

@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * The {@link TimeProfiler} is useful to gather time information while executing
@@ -115,8 +115,8 @@ public class TimeProfiler {
      */
     public void startWork(final String profilerTaskKey) {
         if (isActive) {
-            Option<ProfilerTask> option = TimeProfiler.PROFILER_TASK_REGISTRY.get(profilerTaskKey);
-            if (option.some()) {
+            java.util.Optional<ProfilerTask> option = TimeProfiler.PROFILER_TASK_REGISTRY.get(profilerTaskKey);
+            if (option.isPresent()) {
                 startWork(option.get());
             }
         }
@@ -148,8 +148,8 @@ public class TimeProfiler {
      */
     public void stopWork(final String profilerTaskKey) {
         if (isActive) {
-            Option<ProfilerTask> option = TimeProfiler.PROFILER_TASK_REGISTRY.get(profilerTaskKey);
-            if (option.some()) {
+            java.util.Optional<ProfilerTask> option = TimeProfiler.PROFILER_TASK_REGISTRY.get(profilerTaskKey);
+            if (option.isPresent()) {
                 stopWork(option.get());
             }
         }
@@ -209,8 +209,8 @@ public class TimeProfiler {
      * @return the number of consecutive calls
      */
     public int getCountTask(final String profilerTaskKey) {
-        Option<ProfilerTask> option = TimeProfiler.PROFILER_TASK_REGISTRY.get(profilerTaskKey);
-        if (option.some()) {
+        java.util.Optional<ProfilerTask> option = TimeProfiler.PROFILER_TASK_REGISTRY.get(profilerTaskKey);
+        if (option.isPresent()) {
             return getCountTask(option.get());
         }
         return 0;

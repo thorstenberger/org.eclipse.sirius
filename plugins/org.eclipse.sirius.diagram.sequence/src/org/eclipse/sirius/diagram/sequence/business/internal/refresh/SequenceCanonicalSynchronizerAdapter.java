@@ -61,8 +61,8 @@ import org.eclipse.sirius.diagram.ui.business.api.view.SiriusLayoutDataManager;
 import org.eclipse.sirius.diagram.ui.business.internal.view.LayoutData;
 import org.eclipse.sirius.diagram.ui.internal.refresh.listeners.FilterListener;
 import org.eclipse.sirius.diagram.ui.tools.internal.edit.command.CommandFactory;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
@@ -88,8 +88,8 @@ public class SequenceCanonicalSynchronizerAdapter implements ModelChangeTrigger 
      * 
      * {@inheritDoc}
      */
-    public Option<Command> localChangesAboutToCommit(Collection<Notification> notifications) {
-        Option<Command> result;
+    public java.util.Optional<Command> localChangesAboutToCommit(Collection<Notification> notifications) {
+        java.util.Optional<Command> result;
         CompoundCommand compoundCommand = new CompoundCommand();
         for (Notification notification : notifications) {
             Object newValue = notification.getNewValue();
@@ -112,13 +112,13 @@ public class SequenceCanonicalSynchronizerAdapter implements ModelChangeTrigger 
             }
         }
         Command cmd = compoundCommand;
-        result = Options.newSome(cmd);
+        result = java.util.Optional.of(cmd);
         return result;
     }
 
     private void cancelArrangeNewNodeCommandforSequenceDiagram(Node newNode) {
         Diagram diagram = newNode.getDiagram();
-        if (diagram != null && ISequenceElementAccessor.getSequenceDiagram(diagram).some()) {
+        if (diagram != null && ISequenceElementAccessor.getSequenceDiagram(diagram).isPresent()) {
             Map<Diagram, Set<View>> viewToArrangeCenter = SiriusLayoutDataManager.INSTANCE.getCreatedViewWithCenterLayout();
             Map<Diagram, Set<View>> viewToArrange = SiriusLayoutDataManager.INSTANCE.getCreatedViewsToLayout();
 
@@ -139,7 +139,7 @@ public class SequenceCanonicalSynchronizerAdapter implements ModelChangeTrigger 
         EObject element = newNode.getElement();
         EObject eContainer = element.eContainer();
         TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(newNode);
-        if (eContainer instanceof AbstractDNode && ISequenceElementAccessor.getISequenceNode(newNode).some()) {
+        if (eContainer instanceof AbstractDNode && ISequenceElementAccessor.getISequenceNode(newNode).isPresent()) {
             AbstractDNode containerDNode = (AbstractDNode) eContainer;
             if (containerDNode.getOwnedBorderedNodes().contains(element) && element instanceof AbstractDNode) {
                 AbstractDNode borderedDNode = (AbstractDNode) element;
@@ -166,8 +166,8 @@ public class SequenceCanonicalSynchronizerAdapter implements ModelChangeTrigger 
             } else {
                 // Set height of operand to -1 to have
                 // SequenceVerticalLayout set the size correctly
-                Option<Operand> operandOption = ISequenceElementAccessor.getOperand(newNode);
-                if (operandOption.some()) {
+                java.util.Optional<Operand> operandOption = ISequenceElementAccessor.getOperand(newNode);
+                if (operandOption.isPresent()) {
                     Command resetOperandHeightCmd = SetCommand.create(domain, newNode.getLayoutConstraint(), NotationPackage.Literals.SIZE__HEIGHT, -1);
                     fixSequenceNodeLowerBoundCmd = resetOperandHeightCmd;
                     Command resetOperandWidthCmd = SetCommand.create(domain, newNode.getLayoutConstraint(), NotationPackage.Literals.SIZE__WIDTH, -1);
@@ -177,15 +177,15 @@ public class SequenceCanonicalSynchronizerAdapter implements ModelChangeTrigger 
         } else {
             // Set height of combined fragment to -1 to have
             // SequenceVerticalLayout set the size correctly
-            Option<CombinedFragment> combinedFragmentOption = ISequenceElementAccessor.getCombinedFragment(newNode);
-            if (combinedFragmentOption.some() && ((Bounds) newNode.getLayoutConstraint()).getHeight() == LayoutConstants.DEFAULT_COMBINED_FRAGMENT_HEIGHT) {
+            java.util.Optional<CombinedFragment> combinedFragmentOption = ISequenceElementAccessor.getCombinedFragment(newNode);
+            if (combinedFragmentOption.isPresent() && ((Bounds) newNode.getLayoutConstraint()).getHeight() == LayoutConstants.DEFAULT_COMBINED_FRAGMENT_HEIGHT) {
                 Command resetCombinedFragmentHeightCmd = SetCommand.create(domain, newNode.getLayoutConstraint(), NotationPackage.Literals.SIZE__HEIGHT, -1);
                 fixSequenceNodeLowerBoundCmd = resetCombinedFragmentHeightCmd;
                 Command resetCombinedFragmentWidthCmd = SetCommand.create(domain, newNode.getLayoutConstraint(), NotationPackage.Literals.SIZE__WIDTH, -1);
                 fixSequenceNodeLowerBoundCmd = fixSequenceNodeLowerBoundCmd.chain(resetCombinedFragmentWidthCmd);
             } else {
-                Option<InteractionUse> interactionUseOption = ISequenceElementAccessor.getInteractionUse(newNode);
-                if (interactionUseOption.some() && ((Bounds) newNode.getLayoutConstraint()).getHeight() == LayoutConstants.DEFAULT_INTERACTION_USE_HEIGHT) {
+                java.util.Optional<InteractionUse> interactionUseOption = ISequenceElementAccessor.getInteractionUse(newNode);
+                if (interactionUseOption.isPresent() && ((Bounds) newNode.getLayoutConstraint()).getHeight() == LayoutConstants.DEFAULT_INTERACTION_USE_HEIGHT) {
                     Command resetInteractionUseHeightCmd = SetCommand.create(domain, newNode.getLayoutConstraint(), NotationPackage.Literals.SIZE__HEIGHT, -1);
                     fixSequenceNodeLowerBoundCmd = resetInteractionUseHeightCmd;
                     Command resetInteractionUseWidthCmd = SetCommand.create(domain, newNode.getLayoutConstraint(), NotationPackage.Literals.SIZE__WIDTH, -1);
@@ -223,9 +223,9 @@ public class SequenceCanonicalSynchronizerAdapter implements ModelChangeTrigger 
 
     private Command getFlaggedRangeApplicationCommand(View newView, TransactionalEditingDomain domain) {
         Command flagCommand = null;
-        Option<ISequenceEvent> ise = ISequenceElementAccessor.getISequenceEvent(newView);
+        java.util.Optional<ISequenceEvent> ise = ISequenceElementAccessor.getISequenceEvent(newView);
 
-        if (ise.some()) {
+        if (ise.isPresent()) {
             Rectangle flag = new ISequenceElementQuery(ise.get()).getFlaggedAbsoluteBounds();
 
             // Sequence Refresh extension could report an existing flag
@@ -253,13 +253,13 @@ public class SequenceCanonicalSynchronizerAdapter implements ModelChangeTrigger 
      * take the maximum available space up to the next event.
      */
     private void expandSimpleExecution(Node newNode, Command fixSequenceNodeLowerBoundCmd, TransactionalEditingDomain domain, int y) {
-        Option<Execution> execOption = ISequenceElementAccessor.getExecution(newNode);
-        if (execOption.some() && newNode.getSourceEdges().isEmpty() && newNode.getTargetEdges().isEmpty()) {
+        java.util.Optional<Execution> execOption = ISequenceElementAccessor.getExecution(newNode);
+        if (execOption.isPresent() && newNode.getSourceEdges().isEmpty() && newNode.getTargetEdges().isEmpty()) {
             Execution execution = execOption.get();
             View parentView = (View) newNode.eContainer();
-            Option<ISequenceEvent> parentSequenceEvent = ISequenceElementAccessor.getISequenceEvent(parentView);
+            java.util.Optional<ISequenceEvent> parentSequenceEvent = ISequenceElementAccessor.getISequenceEvent(parentView);
             Range parentEventRange = null;
-            if (parentSequenceEvent.some()) {
+            if (parentSequenceEvent.isPresent()) {
                 parentEventRange = parentSequenceEvent.get().getVerticalRange();
             }
 
@@ -335,7 +335,7 @@ public class SequenceCanonicalSynchronizerAdapter implements ModelChangeTrigger 
 
     private Command getFixBendpointsForSequenceMessageCmd(final Edge newEdge) {
         Command changeBendpointsCmd = null;
-        if (newEdge != null && ISequenceElementAccessor.getMessage(newEdge).some()) {
+        if (newEdge != null && ISequenceElementAccessor.getMessage(newEdge).isPresent()) {
             TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(newEdge);
             changeBendpointsCmd = new FixBendpointsOnCreationCommand(domain, newEdge);
             changeBendpointsCmd = changeBendpointsCmd.chain(getFlaggedRangeApplicationCommand(newEdge, domain));

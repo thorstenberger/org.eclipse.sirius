@@ -30,7 +30,7 @@ import org.eclipse.sirius.diagram.ui.internal.edit.parts.DEdgeNameEditPart;
 import org.eclipse.sirius.diagram.ui.tools.api.figure.SiriusWrapLabel;
 import org.eclipse.sirius.diagram.ui.tools.api.graphical.edit.styles.IStyleConfigurationRegistry;
 import org.eclipse.sirius.diagram.ui.tools.api.graphical.edit.styles.StyleConfiguration;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ui.tools.api.color.VisualBindingManager;
 import org.eclipse.sirius.viewpoint.BasicLabelStyle;
 import org.eclipse.sirius.viewpoint.DStylizable;
@@ -66,22 +66,22 @@ public final class DiagramNameEditPartOperation {
             Style style = null;
 
             if (self instanceof DEdgeBeginNameEditPart && eObj instanceof DEdge) {
-                Option<BeginLabelStyle> beginLabelStyle = new DEdgeQuery((DEdge) eObj).getBeginLabelStyle();
-                if (beginLabelStyle.some()) {
+                java.util.Optional<BeginLabelStyle> beginLabelStyle = new DEdgeQuery((DEdge) eObj).getBeginLabelStyle();
+                if (beginLabelStyle.isPresent()) {
                     DiagramNameEditPartOperation.refreshFont(self, figure, beginLabelStyle.get());
                 } else {
                     figure.setVisible(false);
                 }
             } else if (self instanceof DEdgeEndNameEditPart && eObj instanceof DEdge) {
-                Option<EndLabelStyle> endLabelStyle = new DEdgeQuery((DEdge) eObj).getEndLabelStyle();
-                if (endLabelStyle.some()) {
+                java.util.Optional<EndLabelStyle> endLabelStyle = new DEdgeQuery((DEdge) eObj).getEndLabelStyle();
+                if (endLabelStyle.isPresent()) {
                     DiagramNameEditPartOperation.refreshFont(self, figure, endLabelStyle.get());
                 } else {
                     figure.setVisible(false);
                 }
             } else if (self instanceof DEdgeNameEditPart && eObj instanceof DEdge) {
-                Option<CenterLabelStyle> centerLabelStyle = new DEdgeQuery((DEdge) eObj).getCenterLabelStyle();
-                if (centerLabelStyle.some()) {
+                java.util.Optional<CenterLabelStyle> centerLabelStyle = new DEdgeQuery((DEdge) eObj).getCenterLabelStyle();
+                if (centerLabelStyle.isPresent()) {
                     DiagramNameEditPartOperation.refreshFont(self, figure, centerLabelStyle.get());
                 } else {
                     figure.setVisible(false);

@@ -20,7 +20,7 @@ import org.eclipse.sirius.business.api.componentization.ISiriusComponent;
 import org.eclipse.sirius.business.api.query.ViewpointQuery;
 import org.eclipse.sirius.business.internal.movida.registry.ViewpointRegistry;
 import org.eclipse.sirius.common.tools.api.util.EclipseUtil;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
 
 import com.google.common.base.Predicate;
@@ -106,8 +106,8 @@ public class LegacyPluginMonitor extends AbstractViewpointResourceMonitor {
      */
     public void disposeFromPlugin(Viewpoint viewpoint) {
         if (viewpoint != null) {
-            Option<URI> uri = new ViewpointQuery(viewpoint).getViewpointURI();
-            if (uri.some()) {
+            java.util.Optional<URI> uri = new ViewpointQuery(viewpoint).getViewpointURI();
+            if (uri.isPresent()) {
                 notifyResourcesEvents(Collections.singleton(uri.get()), Collections.<URI> emptySet(), Collections.<URI> emptySet());
                 knownURIs.remove(uri.get());
             }

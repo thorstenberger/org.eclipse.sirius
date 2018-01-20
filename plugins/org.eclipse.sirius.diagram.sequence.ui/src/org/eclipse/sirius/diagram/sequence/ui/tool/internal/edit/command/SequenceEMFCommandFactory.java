@@ -36,7 +36,7 @@ import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.SequenceDi
 import org.eclipse.sirius.diagram.sequence.util.Range;
 import org.eclipse.sirius.diagram.tools.internal.command.UndoRedoCapableEMFCommandFactory;
 import org.eclipse.sirius.diagram.ui.tools.internal.edit.command.CommandFactory;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * A custom EMF Command Factory to specialize the delete behavior for sequence
@@ -128,9 +128,9 @@ public final class SequenceEMFCommandFactory extends UndoRedoCapableEMFCommandFa
              */
             return UnexecutableCommand.INSTANCE;
         }
-        Option<Operand> absorbingOperand = getAbsorbingOperand(deletedOperand);
-        assert absorbingOperand.some();
-        if (absorbingOperand.some()) {
+        java.util.Optional<Operand> absorbingOperand = getAbsorbingOperand(deletedOperand);
+        assert absorbingOperand.isPresent();
+        if (absorbingOperand.isPresent()) {
             Range expandedRange = absorbingOperand.get().getVerticalRange().union(deletedOperand.getVerticalRange());
             cc.append(CommandFactory.createRecordingCommand(ted, new SetVerticalRangeOperation(absorbingOperand.get(), expandedRange)));
             cc.append(CommandFactory.createRecordingCommand(ted, new RefreshSemanticOrderingsOperation((SequenceDDiagram) sdep.resolveSemanticElement())));
@@ -145,7 +145,7 @@ public final class SequenceEMFCommandFactory extends UndoRedoCapableEMFCommandFa
      * Returns the sibling operand which should absorb the space previously
      * occupied by the operand about to be deleted.
      */
-    private Option<Operand> getAbsorbingOperand(Operand deletedOperand) {
+    private java.util.Optional<Operand> getAbsorbingOperand(Operand deletedOperand) {
         assert deletedOperand != null;
         if (deletedOperand.isFirstOperand()) {
             return deletedOperand.getFollowingOperand();

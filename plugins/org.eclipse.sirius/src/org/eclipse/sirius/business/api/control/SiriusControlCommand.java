@@ -30,7 +30,7 @@ import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.business.api.session.danalysis.DAnalysisSession;
 import org.eclipse.sirius.business.api.session.danalysis.DAnalysisSessionHelper;
 import org.eclipse.sirius.business.internal.command.control.ControlCommand;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DView;
@@ -256,8 +256,8 @@ public class SiriusControlCommand extends ControlCommand {
             if (Iterables.contains(releventModels, semanticParentRoot)) {
                 List<DAnalysis> referencedAnalysis = new ArrayList<DAnalysis>(currentAnalysis.getReferencedAnalysis());
                 for (DAnalysis childrenAnalysis : referencedAnalysis) {
-                    Option<EObject> optionalChildrenMainModel = new DAnalysisQuery(childrenAnalysis).getMainModel();
-                    if (optionalChildrenMainModel.some() && new EObjectQuery(optionalChildrenMainModel.get()).isContainedIn(semanticObjectToControl)) {
+                    java.util.Optional<EObject> optionalChildrenMainModel = new DAnalysisQuery(childrenAnalysis).getMainModel();
+                    if (optionalChildrenMainModel.isPresent() && new EObjectQuery(optionalChildrenMainModel.get()).isContainedIn(semanticObjectToControl)) {
                         currentAnalysis.getReferencedAnalysis().remove(childrenAnalysis);
                         newDAnalysis.getReferencedAnalysis().add(childrenAnalysis);
                     }

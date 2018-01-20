@@ -39,7 +39,7 @@ import org.eclipse.sirius.diagram.description.tool.ContainerCreationDescription;
 import org.eclipse.sirius.diagram.tools.api.preferences.SiriusDiagramPreferencesKeys;
 import org.eclipse.sirius.diagram.tools.api.refresh.BestMappingGetter;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
@@ -90,8 +90,8 @@ public class CreateContainerTask extends AbstractCommandTask implements ICreatio
     public void execute() {
         EObjectQuery eObjectQuery = new EObjectQuery(containerView);
         Session session = eObjectQuery.getSession();
-        Option<DDiagram> parentDiagramOption = eObjectQuery.getParentDiagram();
-        if (parentDiagramOption.some() && parentDiagramOption.get() instanceof DSemanticDiagram) {
+        java.util.Optional<DDiagram> parentDiagramOption = eObjectQuery.getParentDiagram();
+        if (parentDiagramOption.isPresent() && parentDiagramOption.get() instanceof DSemanticDiagram) {
             DSemanticDiagram dSemanticDiagram = (DSemanticDiagram) parentDiagramOption.get();
             createContainers(session, dSemanticDiagram);
         }

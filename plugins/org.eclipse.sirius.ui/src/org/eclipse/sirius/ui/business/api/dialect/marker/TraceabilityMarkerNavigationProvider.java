@@ -35,8 +35,8 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.common.ui.tools.api.util.EclipseUIUtil;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ui.business.api.dialect.DialectEditor;
 import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
 import org.eclipse.sirius.ui.business.api.session.IEditingSession;
@@ -111,7 +111,7 @@ public class TraceabilityMarkerNavigationProvider implements IGotoMarker {
      * The editor that have called this MarkerNavigationProvider. It's optional
      * as we might be called and not having an editor.
      */
-    private Option<DialectEditor> currentEditor = Options.newNone();
+    private java.util.Optional<DialectEditor> currentEditor = java.util.Optional.empty();
 
     /**
      * The editor to set the focus on.
@@ -137,10 +137,10 @@ public class TraceabilityMarkerNavigationProvider implements IGotoMarker {
      *            the editor to focus in priority - can be null
      */
     public TraceabilityMarkerNavigationProvider(DialectEditor editor) {
-        this.currentEditor = Options.newSome(editor);
+        this.currentEditor = java.util.Optional.of(editor);
         Session foundSession = null;
         for (final IEditingSession uiSession : SessionUIManager.INSTANCE.getUISessions()) {
-            if (currentEditor.some() && uiSession.handleEditor(currentEditor.get())) {
+            if (currentEditor.isPresent() && uiSession.handleEditor(currentEditor.get())) {
                 foundSession = uiSession.getSession();
             }
         }
@@ -148,7 +148,7 @@ public class TraceabilityMarkerNavigationProvider implements IGotoMarker {
             this.currentSession = foundSession;
         } else {
             String editorTitle = ""; //$NON-NLS-1$
-            if (currentEditor.some()) {
+            if (currentEditor.isPresent()) {
                 editorTitle = currentEditor.get().getTitle();
             }
             throw new IllegalArgumentException(MessageFormat.format(Messages.TraceabilityMarkerNavigationProvider_noSessionFoundError, editorTitle));
@@ -234,7 +234,7 @@ public class TraceabilityMarkerNavigationProvider implements IGotoMarker {
          * Step 0 : we have to do something here only if the caller editor is
          * the MasterEditor of the workbench
          */
-        if (isMasterEditorCall() || !currentEditor.some()) {
+        if (isMasterEditorCall() || !currentEditor.isPresent()) {
 
             /* Step 1 : getting the semantic element from its URI */
             EditingDomain editingDomain = currentSession.getTransactionalEditingDomain();
@@ -290,7 +290,7 @@ public class TraceabilityMarkerNavigationProvider implements IGotoMarker {
      */
     private boolean isMasterEditorCall() {
         IWorkbenchPage activePage = EclipseUIUtil.getActivePage();
-        if (this.currentEditor.some() && activePage != null) {
+        if (this.currentEditor.isPresent() && activePage != null) {
             IEditorReference[] editorReferences = activePage.getEditorReferences();
             for (IEditorReference editorRef : editorReferences) {
                 if (editorRef.getEditor(false) instanceof DialectEditor) {

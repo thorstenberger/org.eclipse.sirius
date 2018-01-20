@@ -27,8 +27,8 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.SequenceDi
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.util.EditPartsHelper;
 import org.eclipse.sirius.diagram.ui.edit.api.part.IDiagramElementEditPart;
 import org.eclipse.sirius.ecore.extender.tool.api.ModelUtils;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.sample.interactions.Interaction;
 import org.eclipse.sirius.sample.interactions.Participant;
 import org.eclipse.sirius.tests.swtbot.support.api.editor.SWTBotSiriusDiagramEditor;
@@ -420,7 +420,7 @@ public class InstanceRoleOrderingTests extends AbstractSequenceDiagramTestCase {
      * {@inheritDoc}
      */
     @Override
-    protected Option<String> getDRepresentationName() {
-        return Options.newSome(REPRESENTATION_NAME);
+    protected java.util.Optional<String> getDRepresentationName() {
+        return java.util.Optional.of(REPRESENTATION_NAME);
     }
 }

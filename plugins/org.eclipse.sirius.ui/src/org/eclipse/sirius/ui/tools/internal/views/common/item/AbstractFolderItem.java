@@ -12,8 +12,8 @@ package org.eclipse.sirius.ui.tools.internal.views.common.item;
 
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.common.ui.tools.api.view.common.item.ItemDecorator;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ui.tools.api.views.common.item.CommonSessionItem;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
@@ -93,8 +93,8 @@ public abstract class AbstractFolderItem implements CommonSessionItem, ItemDecor
      * 
      * @see org.eclipse.sirius.ui.tools.api.views.common.item.CommonSessionItem#getSession()
      */
-    public Option<Session> getSession() {
-        return Options.newSome(session);
+    public java.util.Optional<Session> getSession() {
+        return java.util.Optional.of(session);
     }
 
     /**

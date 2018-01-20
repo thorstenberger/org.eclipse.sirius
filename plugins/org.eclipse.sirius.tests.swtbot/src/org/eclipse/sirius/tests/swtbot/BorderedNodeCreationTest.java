@@ -26,7 +26,7 @@ import org.eclipse.sirius.diagram.ui.edit.api.part.AbstractDiagramContainerEditP
 import org.eclipse.sirius.diagram.ui.edit.api.part.AbstractDiagramNodeEditPart;
 import org.eclipse.sirius.diagram.ui.edit.internal.part.PortLayoutHelper;
 import org.eclipse.sirius.diagram.ui.internal.refresh.GMFHelper;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.swtbot.support.api.AbstractSiriusSwtBotGefTestCase;
 import org.eclipse.sirius.tests.swtbot.support.api.business.UIDiagramRepresentation.ZoomLevel;
 import org.eclipse.sirius.tests.swtbot.support.api.business.UIResource;
@@ -291,8 +291,8 @@ public class BorderedNodeCreationTest extends AbstractSiriusSwtBotGefTestCase {
             // The creation at this place is not allowed so a shift should be
             // made to create the bordered node after the expanded state of the
             // collapsed bordered node.
-            Option<Bounds> optionalBounds = new NodeQuery((Node) editPart.part().getModel()).getExtendedBounds();
-            if (optionalBounds.some()) {
+            java.util.Optional<Bounds> optionalBounds = new NodeQuery((Node) editPart.part().getModel()).getExtendedBounds();
+            if (optionalBounds.isPresent()) {
                 Point delta = new Point(optionalBounds.get().getX() + optionalBounds.get().getWidth() + 1, optionalBounds.get().getY());
                 absoluteExpectedLocation = classAbsoluteLocation.getTranslated(delta);
             } else {
@@ -486,8 +486,8 @@ public class BorderedNodeCreationTest extends AbstractSiriusSwtBotGefTestCase {
             // The creation at this place is not allowed so a shift should be
             // made to create the bordered node after the expanded state of the
             // collapsed bordered node.
-            Option<Bounds> optionalBounds = new NodeQuery((Node) collapsedEditPart.part().getModel()).getExtendedBounds();
-            if (optionalBounds.some()) {
+            java.util.Optional<Bounds> optionalBounds = new NodeQuery((Node) collapsedEditPart.part().getModel()).getExtendedBounds();
+            if (optionalBounds.isPresent()) {
                 Point delta = new Point(optionalBounds.get().getX() + optionalBounds.get().getWidth() + 1, optionalBounds.get().getY());
                 expectedLocation = packageAbsoluteLocation.getTranslated(delta);
             } else {

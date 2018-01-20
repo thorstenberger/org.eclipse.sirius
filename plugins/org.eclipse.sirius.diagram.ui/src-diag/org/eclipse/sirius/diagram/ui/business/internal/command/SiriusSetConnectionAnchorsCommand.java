@@ -26,7 +26,7 @@ import org.eclipse.sirius.diagram.description.tool.ReconnectionKind;
 import org.eclipse.sirius.diagram.ui.business.api.query.EdgeQuery;
 import org.eclipse.sirius.diagram.ui.business.internal.edit.helpers.EdgeReconnectionHelper;
 import org.eclipse.sirius.diagram.ui.internal.operation.CenterEdgeEndModelChangeOperation;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * A custom SetConnectionAnchorsCommand used when edge reconnection is applied
@@ -92,8 +92,8 @@ public class SiriusSetConnectionAnchorsCommand extends SetConnectionAnchorsComma
                 // <code>newSourceTerminal</code> parameter
                 EdgeQuery edgeQuery = new EdgeQuery(edge);
                 if (edgeQuery.isEdgeOnTreeOnSourceSide()) {
-                    Option<IdentityAnchor> optionalSourceBortherAnchor = edgeQuery.getSourceAnchorOfFirstBrotherWithSameSource();
-                    if (optionalSourceBortherAnchor.some()) {
+                    java.util.Optional<IdentityAnchor> optionalSourceBortherAnchor = edgeQuery.getSourceAnchorOfFirstBrotherWithSameSource();
+                    if (optionalSourceBortherAnchor.isPresent()) {
                         setNewSourceTerminal(optionalSourceBortherAnchor.get().getId());
                     }
                 }
@@ -102,8 +102,8 @@ public class SiriusSetConnectionAnchorsCommand extends SetConnectionAnchorsComma
                 // existing targetAnchor instead of the
                 // <code>newTargetTerminal</code> parameter
                 if (edgeQuery.isEdgeOnTreeOnTargetSide()) {
-                    Option<IdentityAnchor> optionalTargetBortherAnchor = edgeQuery.getTargetAnchorOfFirstBrotherWithSameTarget();
-                    if (optionalTargetBortherAnchor.some()) {
+                    java.util.Optional<IdentityAnchor> optionalTargetBortherAnchor = edgeQuery.getTargetAnchorOfFirstBrotherWithSameTarget();
+                    if (optionalTargetBortherAnchor.isPresent()) {
                         setNewTargetTerminal(optionalTargetBortherAnchor.get().getId());
                     }
                 }

@@ -31,8 +31,8 @@ import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.common.tools.DslCommonPlugin;
 import org.eclipse.sirius.common.tools.api.util.SiriusCrossReferenceAdapterImpl;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.emf.EReferencePredicate;
 import org.eclipse.sirius.tools.api.profiler.SiriusTasksKey;
 import org.eclipse.sirius.tools.api.ui.RefreshEditorsPrecommitListener;
@@ -203,7 +203,7 @@ public class DanglingRefRemovalTrigger implements ModelChangeTrigger {
     }
 
     @Override
-    public Option<Command> localChangesAboutToCommit(Collection<Notification> notifications) {
+    public java.util.Optional<Command> localChangesAboutToCommit(Collection<Notification> notifications) {
         final Set<EObject> allDetachedObjects = getChangedEObjectsAndChildren(Iterables.filter(notifications, IS_DETACHMENT), null);
         if (allDetachedObjects.size() > 0) {
             DslCommonPlugin.PROFILER.startWork(SiriusTasksKey.CLEANING_REMOVEDANGLING_KEY);
@@ -228,11 +228,11 @@ public class DanglingRefRemovalTrigger implements ModelChangeTrigger {
                 Command removeDangling = new RemoveDanglingReferencesCommand(session.getTransactionalEditingDomain(), session.getModelAccessor(), session.getSemanticCrossReferencer(),
                         session.getSemanticResources(), session.getRefreshEditorsListener(), toRemoveXRefFrom, refToIgnore);
                 DslCommonPlugin.PROFILER.stopWork(SiriusTasksKey.CLEANING_REMOVEDANGLING_KEY);
-                return Options.newSome(removeDangling);
+                return java.util.Optional.of(removeDangling);
             }
             DslCommonPlugin.PROFILER.stopWork(SiriusTasksKey.CLEANING_REMOVEDANGLING_KEY);
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

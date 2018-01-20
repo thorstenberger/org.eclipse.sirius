@@ -36,7 +36,7 @@ import org.eclipse.sirius.diagram.ui.internal.refresh.GMFHelper;
 import org.eclipse.sirius.diagram.ui.internal.refresh.edge.SlidableAnchor;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
 import org.eclipse.sirius.diagram.ui.tools.internal.routers.RectilinearEdgeUtil;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DView;
@@ -154,10 +154,10 @@ public class RepairGMFbendpointsMigrationParticipant extends AbstractRepresentat
         PointList newPointList = new PointList();
 
         // compute intersection of anchors line with bounds
-        Option<Point> srcConnectionBendpoint = GraphicalHelper.getIntersection(srcRef, tgtRef, srcBounds, true);
-        Option<Point> tgtConnectionBendpoint = GraphicalHelper.getIntersection(srcRef, tgtRef, tgtBounds, false);
+        java.util.Optional<Point> srcConnectionBendpoint = GraphicalHelper.getIntersection(srcRef, tgtRef, srcBounds, true);
+        java.util.Optional<Point> tgtConnectionBendpoint = GraphicalHelper.getIntersection(srcRef, tgtRef, tgtBounds, false);
 
-        if (srcConnectionBendpoint.some() && tgtConnectionBendpoint.some()) {
+        if (srcConnectionBendpoint.isPresent() && tgtConnectionBendpoint.isPresent()) {
             isEdgeModified = true;
             EdgeQuery edgeQuery = new EdgeQuery(edge);
             Routing routingStyle = edgeQuery.getRoutingStyle();

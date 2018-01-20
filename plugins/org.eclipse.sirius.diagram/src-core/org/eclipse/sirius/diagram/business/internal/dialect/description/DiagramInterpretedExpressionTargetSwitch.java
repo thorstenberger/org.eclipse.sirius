@@ -31,8 +31,8 @@ import org.eclipse.sirius.diagram.description.EdgeMappingImport;
 import org.eclipse.sirius.diagram.description.MappingBasedDecoration;
 import org.eclipse.sirius.diagram.description.OrderedTreeLayout;
 import org.eclipse.sirius.diagram.description.util.DescriptionSwitch;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * A switch that will return the Target Types associated to a given element (here all elements are diagram-specific) and
@@ -49,7 +49,7 @@ import org.eclipse.sirius.ext.base.Options;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  * 
  */
-public class DiagramInterpretedExpressionTargetSwitch extends DescriptionSwitch<Option<Collection<String>>> {
+public class DiagramInterpretedExpressionTargetSwitch extends DescriptionSwitch<java.util.Optional<Collection<String>>> {
 
     /**
      * Constant used in switches on feature id to consider the case when the feature must not be considered.
@@ -92,13 +92,13 @@ public class DiagramInterpretedExpressionTargetSwitch extends DescriptionSwitch<
      * @see org.eclipse.sirius.diagram.description.util.DescriptionSwitch#doSwitch(org.eclipse.emf.ecore.EObject)
      */
     @Override
-    public Option<Collection<String>> doSwitch(EObject theEObject) {
-        Option<Collection<String>> doSwitch = super.doSwitch(theEObject);
+    public java.util.Optional<Collection<String>> doSwitch(EObject theEObject) {
+        java.util.Optional<Collection<String>> doSwitch = super.doSwitch(theEObject);
         if (doSwitch != null) {
             return doSwitch;
         }
         Collection<String> defaultResult = new LinkedHashSet<>();
-        return Options.newSome(defaultResult);
+        return java.util.Optional.of(defaultResult);
     }
 
     /**
@@ -134,8 +134,8 @@ public class DiagramInterpretedExpressionTargetSwitch extends DescriptionSwitch<
      * @see org.eclipse.sirius.diagram.description.util.DescriptionSwitch#caseDiagramDescription(org.eclipse.sirius.diagram.description.DiagramDescription)
      */
     @Override
-    public Option<Collection<String>> caseDiagramDescription(DiagramDescription diagramDescription) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseDiagramDescription(DiagramDescription diagramDescription) {
+        java.util.Optional<Collection<String>> result = null;
         Collection<String> target = new LinkedHashSet<>();
         switch (getFeatureId(diagramDescription.eClass())) {
         case DescriptionPackage.DIAGRAM_DESCRIPTION__PRECONDITION_EXPRESSION:
@@ -143,7 +143,7 @@ public class DiagramInterpretedExpressionTargetSwitch extends DescriptionSwitch<
         case DescriptionPackage.DIAGRAM_DESCRIPTION__TITLE_EXPRESSION:
         case DO_NOT_CONSIDER_FEATURE:
             target.add(diagramDescription.getDomainClass());
-            result = Options.newSome(target);
+            result = java.util.Optional.of(target);
             break;
         default:
             break;
@@ -159,7 +159,7 @@ public class DiagramInterpretedExpressionTargetSwitch extends DescriptionSwitch<
      * @see org.eclipse.sirius.diagram.description.util.DescriptionSwitch#caseDiagramExtensionDescription(org.eclipse.sirius.diagram.description.DiagramExtensionDescription)
      */
     @Override
-    public Option<Collection<String>> caseDiagramExtensionDescription(DiagramExtensionDescription object) {
+    public java.util.Optional<Collection<String>> caseDiagramExtensionDescription(DiagramExtensionDescription object) {
         DiagramDescription diagramDescription = DiagramComponentizationHelper.getDiagramDescription(object, ViewpointRegistry.getInstance().getViewpoints());
         if (diagramDescription != null) {
             return doSwitch(diagramDescription);
@@ -174,14 +174,14 @@ public class DiagramInterpretedExpressionTargetSwitch extends DescriptionSwitch<
      * @see org.eclipse.sirius.diagram.description.util.DescriptionSwitch#caseDiagramImportDescription(org.eclipse.sirius.diagram.description.DiagramImportDescription)
      */
     @Override
-    public Option<Collection<String>> caseDiagramImportDescription(DiagramImportDescription object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseDiagramImportDescription(DiagramImportDescription object) {
+        java.util.Optional<Collection<String>> result = null;
         Collection<String> target = new LinkedHashSet<>();
         switch (getFeatureId(object.eClass())) {
         case DescriptionPackage.DIAGRAM_IMPORT_DESCRIPTION__TITLE_EXPRESSION:
         case DO_NOT_CONSIDER_FEATURE:
             target.add(object.getDomainClass());
-            result = Options.newSome(target);
+            result = java.util.Optional.of(target);
             break;
         default:
             break;
@@ -191,8 +191,8 @@ public class DiagramInterpretedExpressionTargetSwitch extends DescriptionSwitch<
     }
 
     @Override
-    public Option<Collection<String>> caseMappingBasedDecoration(MappingBasedDecoration object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseMappingBasedDecoration(MappingBasedDecoration object) {
+        java.util.Optional<Collection<String>> result = null;
         Collection<String> target = new LinkedHashSet<>();
         switch (getFeatureId(object.eClass())) {
         case DescriptionPackage.MAPPING_BASED_DECORATION__PRECONDITION_EXPRESSION:
@@ -200,12 +200,12 @@ public class DiagramInterpretedExpressionTargetSwitch extends DescriptionSwitch<
         case org.eclipse.sirius.viewpoint.description.DescriptionPackage.DECORATION_DESCRIPTION__IMAGE_EXPRESSION:
         case DO_NOT_CONSIDER_FEATURE:
             for (DiagramElementMapping mapping : object.getMappings()) {
-                Option<Collection<String>> mappingTargets = globalSwitch.doSwitch(mapping, false);
-                if (mappingTargets.some()) {
+                java.util.Optional<Collection<String>> mappingTargets = globalSwitch.doSwitch(mapping, false);
+                if (mappingTargets.isPresent()) {
                     target.addAll(mappingTargets.get());
                 }
             }
-            result = Options.newSome(target);
+            result = java.util.Optional.of(target);
             break;
         default:
             break;
@@ -221,8 +221,8 @@ public class DiagramInterpretedExpressionTargetSwitch extends DescriptionSwitch<
      * @see org.eclipse.sirius.diagram.description.util.DescriptionSwitch#caseAbstractNodeMapping(org.eclipse.sirius.diagram.description.AbstractNodeMapping)
      */
     @Override
-    public Option<Collection<String>> caseAbstractNodeMapping(AbstractNodeMapping object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseAbstractNodeMapping(AbstractNodeMapping object) {
+        java.util.Optional<Collection<String>> result = null;
         Collection<String> target = new LinkedHashSet<>();
         switch (getFeatureId(object.eClass())) {
         case DescriptionPackage.ABSTRACT_NODE_MAPPING__SEMANTIC_CANDIDATES_EXPRESSION:
@@ -232,7 +232,7 @@ public class DiagramInterpretedExpressionTargetSwitch extends DescriptionSwitch<
         case DescriptionPackage.ABSTRACT_NODE_MAPPING__SEMANTIC_ELEMENTS:
         case DO_NOT_CONSIDER_FEATURE:
             target.add(object.getDomainClass());
-            result = Options.newSome(target);
+            result = java.util.Optional.of(target);
             break;
         default:
             break;
@@ -247,8 +247,8 @@ public class DiagramInterpretedExpressionTargetSwitch extends DescriptionSwitch<
      * @see org.eclipse.sirius.diagram.description.util.DescriptionSwitch#caseEdgeMapping(org.eclipse.sirius.diagram.description.EdgeMapping)
      */
     @Override
-    public Option<Collection<String>> caseEdgeMapping(EdgeMapping edgeMapping) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseEdgeMapping(EdgeMapping edgeMapping) {
+        java.util.Optional<Collection<String>> result = null;
         Collection<String> target = new LinkedHashSet<>();
         if (edgeMapping.isUseDomainElement()) {
             // DOMAIN-BASED EDGE MAPPING
@@ -264,7 +264,7 @@ public class DiagramInterpretedExpressionTargetSwitch extends DescriptionSwitch<
             case DescriptionPackage.EDGE_MAPPING__SEMANTIC_ELEMENTS:
             case DO_NOT_CONSIDER_FEATURE:
                 target.add(edgeMapping.getDomainClass());
-                result = Options.newSome(target);
+                result = java.util.Optional.of(target);
                 break;
             default:
                 break;
@@ -274,7 +274,7 @@ public class DiagramInterpretedExpressionTargetSwitch extends DescriptionSwitch<
             switch (getFeatureId(edgeMapping.eClass())) {
             case DescriptionPackage.EDGE_MAPPING__SOURCE_FINDER_EXPRESSION:
             case DescriptionPackage.EDGE_MAPPING__SEMANTIC_CANDIDATES_EXPRESSION:
-                result = Options.newNone();
+                result = java.util.Optional.empty();
                 break;
             case DescriptionPackage.EDGE_MAPPING__TARGET_FINDER_EXPRESSION:
             case DescriptionPackage.EDGE_MAPPING__PRECONDITION_EXPRESSION:
@@ -284,13 +284,13 @@ public class DiagramInterpretedExpressionTargetSwitch extends DescriptionSwitch<
             case DO_NOT_CONSIDER_FEATURE:
                 for (DiagramElementMapping mapping : edgeMapping.getSourceMapping()) {
                     if (!(mapping.equals(edgeMapping))) {
-                        Option<Collection<String>> sourceMappingTarget = globalSwitch.doSwitch(mapping, false);
-                        if (sourceMappingTarget.some()) {
+                        java.util.Optional<Collection<String>> sourceMappingTarget = globalSwitch.doSwitch(mapping, false);
+                        if (sourceMappingTarget.isPresent()) {
                             target.addAll(sourceMappingTarget.get());
                         }
                     }
                 }
-                result = Options.newSome(target);
+                result = java.util.Optional.of(target);
                 break;
             default:
                 break;
@@ -306,10 +306,10 @@ public class DiagramInterpretedExpressionTargetSwitch extends DescriptionSwitch<
      * @see org.eclipse.sirius.diagram.description.util.DescriptionSwitch#caseEdgeMappingImport(org.eclipse.sirius.diagram.description.EdgeMappingImport)
      */
     @Override
-    public Option<Collection<String>> caseEdgeMappingImport(EdgeMappingImport object) {
+    public java.util.Optional<Collection<String>> caseEdgeMappingImport(EdgeMappingImport object) {
         IEdgeMappingQuery edgeMappingQuery = new IEdgeMappingQuery(object);
-        Option<EdgeMapping> option = edgeMappingQuery.getOriginalEdgeMapping();
-        if (option.some()) {
+        java.util.Optional<EdgeMapping> option = edgeMappingQuery.getOriginalEdgeMapping();
+        if (option.isPresent()) {
             return doSwitch(option.get());
         }
 
@@ -323,9 +323,9 @@ public class DiagramInterpretedExpressionTargetSwitch extends DescriptionSwitch<
      * @see org.eclipse.sirius.diagram.description.util.DescriptionSwitch#caseOrderedTreeLayout(OrderedTreeLayout)
      */
     @Override
-    public Option<Collection<String>> caseOrderedTreeLayout(OrderedTreeLayout layout) {
+    public java.util.Optional<Collection<String>> caseOrderedTreeLayout(OrderedTreeLayout layout) {
         Collection<String> target = new LinkedHashSet<>();
-        Option<Collection<String>> result = Options.newSome(target);
+        java.util.Optional<Collection<String>> result = java.util.Optional.of(target);
         switch (getFeatureId(DescriptionPackage.eINSTANCE.getOrderedTreeLayout())) {
         case DescriptionPackage.ORDERED_TREE_LAYOUT__CHILDREN_EXPRESSION:
             result = globalSwitch.doSwitch(getFirstRelevantContainer(layout), false);

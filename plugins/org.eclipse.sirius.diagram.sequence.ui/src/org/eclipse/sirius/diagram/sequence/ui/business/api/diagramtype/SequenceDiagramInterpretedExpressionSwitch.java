@@ -24,8 +24,8 @@ import org.eclipse.sirius.diagram.sequence.description.MessageMapping;
 import org.eclipse.sirius.diagram.sequence.description.ReturnMessageMapping;
 import org.eclipse.sirius.diagram.sequence.description.SequenceDiagramDescription;
 import org.eclipse.sirius.diagram.sequence.description.util.DescriptionSwitch;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * A switch that will return the Target Types associated to a given element
@@ -46,7 +46,7 @@ import org.eclipse.sirius.ext.base.Options;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  * 
  */
-public class SequenceDiagramInterpretedExpressionSwitch extends DescriptionSwitch<Option<Collection<String>>> {
+public class SequenceDiagramInterpretedExpressionSwitch extends DescriptionSwitch<java.util.Optional<Collection<String>>> {
 
     /**
      * Constant used in switches on feature id to consider the case when the
@@ -87,13 +87,13 @@ public class SequenceDiagramInterpretedExpressionSwitch extends DescriptionSwitc
      * {@inheritDoc}
      */
     @Override
-    public Option<Collection<String>> doSwitch(EObject theEObject) {
-        Option<Collection<String>> doSwitch = super.doSwitch(theEObject);
+    public java.util.Optional<Collection<String>> doSwitch(EObject theEObject) {
+        java.util.Optional<Collection<String>> doSwitch = super.doSwitch(theEObject);
         if (doSwitch != null) {
             return doSwitch;
         }
         Collection<String> defaultResult = new LinkedHashSet<>();
-        return Options.newSome(defaultResult);
+        return java.util.Optional.of(defaultResult);
     }
 
     /**
@@ -120,14 +120,14 @@ public class SequenceDiagramInterpretedExpressionSwitch extends DescriptionSwitc
      * {@inheritDoc}
      */
     @Override
-    public Option<Collection<String>> caseSequenceDiagramDescription(SequenceDiagramDescription object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseSequenceDiagramDescription(SequenceDiagramDescription object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(DescriptionPackage.eINSTANCE.getSequenceDiagramDescription())) {
         case DescriptionPackage.SEQUENCE_DIAGRAM_DESCRIPTION__ENDS_ORDERING:
         case DescriptionPackage.SEQUENCE_DIAGRAM_DESCRIPTION__INSTANCE_ROLES_ORDERING:
             Collection<String> target = new LinkedHashSet<>();
             target.add(object.getDomainClass());
-            result = Options.newSome(target);
+            result = java.util.Optional.of(target);
             break;
         default:
             break;
@@ -139,18 +139,18 @@ public class SequenceDiagramInterpretedExpressionSwitch extends DescriptionSwitc
      * {@inheritDoc}
      */
     @Override
-    public Option<Collection<String>> caseDelimitedEventMapping(DelimitedEventMapping object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseDelimitedEventMapping(DelimitedEventMapping object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(DescriptionPackage.eINSTANCE.getDelimitedEventMapping())) {
         case DescriptionPackage.DELIMITED_EVENT_MAPPING__STARTING_END_FINDER_EXPRESSION:
         case DescriptionPackage.DELIMITED_EVENT_MAPPING__FINISHING_END_FINDER_EXPRESSION:
             Collection<String> target = new LinkedHashSet<>();
             // LEt the global swith return the same types than precondition.
-            Option<Collection<String>> types = globalSwitch.doSwitch(object, false);
-            if (types.some()) {
+            java.util.Optional<Collection<String>> types = globalSwitch.doSwitch(object, false);
+            if (types.isPresent()) {
                 target.addAll(types.get());
             }
-            result = Options.newSome(target);
+            result = java.util.Optional.of(target);
             break;
         default:
             break;
@@ -162,15 +162,15 @@ public class SequenceDiagramInterpretedExpressionSwitch extends DescriptionSwitc
      * {@inheritDoc}
      */
     @Override
-    public Option<Collection<String>> caseFrameMapping(FrameMapping object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseFrameMapping(FrameMapping object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(DescriptionPackage.eINSTANCE.getFrameMapping())) {
         case DescriptionPackage.FRAME_MAPPING__CENTER_LABEL_EXPRESSION:
         case DescriptionPackage.FRAME_MAPPING__COVERED_LIFELINES_EXPRESSION:
         case DO_NOT_CONSIDER_FEATURE:
             Collection<String> target = new LinkedHashSet<>();
             target.add(object.getDomainClass());
-            result = Options.newSome(target);
+            result = java.util.Optional.of(target);
             break;
         default:
             break;
@@ -182,18 +182,18 @@ public class SequenceDiagramInterpretedExpressionSwitch extends DescriptionSwitc
      * {@inheritDoc}
      */
     @Override
-    public Option<Collection<String>> caseMessageMapping(MessageMapping object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseMessageMapping(MessageMapping object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(DescriptionPackage.eINSTANCE.getMessageMapping())) {
         case DescriptionPackage.MESSAGE_MAPPING__RECEIVING_END_FINDER_EXPRESSION:
         case DescriptionPackage.MESSAGE_MAPPING__SENDING_END_FINDER_EXPRESSION:
             Collection<String> target = new LinkedHashSet<>();
             // LEt the global swith return the same types than precondition.
-            Option<Collection<String>> types = globalSwitch.doSwitch(object, false);
-            if (types.some()) {
+            java.util.Optional<Collection<String>> types = globalSwitch.doSwitch(object, false);
+            if (types.isPresent()) {
                 target.addAll(types.get());
             }
-            result = Options.newSome(target);
+            result = java.util.Optional.of(target);
             break;
         default:
             break;
@@ -205,17 +205,17 @@ public class SequenceDiagramInterpretedExpressionSwitch extends DescriptionSwitc
      * {@inheritDoc}
      */
     @Override
-    public Option<Collection<String>> caseReturnMessageMapping(ReturnMessageMapping object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseReturnMessageMapping(ReturnMessageMapping object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(DescriptionPackage.eINSTANCE.getReturnMessageMapping())) {
         case DescriptionPackage.RETURN_MESSAGE_MAPPING__INVOCATION_MESSAGE_FINDER_EXPRESSION:
             Collection<String> target = new LinkedHashSet<>();
             // LEt the global switch return the same types than precondition.
-            Option<Collection<String>> types = globalSwitch.doSwitch(object, false);
-            if (types.some()) {
+            java.util.Optional<Collection<String>> types = globalSwitch.doSwitch(object, false);
+            if (types.isPresent()) {
                 target.addAll(types.get());
             }
-            result = Options.newSome(target);
+            result = java.util.Optional.of(target);
             break;
         default:
             break;

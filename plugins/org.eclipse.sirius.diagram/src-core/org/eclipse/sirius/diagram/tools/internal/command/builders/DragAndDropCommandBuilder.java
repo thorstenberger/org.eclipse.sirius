@@ -38,8 +38,8 @@ import org.eclipse.sirius.diagram.description.DiagramElementMapping;
 import org.eclipse.sirius.diagram.description.EdgeMapping;
 import org.eclipse.sirius.diagram.description.NodeMapping;
 import org.eclipse.sirius.diagram.description.tool.ContainerDropDescription;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.tools.api.interpreter.InterpreterUtil;
 import org.eclipse.sirius.tools.api.ui.resource.ISiriusMessages;
@@ -241,7 +241,7 @@ public class DragAndDropCommandBuilder extends AbstractDiagramCommandBuilder {
                 }
 
             });
-            Option<DRepresentation> representation = new EObjectQuery(diagramElement).getRepresentation();
+            java.util.Optional<DRepresentation> representation = new EObjectQuery(diagramElement).getRepresentation();
             if (tool.getInitialOperation() != null && tool.getInitialOperation().getFirstModelOperations() != null) {
                 result.getTasks().add(taskHelper.buildTaskFromModelOperation(representation.get(), newContainer, tool.getInitialOperation().getFirstModelOperations()));
             }
@@ -263,13 +263,13 @@ public class DragAndDropCommandBuilder extends AbstractDiagramCommandBuilder {
      * {@inheritDoc}
      */
     @Override
-    protected Option<DDiagram> getDDiagram() {
+    protected java.util.Optional<DDiagram> getDDiagram() {
         DDiagram diag = null;
         if (container instanceof DDiagram) {
             diag = (DDiagram) container;
         } else {
             diag = ((DDiagramElement) container).getParentDiagram();
         }
-        return Options.newSome(diag);
+        return java.util.Optional.of(diag);
     }
 }

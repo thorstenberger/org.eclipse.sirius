@@ -25,7 +25,7 @@ import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.ui.business.api.query.DDiagramGraphicalQuery;
 import org.eclipse.sirius.diagram.ui.business.api.query.ViewQuery;
 import org.eclipse.sirius.diagram.ui.internal.view.factories.SiriusNoteViewFactory;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DView;
 import org.osgi.framework.Version;
@@ -115,8 +115,8 @@ public class NoteShapeDefaultLabelAlignmentMigrationParticipant extends Abstract
     private Collection<Shape> getNoteShapes(DDiagram dDiagram) {
         Collection<Shape> shapes = new HashSet<>();
         DDiagramGraphicalQuery query = new DDiagramGraphicalQuery(dDiagram);
-        Option<Diagram> gmfDiagram = query.getAssociatedGMFDiagram();
-        if (gmfDiagram.some()) {
+        java.util.Optional<Diagram> gmfDiagram = query.getAssociatedGMFDiagram();
+        if (gmfDiagram.isPresent()) {
             for (Shape shape : Iterables.filter(gmfDiagram.get().getChildren(), Shape.class)) {
                 if (ViewType.NOTE.equals(shape.getType())) {
                     shapes.add(shape);

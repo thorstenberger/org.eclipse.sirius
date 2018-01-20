@@ -39,8 +39,8 @@ import org.eclipse.sirius.diagram.description.ContainerMapping;
 import org.eclipse.sirius.diagram.description.DiagramElementMapping;
 import org.eclipse.sirius.diagram.description.NodeMapping;
 import org.eclipse.sirius.diagram.description.style.ContainerStyleDescription;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tools.api.profiler.SiriusTasksKey;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.sirius.viewpoint.SiriusPlugin;
@@ -253,7 +253,7 @@ public final class ContainerMappingHelper {
             newContainer.setOwnedStyle(containerStyle);
         }
         if (newContainer.getOwnedStyle() != null) {
-            Option<ContainerStyle> noPreviousStyle = Options.newNone();
+            java.util.Optional<ContainerStyle> noPreviousStyle = java.util.Optional.empty();
             new StyleHelper(interpreter).refreshStyle(newContainer.getOwnedStyle(), noPreviousStyle);
         }
         self.addDoneNode(newContainer);

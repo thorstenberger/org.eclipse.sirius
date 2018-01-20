@@ -51,7 +51,7 @@ import org.eclipse.sirius.diagram.sequence.util.Range;
 import org.eclipse.sirius.diagram.tools.api.command.IDiagramCommandFactoryProvider;
 import org.eclipse.sirius.diagram.ui.business.internal.view.EdgeLayoutData;
 import org.eclipse.sirius.diagram.ui.graphical.edit.policies.SiriusGraphicalNodeEditPolicy;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 
 /**
@@ -160,8 +160,8 @@ public class SequenceSiriusGraphicalNodeEditPolicy extends SiriusGraphicalNodeEd
                 EditPart sourceEditPart = request.getSourceEditPart();
                 EditPart targetEditPart = request.getTargetEditPart();
 
-                Option<ISequenceElement> sequenceEventSource = ISequenceElementAccessor.getISequenceElement((View) sourceEditPart.getModel());
-                Option<ISequenceElement> sequenceEventTarget = ISequenceElementAccessor.getISequenceElement((View) targetEditPart.getModel());
+                java.util.Optional<ISequenceElement> sequenceEventSource = ISequenceElementAccessor.getISequenceElement((View) sourceEditPart.getModel());
+                java.util.Optional<ISequenceElement> sequenceEventTarget = ISequenceElementAccessor.getISequenceElement((View) targetEditPart.getModel());
 
                 Map<?, ?> extendedData = request.getExtendedData();
                 Point firstClickLocation = (Point) extendedData.get(DRAW2D_EDGE_LOCATION_SOURCE);

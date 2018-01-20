@@ -15,8 +15,8 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * Queries on {@link List} of {@link EStructuralFeature}.
@@ -46,7 +46,7 @@ public class EStructuralFeaturesQuery {
      *         {@link EStructuralFeature#getEType()}, None {@link Option} if no
      *         common type exists
      */
-    public Option<EClass> getCommonType() {
+    public java.util.Optional<EClass> getCommonType() {
         EClass commonType = null;
         Iterator<EStructuralFeature> it = eStructuralFeatures.iterator();
         if (it.hasNext()) {
@@ -70,9 +70,9 @@ public class EStructuralFeaturesQuery {
             }
         }
         if (commonType == null) {
-            return Options.newNone();
+            return java.util.Optional.empty();
         } else {
-            return Options.newSome(commonType);
+            return java.util.Optional.of(commonType);
         }
     }
 }

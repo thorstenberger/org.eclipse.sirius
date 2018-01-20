@@ -28,8 +28,8 @@ import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.ExecutionE
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.ISequenceEventEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.LifelineEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.SequenceMessageEditPart;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tests.swtbot.support.api.editor.SWTBotSiriusDiagramEditor;
 import org.eclipse.sirius.tests.unit.diagram.sequence.InteractionsConstants;
 import org.eclipse.swtbot.eclipse.gef.finder.matchers.IsInstanceOf;
@@ -87,8 +87,8 @@ public class ExternalModificationsTests extends AbstractSequenceDiagramTestCase 
      * {@inheritDoc}
      */
     @Override
-    protected Option<String> getDRepresentationName() {
-        return Options.newNone();
+    protected java.util.Optional<String> getDRepresentationName() {
+        return java.util.Optional.empty();
     }
 
     /**
@@ -174,8 +174,8 @@ public class ExternalModificationsTests extends AbstractSequenceDiagramTestCase 
 
     private void assertNoAbsoluteBoundsSpecificFlags() {
         Diagram diag = (Diagram) editor.mainEditPart().part().getModel();
-        Option<SequenceDiagram> sequenceDiagram = ISequenceElementAccessor.getSequenceDiagram(diag);
-        assertTrue(sequenceDiagram.some());
+        java.util.Optional<SequenceDiagram> sequenceDiagram = ISequenceElementAccessor.getSequenceDiagram(diag);
+        assertTrue(sequenceDiagram.isPresent());
         Collection<AbsoluteBoundsFilter> flags = Lists.newArrayList(Iterators.filter(sequenceDiagram.get().getSequenceDDiagram().eAllContents(), AbsoluteBoundsFilter.class));
         assertFalse(flags.isEmpty());
         for (AbsoluteBoundsFilter flag : flags) {

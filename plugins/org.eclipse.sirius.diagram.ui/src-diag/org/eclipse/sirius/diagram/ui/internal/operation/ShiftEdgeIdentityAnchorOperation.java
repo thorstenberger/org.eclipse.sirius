@@ -34,8 +34,8 @@ import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.sirius.diagram.DEdge;
 import org.eclipse.sirius.diagram.ui.business.internal.operation.AbstractModelChangeOperation;
 import org.eclipse.sirius.diagram.ui.tools.internal.util.GMFNotationUtilities;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 
 import com.google.common.collect.Iterables;
@@ -90,8 +90,8 @@ public class ShiftEdgeIdentityAnchorOperation extends AbstractModelChangeOperati
     public Void execute() {
         List<?> editParts = request.getEditParts();
         for (EditPart editPart : Iterables.filter(editParts, EditPart.class)) {
-            Option<View> viewOption = getView(editPart);
-            if (viewOption.some()) {
+            java.util.Optional<View> viewOption = getView(editPart);
+            if (viewOption.isPresent()) {
                 handleTargetEdges(viewOption.get(), editPart);
                 handleSourceEdges(viewOption.get(), editPart);
 
@@ -201,12 +201,12 @@ public class ShiftEdgeIdentityAnchorOperation extends AbstractModelChangeOperati
         }
     }
 
-    private Option<View> getView(EditPart editPart) {
+    private java.util.Optional<View> getView(EditPart editPart) {
         Object model = editPart.getModel();
         if (model instanceof View) {
-            return Options.newSome((View) model);
+            return java.util.Optional.of((View) model);
         }
 
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 }

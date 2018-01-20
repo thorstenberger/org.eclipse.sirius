@@ -14,7 +14,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * Interface allowing you to change something within a transaction before it is
@@ -35,7 +35,7 @@ public interface ModelChangeTrigger {
      *            the list of notifications of interest.
      * @return the command to do wrapped in a option.
      */
-    Option<Command> localChangesAboutToCommit(Collection<Notification> notifications);
+    java.util.Optional<Command> localChangesAboutToCommit(Collection<Notification> notifications);
 
     /**
      * return an int representing the triggering priority, less meaning sooner,

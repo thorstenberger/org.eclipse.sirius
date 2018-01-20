@@ -23,8 +23,8 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.sirius.business.api.query.EObjectQuery;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.description.DescriptionPackage;
 import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
 import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
@@ -98,8 +98,8 @@ public class TypeAssistant {
      */
     private Collection<Object> getEntryPoints() {
         Collection<Object> values;
-        Option<RepresentationDescription> desc = getCurrentRepresentationDescription();
-        if (desc.some() && !desc.get().getMetamodel().isEmpty()) {
+        java.util.Optional<RepresentationDescription> desc = getCurrentRepresentationDescription();
+        if (desc.isPresent() && !desc.get().getMetamodel().isEmpty()) {
             values = new ArrayList<Object>(desc.get().getMetamodel());
         } else {
             values = new ArrayList<Object>(typeRegistry.values());
@@ -107,7 +107,7 @@ public class TypeAssistant {
         return values;
     }
 
-    private Option<RepresentationDescription> getCurrentRepresentationDescription() {
+    private java.util.Optional<RepresentationDescription> getCurrentRepresentationDescription() {
         RepresentationDescription desc = null;
         if (section != null && section.getSelection() instanceof IStructuredSelection) {
             Object object = ((IStructuredSelection) section.getSelection()).getFirstElement();
@@ -115,14 +115,14 @@ public class TypeAssistant {
                 if (object instanceof RepresentationDescription) {
                     desc = (RepresentationDescription) object;
                 } else {
-                    Option<EObject> firstAncestorOfType = new EObjectQuery((EObject) object).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getRepresentationDescription());
-                    if (firstAncestorOfType.some() && firstAncestorOfType.get() instanceof RepresentationDescription) {
+                    java.util.Optional<EObject> firstAncestorOfType = new EObjectQuery((EObject) object).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getRepresentationDescription());
+                    if (firstAncestorOfType.isPresent() && firstAncestorOfType.get() instanceof RepresentationDescription) {
                         desc = (RepresentationDescription) firstAncestorOfType.get();
                     }
                 }
             }
         }
-        return Options.newSome(desc);
+        return java.util.Optional.of(desc);
     }
 
     private void addProposals(final Collection<EClassifier> proposals, final EPackage ePackage, final String incompleteName) {

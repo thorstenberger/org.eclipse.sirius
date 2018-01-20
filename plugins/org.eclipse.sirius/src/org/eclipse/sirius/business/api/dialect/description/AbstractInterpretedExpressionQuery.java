@@ -34,8 +34,8 @@ import org.eclipse.sirius.common.tools.api.interpreter.ValidationResult;
 import org.eclipse.sirius.common.tools.api.interpreter.VariableType;
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
 import org.eclipse.sirius.common.tools.internal.interpreter.InterpretedContextImpl;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.emf.AllContents;
 import org.eclipse.sirius.tools.api.interpreter.context.SiriusInterpreterContextFactory;
 import org.eclipse.sirius.viewpoint.ViewpointPackage;
@@ -122,7 +122,7 @@ public abstract class AbstractInterpretedExpressionQuery implements IInterpreted
     /**
      * The expected DomainClass(es) for the given expression.
      */
-    protected Option<Collection<String>> targetDomainClass;
+    protected java.util.Optional<Collection<String>> targetDomainClass;
 
     /**
      * The list of EPackages to import to be able to interpret the given expression.
@@ -177,7 +177,7 @@ public abstract class AbstractInterpretedExpressionQuery implements IInterpreted
      * @see org.eclipse.sirius.business.api.dialect.description.IInterpretedExpressionQuery#getTargetDomainClasses()
      */
     @Override
-    public Option<Collection<String>> getTargetDomainClasses() {
+    public java.util.Optional<Collection<String>> getTargetDomainClasses() {
         if (targetDomainClass == null) {
             /*
              * the "self" variable might be redefined by a containing ModelOperation (CreateInstance, ChangeContext by
@@ -191,7 +191,7 @@ public abstract class AbstractInterpretedExpressionQuery implements IInterpreted
                 for (TypeName typeName : selfType.getPossibleTypes()) {
                     possibleTypes.add(typeName.getCompleteName());
                 }
-                targetDomainClass = Options.fromNullable(possibleTypes);
+                targetDomainClass = java.util.Optional.ofNullable(possibleTypes);
             } else {
                 // Use the available TargetSwitches to get the domain class
                 targetDomainClass = targetSwitch.doSwitch(target, feature != null);
@@ -286,8 +286,8 @@ public abstract class AbstractInterpretedExpressionQuery implements IInterpreted
         if (availableVariables == null) {
             availableVariables = new LinkedHashMap<>();
         }
-        Option<EObject> toolContext = getToolContext();
-        if (toolContext.some()) {
+        java.util.Optional<EObject> toolContext = getToolContext();
+        if (toolContext.isPresent()) {
             EObject operationContext = toolContext.get();
             collectContextualVariableDefinitions(operationContext, target);
             if (operationContext instanceof ToolDescription) {
@@ -416,14 +416,14 @@ public abstract class AbstractInterpretedExpressionQuery implements IInterpreted
      * 
      * @return the EObject which represents the top-level execution context.
      */
-    protected Option<EObject> getToolContext() {
-        Option<EObject> found = Options.newNone();
+    protected java.util.Optional<EObject> getToolContext() {
+        java.util.Optional<EObject> found = java.util.Optional.empty();
         /*
          * ValidationFix can contains operations and is not a subclas of a tool. We need to return it as the
          * "tool context" or the logic will find the global diagram definition instead.
          */
         found = new EObjectQuery(target).getFirstAncestorOfType(org.eclipse.sirius.viewpoint.description.validation.ValidationPackage.eINSTANCE.getValidationRule());
-        if (!found.some()) {
+        if (!found.isPresent()) {
             if (this.target instanceof OperationAction || this.target instanceof RepresentationNavigationDescription || this.target instanceof RepresentationCreationDescription) {
                 /*
                  * OperationAction and RepresentationNavigationDescription are representing their own context for their
@@ -431,10 +431,10 @@ public abstract class AbstractInterpretedExpressionQuery implements IInterpreted
                  * RepresentationNavigationDescription instance (like 'views', 'container') are also available in the
                  * precondition and elements to select expressions.
                  */
-                found = Options.fromNullable(this.target);
+                found = java.util.Optional.ofNullable(this.target);
             } else {
                 found = new EObjectQuery(target).getFirstAncestorOfType(ToolPackage.eINSTANCE.getAbstractToolDescription());
-                if (found.some() && found.get() instanceof ExternalJavaAction) {
+                if (found.isPresent() && found.get() instanceof ExternalJavaAction) {
                     /*
                      * an ExternalJavaAction is a special case as it can also be embedded as an Operation. We need to
                      * make sure it is not the case.
@@ -682,7 +682,7 @@ public abstract class AbstractInterpretedExpressionQuery implements IInterpreted
             if (this.selfType != null) {
                 self = this.selfType;
             }
-            IInterpreterContext iContext = new InterpretedContextImpl(var, this.targetDomainClass != null && this.targetDomainClass.some(),
+            IInterpreterContext iContext = new InterpretedContextImpl(var, this.targetDomainClass != null && this.targetDomainClass.isPresent(),
                     ToolPackage.Literals.ACCELEO_VARIABLE__COMPUTATION_EXPRESSION, self, getPackagesToImport(), availableVariables, getDependencies());
             ValidationResult res = MultiLanguagesValidator.getInstance().validateExpression(iContext, ((AcceleoVariable) var).getComputationExpression());
             typeName = res.getReturnTypes();

@@ -22,8 +22,8 @@ import org.eclipse.sirius.diagram.ui.provider.Messages;
 import org.eclipse.sirius.diagram.ui.tools.api.command.GMFCommandWrapper;
 import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
 import org.eclipse.sirius.diagram.ui.tools.internal.commands.InitializeLayoutCommand;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ui.tools.api.actions.AbstractCreateRepresentationFromRepresentationCreationDescription;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
@@ -61,9 +61,9 @@ public class CreateRepresentationFromRepresentationCreationDescription extends A
     }
 
     @Override
-    protected Option<DRepresentation> executeCreationCommand(Option<Command> initialOperationCommand, CreateRepresentationCommand createRepresentationCommand) {
+    protected java.util.Optional<DRepresentation> executeCreationCommand(java.util.Optional<Command> initialOperationCommand, CreateRepresentationCommand createRepresentationCommand) {
         final CompositeTransactionalCommand compositeCommand = new CompositeTransactionalCommand(getEditingDomain(), Messages.CreateRepresentationFromRepresentationCreationDescription_cmdLabel);
-        if (initialOperationCommand.some()) {
+        if (initialOperationCommand.isPresent()) {
             compositeCommand.compose(new GMFCommandWrapper(getEditingDomain(), initialOperationCommand.get()));
         }
         InitializeLayoutCommand layoutCommand = null;
@@ -80,7 +80,7 @@ public class CreateRepresentationFromRepresentationCreationDescription extends A
         } else if (layoutCommand != null && layoutCommand.getLayoutedRepresentation() != null) {
             createdRepresentation = layoutCommand.getLayoutedRepresentation();
         }
-        return Options.newSome(createdRepresentation);
+        return java.util.Optional.of(createdRepresentation);
     }
 
     /**

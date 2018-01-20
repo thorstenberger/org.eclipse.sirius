@@ -17,7 +17,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.Lifeline;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.Message;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.Operand;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.SequenceDiagram;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import org.eclipse.sirius.tests.unit.diagram.sequence.AbstractSequenceSiriusDiagramTests;
 import org.eclipse.sirius.tests.unit.diagram.sequence.InteractionsConstants;
@@ -67,84 +67,84 @@ public class SequenceDiagramElementsParentEventsTests extends AbstractSequenceSi
     }
 
     public void test_sub_events_lifeline() throws Exception {
-        Option<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(COMPLEX_DIAGRAM, REPRESENTATION_TYPE);
-        Assert.assertTrue(sequenceDiagram.some());
+        java.util.Optional<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(COMPLEX_DIAGRAM, REPRESENTATION_TYPE);
+        Assert.assertTrue(sequenceDiagram.isPresent());
 
-        Option<Lifeline> p1 = getLifelineByName(sequenceDiagram.get(), "p1");
-        Assert.assertTrue(p1.some());
+        java.util.Optional<Lifeline> p1 = getLifelineByName(sequenceDiagram.get(), "p1");
+        Assert.assertTrue(p1.isPresent());
 
-        Option<Lifeline> p2 = getLifelineByName(sequenceDiagram.get(), "p2");
-        Assert.assertTrue(p2.some());
+        java.util.Optional<Lifeline> p2 = getLifelineByName(sequenceDiagram.get(), "p2");
+        Assert.assertTrue(p2.isPresent());
     }
 
     public void test_sub_events_execution() throws Exception {
-        Option<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(COMPLEX_DIAGRAM, REPRESENTATION_TYPE);
-        Assert.assertTrue(sequenceDiagram.some());
+        java.util.Optional<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(COMPLEX_DIAGRAM, REPRESENTATION_TYPE);
+        Assert.assertTrue(sequenceDiagram.isPresent());
 
-        Option<Execution> e1 = getExecutionByName(sequenceDiagram.get(), "e1");
-        Assert.assertTrue(e1.some());
+        java.util.Optional<Execution> e1 = getExecutionByName(sequenceDiagram.get(), "e1");
+        Assert.assertTrue(e1.isPresent());
 
-        Option<Execution> e2 = getExecutionByName(sequenceDiagram.get(), "e2");
-        Assert.assertTrue(e2.some());
+        java.util.Optional<Execution> e2 = getExecutionByName(sequenceDiagram.get(), "e2");
+        Assert.assertTrue(e2.isPresent());
 
-        Option<Execution> e3 = getExecutionByName(sequenceDiagram.get(), "e3");
-        Assert.assertTrue(e3.some());
+        java.util.Optional<Execution> e3 = getExecutionByName(sequenceDiagram.get(), "e3");
+        Assert.assertTrue(e3.isPresent());
 
-        Option<Execution> e4 = getExecutionByName(sequenceDiagram.get(), "e4");
-        Assert.assertTrue(e4.some());
+        java.util.Optional<Execution> e4 = getExecutionByName(sequenceDiagram.get(), "e4");
+        Assert.assertTrue(e4.isPresent());
 
-        Option<Execution> e5 = getExecutionByName(sequenceDiagram.get(), "e5");
-        Assert.assertTrue(e5.some());
+        java.util.Optional<Execution> e5 = getExecutionByName(sequenceDiagram.get(), "e5");
+        Assert.assertTrue(e5.isPresent());
 
-        Option<Execution> e6 = getExecutionByName(sequenceDiagram.get(), "e6");
-        Assert.assertTrue(e6.some());
+        java.util.Optional<Execution> e6 = getExecutionByName(sequenceDiagram.get(), "e6");
+        Assert.assertTrue(e6.isPresent());
 
     }
 
     public void test_sub_events_message() throws Exception {
-        Option<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(COMPLEX_DIAGRAM, REPRESENTATION_TYPE);
-        Assert.assertTrue(sequenceDiagram.some());
+        java.util.Optional<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(COMPLEX_DIAGRAM, REPRESENTATION_TYPE);
+        Assert.assertTrue(sequenceDiagram.isPresent());
 
-        Option<Message> m1 = getMessageByName(sequenceDiagram.get(), "m1");
-        Assert.assertTrue(m1.some());
+        java.util.Optional<Message> m1 = getMessageByName(sequenceDiagram.get(), "m1");
+        Assert.assertTrue(m1.isPresent());
 
-        Option<Message> m2 = getMessageByName(sequenceDiagram.get(), "m2");
-        Assert.assertTrue(m2.some());
+        java.util.Optional<Message> m2 = getMessageByName(sequenceDiagram.get(), "m2");
+        Assert.assertTrue(m2.isPresent());
     }
 
     public void test_sub_events_interaction_use() throws Exception {
-        Option<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(COMPLEX_DIAGRAM, REPRESENTATION_TYPE);
-        Assert.assertTrue(sequenceDiagram.some());
+        java.util.Optional<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(COMPLEX_DIAGRAM, REPRESENTATION_TYPE);
+        Assert.assertTrue(sequenceDiagram.isPresent());
 
-        Option<InteractionUse> iu1 = getInteractionUseByName(sequenceDiagram.get(), "ref1");
-        Assert.assertTrue(iu1.some());
+        java.util.Optional<InteractionUse> iu1 = getInteractionUseByName(sequenceDiagram.get(), "ref1");
+        Assert.assertTrue(iu1.isPresent());
 
-        Option<InteractionUse> iu2 = getInteractionUseByName(sequenceDiagram.get(), "ref2");
-        Assert.assertTrue(iu2.some());
+        java.util.Optional<InteractionUse> iu2 = getInteractionUseByName(sequenceDiagram.get(), "ref2");
+        Assert.assertTrue(iu2.isPresent());
 
-        Option<InteractionUse> iu3 = getInteractionUseByName(sequenceDiagram.get(), "ref.3");
-        Assert.assertTrue(iu3.some());
+        java.util.Optional<InteractionUse> iu3 = getInteractionUseByName(sequenceDiagram.get(), "ref.3");
+        Assert.assertTrue(iu3.isPresent());
     }
 
     public void test_sub_events_combined_fragment() throws Exception {
-        Option<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(COMPLEX_DIAGRAM, REPRESENTATION_TYPE);
-        Assert.assertTrue(sequenceDiagram.some());
+        java.util.Optional<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(COMPLEX_DIAGRAM, REPRESENTATION_TYPE);
+        Assert.assertTrue(sequenceDiagram.isPresent());
 
-        Option<CombinedFragment> cf1 = getCombinedFragmentByName(sequenceDiagram.get(), "opt1");
-        Assert.assertTrue(cf1.some());
+        java.util.Optional<CombinedFragment> cf1 = getCombinedFragmentByName(sequenceDiagram.get(), "opt1");
+        Assert.assertTrue(cf1.isPresent());
 
-        Option<CombinedFragment> cf2 = getCombinedFragmentByName(sequenceDiagram.get(), "opt2");
-        Assert.assertTrue(cf2.some());
+        java.util.Optional<CombinedFragment> cf2 = getCombinedFragmentByName(sequenceDiagram.get(), "opt2");
+        Assert.assertTrue(cf2.isPresent());
     }
 
     public void test_sub_events_operand() throws Exception {
-        Option<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(COMPLEX_DIAGRAM, REPRESENTATION_TYPE);
-        Assert.assertTrue(sequenceDiagram.some());
+        java.util.Optional<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(COMPLEX_DIAGRAM, REPRESENTATION_TYPE);
+        Assert.assertTrue(sequenceDiagram.isPresent());
 
-        Option<Operand> op1 = getOperandByName(sequenceDiagram.get(), "op1");
-        Assert.assertTrue(op1.some());
+        java.util.Optional<Operand> op1 = getOperandByName(sequenceDiagram.get(), "op1");
+        Assert.assertTrue(op1.isPresent());
 
-        Option<Operand> op2 = getOperandByName(sequenceDiagram.get(), "op2");
-        Assert.assertTrue(op2.some());
+        java.util.Optional<Operand> op2 = getOperandByName(sequenceDiagram.get(), "op2");
+        Assert.assertTrue(op2.isPresent());
     }
 }

@@ -23,8 +23,8 @@ import org.eclipse.sirius.diagram.business.api.diagramtype.IDiagramTypeDescripto
 import org.eclipse.sirius.diagram.description.DiagramDescription;
 import org.eclipse.sirius.diagram.description.DiagramImportDescription;
 import org.eclipse.sirius.diagram.tools.api.preferences.SiriusDiagramPreferencesKeys;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.description.Group;
 import org.eclipse.sirius.viewpoint.description.tool.PasteDescription;
 
@@ -81,15 +81,15 @@ public class DiagramDescriptionQuery {
      * 
      * @return a containing Group if available.
      */
-    public Option<Group> getParentGroup() {
+    public java.util.Optional<Group> getParentGroup() {
         EObject current = diagramDescription;
         while (current != null) {
             current = current.eContainer();
             if (current instanceof Group) {
-                return Options.newSome((Group) current);
+                return java.util.Optional.of((Group) current);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

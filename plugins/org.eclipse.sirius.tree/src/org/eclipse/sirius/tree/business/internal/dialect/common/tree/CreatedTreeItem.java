@@ -21,8 +21,8 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.impl.InternalTransaction;
 import org.eclipse.emf.transaction.impl.InternalTransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.synchronizer.ChildCreationSupport;
 import org.eclipse.sirius.synchronizer.Mapping;
 import org.eclipse.sirius.synchronizer.OutputDescriptor;
@@ -45,7 +45,7 @@ class CreatedTreeItem extends AbstractCreatedDTreeItemContainer {
 
     private int newIndex;
 
-    private Option<Mapping> newMapping = Options.newNone();
+    private java.util.Optional<Mapping> newMapping = java.util.Optional.empty();
 
     /**
      * Default constructor.
@@ -86,7 +86,7 @@ class CreatedTreeItem extends AbstractCreatedDTreeItemContainer {
 
     @Override
     public void updateMapping() {
-        if (newMapping.some()) {
+        if (newMapping.isPresent()) {
             tItem.setActualMapping(((RTreeItemMapping) newMapping.get()).getDescription());
         } else {
             throw new RuntimeException(Messages.DTreeRefresh_noMapping);
@@ -102,13 +102,13 @@ class CreatedTreeItem extends AbstractCreatedDTreeItemContainer {
 
     @Override
     public void setNewMapping(Mapping map) {
-        newMapping = Options.newSome(map);
+        newMapping = java.util.Optional.of(map);
 
     }
 
     @Override
-    public Option<? extends ChildCreationSupport> getChildSupport() {
-        return Options.newSome(new TreeItemContainerChildSupport(getGlobalContext(), tItem));
+    public java.util.Optional<? extends ChildCreationSupport> getChildSupport() {
+        return java.util.Optional.of(new TreeItemContainerChildSupport(getGlobalContext(), tItem));
     }
 
     /**

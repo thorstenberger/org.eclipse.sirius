@@ -34,8 +34,8 @@ import org.eclipse.sirius.diagram.ui.edit.api.part.IDDiagramEditPart;
 import org.eclipse.sirius.diagram.ui.edit.api.part.IDiagramElementEditPart;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
 import org.eclipse.sirius.diagram.ui.tools.api.requests.RequestConstants;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * In case the diagram is frozen we allow the refresh (enable editMode and
@@ -73,8 +73,8 @@ public class RefreshRunnableWithProgress implements IRunnableWithProgress {
                 if (editPartToRefresh instanceof IDDiagramEditPart) {
                     refreshFromDiagramEditPart((IDDiagramEditPart) editPartToRefresh, monitor);
                 } else {
-                    Option<Command> refreshEditPartCommand = refreshFromEditPart(editPartToRefresh, monitor);
-                    if (refreshEditPartCommand.some()) {
+                    java.util.Optional<Command> refreshEditPartCommand = refreshFromEditPart(editPartToRefresh, monitor);
+                    if (refreshEditPartCommand.isPresent()) {
                         commandsToExecute.add(refreshEditPartCommand.get());
                     }
                 }
@@ -119,8 +119,8 @@ public class RefreshRunnableWithProgress implements IRunnableWithProgress {
     private void refreshFromDiagramEditPart(IDDiagramEditPart dDiagramEditPart, IProgressMonitor progressMonitor) {
         // Enable edit mode for the diagram.
         dDiagramEditPart.enableEditMode();
-        Option<DDiagram> dDiagramOption = dDiagramEditPart.resolveDDiagram();
-        if (dDiagramOption.some()) {
+        java.util.Optional<DDiagram> dDiagramOption = dDiagramEditPart.resolveDDiagram();
+        if (dDiagramOption.isPresent()) {
             DDiagram dDiagram = dDiagramOption.get();
             TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(dDiagram);
             domain.getCommandStack().execute(new RefreshRepresentationsCommand(domain, new SubProgressMonitor(progressMonitor, 1), dDiagram));
@@ -138,24 +138,24 @@ public class RefreshRunnableWithProgress implements IRunnableWithProgress {
      *            Progress monitor to use.
      * @return the optional command.
      */
-    private Option<Command> refreshFromEditPart(EditPart editPart, IProgressMonitor progressMonitor) {
-        Option<Boolean> oldEditModeState = Options.newNone();
+    private java.util.Optional<Command> refreshFromEditPart(EditPart editPart, IProgressMonitor progressMonitor) {
+        java.util.Optional<Boolean> oldEditModeState = java.util.Optional.empty();
         if (editPart instanceof IEditableEditPart) {
             // Keep the old editMode state for editPart and activate editMode.
             IEditableEditPart editableEditPart = (IEditableEditPart) editPart;
-            oldEditModeState = Options.newSome(editableEditPart.isEditModeEnabled());
+            oldEditModeState = java.util.Optional.of(editableEditPart.isEditModeEnabled());
             editableEditPart.enableEditMode();
         }
         // Get the command from refresh request on the "enabledMode" editPart.
         final Request refreshRequest = new GroupRequest(RequestConstants.REQ_REFRESH_VIEWPOINT);
         Command refreshCmd = editPart.getCommand(refreshRequest);
         if (refreshCmd != null && refreshCmd.canExecute() && editPart instanceof IGraphicalEditPart) {
-            return Options.newSome(refreshCmd);
-        } else if (editPart instanceof IEditableEditPart && oldEditModeState.get() && !oldEditModeState.some()) {
+            return java.util.Optional.of(refreshCmd);
+        } else if (editPart instanceof IEditableEditPart && oldEditModeState.get() && !oldEditModeState.isPresent()) {
             // Restore the old editMode state (if disable)
             progressMonitor.worked(1);
             ((IEditableEditPart) editPart).disableEditMode();
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 }

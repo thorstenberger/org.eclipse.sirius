@@ -47,8 +47,8 @@ import org.eclipse.sirius.diagram.ui.provider.Messages;
 import org.eclipse.sirius.diagram.ui.tools.api.image.DiagramImagesPath;
 import org.eclipse.sirius.diagram.ui.tools.internal.providers.FilteredTreeContentProvider;
 import org.eclipse.sirius.diagram.ui.tools.internal.views.providers.outline.OutlineLabelProvider;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ui.tools.api.color.VisualBindingManager;
 import org.eclipse.sirius.viewpoint.provider.ViewpointItemProviderAdapterFactory;
 import org.eclipse.swt.SWT;
@@ -683,8 +683,8 @@ public class DiagramElementsSelectionDialog {
         initContentProvider(includeNodeLabel);
 
         Set<Object> allSelectedElements = Collections.unmodifiableSet(getAllSelectedElements());
-        Option<Set<Object>> response = askUserForNewSelection(parent, allSelectedElements);
-        if (response.some()) {
+        java.util.Optional<Set<Object>> response = askUserForNewSelection(parent, allSelectedElements);
+        if (response.isPresent()) {
             Set<Object> selectedAfter = response.get();
             applyRequestedChanges(allSelectedElements, selectedAfter);
             assert selectedAfter.equals(allSelectedElements);
@@ -733,17 +733,17 @@ public class DiagramElementsSelectionDialog {
      * @param initialSelection
      *            the set of elements to display as checked on dialog opening.
      * @return the new set of all the elements in the diagram which were
-     *         selected by the user, or <code>Options.newNone()</code> if the
+     *         selected by the user, or <code>java.util.Optional.empty()</code> if the
      *         user canceled the operation.
      */
-    protected Option<Set<Object>> askUserForNewSelection(Shell parent, Set<Object> initialSelection) {
+    protected java.util.Optional<Set<Object>> askUserForNewSelection(Shell parent, Set<Object> initialSelection) {
         setupDialog(parent, initialSelection);
         int result = dialog.open();
         if (result == Window.OK) {
             Set<Object> selectedAfter = getElementsSelectedAfter();
-            return Options.newSome(selectedAfter);
+            return java.util.Optional.of(selectedAfter);
         } else {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
     }
 
@@ -920,7 +920,7 @@ public class DiagramElementsSelectionDialog {
                 DDiagramElement underlyingDDiagramElement = null;
                 if (element instanceof DDiagramElement) {
                     underlyingDDiagramElement = (DDiagramElement) element;
-                } else if (element instanceof AbstractDDiagramElementLabelItemProvider && ((AbstractDDiagramElementLabelItemProvider) element).getDiagramElementTarget().some()) {
+                } else if (element instanceof AbstractDDiagramElementLabelItemProvider && ((AbstractDDiagramElementLabelItemProvider) element).getDiagramElementTarget().isPresent()) {
                     underlyingDDiagramElement = ((AbstractDDiagramElementLabelItemProvider) element).getDiagramElementTarget().get();
                 }
 

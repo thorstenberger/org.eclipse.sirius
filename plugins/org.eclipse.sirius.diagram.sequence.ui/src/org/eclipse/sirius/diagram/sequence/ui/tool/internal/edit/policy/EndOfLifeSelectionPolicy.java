@@ -48,7 +48,7 @@ import org.eclipse.sirius.diagram.sequence.util.Range;
 import org.eclipse.sirius.diagram.ui.business.internal.query.DNodeQuery;
 import org.eclipse.sirius.diagram.ui.graphical.edit.policies.SpecificBorderItemSelectionEditPolicy;
 import org.eclipse.sirius.diagram.ui.tools.internal.edit.command.CommandFactory;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 
 import com.google.common.base.Preconditions;
@@ -139,9 +139,9 @@ public class EndOfLifeSelectionPolicy extends SpecificBorderItemSelectionEditPol
 
     private Command getLifelineMovesCommand(EndOfLifeEditPart self, ChangeBoundsRequest cbr) {
         CompositeTransactionalCommand ctc = new CompositeTransactionalCommand(self.getEditingDomain(), Messages.EndOfLifeSelectionPolicy_lifelineMoveCommand);
-        Option<EndOfLife> endOfLife = ISequenceElementAccessor.getEndOfLife(self.getNotationView());
+        java.util.Optional<EndOfLife> endOfLife = ISequenceElementAccessor.getEndOfLife(self.getNotationView());
         LifelineEditPart lep = self.getLifelineEditPart();
-        boolean destroyed = endOfLife.some() && endOfLife.get().isExplicitelyDestroyed();
+        boolean destroyed = endOfLife.isPresent() && endOfLife.get().isExplicitelyDestroyed();
 
         if (lep != null) {
             if (destroyed) {
@@ -182,8 +182,8 @@ public class EndOfLifeSelectionPolicy extends SpecificBorderItemSelectionEditPol
     }
 
     private boolean canResizeLifeline(EndOfLifeEditPart self, ChangeBoundsRequest request) {
-        Option<EndOfLife> endOfLife = ISequenceElementAccessor.getEndOfLife(self.getNotationView());
-        boolean destroyed = endOfLife.some() && endOfLife.get().isExplicitelyDestroyed();
+        java.util.Optional<EndOfLife> endOfLife = ISequenceElementAccessor.getEndOfLife(self.getNotationView());
+        boolean destroyed = endOfLife.isPresent() && endOfLife.get().isExplicitelyDestroyed();
         boolean result = !destroyed || request.isConstrainedMove();
         LifelineEditPart lep = self.getLifelineEditPart();
         if (result && lep != null && (org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants.REQ_DROP.equals(request.getType()) || RequestConstants.REQ_MOVE.equals(request.getType()))) {

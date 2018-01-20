@@ -13,7 +13,7 @@ package org.eclipse.sirius.tree.business.api.interaction;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.synchronizer.SemanticPartitionInvalidator;
 import org.eclipse.sirius.tree.DTree;
 import org.eclipse.sirius.tree.DTreeItem;
@@ -114,8 +114,8 @@ public class DTreeItemUserInteraction {
      */
     public void refreshContent(boolean fullRefresh, IProgressMonitor monitor) {
         SemanticPartitionInvalidator invalidator = new SemanticPartitionInvalidator();
-        Option<DTree> parentTree = new DTreeItemQuery(item).getParentTree();
-        if (parentTree.some()) {
+        java.util.Optional<DTree> parentTree = new DTreeItemQuery(item).getParentTree();
+        if (parentTree.isPresent()) {
             DTreeRefresh refresher = new DTreeRefresh(item, new TreeDescriptionQuery(parentTree.get().getDescription()).getAllDescendantMappings(), invalidator, ctx);
             refresher.refresh(fullRefresh, monitor);
         }

@@ -18,8 +18,8 @@ import org.eclipse.sirius.diagram.sequence.SequenceDDiagram;
 import org.eclipse.sirius.diagram.sequence.business.internal.layout.LayoutConstants;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.LifelineEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.SequenceDiagramEditPart;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.sample.interactions.Interaction;
 import org.eclipse.sirius.tests.swtbot.support.api.condition.CheckEditPartMoved;
 import org.eclipse.sirius.tests.swtbot.support.api.condition.CheckEditPartResized;
@@ -65,8 +65,8 @@ public class ExecutionMove4Tests extends AbstractDefaultModelSequenceTests {
      * {@inheritDoc}
      */
     @Override
-    protected Option<String> getDRepresentationName() {
-        return Options.newSome(REPRESENTATION_NAME);
+    protected java.util.Optional<String> getDRepresentationName() {
+        return java.util.Optional.of(REPRESENTATION_NAME);
     }
 
     private SWTBotGefEditPart sequenceDiagramBot;

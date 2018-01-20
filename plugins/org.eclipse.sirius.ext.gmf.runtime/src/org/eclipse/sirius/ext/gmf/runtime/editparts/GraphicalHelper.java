@@ -33,8 +33,8 @@ import org.eclipse.gmf.runtime.draw2d.ui.geometry.LineSeg;
 import org.eclipse.gmf.runtime.draw2d.ui.geometry.PointListUtilities;
 import org.eclipse.gmf.runtime.notation.Anchor;
 import org.eclipse.gmf.runtime.notation.IdentityAnchor;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.draw2d.figure.FigureUtilities;
 
 import com.google.common.base.Preconditions;
@@ -398,7 +398,7 @@ public final class GraphicalHelper {
      *            the part, false otherwise.
      * @return Intersection between a line and a rectangle.
      */
-    public static Option<Point> getIntersection(Point lineOrigin, Point lineTerminus, IGraphicalEditPart part, boolean minimalDistancefromLineOrigin) {
+    public static java.util.Optional<Point> getIntersection(Point lineOrigin, Point lineTerminus, IGraphicalEditPart part, boolean minimalDistancefromLineOrigin) {
         return getIntersection(lineOrigin, lineTerminus, part, minimalDistancefromLineOrigin, false);
     }
 
@@ -421,7 +421,7 @@ public final class GraphicalHelper {
      *            rectangle is returned.
      * @return Intersection between a line and a rectangle.
      */
-    public static Option<Point> getIntersection(Point lineOrigin, Point lineTerminus, IGraphicalEditPart part, boolean minimalDistancefromLineOrigin, boolean useNearestPoint) {
+    public static java.util.Optional<Point> getIntersection(Point lineOrigin, Point lineTerminus, IGraphicalEditPart part, boolean minimalDistancefromLineOrigin, boolean useNearestPoint) {
         // Get the bounds of the part
         Rectangle bounds = getAbsoluteBoundsIn100Percent(part);
         return getIntersection(lineOrigin, lineTerminus, bounds, minimalDistancefromLineOrigin, useNearestPoint);
@@ -443,7 +443,7 @@ public final class GraphicalHelper {
      *            the part, false otherwise.
      * @return Intersection between a line and a rectangle.
      */
-    public static Option<Point> getIntersection(Point lineOrigin, Point lineTerminus, Rectangle rectangle, boolean minimalDistancefromLineOrigin) {
+    public static java.util.Optional<Point> getIntersection(Point lineOrigin, Point lineTerminus, Rectangle rectangle, boolean minimalDistancefromLineOrigin) {
         return getIntersection(lineOrigin, lineTerminus, rectangle, minimalDistancefromLineOrigin, false);
     }
 
@@ -466,8 +466,8 @@ public final class GraphicalHelper {
      *            rectangle is returned.
      * @return Intersection between a line and a rectangle.
      */
-    public static Option<Point> getIntersection(Point lineOrigin, Point lineTerminus, Rectangle rectangle, boolean minimalDistancefromLineOrigin, boolean useNearestPoint) {
-        Option<Point> result = Options.newNone();
+    public static java.util.Optional<Point> getIntersection(Point lineOrigin, Point lineTerminus, Rectangle rectangle, boolean minimalDistancefromLineOrigin, boolean useNearestPoint) {
+        java.util.Optional<Point> result = java.util.Optional.empty();
         // Create the line segment
         PointList line = new PointList();
         line.addPoint(lineOrigin);
@@ -495,7 +495,7 @@ public final class GraphicalHelper {
                     shortestPoint = intersectionPoint;
                 }
             }
-            result = Options.newSome(shortestPoint);
+            result = java.util.Optional.of(shortestPoint);
         } else if (!lineOrigin.equals(lineTerminus) && useNearestPoint) {
             // If no intersection is found and the origin is not the terminus,
             // the origin (or the terminus) is outside the rectangle, probably
@@ -535,7 +535,7 @@ public final class GraphicalHelper {
                         resultPoint = nearestPoint;
                     }
                 }
-                result = Options.newSome(resultPoint);
+                result = java.util.Optional.of(resultPoint);
             }
 
         }

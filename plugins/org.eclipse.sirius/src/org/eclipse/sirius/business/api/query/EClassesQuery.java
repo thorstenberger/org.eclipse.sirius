@@ -17,7 +17,7 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.collect.Lists;
 
@@ -52,7 +52,7 @@ public class EClassesQuery {
      *         {@link EStructuralFeature#getEType()}, None {@link Option} if no
      *         common type exists
      */
-    public Option<EClass> getCommonTypeForReference(String referenceName) {
+    public java.util.Optional<EClass> getCommonTypeForReference(String referenceName) {
         Set<EStructuralFeature> eReferences = new LinkedHashSet<EStructuralFeature>();
         for (EClass eClazz : eClasses) {
             EStructuralFeature eStructuralFeature = eClazz.getEStructuralFeature(referenceName);

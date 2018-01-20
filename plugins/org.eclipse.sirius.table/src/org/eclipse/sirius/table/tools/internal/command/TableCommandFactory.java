@@ -39,7 +39,7 @@ import org.eclipse.sirius.ecore.extender.business.api.accessor.exception.Feature
 import org.eclipse.sirius.ecore.extender.business.api.accessor.exception.MetaClassNotFoundException;
 import org.eclipse.sirius.ecore.extender.business.api.permission.IPermissionAuthority;
 import org.eclipse.sirius.ecore.extender.business.api.permission.exception.LockedInstanceException;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.table.business.api.helper.TableHelper;
 import org.eclipse.sirius.table.business.internal.helper.task.CreateTableTask;
 import org.eclipse.sirius.table.metamodel.table.DCell;
@@ -172,7 +172,7 @@ public class TableCommandFactory extends AbstractCommandFactory implements ITabl
             if (commandTaskHelper.checkPrecondition(semanticCurrentElement, tool)) {
                 SiriusCommand createLineCommand = buildCommandFromModelOfTool(semanticCurrentElement, tool, lineContainer);
                 addRefreshTask(lineContainer, createLineCommand, tool);
-                Option<DRepresentation> dRepresentation = new EObjectQuery(lineContainer).getRepresentation();
+                java.util.Optional<DRepresentation> dRepresentation = new EObjectQuery(lineContainer).getRepresentation();
                 createLineCommand.getTasks().add(new ElementsToSelectTask(tool, InterpreterUtil.getInterpreter(lineContainer.getTarget()), lineContainer.getTarget(), dRepresentation.get()));
                 result = createLineCommand;
             }
@@ -204,7 +204,7 @@ public class TableCommandFactory extends AbstractCommandFactory implements ITabl
                 // result.getTasks().add(new CreateDLineTask(tool, result,
                 // modelAccessor, lineContainer));
                 addRefreshTask(containerView, createColumnCommand, tool);
-                Option<DRepresentation> dRepresentation = new EObjectQuery(containerView).getRepresentation();
+                java.util.Optional<DRepresentation> dRepresentation = new EObjectQuery(containerView).getRepresentation();
                 createColumnCommand.getTasks().add(new ElementsToSelectTask(tool, InterpreterUtil.getInterpreter(containerView.getTarget()), containerView.getTarget(), dRepresentation.get()));
                 result = createColumnCommand;
             }
@@ -520,11 +520,11 @@ public class TableCommandFactory extends AbstractCommandFactory implements ITabl
             if (!getPermissionAuthority().canEditInstance(column)) {
                 result = new InvalidPermissionCommand(domain, column);
             } else {
-                final Option<CreateCellTool> optionalCreateCellTool = TableHelper.getCreateCellTool(line, column);
-                if (optionalCreateCellTool.some()) {
+                final java.util.Optional<CreateCellTool> optionalCreateCellTool = TableHelper.getCreateCellTool(line, column);
+                if (optionalCreateCellTool.isPresent()) {
                     result = buildCommandFromIntersection(line, column, optionalCreateCellTool.get(), newValue);
                     addRefreshTask(TableHelper.getTable(line), (SiriusCommand) result, optionalCreateCellTool.get());
-                    Option<DRepresentation> dRepresentation = new EObjectQuery(line).getRepresentation();
+                    java.util.Optional<DRepresentation> dRepresentation = new EObjectQuery(line).getRepresentation();
                     ((SiriusCommand) result).getTasks()
                             .add(new ElementsToSelectTask(optionalCreateCellTool.get(), InterpreterUtil.getInterpreter(line.getTarget()), line.getTarget(), dRepresentation.get()));
                 }

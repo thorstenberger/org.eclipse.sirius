@@ -17,8 +17,8 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.sirius.viewpoint.description.DAnnotationEntry;
@@ -54,13 +54,13 @@ public class DAnalysisQuery {
      *            the data of the annotation
      * @return the annotation entry
      */
-    public Option<DAnnotationEntry> getAnnotation(final String source, final String detail) {
+    public java.util.Optional<DAnnotationEntry> getAnnotation(final String source, final String detail) {
         for (DAnnotationEntry annotation : analysis.getEAnnotations()) {
             if (source.equals(annotation.getSource()) && annotation.getDetails().contains(detail)) {
-                return Options.newSome(annotation);
+                return java.util.Optional.of(annotation);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -70,13 +70,13 @@ public class DAnalysisQuery {
      *            the source of the annotation
      * @return the annotation entries
      */
-    public Option<DAnnotationEntry> getAnnotation(final String source) {
+    public java.util.Optional<DAnnotationEntry> getAnnotation(final String source) {
         for (DAnnotationEntry annotation : analysis.getEAnnotations()) {
             if (source.equals(annotation.getSource())) {
-                return Options.newSome(annotation);
+                return java.util.Optional.of(annotation);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -106,11 +106,11 @@ public class DAnalysisQuery {
      * @return an optional EObject representing the root of the main semantic
      *         model.
      */
-    public Option<EObject> getMainModel() {
+    public java.util.Optional<EObject> getMainModel() {
         if (analysis.getModels().isEmpty()) {
-            return Options.newNone();
+            return java.util.Optional.empty();
         } else {
-            return Options.newSome(analysis.getModels().get(0));
+            return java.util.Optional.of(analysis.getModels().get(0));
         }
     }
 
@@ -127,11 +127,11 @@ public class DAnalysisQuery {
      *         semantic models.
      */
     public Set<EObject> getMainModels() {
-        Option<EObject> optionalMainModel = getMainModel();
+        java.util.Optional<EObject> optionalMainModel = getMainModel();
         // We need a list with the "main model" and other root models to allow
         // control on project with many models
         Set<EObject> releventModels = new LinkedHashSet<>();
-        if (optionalMainModel.some()) {
+        if (optionalMainModel.isPresent()) {
             releventModels.add(optionalMainModel.get());
             for (EObject model : analysis.getModels()) {
                 if (!AdapterFactoryEditingDomain.isControlled(model) && !(new EObjectQuery(optionalMainModel.get()).isContainedIn(model))) {

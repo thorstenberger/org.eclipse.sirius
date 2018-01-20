@@ -49,8 +49,8 @@ import org.eclipse.sirius.diagram.description.EdgeMappingImport;
 import org.eclipse.sirius.diagram.description.IEdgeMapping;
 import org.eclipse.sirius.diagram.description.style.EdgeStyleDescription;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tools.api.interpreter.IInterpreterMessages;
 import org.eclipse.sirius.tools.api.profiler.SiriusTasksKey;
 import org.eclipse.sirius.tools.api.ui.resource.ISiriusMessages;
@@ -220,7 +220,7 @@ public final class EdgeMappingHelper {
             }
         }
         if (newEdge.getOwnedStyle() != null) {
-            Option<EdgeStyle> noPreviousStyle = Options.newNone();
+            java.util.Optional<EdgeStyle> noPreviousStyle = java.util.Optional.empty();
             new StyleHelper(interpreter).refreshStyle(newEdge.getOwnedStyle(), noPreviousStyle);
         }
 
@@ -398,8 +398,8 @@ public final class EdgeMappingHelper {
             final IInterpreter rootInterpreter = SiriusPlugin.getDefault().getInterpreterRegistry().getInterpreter(root);
 
             // semantic candidates.
-            Option<EdgeMapping> edgeMappingOption = new IEdgeMappingQuery(actualMapping).getEdgeMapping();
-            if (edgeMappingOption.some() && edgeMappingOption.get().isUseDomainElement()) {
+            java.util.Optional<EdgeMapping> edgeMappingOption = new IEdgeMappingQuery(actualMapping).getEdgeMapping();
+            if (edgeMappingOption.isPresent() && edgeMappingOption.get().isUseDomainElement()) {
                 final Collection<EObject> candidates = this.getSemanticCandidates(dEdge, rootInterpreter, root, diagram);
                 if (!candidates.contains(dEdge.getTarget())) {
                     DslCommonPlugin.PROFILER.stopWork(SiriusTasksKey.VALIDATE_EDGE_KEY);
@@ -408,7 +408,7 @@ public final class EdgeMappingHelper {
             }
 
             // precondition.
-            if (edgeMappingOption.some() && dEdge.getSourceNode() instanceof DSemanticDecorator && dEdge.getTargetNode() instanceof DSemanticDecorator) {
+            if (edgeMappingOption.isPresent() && dEdge.getSourceNode() instanceof DSemanticDecorator && dEdge.getTargetNode() instanceof DSemanticDecorator) {
                 EdgeMapping edgeMapping = edgeMappingOption.get();
                 EdgeMappingQuery edgeMappingQuery = new EdgeMappingQuery(edgeMapping);
                 result = result && edgeMappingQuery.evaluatePrecondition(diagram, diagram, rootInterpreter, dEdge.getTarget(), (DSemanticDecorator) dEdge.getSourceNode(),
@@ -431,8 +431,8 @@ public final class EdgeMappingHelper {
             vp = ((DDiagramElement) srcNode).getParentDiagram();
         }
 
-        Option<EdgeMapping> edgeMapping = new IEdgeMappingQuery(dEdge.getActualMapping()).getEdgeMapping();
-        if (edgeMapping.some() && srcNode instanceof DSemanticDecorator) {
+        java.util.Optional<EdgeMapping> edgeMapping = new IEdgeMappingQuery(dEdge.getActualMapping()).getEdgeMapping();
+        if (edgeMapping.isPresent() && srcNode instanceof DSemanticDecorator) {
             final EObject tgNode = dEdge.getTargetNode();
             if (tgNode instanceof DSemanticDecorator) {
                 final EObject semanticSource = ((DSemanticDecorator) srcNode).getTarget();
@@ -465,8 +465,8 @@ public final class EdgeMappingHelper {
     private Collection<EObject> getSemanticCandidates(DEdge dEdge, final IInterpreter iInterpreter, final EObject model, final DDiagram diagram) {
         Collection<EObject> semanticCandidates = null;
         IEdgeMapping actualMapping = dEdge.getActualMapping();
-        final Option<EdgeMapping> actualEdgeMappingOption = new IEdgeMappingQuery(actualMapping).getEdgeMapping();
-        if (actualEdgeMappingOption.some()) {
+        final java.util.Optional<EdgeMapping> actualEdgeMappingOption = new IEdgeMappingQuery(actualMapping).getEdgeMapping();
+        if (actualEdgeMappingOption.isPresent()) {
             EdgeMapping actualEdgeMapping = actualEdgeMappingOption.get();
             if (actualEdgeMapping.isUseDomainElement() && actualEdgeMapping.getSemanticCandidatesExpression() != null
                     && !StringUtil.isEmpty(actualEdgeMapping.getSemanticCandidatesExpression().trim())) {

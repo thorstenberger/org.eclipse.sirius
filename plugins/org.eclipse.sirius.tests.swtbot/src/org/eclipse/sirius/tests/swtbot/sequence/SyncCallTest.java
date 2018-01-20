@@ -36,7 +36,7 @@ import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.SequenceMe
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.StateEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.layout.LayoutEditPartConstants;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.util.EditPartsHelper;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 import org.eclipse.sirius.tests.swtbot.sequence.condition.CheckMessageEditPartIsDisplayed;
 import org.eclipse.sirius.tests.swtbot.sequence.condition.CheckNumberExecutionOnLifeline;
@@ -2483,8 +2483,8 @@ public class SyncCallTest extends AbstractDefaultModelSequenceTests {
         changeCollapseFilterActivation();
 
         // Creation of an state on lifeline B
-        Option<SWTBotGefEditPart> newStateOption = createStateWithResult(getLifelineScreenX(LIFELINE_B), getExecutionScreenBounds(LIFELINE_B, 1).getCenter().y);
-        Assert.assertTrue(newStateOption.some());
+        java.util.Optional<SWTBotGefEditPart> newStateOption = createStateWithResult(getLifelineScreenX(LIFELINE_B), getExecutionScreenBounds(LIFELINE_B, 1).getCenter().y);
+        Assert.assertTrue(newStateOption.isPresent());
 
         changeCollapseFilterActivation();
 

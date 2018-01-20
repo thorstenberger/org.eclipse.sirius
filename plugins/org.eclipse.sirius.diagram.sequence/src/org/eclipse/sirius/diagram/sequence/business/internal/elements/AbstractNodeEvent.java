@@ -26,7 +26,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.util.ParentOperandF
 import org.eclipse.sirius.diagram.sequence.business.internal.util.RangeSetter;
 import org.eclipse.sirius.diagram.sequence.description.DescriptionPackage;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -121,7 +121,7 @@ public abstract class AbstractNodeEvent extends AbstractSequenceNode implements 
      * @return the deepest Operand convering this lifeline at this range
      * @see ISequenceEvent#getParentOperand()
      */
-    public Option<Operand> getParentOperand(final int verticalPosition) {
+    public java.util.Optional<Operand> getParentOperand(final int verticalPosition) {
         return new ParentOperandFinder(this).getParentOperand(new Range(verticalPosition, verticalPosition));
     }
 
@@ -133,7 +133,7 @@ public abstract class AbstractNodeEvent extends AbstractSequenceNode implements 
      * @return the deepest Operand convering this lifeline at this range
      * @see ISequenceEvent#getParentOperand()
      */
-    public Option<Operand> getParentOperand(final Range range) {
+    public java.util.Optional<Operand> getParentOperand(final Range range) {
         return new ParentOperandFinder(this).getParentOperand(range);
     }
 
@@ -143,7 +143,7 @@ public abstract class AbstractNodeEvent extends AbstractSequenceNode implements 
      * @return the deepest Operand container if existing
      */
     @Override
-    public Option<Operand> getParentOperand() {
+    public java.util.Optional<Operand> getParentOperand() {
         return new ParentOperandFinder(this).getParentOperand();
     }
 
@@ -163,7 +163,7 @@ public abstract class AbstractNodeEvent extends AbstractSequenceNode implements 
     }
 
     @Override
-    public Option<Lifeline> getLifeline() {
+    public java.util.Optional<Lifeline> getLifeline() {
         return getParentLifeline();
     }
 

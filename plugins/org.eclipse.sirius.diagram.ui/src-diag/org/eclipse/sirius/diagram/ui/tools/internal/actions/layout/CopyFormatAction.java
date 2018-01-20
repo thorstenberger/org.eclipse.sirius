@@ -41,7 +41,7 @@ import org.eclipse.sirius.diagram.ui.tools.api.ui.actions.ActionIds;
 import org.eclipse.sirius.diagram.ui.tools.internal.editor.DDiagramEditorImpl;
 import org.eclipse.sirius.diagram.ui.tools.internal.format.data.extension.FormatDataManagerRegistry;
 import org.eclipse.sirius.diagram.ui.tools.internal.layout.data.extension.LayoutDataManagerRegistry;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -135,8 +135,8 @@ public class CopyFormatAction extends AbstractCopyPasteFormatAction {
         });
         DiagramEditPart diagramEditPart = getDiagramEditPart();
         if (diagramEditPart instanceof IDDiagramEditPart) {
-            final Option<DDiagram> diagram = ((IDDiagramEditPart) diagramEditPart).resolveDDiagram();
-            if (diagram.some()) {
+            final java.util.Optional<DDiagram> diagram = ((IDDiagramEditPart) diagramEditPart).resolveDDiagram();
+            if (diagram.isPresent()) {
                 // Clean the selection to keep only one data if both node and
                 // its label are selected.
                 List<IGraphicalEditPart> selectedEditParts = cleanSelectedObjects(getSelectedObjects());

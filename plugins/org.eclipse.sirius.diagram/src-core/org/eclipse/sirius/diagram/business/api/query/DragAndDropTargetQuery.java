@@ -15,8 +15,8 @@ import java.util.Iterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.DragAndDropTarget;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * A class aggregating all the queries (read-only!) having a
@@ -55,19 +55,19 @@ public class DragAndDropTargetQuery {
      *            semantic target of the searched element.
      * @return the corresponding {@link DDiagramElement} if found.
      */
-    public Option<DDiagramElement> findDesignerDiagramElement(final String mappingName, final EObject object) {
+    public java.util.Optional<DDiagramElement> findDesignerDiagramElement(final String mappingName, final EObject object) {
         final Iterator<EObject> it = dndTarget.eContents().iterator();
         while (it.hasNext()) {
             final EObject elem = it.next();
             if (elem instanceof DDiagramElement) {
-                final Option<String> name = new DDiagramElementQuery((DDiagramElement) elem).getMappingName();
-                if (name != null && name.some() && name.get().equals(mappingName)) {
+                final java.util.Optional<String> name = new DDiagramElementQuery((DDiagramElement) elem).getMappingName();
+                if (name != null && name.isPresent() && name.get().equals(mappingName)) {
                     if (((DDiagramElement) elem).getTarget() == object) {
-                        return Options.newSome((DDiagramElement) elem);
+                        return java.util.Optional.of((DDiagramElement) elem);
                     }
                 }
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 }

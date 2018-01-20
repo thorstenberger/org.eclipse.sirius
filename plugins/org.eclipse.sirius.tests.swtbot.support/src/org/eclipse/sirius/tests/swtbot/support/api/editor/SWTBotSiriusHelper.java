@@ -15,8 +15,8 @@ import java.util.List;
 
 import org.eclipse.sirius.common.tools.api.util.ReflectionHelper;
 import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.table.ui.tools.api.editor.DTableEditor;
 import org.eclipse.sirius.tree.ui.tools.api.editor.DTreeEditor;
 import org.eclipse.sirius.ui.business.api.dialect.DialectEditor;
@@ -68,7 +68,7 @@ public final class SWTBotSiriusHelper {
      * @return the tabbed property sheet title. Label to find.
      */
     @SuppressWarnings({ "unchecked" })
-    public static Option<String> getPropertyItemTitle() {
+    public static java.util.Optional<String> getPropertyItemTitle() {
         final Matcher<TabbedPropertyTitle> matcher = Matchers.allOf(WidgetMatcherFactory.widgetOfType(TabbedPropertyTitle.class));
         final List<TabbedPropertyTitle> widgets = SWTBotSiriusHelper.widget(matcher);
 
@@ -76,8 +76,8 @@ public final class SWTBotSiriusHelper {
             @Override
             public String run() {
                 for (final TabbedPropertyTitle tabbedProperty : widgets) {
-                    Option<Object> title = ReflectionHelper.getFieldValueWithoutException(tabbedProperty, "text");
-                    if (title.some()) {
+                    java.util.Optional<Object> title = ReflectionHelper.getFieldValueWithoutException(tabbedProperty, "text");
+                    if (title.isPresent()) {
                         return (String) title.get();
                     }
                 }
@@ -85,7 +85,7 @@ public final class SWTBotSiriusHelper {
             }
         });
 
-        return Options.newSome(result);
+        return java.util.Optional.of(result);
     }
 
     /**

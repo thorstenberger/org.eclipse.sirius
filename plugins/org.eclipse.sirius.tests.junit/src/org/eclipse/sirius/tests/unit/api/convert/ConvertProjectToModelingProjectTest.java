@@ -38,7 +38,7 @@ import org.eclipse.sirius.business.api.resource.strategy.ResourceStrategyRegistr
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.common.tools.internal.resource.ResourceSyncClientNotifier;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.sample.interactions.InteractionsFactory;
 import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import org.eclipse.sirius.tests.support.api.EclipseTestsSupportHelper;
@@ -315,8 +315,8 @@ public class ConvertProjectToModelingProjectTest extends SiriusTestCase {
     }
 
     private Session checkModelingProject(IProject project, IFile representationFile, int expectedSemanticResources) {
-        Option<ModelingProject> modelingProject = ModelingProject.asModelingProject(project);
-        assertTrue(modelingProject.some());
+        java.util.Optional<ModelingProject> modelingProject = ModelingProject.asModelingProject(project);
+        assertTrue(modelingProject.isPresent());
         URI representationFileURI = URI.createPlatformResourceURI(representationFile.getFullPath().toOSString(), true);
         assertEquals(representationFileURI, modelingProject.get().getMainRepresentationsFileURI(new NullProgressMonitor()).get());
 

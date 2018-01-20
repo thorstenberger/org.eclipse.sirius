@@ -44,7 +44,7 @@ public class SetVerticalRangeOperation extends AbstractModelChangeOperation<Void
 
     @Override
     public Void execute() {
-        if (ise.getSemanticTargetElement().some()) {
+        if (ise.getSemanticTargetElement().isPresent()) {
             ise.setVerticalRange(newRange);
         }
         return null;

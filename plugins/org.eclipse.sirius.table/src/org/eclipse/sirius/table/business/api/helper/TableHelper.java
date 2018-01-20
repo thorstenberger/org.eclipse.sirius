@@ -21,8 +21,8 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.table.business.api.query.DCellQuery;
 import org.eclipse.sirius.table.metamodel.table.DCell;
 import org.eclipse.sirius.table.metamodel.table.DColumn;
@@ -157,7 +157,7 @@ public final class TableHelper {
      * @return the option with cell corresponding to both lines and columns,
      *         empty option if not found.
      */
-    public static Option<DCell> getCell(final DLine line, final DColumn column) {
+    public static java.util.Optional<DCell> getCell(final DLine line, final DColumn column) {
         DCell found = null;
         if (currentlyCached == getTable(line) && CACHE.containsKey(line)) {
             found = CACHE.get(line).get(column);
@@ -171,9 +171,9 @@ public final class TableHelper {
             }
         }
         if (found != null) {
-            return Options.newSome(found);
+            return java.util.Optional.of(found);
         } else {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
     }
 
@@ -198,8 +198,8 @@ public final class TableHelper {
             // Get the column corresponding to the index
             final DColumn column = table.getColumns().get(columnIndex);
             // Get the Cell corresponding to this line and column
-            Option<DCell> optionalCell = getCell(line, column);
-            if (optionalCell.some()) {
+            java.util.Optional<DCell> optionalCell = getCell(line, column);
+            if (optionalCell.isPresent()) {
                 result = optionalCell.get();
             }
         }
@@ -238,8 +238,8 @@ public final class TableHelper {
      */
     public static EStructuralFeature getEStructuralFeature(final DLine line, final DColumn column) {
         if (column instanceof DFeatureColumn) {
-            final Option<DCell> cellOption = TableHelper.getCell(line, column);
-            if (cellOption.some() && cellOption.get().getTarget() != null) {
+            final java.util.Optional<DCell> cellOption = TableHelper.getCell(line, column);
+            if (cellOption.isPresent() && cellOption.get().getTarget() != null) {
                 return cellOption.get().getTarget().eClass().getEStructuralFeature(((DFeatureColumn) column).getFeatureName());
             }
         }
@@ -335,9 +335,9 @@ public final class TableHelper {
      * @return true if this cell can be edited, false otherwise.
      */
     public static boolean canEditCrossTableCell(final DLine dLine, final DTargetColumn dTargetColumn) {
-        Option<DCell> optionnalCell = TableHelper.getCell(dLine, dTargetColumn);
+        java.util.Optional<DCell> optionnalCell = TableHelper.getCell(dLine, dTargetColumn);
         boolean canEdit = false;
-        if (optionnalCell.some()) {
+        if (optionnalCell.isPresent()) {
             canEdit = canEditCrossTableCell(optionnalCell.get());
         } else if (TableHelper.canCreate(dLine, dTargetColumn)) {
             canEdit = true;
@@ -375,7 +375,7 @@ public final class TableHelper {
      * @return Return an optional (the first) CreateCellTool corresponding to
      *         the intersection of this line and column
      */
-    public static Option<CreateCellTool> getCreateCellTool(final DLine line, final DColumn column) {
+    public static java.util.Optional<CreateCellTool> getCreateCellTool(final DLine line, final DColumn column) {
         final DTable table = TableHelper.getTable(line);
         if (table.getDescription() instanceof CrossTableDescription) {
             final ColumnMapping columnMapping = column.getOriginMapping();
@@ -383,11 +383,11 @@ public final class TableHelper {
             for (IntersectionMapping intersectionMapping : ((CrossTableDescription) table.getDescription()).getIntersection()) {
                 if (intersectionMapping.getCreate() != null && columnMapping.equals(intersectionMapping.getColumnMapping()) && intersectionMapping.getLineMapping() != null
                         && intersectionMapping.getLineMapping().contains(lineMapping)) {
-                    return Options.newSome(intersectionMapping.getCreate());
+                    return java.util.Optional.of(intersectionMapping.getCreate());
                 }
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -476,7 +476,7 @@ public final class TableHelper {
      * @return an optional DTableElementStyle to use for the foreground of the
      *         cell intersection of line and column.
      */
-    public static Option<DTableElementStyle> getBackgroundStyleToApply(DLine line, DColumn column) {
+    public static java.util.Optional<DTableElementStyle> getBackgroundStyleToApply(DLine line, DColumn column) {
         DTableElementStyle styleToApply = null;
 
         DTableElementStyle currentLineStyle = null;
@@ -518,9 +518,9 @@ public final class TableHelper {
         if (styleToApply == null) {
             // This should happens if the style used only default value
             // (unset value) so in this case we don't create a style.
-            return Options.newSome(DCellQuery.DEFAULT_STYLE);
+            return java.util.Optional.of(DCellQuery.DEFAULT_STYLE);
         } else {
-            return Options.newSome(styleToApply);
+            return java.util.Optional.of(styleToApply);
         }
     }
 
@@ -536,7 +536,7 @@ public final class TableHelper {
      * @return an optional DTableElementStyle to use for the background of the
      *         cell intersection of line and column.
      */
-    public static Option<DTableElementStyle> getForegroundStyleToApply(DLine line, DColumn column) {
+    public static java.util.Optional<DTableElementStyle> getForegroundStyleToApply(DLine line, DColumn column) {
         DTableElementStyle styleToApply = null;
 
         DTableElementStyle currentLineStyle = null;
@@ -580,9 +580,9 @@ public final class TableHelper {
         }
 
         if (styleToApply == null) {
-            return Options.newNone();
+            return java.util.Optional.empty();
         } else {
-            return Options.newSome(styleToApply);
+            return java.util.Optional.of(styleToApply);
         }
     }
 }

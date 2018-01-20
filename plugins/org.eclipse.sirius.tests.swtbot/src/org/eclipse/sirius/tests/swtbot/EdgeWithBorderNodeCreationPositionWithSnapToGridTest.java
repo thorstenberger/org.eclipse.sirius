@@ -23,8 +23,8 @@ import org.eclipse.sirius.diagram.ui.edit.api.part.AbstractDiagramContainerEditP
 import org.eclipse.sirius.diagram.ui.edit.api.part.AbstractDiagramNodeEditPart;
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.DEdgeEditPart;
 import org.eclipse.sirius.diagram.ui.internal.refresh.GMFHelper;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 import org.eclipse.sirius.tests.swtbot.support.api.business.UIDiagramRepresentation.ZoomLevel;
 import org.eclipse.sirius.tests.swtbot.support.api.condition.OperationDoneCondition;
@@ -249,7 +249,7 @@ public class EdgeWithBorderNodeCreationPositionWithSnapToGridTest extends EdgeWi
      */
     public void testBorderNodesOnNodeInContainerAreAlignedWithScrollOnDiagramAndContainer() {
         testBorderNodesAreAligned("TC2185 Node in Container", "Node in Container With Scroll", "C", AbstractDiagramNodeEditPart.class, 100, "D", AbstractDiagramNodeEditPart.class, 109, false,
-                ZoomLevel.ZOOM_100, Options.newSome("OtherClass"));
+                ZoomLevel.ZOOM_100, java.util.Optional.of("OtherClass"));
     }
 
     /**
@@ -257,7 +257,7 @@ public class EdgeWithBorderNodeCreationPositionWithSnapToGridTest extends EdgeWi
      */
     public void testBorderNodesOnContainerInContainerAreAlignedWithScrollOnDiagramAndContainer() {
         testBorderNodesAreAligned("TC2185 Container in Container", "Container in Container With Scroll", "C", AbstractDiagramContainerEditPart.class, 99, "D", AbstractDiagramContainerEditPart.class,
-                108, false, ZoomLevel.ZOOM_100, Options.newSome("OtherClass"));
+                108, false, ZoomLevel.ZOOM_100, java.util.Optional.of("OtherClass"));
     }
 
     /**
@@ -274,7 +274,7 @@ public class EdgeWithBorderNodeCreationPositionWithSnapToGridTest extends EdgeWi
      */
     public void testBorderNodesOnNodeInContainerAreAlignedWithScrollOnDiagramAndContainerAndZoom() {
         testBorderNodesAreAligned("TC2185 Node in Container", "Node in Container With Scroll", "C", AbstractDiagramNodeEditPart.class, 100, "D", AbstractDiagramNodeEditPart.class, 109, false,
-                ZoomLevel.ZOOM_50, Options.newSome("OtherClass"));
+                ZoomLevel.ZOOM_50, java.util.Optional.of("OtherClass"));
     }
 
     /**
@@ -283,7 +283,7 @@ public class EdgeWithBorderNodeCreationPositionWithSnapToGridTest extends EdgeWi
      */
     public void testBorderNodesOnContainerInContainerAreAlignedWithScrollOnDiagramAndContainerAndZoom() {
         testBorderNodesAreAligned("TC2185 Container in Container", "Container in Container With Scroll", "C", AbstractDiagramContainerEditPart.class, 100, "D", AbstractDiagramContainerEditPart.class,
-                109, false, ZoomLevel.ZOOM_50, Options.newSome("OtherClass"));
+                109, false, ZoomLevel.ZOOM_50, java.util.Optional.of("OtherClass"));
     }
 
     /**
@@ -348,7 +348,7 @@ public class EdgeWithBorderNodeCreationPositionWithSnapToGridTest extends EdgeWi
      */
     private void testBorderNodesAreAligned(String diagramDescriptionName, String diagramName, String sourceName, Class<? extends EditPart> sourceEditPartType, int sourceDelta, String targetName,
             Class<? extends EditPart> targetEditPartType, int targetDelta, boolean xAxis, ZoomLevel zoomLevel) {
-        Option<String> nothinfToRevealFirst = Options.newNone();
+        java.util.Optional<String> nothinfToRevealFirst = java.util.Optional.empty();
         testBorderNodesAreAligned(diagramDescriptionName, diagramName, sourceName, sourceEditPartType, sourceDelta, targetName, targetEditPartType, targetDelta, xAxis, zoomLevel,
                 nothinfToRevealFirst);
     }
@@ -385,7 +385,7 @@ public class EdgeWithBorderNodeCreationPositionWithSnapToGridTest extends EdgeWi
      *            (to fully see node in a container node for example).
      */
     private void testBorderNodesAreAligned(String diagramDescriptionName, String diagramName, String sourceName, Class<? extends EditPart> sourceEditPartType, int sourceDelta, String targetName,
-            Class<? extends EditPart> targetEditPartType, int targetDelta, final boolean verticalEdge, ZoomLevel zoomLevel, Option<String> nameOfElementToRevealInFirst) {
+            Class<? extends EditPart> targetEditPartType, int targetDelta, final boolean verticalEdge, ZoomLevel zoomLevel, java.util.Optional<String> nameOfElementToRevealInFirst) {
         editor = (SWTBotSiriusDiagramEditor) openRepresentation(localSession.getOpenedSession(), diagramDescriptionName, diagramName, DDiagram.class, false, true);
         int gridSpacing = 2;
         editor.setSnapToGrid(true, gridSpacing, 2);
@@ -395,7 +395,7 @@ public class EdgeWithBorderNodeCreationPositionWithSnapToGridTest extends EdgeWi
             final IGraphicalEditPart sourcePart = (IGraphicalEditPart) sourceSwtbotPart.part();
             SWTBotGefEditPart targetSwtbotPart = editor.getEditPart(targetName, targetEditPartType);
             IGraphicalEditPart targetPart = (IGraphicalEditPart) targetSwtbotPart.part();
-            if (nameOfElementToRevealInFirst.some()) {
+            if (nameOfElementToRevealInFirst.isPresent()) {
                 editor.reveal(nameOfElementToRevealInFirst.get());
             }
             editor.reveal(sourcePart);

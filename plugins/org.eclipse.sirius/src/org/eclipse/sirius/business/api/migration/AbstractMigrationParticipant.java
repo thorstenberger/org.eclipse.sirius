@@ -21,8 +21,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.osgi.framework.Version;
 import org.xml.sax.Attributes;
 
@@ -76,9 +76,9 @@ public abstract class AbstractMigrationParticipant implements IMigrationParticip
     }
 
     @Override
-    public Option<String> getNewFragment(String uriFragment) {
+    public java.util.Optional<String> getNewFragment(String uriFragment) {
         // Nothing to migrate by default.
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     @Override

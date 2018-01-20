@@ -45,7 +45,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.layout.AbstractSequ
 import org.eclipse.sirius.diagram.sequence.business.internal.layout.LayoutConstants;
 import org.eclipse.sirius.diagram.sequence.business.internal.query.ISequenceElementQuery;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicates;
@@ -225,8 +225,8 @@ public class SequenceHorizontalLayout extends AbstractSequenceOrderingLayout<ISe
             final List<EObject> semanticOrder = sequenceDDiagram.getInstanceRoleSemanticOrdering().getSemanticInstanceRoles();
             Function<InstanceRole, Integer> semanticIndex = new Function<InstanceRole, Integer>() {
                 public Integer apply(InstanceRole ir) {
-                    Option<EObject> semIr = ir.getSemanticTargetElement();
-                    return semIr.some() ? semanticOrder.indexOf(semIr.get()) : -1;
+                    java.util.Optional<EObject> semIr = ir.getSemanticTargetElement();
+                    return semIr.isPresent() ? semanticOrder.indexOf(semIr.get()) : -1;
                 }
             };
             Collections.sort(semanticOrdering, Ordering.natural().onResultOf(semanticIndex));
@@ -410,11 +410,11 @@ public class SequenceHorizontalLayout extends AbstractSequenceOrderingLayout<ISe
      */
     private int computeLocation(final int currentX, final InstanceRole instanceRole, boolean pack, Map<LostMessageEnd, Integer> lostEndsDelta, final Map<InstanceRole, Rectangle> computedMoves) {
         final Rectangle oldBounds = instanceRole.getProperLogicalBounds();
-        final Option<Lifeline> lifeline = instanceRole.getLifeline();
+        final java.util.Optional<Lifeline> lifeline = instanceRole.getLifeline();
 
         int newMinX = currentX;
         int rightComputedGap = 0;
-        if (lifeline.some()) {
+        if (lifeline.isPresent()) {
             int maxFrameDepth = getMaxFrameDepth(lifeline.get());
             int foundMessagesGap = getLifelineLeftGap(lifeline.get(), null, oldBounds.width, lostEndsDelta);
             int frameGap = maxFrameDepth * LayoutConstants.BORDER_FRAME_MARGIN;

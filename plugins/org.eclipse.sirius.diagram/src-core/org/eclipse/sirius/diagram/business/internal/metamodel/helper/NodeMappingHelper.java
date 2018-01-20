@@ -37,8 +37,8 @@ import org.eclipse.sirius.diagram.business.internal.metamodel.description.extens
 import org.eclipse.sirius.diagram.business.internal.metamodel.description.operations.SiriusElementMappingSpecOperations;
 import org.eclipse.sirius.diagram.description.NodeMapping;
 import org.eclipse.sirius.diagram.description.style.NodeStyleDescription;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tools.api.profiler.SiriusTasksKey;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.sirius.viewpoint.SiriusPlugin;
@@ -191,7 +191,7 @@ public final class NodeMappingHelper {
          */
         self.createBorderingNodes(modelElement, newNode, Collections.EMPTY_LIST, diagram);
         if (newNode.getOwnedStyle() != null) {
-            Option<NodeStyle> noPreviousStyle = Options.newNone();
+            java.util.Optional<NodeStyle> noPreviousStyle = java.util.Optional.empty();
             new StyleHelper(interpreter).refreshStyle(newNode.getOwnedStyle(), noPreviousStyle);
         }
         return newNode;

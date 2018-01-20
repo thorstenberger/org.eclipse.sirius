@@ -54,8 +54,8 @@ import org.eclipse.sirius.diagram.ui.graphical.edit.policies.SiriusGraphicalNode
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.DNode2EditPart;
 import org.eclipse.sirius.diagram.ui.internal.view.factories.ViewLocationHint;
 import org.eclipse.sirius.diagram.ui.tools.internal.edit.command.CommandFactory;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 
 import com.google.common.base.Predicate;
@@ -96,8 +96,8 @@ public class InstanceRoleSiriusGraphicalNodeEditPolicy extends SiriusGraphicalNo
             EditPart sourceEditPart = request.getSourceEditPart();
             EditPart targetEditPart = request.getTargetEditPart();
 
-            Option<Lifeline> lifelineSource = ISequenceElementAccessor.getISequenceElement((View) sourceEditPart.getModel()).get().getLifeline();
-            Option<Lifeline> lifelineTarget = ISequenceElementAccessor.getISequenceElement((View) targetEditPart.getModel()).get().getLifeline();
+            java.util.Optional<Lifeline> lifelineSource = ISequenceElementAccessor.getISequenceElement((View) sourceEditPart.getModel()).get().getLifeline();
+            java.util.Optional<Lifeline> lifelineTarget = ISequenceElementAccessor.getISequenceElement((View) targetEditPart.getModel()).get().getLifeline();
 
             InstanceRole instanceRoleSource = lifelineSource.get().getInstanceRole();
             InstanceRole instanceRoleTarget = lifelineTarget.get().getInstanceRole();
@@ -221,28 +221,28 @@ public class InstanceRoleSiriusGraphicalNodeEditPolicy extends SiriusGraphicalNo
             GraphicalHelper.screen2logical(location, (InstanceRoleEditPart) getHost());
 
             InstanceRoleEditPart targetEditPart = (InstanceRoleEditPart) getHost();
-            Option<Operand> targetParentOperand;
-            if (targetEditPart.getInstanceRole().getLifeline().some()) {
+            java.util.Optional<Operand> targetParentOperand;
+            if (targetEditPart.getInstanceRole().getLifeline().isPresent()) {
                 targetParentOperand = targetEditPart.getInstanceRole().getLifeline().get().getParentOperand(location.y);
             } else {
-                targetParentOperand = Options.newNone();
+                targetParentOperand = java.util.Optional.empty();
             }
 
             ISequenceEventEditPart sourceEditPart = (ISequenceEventEditPart) request.getSourceEditPart();
-            Option<Operand> sourceParentOperand;
+            java.util.Optional<Operand> sourceParentOperand;
             if (sourceEditPart.getISequenceEvent() instanceof Lifeline) {
                 sourceParentOperand = ((Lifeline) sourceEditPart.getISequenceEvent()).getParentOperand(location.y);
             } else {
                 sourceParentOperand = sourceEditPart.getISequenceEvent().getParentOperand();
             }
-            if (targetParentOperand.some()) {
+            if (targetParentOperand.isPresent()) {
                 // if the target is in an operand, the source has to be in the
                 // same operand.
-                result = sourceParentOperand.some() && targetParentOperand.get().equals(sourceParentOperand.get());
+                result = sourceParentOperand.isPresent() && targetParentOperand.get().equals(sourceParentOperand.get());
             } else {
                 // if the target is not in an operand, the source has to be in
                 // no operand as well.
-                result = !sourceParentOperand.some();
+                result = !sourceParentOperand.isPresent();
             }
         }
         return result;

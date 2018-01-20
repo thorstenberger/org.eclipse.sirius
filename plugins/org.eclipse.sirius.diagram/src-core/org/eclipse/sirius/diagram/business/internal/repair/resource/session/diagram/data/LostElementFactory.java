@@ -16,7 +16,7 @@ import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.DEdge;
 import org.eclipse.sirius.diagram.EdgeTarget;
 import org.eclipse.sirius.diagram.business.api.query.DDiagramElementQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.sirius.viewpoint.description.RepresentationElementMapping;
 
@@ -39,7 +39,7 @@ public final class LostElementFactory {
      * @return Lost node data.
      */
     public static LostNodeData createLostNodeData(final DDiagramElement diagramElement) {
-        Option<? extends RepresentationElementMapping> mapping = new DDiagramElementQuery(diagramElement).getMapping();
+        java.util.Optional<? extends RepresentationElementMapping> mapping = new DDiagramElementQuery(diagramElement).getMapping();
 
         LostNodeData data = new LostNodeData();
         data.setTarget(diagramElement.getTarget());
@@ -56,7 +56,7 @@ public final class LostElementFactory {
      * @return Lost edge data.
      */
     public static LostEdgeData createLostEdgeData(final DDiagramElement diagramElement) {
-        Option<? extends RepresentationElementMapping> mapping = new DDiagramElementQuery(diagramElement).getMapping();
+        java.util.Optional<? extends RepresentationElementMapping> mapping = new DDiagramElementQuery(diagramElement).getMapping();
 
         final LostEdgeData data = new LostEdgeData();
         data.setTarget(diagramElement.getTarget());

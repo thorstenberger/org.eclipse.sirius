@@ -19,7 +19,7 @@ import org.eclipse.sirius.diagram.description.EdgeMappingImport;
 import org.eclipse.sirius.diagram.description.NodeMapping;
 import org.eclipse.sirius.diagram.description.NodeMappingImport;
 import org.eclipse.sirius.diagram.description.util.DescriptionSwitch;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.description.style.StyleDescription;
 
 /**
@@ -73,8 +73,8 @@ public class GetDefaultStyle extends DescriptionSwitch<StyleDescription> {
         if (object.getImportedMapping() instanceof EdgeMappingImport) {
             return caseEdgeMappingImport((EdgeMappingImport) object.getImportedMapping());
         }
-        Option<EdgeMapping> edgeMapping = new IEdgeMappingQuery(object.getImportedMapping()).getEdgeMapping();
-        return edgeMapping.some() ? edgeMapping.get().getStyle() : null;
+        java.util.Optional<EdgeMapping> edgeMapping = new IEdgeMappingQuery(object.getImportedMapping()).getEdgeMapping();
+        return edgeMapping.isPresent() ? edgeMapping.get().getStyle() : null;
     }
 
     /**

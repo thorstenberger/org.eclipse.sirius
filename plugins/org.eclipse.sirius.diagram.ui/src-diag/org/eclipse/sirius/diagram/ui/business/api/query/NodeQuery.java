@@ -36,8 +36,8 @@ import org.eclipse.sirius.diagram.ui.internal.refresh.GMFHelper;
 import org.eclipse.sirius.diagram.ui.part.SiriusVisualIDRegistry;
 import org.eclipse.sirius.diagram.ui.tools.api.layout.LayoutUtils;
 import org.eclipse.sirius.diagram.ui.tools.internal.figure.ICollapseMode;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
@@ -202,7 +202,7 @@ public class NodeQuery {
      * 
      * @return the new extended bounds.
      */
-    public Option<Bounds> getExtendedBounds() {
+    public java.util.Optional<Bounds> getExtendedBounds() {
         return getNewGMFBounds(false);
     }
 
@@ -211,11 +211,11 @@ public class NodeQuery {
      * 
      * @return the new collapsed bounds.
      */
-    public Option<Bounds> getCollapsedBounds() {
+    public java.util.Optional<Bounds> getCollapsedBounds() {
         return getNewGMFBounds(true);
     }
 
-    private Option<Bounds> getNewGMFBounds(boolean isCollapsed) {
+    private java.util.Optional<Bounds> getNewGMFBounds(boolean isCollapsed) {
         EObject element = node.getElement();
         LayoutConstraint layoutConstraint = node.getLayoutConstraint();
 
@@ -237,8 +237,8 @@ public class NodeQuery {
             }
             Rectangle rect = null;
             Rectangle constraint = new Rectangle(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
-            Option<Rectangle> parentBorder = getParentBorder();
-            if (parentBorder.some()) {
+            java.util.Optional<Rectangle> parentBorder = getParentBorder();
+            if (parentBorder.isPresent()) {
                 // When the node is on diagram, there is no need to translate to
                 // absolute.
                 constraint.translate(parentBorder.get().x, parentBorder.get().y);
@@ -248,7 +248,7 @@ public class NodeQuery {
             } else {
                 rect = PortLayoutHelper.getUncollapseCandidateLocation(dim, constraint, parentBorder.get());
             }
-            if (parentBorder.some()) {
+            if (parentBorder.isPresent()) {
                 // we translate to relative if there is a parent node.
                 Dimension d = rect.getLocation().getDifference(parentBorder.get().getLocation());
                 rect.setLocation(new Point(d.width, d.height));
@@ -260,18 +260,18 @@ public class NodeQuery {
             newBounds.setX(rect.x);
             newBounds.setY(rect.y);
 
-            return Options.newSome(newBounds);
+            return java.util.Optional.of(newBounds);
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
-    private Option<Rectangle> getParentBorder() {
+    private java.util.Optional<Rectangle> getParentBorder() {
         EObject container = node.eContainer();
         if (container instanceof Node) {
             NodeQuery nodeQuery = new NodeQuery((Node) container);
-            return Options.newSome(nodeQuery.getHandleBounds());
+            return java.util.Optional.of(nodeQuery.getHandleBounds());
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

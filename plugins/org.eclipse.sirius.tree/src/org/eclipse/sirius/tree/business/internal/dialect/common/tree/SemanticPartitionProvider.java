@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.tree.business.internal.dialect.common.tree;
 
-import org.eclipse.sirius.ext.base.Options;
+
 import org.eclipse.sirius.synchronizer.SemanticPartition;
 import org.eclipse.sirius.tree.business.internal.dialect.common.viewpoint.GlobalContext;
 import org.eclipse.sirius.tree.business.internal.dialect.common.viewpoint.MappingBasedPartition;
@@ -36,7 +36,7 @@ class SemanticPartitionProvider {
     }
 
     public SemanticPartition getSemanticPartition(TreeItemMapping nm) {
-        return new MappingBasedPartition(ctx, nm.getDomainClass(), Options.newSome(nm.getSemanticCandidatesExpression()), Options.newSome(nm));
+        return new MappingBasedPartition(ctx, nm.getDomainClass(), java.util.Optional.of(nm.getSemanticCandidatesExpression()), java.util.Optional.of(nm));
     }
 
 }

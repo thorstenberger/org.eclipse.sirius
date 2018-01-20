@@ -29,8 +29,8 @@ import org.eclipse.sirius.diagram.LabelPosition;
 import org.eclipse.sirius.diagram.description.DiagramElementMapping;
 import org.eclipse.sirius.diagram.description.style.EdgeStyleDescription;
 import org.eclipse.sirius.diagram.util.DiagramSwitch;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.BasicLabelStyle;
 import org.eclipse.sirius.viewpoint.Style;
 import org.eclipse.sirius.viewpoint.description.RepresentationElementMapping;
@@ -65,7 +65,7 @@ public class DDiagramElementQuery {
      * 
      * @return the mapping of the current {@link DDiagramElement}.
      */
-    public Option<? extends RepresentationElementMapping> getMapping() {
+    public java.util.Optional<? extends RepresentationElementMapping> getMapping() {
         ActualMappingGetter mappingGetter = new ActualMappingGetter();
         return mappingGetter.doSwitch(this.element);
     }
@@ -75,13 +75,13 @@ public class DDiagramElementQuery {
      * 
      * @return the mapping name of the current {@link DDiagramElement}.
      */
-    public Option<String> getMappingName() {
+    public java.util.Optional<String> getMappingName() {
         String result = null;
-        final Option<? extends RepresentationElementMapping> mapping = getMapping();
-        if (mapping != null && mapping.some()) {
+        final java.util.Optional<? extends RepresentationElementMapping> mapping = getMapping();
+        if (mapping != null && mapping.isPresent()) {
             result = mapping.get().getName();
         }
-        return Options.newSome(result);
+        return java.util.Optional.of(result);
     }
 
     /**
@@ -286,12 +286,12 @@ public class DDiagramElementQuery {
      * 
      * @return true if the given element is collapsed.
      */
-    public Option<AppliedCompositeFilters> getAppliedCompositeFilters() {
+    public java.util.Optional<AppliedCompositeFilters> getAppliedCompositeFilters() {
         Iterable<AppliedCompositeFilters> appliedFilters = Iterables.filter(element.getGraphicalFilters(), AppliedCompositeFilters.class);
         if (Iterables.isEmpty(appliedFilters)) {
-            return Options.newNone();
+            return java.util.Optional.empty();
         } else {
-            return Options.newSome(Iterables.get(appliedFilters, 0));
+            return java.util.Optional.of(Iterables.get(appliedFilters, 0));
         }
     }
 
@@ -300,7 +300,7 @@ public class DDiagramElementQuery {
      * 
      * @return a {@link BasicLabelStyle}
      */
-    public Option<BasicLabelStyle> getLabelStyle() {
+    public java.util.Optional<BasicLabelStyle> getLabelStyle() {
         BasicLabelStyle labelStyle = null;
         if (element instanceof DEdge) {
             labelStyle = ((DEdge) element).getOwnedStyle().getCenterLabelStyle();
@@ -311,7 +311,7 @@ public class DDiagramElementQuery {
         } else if (element instanceof DNodeListElement) {
             labelStyle = ((DNodeListElement) element).getOwnedStyle();
         }
-        return Options.newSome(labelStyle);
+        return java.util.Optional.of(labelStyle);
     }
 
     /**
@@ -320,29 +320,29 @@ public class DDiagramElementQuery {
      * 
      * @author mporhel
      */
-    private static class ActualMappingGetter extends DiagramSwitch<Option<? extends RepresentationElementMapping>> {
+    private static class ActualMappingGetter extends DiagramSwitch<java.util.Optional<? extends RepresentationElementMapping>> {
         @Override
-        public Option<? extends RepresentationElementMapping> defaultCase(EObject object) {
-            return Options.newNone();
+        public java.util.Optional<? extends RepresentationElementMapping> defaultCase(EObject object) {
+            return java.util.Optional.empty();
         }
 
         @Override
-        public Option<? extends RepresentationElementMapping> caseDDiagramElementContainer(DDiagramElementContainer object) {
-            return Options.newSome(object.getActualMapping());
+        public java.util.Optional<? extends RepresentationElementMapping> caseDDiagramElementContainer(DDiagramElementContainer object) {
+            return java.util.Optional.of(object.getActualMapping());
         }
 
         @Override
-        public Option<? extends RepresentationElementMapping> caseDNode(DNode object) {
-            return Options.newSome(object.getActualMapping());
+        public java.util.Optional<? extends RepresentationElementMapping> caseDNode(DNode object) {
+            return java.util.Optional.of(object.getActualMapping());
         }
 
         @Override
-        public Option<? extends RepresentationElementMapping> caseDNodeListElement(DNodeListElement object) {
-            return Options.newSome(object.getActualMapping());
+        public java.util.Optional<? extends RepresentationElementMapping> caseDNodeListElement(DNodeListElement object) {
+            return java.util.Optional.of(object.getActualMapping());
         }
 
         @Override
-        public Option<? extends RepresentationElementMapping> caseDEdge(DEdge object) {
+        public java.util.Optional<? extends RepresentationElementMapping> caseDEdge(DEdge object) {
             return new IEdgeMappingQuery(object.getActualMapping()).getEdgeMapping();
         }
     }

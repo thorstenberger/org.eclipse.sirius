@@ -20,8 +20,8 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.sirius.common.tools.api.util.ReflectionHelper;
 import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import org.eclipse.sirius.tests.support.api.SiriusDiagramTestCase;
 import org.eclipse.sirius.tests.support.api.TestsUtil;
@@ -200,8 +200,8 @@ public class TabbarActionSelectionListenerTest extends SiriusDiagramTestCase imp
     private Object[] getWorkbenchWindowSelectionListeners() {
         ISelectionService selectionService = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService();
 
-        Option<Object> option = ReflectionHelper.getFieldValueWithoutException(selectionService, "listeners");
-        if (option.some()) {
+        java.util.Optional<Object> option = ReflectionHelper.getFieldValueWithoutException(selectionService, "listeners");
+        if (option.isPresent()) {
             return ((ListenerList) option.get()).getListeners();
         }
 
@@ -218,18 +218,18 @@ public class TabbarActionSelectionListenerTest extends SiriusDiagramTestCase imp
 
         Object[] listeners = null;
         if (page instanceof IPartService) {
-            Option<Object> option = ReflectionHelper.getFieldValueWithoutException(page, "selectionListeners");
-            if (option.some()) {
+            java.util.Optional<Object> option = ReflectionHelper.getFieldValueWithoutException(page, "selectionListeners");
+            if (option.isPresent()) {
                 listeners = ((List) option.get()).toArray();
             }
         }
 
         if (listeners == null) {
-            Option<Object> option = ReflectionHelper.getFieldValueWithoutException(page, "selectionService");
-            if (option.some()) {
+            java.util.Optional<Object> option = ReflectionHelper.getFieldValueWithoutException(page, "selectionService");
+            if (option.isPresent()) {
                 ISelectionService pageSelectionService = (ISelectionService) option.get();
-                Option<Object> listenerListOption = ReflectionHelper.getFieldValueWithoutException(pageSelectionService, "listeners");
-                if (listenerListOption.some()) {
+                java.util.Optional<Object> listenerListOption = ReflectionHelper.getFieldValueWithoutException(pageSelectionService, "listeners");
+                if (listenerListOption.isPresent()) {
                     listeners = ((ListenerList) listenerListOption.get()).getListeners();
                 }
             }
@@ -247,8 +247,8 @@ public class TabbarActionSelectionListenerTest extends SiriusDiagramTestCase imp
 
         Object[] listeners = null;
         if (page instanceof IPartService) {
-            Option<Object> option = ReflectionHelper.getFieldValueWithoutException(page, "partListenerList");
-            if (option.some()) {
+            java.util.Optional<Object> option = ReflectionHelper.getFieldValueWithoutException(page, "partListenerList");
+            if (option.isPresent()) {
                 ListenerList list = (ListenerList) option.get();
                 listeners = list.getListeners();
             }
@@ -257,9 +257,9 @@ public class TabbarActionSelectionListenerTest extends SiriusDiagramTestCase imp
         if (listeners == null) {
             PartService partService = (PartService) ReflectionHelper.invokeMethodWithoutExceptionWithReturn(page, "getPartService", new Class[] {}, new Object[] {});
             if (partService != null) {
-                Option<Object> option = ReflectionHelper.getFieldValueWithoutException(partService, "listeners");
+                java.util.Optional<Object> option = ReflectionHelper.getFieldValueWithoutException(partService, "listeners");
                 PartListenerList listenerList = (PartListenerList) option.get();
-                Option<Object> listenerListOption = getFieldValueWithoutException(listenerList.getClass().getSuperclass(), listenerList, "listenerList");
+                java.util.Optional<Object> listenerListOption = getFieldValueWithoutException(listenerList.getClass().getSuperclass(), listenerList, "listenerList");
                 ListenerList list = (ListenerList) listenerListOption.get();
                 listeners = list.getListeners();
             }
@@ -267,17 +267,17 @@ public class TabbarActionSelectionListenerTest extends SiriusDiagramTestCase imp
         return listeners;
     }
 
-    private Option<Object> getFieldValueWithoutException(Class<?> clazz, Object instance, String fieldName) {
-        Option<Field> field = ReflectionHelper.setFieldVisibleWithoutException(clazz, fieldName);
-        if (field.some()) {
+    private java.util.Optional<Object> getFieldValueWithoutException(Class<?> clazz, Object instance, String fieldName) {
+        java.util.Optional<Field> field = ReflectionHelper.setFieldVisibleWithoutException(clazz, fieldName);
+        if (field.isPresent()) {
             try {
-                return Options.newSome(field.get().get(instance));
+                return java.util.Optional.of(field.get().get(instance));
             } catch (IllegalArgumentException e) {
                 // Do nothing
             } catch (IllegalAccessException e) {
                 // Do nothing
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 }

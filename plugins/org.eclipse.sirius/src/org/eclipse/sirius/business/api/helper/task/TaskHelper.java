@@ -31,7 +31,7 @@ import org.eclipse.sirius.common.tools.api.interpreter.IInterpreter;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterSiriusVariables;
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.command.ui.UICallBack;
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DRepresentation;
@@ -151,7 +151,7 @@ public class TaskHelper {
     private boolean isAncestor(EObject context, EObject object) {
         EObject son = object;
         if (context instanceof DAnalysis || context instanceof DView) {
-            Option<DRepresentation> representation = new EObjectQuery(object).getRepresentation();
+            java.util.Optional<DRepresentation> representation = new EObjectQuery(object).getRepresentation();
             DRepresentationDescriptor representationDescriptor = new DRepresentationQuery(representation.get()).getRepresentationDescriptor();
             son = representationDescriptor;
         }

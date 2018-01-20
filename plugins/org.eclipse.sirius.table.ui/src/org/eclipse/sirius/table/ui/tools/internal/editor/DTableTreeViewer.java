@@ -16,8 +16,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.ViewerCell;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.table.business.api.helper.TableHelper;
 import org.eclipse.sirius.table.metamodel.table.DCell;
 import org.eclipse.sirius.table.metamodel.table.DColumn;
@@ -122,12 +122,12 @@ public class DTableTreeViewer extends AbstractDTreeViewer {
                 }
             }
             final int columnIndexInTable = columnIndexDisplayInSwtTable - 1;
-            Option<DCell> optionalCell = Options.newNone();
+            java.util.Optional<DCell> optionalCell = java.util.Optional.empty();
             if (columnIndexInTable != -1) {
                 DColumn column = TableHelper.getTable(line).getColumns().get(columnIndexInTable);
                 optionalCell = TableHelper.getCell(line, column);
             }
-            if (!optionalCell.some()) {
+            if (!optionalCell.isPresent()) {
                 // This cell corresponds to the line header or isn't exist
                 selectedCell = null;
                 if (event.eventType == SWT.KeyDown && (event.keyCode == SWT.ARROW_LEFT || event.keyCode == SWT.ARROW_RIGHT)) {

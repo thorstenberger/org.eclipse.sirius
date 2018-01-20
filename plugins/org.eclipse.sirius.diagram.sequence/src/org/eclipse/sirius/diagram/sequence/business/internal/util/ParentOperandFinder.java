@@ -27,8 +27,8 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.Operand;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.SequenceDiagram;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.State;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
@@ -92,7 +92,7 @@ public final class ParentOperandFinder {
      * 
      * @return the potential parent operand.
      */
-    public Option<Operand> getParentOperand() {
+    public java.util.Optional<Operand> getParentOperand() {
         Range verticalRange = rangeFunction.apply(event);
         return getParentOperand(verticalRange);
     }
@@ -105,7 +105,7 @@ public final class ParentOperandFinder {
      * @return the deepest Operand convering this lifeline at this range
      * @see ISequenceEvent#getParentOperand()
      */
-    public Option<Operand> getParentOperand(final Range verticalRange) {
+    public java.util.Optional<Operand> getParentOperand(final Range verticalRange) {
         SequenceDiagram diagram = event.getDiagram();
         Set<Operand> allOperands = diagram.getAllOperands();
         // Map to store the result of the covered lifelines of a
@@ -143,9 +143,9 @@ public final class ParentOperandFinder {
             }
         }
         if (deepestCoveringOperand != null) {
-            return Options.newSome(deepestCoveringOperand);
+            return java.util.Optional.of(deepestCoveringOperand);
         } else {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
     }
 }

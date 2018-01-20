@@ -31,7 +31,7 @@ import org.eclipse.sirius.diagram.business.internal.metamodel.description.extens
 import org.eclipse.sirius.diagram.business.internal.metamodel.helper.ContainerMappingHelper;
 import org.eclipse.sirius.diagram.description.DiagramDescription;
 import org.eclipse.sirius.diagram.description.NodeMapping;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.SiriusPlugin;
 import org.eclipse.sirius.viewpoint.description.Group;
 import org.eclipse.sirius.viewpoint.description.RepresentationElementMapping;
@@ -88,8 +88,8 @@ public final class SiriusDiagramHelper {
         final Iterator<Group> itG = groups.iterator();
         while (itG.hasNext()) {
             final Group group = itG.next();
-            Option<DiagramDescription> diagramDesc = new GroupQuery(group).findDiagramDescription(diagramDescriptionName);
-            if (diagramDesc.some()) {
+            java.util.Optional<DiagramDescription> diagramDesc = new GroupQuery(group).findDiagramDescription(diagramDescriptionName);
+            if (diagramDesc.isPresent()) {
                 return diagramDesc.get();
             }
         }

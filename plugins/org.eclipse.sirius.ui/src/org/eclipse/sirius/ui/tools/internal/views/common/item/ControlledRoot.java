@@ -17,8 +17,8 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ui.tools.api.views.common.item.ItemWrapper;
 
 /**
@@ -115,12 +115,12 @@ public class ControlledRoot implements ItemWrapper, IAdaptable {
      * 
      * @see org.eclipse.sirius.ui.tools.api.views.common.item.CommonSessionItem#getSession()
      */
-    public Option<Session> getSession() {
+    public java.util.Optional<Session> getSession() {
         Session session = null;
         if (root != null) {
             session = SessionManager.INSTANCE.getSession(root);
         }
-        return Options.newSome(session);
+        return java.util.Optional.of(session);
     }
 
     /**

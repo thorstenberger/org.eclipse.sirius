@@ -14,8 +14,8 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.sirius.business.api.dialect.command.CreateRepresentationCommand;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.table.tools.api.command.ITableCommandFactory;
 import org.eclipse.sirius.ui.tools.api.actions.AbstractCreateRepresentationFromRepresentationCreationDescription;
 import org.eclipse.sirius.viewpoint.DRepresentation;
@@ -48,13 +48,13 @@ public class CreateRepresentationFromRepresentationCreationDescription extends A
     }
 
     @Override
-    protected Option<DRepresentation> executeCreationCommand(Option<Command> initialOperationCommand, CreateRepresentationCommand createRepresentationCommand) {
+    protected java.util.Optional<DRepresentation> executeCreationCommand(java.util.Optional<Command> initialOperationCommand, CreateRepresentationCommand createRepresentationCommand) {
         final CompoundCommand compoundCommand = new CompoundCommand();
-        if (initialOperationCommand.some()) {
+        if (initialOperationCommand.isPresent()) {
             compoundCommand.append(initialOperationCommand.get());
         }
         compoundCommand.append(createRepresentationCommand);
         getEditingDomain().getCommandStack().execute(compoundCommand);
-        return Options.newSome(createRepresentationCommand.getCreatedRepresentation());
+        return java.util.Optional.of(createRepresentationCommand.getCreatedRepresentation());
     }
 }

@@ -55,7 +55,7 @@ import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.exception.FeatureNotFoundException;
 import org.eclipse.sirius.ecore.extender.business.api.permission.IPermissionAuthority;
 import org.eclipse.sirius.ecore.extender.business.api.permission.exception.LockedInstanceException;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.table.business.api.helper.TableHelper;
 import org.eclipse.sirius.table.metamodel.table.DCell;
 import org.eclipse.sirius.table.metamodel.table.DFeatureColumn;
@@ -134,8 +134,8 @@ public class DFeatureColumnEditingSupport extends EditingSupport {
         if (element instanceof DLine) {
             final DLine line = (DLine) element;
             boolean canEdit = true;
-            Option<DCell> optCell = TableHelper.getCell(line, featureColumn);
-            if (optCell.some()) {
+            java.util.Optional<DCell> optCell = TableHelper.getCell(line, featureColumn);
+            if (optCell.isPresent()) {
                 DCell cell = optCell.get();
                 CellUpdater updater = cell.getUpdater();
                 if (updater != null && updater.getCanEdit() != null && updater.getCanEdit().length() > 0) {
@@ -155,8 +155,8 @@ public class DFeatureColumnEditingSupport extends EditingSupport {
     @Override
     protected CellEditor getCellEditor(final Object element) {
         if (element instanceof DLine) {
-            final Option<DCell> editedCell = TableHelper.getCell((DLine) element, featureColumn);
-            if (editedCell.some()) {
+            final java.util.Optional<DCell> editedCell = TableHelper.getCell((DLine) element, featureColumn);
+            if (editedCell.isPresent()) {
                 CellUpdater updater = editedCell.get().getUpdater();
                 final boolean directEdit = updater != null && updater.getDirectEdit() != null;
                 return getBestCellEditor(editedCell.get().getTarget(), directEdit);
@@ -170,8 +170,8 @@ public class DFeatureColumnEditingSupport extends EditingSupport {
         Object result = null;
         if (element instanceof DLine) {
             try {
-                final Option<DCell> optEditedCell = TableHelper.getCell((DLine) element, featureColumn);
-                if (!optEditedCell.some()) {
+                final java.util.Optional<DCell> optEditedCell = TableHelper.getCell((DLine) element, featureColumn);
+                if (!optEditedCell.isPresent()) {
                     return null;
                 }
                 DCell editedCell = optEditedCell.get();
@@ -224,8 +224,8 @@ public class DFeatureColumnEditingSupport extends EditingSupport {
             final DLine line = (DLine) element;
             // If the type of the value is a EEnum, we must use the index of the
             // comboBox to get the literal value
-            final Option<DCell> optEditedCell = TableHelper.getCell(line, featureColumn);
-            if (!optEditedCell.some()) {
+            final java.util.Optional<DCell> optEditedCell = TableHelper.getCell(line, featureColumn);
+            if (!optEditedCell.isPresent()) {
                 return;
             }
             DCell editedCell = optEditedCell.get();
@@ -278,8 +278,8 @@ public class DFeatureColumnEditingSupport extends EditingSupport {
      *            the new value
      */
     private void standardSetValue(final DLine line, final Object value) {
-        final Option<DCell> cell = TableHelper.getCell(line, featureColumn);
-        if (cell.some()) {
+        final java.util.Optional<DCell> cell = TableHelper.getCell(line, featureColumn);
+        if (cell.isPresent()) {
             getEditingDomain().getCommandStack().execute(new StandardSetValueRecordingCommand(getEditingDomain(), MessageFormat.format(Messages.Action_setValue, getFeatureName()), cell.get(), value));
         }
     }

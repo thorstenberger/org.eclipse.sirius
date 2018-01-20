@@ -32,7 +32,7 @@ import org.eclipse.sirius.diagram.tools.api.command.IDiagramCommandFactory;
 import org.eclipse.sirius.diagram.ui.business.api.view.SiriusLayoutDataManager;
 import org.eclipse.sirius.diagram.ui.provider.DiagramUIPlugin;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.sirius.viewpoint.SiriusPlugin;
 import org.eclipse.sirius.viewpoint.description.tool.SelectionWizardDescription;
@@ -125,8 +125,8 @@ public class SelectionWizardCommand extends AbstractSelectionWizardCommand {
 
             // variables
             interpreter.setVariable(tool.getContainerView().getName(), containerView);
-            Option<DDiagram> diagram = new EObjectQuery(containerView).getParentDiagram();
-            if (diagram.some()) {
+            java.util.Optional<DDiagram> diagram = new EObjectQuery(containerView).getParentDiagram();
+            if (diagram.isPresent()) {
                 interpreter.setVariable(IInterpreterSiriusVariables.DIAGRAM, diagram.get());
             } else {
                 interpreter.setVariable(IInterpreterSiriusVariables.DIAGRAM, null);

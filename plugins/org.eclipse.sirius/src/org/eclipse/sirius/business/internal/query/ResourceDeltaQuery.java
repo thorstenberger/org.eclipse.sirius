@@ -15,8 +15,8 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.sirius.business.api.modelingproject.ModelingProject;
 import org.eclipse.sirius.common.tools.api.util.ReflectionHelper;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * A class aggregating all the queries (read-only!) having a
@@ -56,25 +56,25 @@ public class ResourceDeltaQuery {
         return hasModelingNature(getOldProjectDescription()) && !hasModelingNature(getNewProjectDescription());
     }
     
-    private boolean hasModelingNature(Option<IProjectDescription> project) {
-        return project.some() && project.get().hasNature(ModelingProject.NATURE_ID);
+    private boolean hasModelingNature(java.util.Optional<IProjectDescription> project) {
+        return project.isPresent() && project.get().hasNature(ModelingProject.NATURE_ID);
     }
     
-    private Option<IProjectDescription> getOldProjectDescription() {
+    private java.util.Optional<IProjectDescription> getOldProjectDescription() {
         return getProjectDescription(ReflectionHelper.getFieldValueWithoutException(resourceDelta, "oldInfo")); //$NON-NLS-1$
     }
 
-    private Option<IProjectDescription> getNewProjectDescription() {
+    private java.util.Optional<IProjectDescription> getNewProjectDescription() {
         return getProjectDescription(ReflectionHelper.getFieldValueWithoutException(resourceDelta, "newInfo")); //$NON-NLS-1$
     }
 
     @SuppressWarnings("restriction")
-    private Option<IProjectDescription> getProjectDescription(Option<Object> info) {
-        if (info.some() && info.get() instanceof ProjectInfo) {
+    private java.util.Optional<IProjectDescription> getProjectDescription(java.util.Optional<Object> info) {
+        if (info.isPresent() && info.get() instanceof ProjectInfo) {
             IProjectDescription oldProjectDescription = ((ProjectInfo) info.get()).getDescription();
-            return Options.fromNullable(oldProjectDescription);
+            return java.util.Optional.ofNullable(oldProjectDescription);
         } else {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
     }
 

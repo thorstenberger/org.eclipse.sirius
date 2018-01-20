@@ -25,7 +25,7 @@ import org.eclipse.gmf.runtime.notation.LayoutConstraint;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.sirius.diagram.ui.internal.refresh.GMFHelper;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * Provides the GMF implementation of Slidable anchor.
@@ -113,8 +113,8 @@ public class SlidableAnchor {
                 }
             }
         } else if (owner instanceof Edge) {
-            Option<Rectangle> optionalRect = GMFHelper.getAbsoluteBounds((Edge) owner);
-            if (optionalRect.some()) {
+            java.util.Optional<Rectangle> optionalRect = GMFHelper.getAbsoluteBounds((Edge) owner);
+            if (optionalRect.isPresent()) {
                 box = optionalRect.get();
             }
         }

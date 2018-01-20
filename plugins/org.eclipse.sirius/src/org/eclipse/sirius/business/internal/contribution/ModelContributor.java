@@ -20,7 +20,7 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.description.contribution.Contribution;
 import org.eclipse.sirius.description.contribution.FeatureContribution;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
@@ -128,9 +128,9 @@ public class ModelContributor {
             HashMap<String, Object> context = new HashMap<>();
             context.put("self", contribution); //$NON-NLS-1$
             context.put("sources", roots); //$NON-NLS-1$
-            Option<EObject> source = resolver.resolve(contribution.getSource(), context);
-            Option<EObject> target = resolver.resolve(contribution.getTarget(), context);
-            if (source.some() && target.some()) {
+            java.util.Optional<EObject> source = resolver.resolve(contribution.getSource(), context);
+            java.util.Optional<EObject> target = resolver.resolve(contribution.getTarget(), context);
+            if (source.isPresent() && target.isPresent()) {
                 result.add(new ResolvedContribution(contribution, source.get(), target.get()));
             }
         }

@@ -17,8 +17,8 @@ import org.eclipse.sirius.business.api.session.CustomDataConstants;
 import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.business.api.query.DDiagramQuery;
 import org.eclipse.sirius.diagram.business.api.query.DiagramDescriptionQuery;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.description.AnnotationEntry;
 
 /**
@@ -45,18 +45,18 @@ public class DDiagramGraphicalQuery extends DDiagramQuery {
      * 
      * @return the GMF diagram associated with this DDiagram.
      */
-    public Option<Diagram> getAssociatedGMFDiagram() {
+    public java.util.Optional<Diagram> getAssociatedGMFDiagram() {
         for (final AnnotationEntry annotation : new DDiagramQuery(dDiagram).getAnnotation(CustomDataConstants.GMF_DIAGRAMS)) {
             EObject eObject = annotation.getData();
             if (eObject instanceof Diagram) {
                 final Diagram diagramInResource = (Diagram) eObject;
                 final EObject semanticElement = ViewUtil.resolveSemanticElement(diagramInResource);
                 if (semanticElement == dDiagram) {
-                    return Options.newSome(diagramInResource);
+                    return java.util.Optional.of(diagramInResource);
                 }
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

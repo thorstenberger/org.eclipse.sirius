@@ -24,7 +24,7 @@ import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.ui.business.api.query.NodeQuery;
 import org.eclipse.sirius.diagram.ui.edit.api.part.AbstractDiagramBorderNodeEditPart;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.swtbot.support.api.editor.SWTBotSiriusDiagramEditor;
 import org.eclipse.sirius.tests.swtbot.support.utils.SWTBotUtils;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditPart;
@@ -125,7 +125,7 @@ public class CopyPasteLayoutOfPortsWithConflictWithNotPastedPortsTest extends Ab
         SWTBotGefEditPart firstEditPart = editorForPaste.getEditPart("Port1", AbstractDiagramBorderNodeEditPart.class);
         Bounds b1 = (Bounds) ((Node) ((GraphicalEditPart) firstEditPart.part()).getModel()).getLayoutConstraint();
         SWTBotGefEditPart secondEditPart = editorForPaste.getEditPart("Port2", AbstractDiagramBorderNodeEditPart.class);
-        Option<Bounds> b2 = new NodeQuery(((Node) ((GraphicalEditPart) secondEditPart.part()).getModel())).getExtendedBounds();
+        java.util.Optional<Bounds> b2 = new NodeQuery(((Node) ((GraphicalEditPart) secondEditPart.part()).getModel())).getExtendedBounds();
 
         assertJustUnder(b1, b2.get());
     }
@@ -159,7 +159,7 @@ public class CopyPasteLayoutOfPortsWithConflictWithNotPastedPortsTest extends Ab
         SWTBotGefEditPart firstEditPart = editorForPaste.getEditPart("Port1", AbstractDiagramBorderNodeEditPart.class);
         Bounds b1 = (Bounds) ((Node) ((GraphicalEditPart) firstEditPart.part()).getModel()).getLayoutConstraint();
         SWTBotGefEditPart secondEditPart = editorForPaste.getEditPart("Port2", AbstractDiagramBorderNodeEditPart.class);
-        Option<Bounds> b2 = new NodeQuery(((Node) ((GraphicalEditPart) secondEditPart.part()).getModel())).getExtendedBounds();
+        java.util.Optional<Bounds> b2 = new NodeQuery(((Node) ((GraphicalEditPart) secondEditPart.part()).getModel())).getExtendedBounds();
 
         assertJustUnder(b2.get(), b1);
     }

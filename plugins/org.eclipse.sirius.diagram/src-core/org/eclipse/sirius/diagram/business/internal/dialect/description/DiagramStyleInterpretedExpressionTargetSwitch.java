@@ -18,8 +18,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.sirius.business.api.dialect.description.IInterpretedExpressionTargetSwitch;
 import org.eclipse.sirius.diagram.description.style.GaugeSectionDescription;
 import org.eclipse.sirius.diagram.description.style.util.StyleSwitch;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * A switch that will return the Target Types associated to a given element
@@ -41,7 +41,7 @@ import org.eclipse.sirius.ext.base.Options;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class DiagramStyleInterpretedExpressionTargetSwitch extends StyleSwitch<Option<Collection<String>>> {
+public class DiagramStyleInterpretedExpressionTargetSwitch extends StyleSwitch<java.util.Optional<Collection<String>>> {
 
     /**
      * Constant used in switches on feature id to consider the case when the
@@ -79,13 +79,13 @@ public class DiagramStyleInterpretedExpressionTargetSwitch extends StyleSwitch<O
      * @see org.eclipse.sirius.viewpoint.description.style.util.StyleSwitch#doSwitch(org.eclipse.emf.ecore.EObject)
      */
     @Override
-    public Option<Collection<String>> doSwitch(EObject theEObject) {
-        Option<Collection<String>> doSwitch = super.doSwitch(theEObject);
+    public java.util.Optional<Collection<String>> doSwitch(EObject theEObject) {
+        java.util.Optional<Collection<String>> doSwitch = super.doSwitch(theEObject);
         if (doSwitch != null) {
             return doSwitch;
         }
         Collection<String> targets = new LinkedHashSet<>();
-        return Options.newSome(targets);
+        return java.util.Optional.of(targets);
     }
 
     /**
@@ -116,7 +116,7 @@ public class DiagramStyleInterpretedExpressionTargetSwitch extends StyleSwitch<O
      * {@inheritDoc}
      */
     @Override
-    public Option<Collection<String>> caseGaugeSectionDescription(GaugeSectionDescription object) {
+    public java.util.Optional<Collection<String>> caseGaugeSectionDescription(GaugeSectionDescription object) {
         return globalSwitch.doSwitch(getFirstRelevantContainer(object), false);
     }
 }

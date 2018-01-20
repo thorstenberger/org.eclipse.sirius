@@ -29,7 +29,7 @@ import org.eclipse.sirius.diagram.EdgeTarget;
 import org.eclipse.sirius.diagram.business.api.query.EObjectQuery;
 import org.eclipse.sirius.diagram.business.internal.helper.task.CreateDEdgeTask;
 import org.eclipse.sirius.diagram.description.tool.EdgeCreationDescription;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.tools.api.interpreter.InterpreterUtil;
 import org.eclipse.sirius.tools.api.ui.resource.ISiriusMessages;
@@ -95,7 +95,7 @@ public class EdgeCreationCommandBuilder extends AbstractDiagramCommandBuilder {
             result.getTasks().add(buildCreateEdgeTask(result));
             addRefreshTask((DDiagramElement) source, result, tool);
 
-            Option<DDiagram> parentDiagram = new EObjectQuery(source).getParentDiagram();
+            java.util.Optional<DDiagram> parentDiagram = new EObjectQuery(source).getParentDiagram();
             result.getTasks().add(new ElementsToSelectTask(tool, InterpreterUtil.getInterpreter(sourceTarget), sourceTarget, parentDiagram.get()));
             return result;
         }
@@ -121,11 +121,11 @@ public class EdgeCreationCommandBuilder extends AbstractDiagramCommandBuilder {
             EObject sourceTarget = ((DSemanticDecorator) source).getTarget();
             EObject targetTarget = ((DSemanticDecorator) target).getTarget();
 
-            Option<DDiagram> diagram = getDDiagram();
+            java.util.Optional<DDiagram> diagram = getDDiagram();
 
             EObject container = null;
 
-            if (diagram.some() && diagram.get() instanceof DSemanticDecorator) {
+            if (diagram.isPresent() && diagram.get() instanceof DSemanticDecorator) {
                 container = ((DSemanticDecorator) diagram.get()).getTarget();
             } else {
                 SiriusPlugin.getDefault().warning(ISiriusMessages.IS_NOT_A_DECORATE_SEMANTIC_ELEMENT, null);
@@ -163,9 +163,9 @@ public class EdgeCreationCommandBuilder extends AbstractDiagramCommandBuilder {
 
         if (tool.getConnectionStartPrecondition() != null && !StringUtil.isEmpty(tool.getConnectionStartPrecondition().trim())) {
             EObject sourceTarget = ((DSemanticDecorator) source).getTarget();
-            Option<DDiagram> diagram = new EObjectQuery(source).getParentDiagram();
+            java.util.Optional<DDiagram> diagram = new EObjectQuery(source).getParentDiagram();
             EObject container = null;
-            if (diagram.some() && diagram.get() instanceof DSemanticDecorator) {
+            if (diagram.isPresent() && diagram.get() instanceof DSemanticDecorator) {
                 container = ((DSemanticDecorator) diagram.get()).getTarget();
             } else {
                 SiriusPlugin.getDefault().warning(ISiriusMessages.IS_NOT_A_DECORATE_SEMANTIC_ELEMENT, null);
@@ -208,7 +208,7 @@ public class EdgeCreationCommandBuilder extends AbstractDiagramCommandBuilder {
         initSubvariables(tool.getSourceVariable(), variables, semanticSource);
         initSubvariables(tool.getTargetVariable(), variables, semanticTarget);
 
-        Option<DDiagram> parentDiagram = new EObjectQuery(source).getParentDiagram();
+        java.util.Optional<DDiagram> parentDiagram = new EObjectQuery(source).getParentDiagram();
         result.getTasks().add(new InitInterpreterVariablesTask(variables, InterpreterUtil.getInterpreter(source), uiCallback));
         result.getTasks().add(taskHelper.buildTaskFromModelOperation(parentDiagram.get(), semanticSource, tool.getInitialOperation().getFirstModelOperations()));
         return result;
@@ -257,9 +257,9 @@ public class EdgeCreationCommandBuilder extends AbstractDiagramCommandBuilder {
      * {@inheritDoc}
      */
     @Override
-    protected Option<DDiagram> getDDiagram() {
-        Option<DDiagram> diagram = new EObjectQuery(source).getParentDiagram();
-        if (!diagram.some()) {
+    protected java.util.Optional<DDiagram> getDDiagram() {
+        java.util.Optional<DDiagram> diagram = new EObjectQuery(source).getParentDiagram();
+        if (!diagram.isPresent()) {
             diagram = new EObjectQuery(target).getParentDiagram();
         }
         return diagram;

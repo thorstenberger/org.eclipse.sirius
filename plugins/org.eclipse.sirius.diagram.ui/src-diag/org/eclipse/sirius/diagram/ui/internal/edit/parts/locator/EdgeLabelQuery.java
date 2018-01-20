@@ -30,8 +30,8 @@ import org.eclipse.sirius.diagram.ui.internal.edit.parts.DEdgeBeginNameEditPart;
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.DEdgeEndNameEditPart;
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.DEdgeNameEditPart;
 import org.eclipse.sirius.diagram.ui.part.SiriusVisualIDRegistry;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Preconditions;
 
@@ -334,8 +334,8 @@ public class EdgeLabelQuery {
 
         // Step 2 : Is there a new segment and an old segment on the same line?
         // Case of segment increased or decreased (and eventually inverted)
-        Option<Vector> fromOldToNewRefPoint = getVectorFromOldToNewForSegmentsOnSameLine(oldNearestSeg, oldNearestPoint, oldCenterLabel);
-        if (fromOldToNewRefPoint.some()) {
+        java.util.Optional<Vector> fromOldToNewRefPoint = getVectorFromOldToNewForSegmentsOnSameLine(oldNearestSeg, oldNearestPoint, oldCenterLabel);
+        if (fromOldToNewRefPoint.isPresent()) {
             // In this case the vector for the reference point is the same than
             // for the label center.
             fromOldToNewCenterVector = fromOldToNewRefPoint.get();
@@ -468,8 +468,8 @@ public class EdgeLabelQuery {
         return fromOldToNewCenterVector;
     }
 
-    private Option<Vector> getVectorFromOldToNewForSegmentsOnSameLine(LineSeg oldRefSeg, Point oldRefPoint, Point oldCenterLabel) {
-        Option<Vector> result = Options.newNone();
+    private java.util.Optional<Vector> getVectorFromOldToNewForSegmentsOnSameLine(LineSeg oldRefSeg, Point oldRefPoint, Point oldCenterLabel) {
+        java.util.Optional<Vector> result = java.util.Optional.empty();
         LineSeg newSegmentOnSameLineWithSameDirection = null;
         LineSeg newSegmentOnSameLineWithOppositeDirection = null;
         // Firstly, for points lists with same nb of segments, search if the
@@ -506,7 +506,7 @@ public class EdgeLabelQuery {
         }
 
         if (newRefSeg != null) {
-            result = Options.newSome(applyOldRatioOnNewSegment(oldRefSeg, oldRefPoint, oldCenterLabel, newRefSeg, newSegmentOnSameLineWithOppositeDirection != null, true));
+            result = java.util.Optional.of(applyOldRatioOnNewSegment(oldRefSeg, oldRefPoint, oldCenterLabel, newRefSeg, newSegmentOnSameLineWithOppositeDirection != null, true));
         }
         return result;
     }

@@ -13,7 +13,7 @@ package org.eclipse.sirius.business.api.dialect.description;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * A switch that will return the Target Types associated to a given element and
@@ -56,7 +56,7 @@ public interface IInterpretedExpressionTargetSwitch {
      *         {@link org.eclipse.sirius.ext.base.Options#newNone()} if no
      *         target type is needed (see description)
      */
-    Option<Collection<String>> doSwitch(EObject target, boolean considerFeature);
+    java.util.Optional<Collection<String>> doSwitch(EObject target, boolean considerFeature);
 
     /**
      * Compute the first relevant container for the given EObject, i.e. the

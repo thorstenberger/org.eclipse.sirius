@@ -14,7 +14,7 @@ import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.ISequenceElementAccessor;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.ISequenceEvent;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Function;
 
@@ -35,8 +35,8 @@ public enum VerticalRangeFunction implements Function<View, Range> {
      */
     public Range apply(View view) {
         Range result = Range.emptyRange();
-        Option<ISequenceEvent> iSequenceEvent = ISequenceElementAccessor.getISequenceEvent(view);
-        if (iSequenceEvent.some()) {
+        java.util.Optional<ISequenceEvent> iSequenceEvent = ISequenceElementAccessor.getISequenceEvent(view);
+        if (iSequenceEvent.isPresent()) {
             result = iSequenceEvent.get().getVerticalRange();
         }
         return result;

@@ -25,7 +25,7 @@ import org.eclipse.sirius.business.api.modelingproject.ModelingProject;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.internal.modelingproject.manager.AttachSemanticResourcesJob;
 import org.eclipse.sirius.business.internal.modelingproject.manager.InitializeModelingProjectJob;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ui.tools.api.project.ModelingProjectManager;
 import org.eclipse.sirius.ui.tools.internal.views.common.modelingproject.InvalidModelingProjectMarkerUpdaterJob;
 import org.eclipse.sirius.viewpoint.provider.SiriusEditPlugin;
@@ -93,8 +93,8 @@ public class DefaultModelingProjectResourceListener implements IModelingProjectR
                     // each projects.
                     for (ModelingProject modelingProject : visitor.projectsToInitializeAndLoad) {
                         try {
-                            Option<URI> mainRepresentationsFileURIOption = modelingProject.getMainRepresentationsFileURI(new NullProgressMonitor(), true, true);
-                            if (mainRepresentationsFileURIOption.some()) {
+                            java.util.Optional<URI> mainRepresentationsFileURIOption = modelingProject.getMainRepresentationsFileURI(new NullProgressMonitor(), true, true);
+                            if (mainRepresentationsFileURIOption.isPresent()) {
                                 URI mainRepresentationsFileURI = mainRepresentationsFileURIOption.get();
                                 ModelingProjectManager.INSTANCE.loadAndOpenRepresentationsFile(mainRepresentationsFileURI, true);
                             }

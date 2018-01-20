@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.sirius.business.internal.movida.registry.ViewpointRegistry;
 import org.eclipse.sirius.business.internal.movida.registry.ViewpointRegistryListener;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
@@ -128,8 +128,8 @@ public class DynamicVSMLoader implements ViewpointRegistryListener {
      */
     public synchronized void require(URI viewpoint) {
         Preconditions.checkNotNull(viewpoint);
-        Option<URI> provider = registry.getProvider(viewpoint);
-        Preconditions.checkState(provider.some(), MessageFormat.format("The specified viewpoint {0} is not available.", viewpoint.toString())); //$NON-NLS-1$
+        java.util.Optional<URI> provider = registry.getProvider(viewpoint);
+        Preconditions.checkState(provider.isPresent(), MessageFormat.format("The specified viewpoint {0} is not available.", viewpoint.toString())); //$NON-NLS-1$
         boolean added = this.requiredViewpoints.add(viewpoint);
         if (added) {
             refresh();
@@ -189,8 +189,8 @@ public class DynamicVSMLoader implements ViewpointRegistryListener {
     private Set<URI> computeRequiredProviders() {
         Set<URI> newProviders = new HashSet<>();
         for (URI uri : requiredViewpoints) {
-            Option<URI> provider = registry.getProvider(uri);
-            assert provider.some();
+            java.util.Optional<URI> provider = registry.getProvider(uri);
+            assert provider.isPresent();
             newProviders.add(provider.get());
         }
         return newProviders;

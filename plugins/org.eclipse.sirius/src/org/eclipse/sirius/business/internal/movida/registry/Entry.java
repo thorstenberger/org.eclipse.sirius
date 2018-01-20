@@ -25,7 +25,7 @@ import org.eclipse.sirius.business.api.query.EObjectQuery;
 import org.eclipse.sirius.business.api.query.URIQuery;
 import org.eclipse.sirius.business.api.query.ViewpointQuery;
 import org.eclipse.sirius.business.api.query.ViewpointURIQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
 
 import com.google.common.base.Preconditions;
@@ -91,8 +91,8 @@ public class Entry {
     public Entry(Viewpoint viewpoint) {
         this.viewpoint = Preconditions.checkNotNull(viewpoint);
         Preconditions.checkState(viewpoint.eResource() != null);
-        Option<URI> id = new ViewpointQuery(this.viewpoint).getViewpointURI();
-        assert id.some();
+        java.util.Optional<URI> id = new ViewpointQuery(this.viewpoint).getViewpointURI();
+        assert id.isPresent();
         this.identifier = id.get();
         this.state = ViewpointState.UNDEFINED;
         fillDepdendencies(this.conflicts, viewpoint.getConflicts());

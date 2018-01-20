@@ -40,8 +40,8 @@ import org.eclipse.sirius.diagram.ui.internal.edit.parts.AbstractDNodeContainerC
 import org.eclipse.sirius.diagram.ui.internal.operation.RegionContainerUpdateLayoutOperation;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
 import org.eclipse.sirius.diagram.ui.tools.internal.edit.command.CommandFactory;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -155,8 +155,8 @@ public class RegionContainerResizableEditPolicy extends AirResizableEditPolicy {
         // Handle first and last regions.
         Object resizePropagator = request.getExtendedData().get(REGION_RESIZE_PROPAGATOR);
         if (query.isResizeFromTop() && stackDirection == PositionConstants.NORTH_SOUTH || query.isResizeFromLeft() && stackDirection == PositionConstants.EAST_WEST) {
-            Option<AbstractDiagramElementContainerEditPart> firstRegionPart = getFirstRegionPart();
-            if (firstRegionPart.some() && (!request.isConstrainedResize() || resizePropagator != firstRegionPart.get())) {
+            java.util.Optional<AbstractDiagramElementContainerEditPart> firstRegionPart = getFirstRegionPart();
+            if (firstRegionPart.isPresent() && (!request.isConstrainedResize() || resizePropagator != firstRegionPart.get())) {
                 ChangeBoundsRequest req = initConstrainedRequest(request);
                 req.setEditParts(firstRegionPart.get());
                 req.setSizeDelta(sizeDelta.getCopy());
@@ -180,8 +180,8 @@ public class RegionContainerResizableEditPolicy extends AirResizableEditPolicy {
             }
         } else if (query.isResizeFromBottom() && stackDirection == PositionConstants.NORTH_SOUTH || query.isResizeFromRight() && stackDirection == PositionConstants.EAST_WEST) {
             // Resize the last region.
-            Option<AbstractDiagramElementContainerEditPart> lastRegionPart = getLastRegionPart();
-            if (lastRegionPart.some() && (!request.isConstrainedResize() || resizePropagator != lastRegionPart.get())) {
+            java.util.Optional<AbstractDiagramElementContainerEditPart> lastRegionPart = getLastRegionPart();
+            if (lastRegionPart.isPresent() && (!request.isConstrainedResize() || resizePropagator != lastRegionPart.get())) {
                 ChangeBoundsRequest req = initConstrainedRequest(request);
                 req.setEditParts(lastRegionPart.get());
                 req.setSizeDelta(sizeDelta.getCopy());
@@ -260,14 +260,14 @@ public class RegionContainerResizableEditPolicy extends AirResizableEditPolicy {
         return Collections.emptyList();
     }
 
-    private Option<AbstractDiagramElementContainerEditPart> getFirstRegionPart() {
+    private java.util.Optional<AbstractDiagramElementContainerEditPart> getFirstRegionPart() {
         Iterable<AbstractDiagramElementContainerEditPart> regionParts = getRegionParts();
-        return Options.newSome(Iterables.getFirst(regionParts, null));
+        return java.util.Optional.of(Iterables.getFirst(regionParts, null));
     }
 
-    private Option<AbstractDiagramElementContainerEditPart> getLastRegionPart() {
+    private java.util.Optional<AbstractDiagramElementContainerEditPart> getLastRegionPart() {
         Iterable<AbstractDiagramElementContainerEditPart> regionParts = getRegionParts();
-        return Options.newSome(Iterables.getLast(regionParts, null));
+        return java.util.Optional.of(Iterables.getLast(regionParts, null));
     }
 
 }

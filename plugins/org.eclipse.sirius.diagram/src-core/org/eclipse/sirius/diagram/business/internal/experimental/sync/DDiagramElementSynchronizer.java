@@ -76,8 +76,8 @@ import org.eclipse.sirius.diagram.description.style.NodeStyleDescription;
 import org.eclipse.sirius.diagram.description.style.SquareDescription;
 import org.eclipse.sirius.diagram.description.style.WorkspaceImageDescription;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tools.api.interpreter.IInterpreterMessages;
 import org.eclipse.sirius.tools.api.profiler.SiriusTasksKey;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
@@ -307,8 +307,8 @@ public class DDiagramElementSynchronizer {
         DslCommonPlugin.PROFILER.startWork(SiriusTasksKey.CREATE_MISSING_EDGES_KEY);
         DEdge newEdge = createAndAttachEdge(candidate);
 
-        Option<EdgeMapping> edgeMapping = new IEdgeMappingQuery(candidate.getMapping()).getEdgeMapping();
-        if (edgeMapping.some()) {
+        java.util.Optional<EdgeMapping> edgeMapping = new IEdgeMappingQuery(candidate.getMapping()).getEdgeMapping();
+        if (edgeMapping.isPresent()) {
             refreshSemanticElements(newEdge, edgeMapping.get());
             createStyle(newEdge, edgeMapping.get(), diagram);
             refresh(newEdge);
@@ -370,8 +370,8 @@ public class DDiagramElementSynchronizer {
             final Map<String, Collection<SemanticBasedDecoration>> edgeToSemanticBasedDecoration) {
         /* semantic based decorations */
         IEdgeMapping actualMapping = edge.getActualMapping();
-        final Option<EdgeMapping> edgeMapping = new IEdgeMappingQuery(actualMapping).getEdgeMapping();
-        if (edgeMapping.some() && edgeMapping.get().isUseDomainElement() && edgeToSemanticBasedDecoration.containsKey(edgeMapping.get().getDomainClass())) {
+        final java.util.Optional<EdgeMapping> edgeMapping = new IEdgeMappingQuery(actualMapping).getEdgeMapping();
+        if (edgeMapping.isPresent() && edgeMapping.get().isUseDomainElement() && edgeToSemanticBasedDecoration.containsKey(edgeMapping.get().getDomainClass())) {
             final Collection<SemanticBasedDecoration> semanticBasedDecorations = edgeToSemanticBasedDecoration.get(edgeMapping.get().getDomainClass());
             for (final SemanticBasedDecoration semanticBasedDecoration : semanticBasedDecorations) {
                 decorationHelper.addDecoration(edge, semanticBasedDecoration);
@@ -420,8 +420,8 @@ public class DDiagramElementSynchronizer {
         }
 
         // semantic elements
-        final Option<EdgeMapping> actualMapping = new IEdgeMappingQuery(edge.getActualMapping()).getEdgeMapping();
-        if (actualMapping.some()) {
+        final java.util.Optional<EdgeMapping> actualMapping = new IEdgeMappingQuery(edge.getActualMapping()).getEdgeMapping();
+        if (actualMapping.isPresent()) {
             refreshSemanticElements(edge, actualMapping.get());
         }
 
@@ -518,7 +518,7 @@ public class DDiagramElementSynchronizer {
             }
         }
         if (newNode.getOwnedStyle() != null) {
-            Option<NodeStyle> noPreviousStyle = Options.newNone();
+            java.util.Optional<NodeStyle> noPreviousStyle = java.util.Optional.empty();
             styleHelper.refreshStyle(newNode.getOwnedStyle(), noPreviousStyle);
         }
         refreshSemanticElements(newNode, newNode.getDiagramElementMapping());
@@ -785,10 +785,10 @@ public class DDiagramElementSynchronizer {
             this.mappingHelper.affectAndRefreshStyle(mapping, edge, edge.getTarget(), containerVariable, parentDiagram);
         } else {
             if (edge.getStyle().getCustomFeatures().isEmpty()) {
-                Option<EdgeStyle> noPreviousStyle = Options.newNone();
+                java.util.Optional<EdgeStyle> noPreviousStyle = java.util.Optional.empty();
                 styleHelper.refreshStyle(edge.getOwnedStyle(), noPreviousStyle);
             } else {
-                styleHelper.refreshStyle(edge.getOwnedStyle(), Options.newSome(edge.getOwnedStyle()));
+                styleHelper.refreshStyle(edge.getOwnedStyle(), java.util.Optional.of(edge.getOwnedStyle()));
             }
         }
 

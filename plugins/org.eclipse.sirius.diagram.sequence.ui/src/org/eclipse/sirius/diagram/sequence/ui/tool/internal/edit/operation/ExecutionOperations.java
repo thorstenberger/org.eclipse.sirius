@@ -44,7 +44,7 @@ import org.eclipse.sirius.diagram.ui.tools.api.figure.AirDefaultSizeNodeFigure;
 import org.eclipse.sirius.diagram.ui.tools.api.policy.CompoundEditPolicy;
 import org.eclipse.sirius.diagram.ui.tools.internal.edit.command.CommandFactory;
 import org.eclipse.sirius.diagram.ui.tools.internal.util.EditPartQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.collect.Iterables;
 
@@ -259,8 +259,8 @@ public final class ExecutionOperations {
             ISequenceEvent futureParent = removedExec.getHierarchicalParentEvent();
             TransactionalEditingDomain domain = removedExecEditPart.getEditingDomain();
             for (View hierarchicalChild : Iterables.filter(Iterables.filter(removedExec.getNotationView().getChildren(), View.class), AbstractNodeEvent.notationPredicate())) {
-                Option<AbstractNodeEvent> child = ISequenceElementAccessor.getAbstractNodeEvent(hierarchicalChild);
-                if (child.some()) {
+                java.util.Optional<AbstractNodeEvent> child = ISequenceElementAccessor.getAbstractNodeEvent(hierarchicalChild);
+                if (child.isPresent()) {
                     final Range childRange = child.get().getVerticalRange();
                     result.append(CommandFactory.createRecordingCommand(domain, new ReparentExecutionOperation(child.get(), futureParent)));
                     result.append(CommandFactory.createRecordingCommand(domain, new SetVerticalRangeOperation(child.get(), childRange)));

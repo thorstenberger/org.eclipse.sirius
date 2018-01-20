@@ -27,8 +27,8 @@ import org.eclipse.sirius.common.tools.api.listener.NotificationUtil;
 import org.eclipse.sirius.common.ui.tools.api.util.EclipseUIUtil;
 import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.DEdgeEditPart;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -97,8 +97,8 @@ public class VisibilityPostCommitListener extends ResourceSetListenerImpl {
         final Set<View> changedElements = getElementsWhoseVisibilityChanged(event);
         final Set<IGraphicalEditPart> parts = new HashSet<>();
         for (View view : changedElements) {
-            Option<IGraphicalEditPart> elementParts = getEditPartsFor(view);
-            if (elementParts.some()) {
+            java.util.Optional<IGraphicalEditPart> elementParts = getEditPartsFor(view);
+            if (elementParts.isPresent()) {
                 parts.add(elementParts.get());
             }
         }
@@ -106,12 +106,12 @@ public class VisibilityPostCommitListener extends ResourceSetListenerImpl {
             public void run() {
                 for (DEdgeEditPart edgePart : Iterables.filter(parts, DEdgeEditPart.class)) {
                     Edge edge = (Edge) edgePart.getNotationView();
-                    Option<IGraphicalEditPart> sourcePart = getEditPartsFor(edge.getSource());
-                    if (sourcePart.some()) {
+                    java.util.Optional<IGraphicalEditPart> sourcePart = getEditPartsFor(edge.getSource());
+                    if (sourcePart.isPresent()) {
                         sourcePart.get().refresh();
                     }
-                    Option<IGraphicalEditPart> targetPart = getEditPartsFor(edge.getTarget());
-                    if (targetPart.some()) {
+                    java.util.Optional<IGraphicalEditPart> targetPart = getEditPartsFor(edge.getTarget());
+                    if (targetPart.isPresent()) {
                         targetPart.get().refresh();
                     }
                 }
@@ -119,12 +119,12 @@ public class VisibilityPostCommitListener extends ResourceSetListenerImpl {
         });
     }
 
-    private Option<IGraphicalEditPart> getEditPartsFor(View view) {
-        Option<IGraphicalEditPart> result = Options.newNone();
+    private java.util.Optional<IGraphicalEditPart> getEditPartsFor(View view) {
+        java.util.Optional<IGraphicalEditPart> result = java.util.Optional.empty();
         if (diagramEditPart != null && diagramEditPart.getRoot() != null && diagramEditPart.getViewer() != null && diagramEditPart.getViewer().getEditPartRegistry() != null) {
             Map<?, ?> registry = diagramEditPart.getViewer().getEditPartRegistry();
             if (view != null && registry.containsKey(view) && registry.get(view) instanceof IGraphicalEditPart) {
-                result = Options.newSome((IGraphicalEditPart) registry.get(view));
+                result = java.util.Optional.of((IGraphicalEditPart) registry.get(view));
             }
         }
         return result;

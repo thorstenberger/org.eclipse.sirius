@@ -82,10 +82,10 @@ public class PositionsChecker {
 
             if (ise instanceof Execution) {
                 Execution exec = (Execution) ise;
-                if (!exec.getStartMessage().some()) {
+                if (!exec.getStartMessage().isPresent()) {
                     positions.add(futureLowerBound);
                 }
-                if (!exec.getEndMessage().some()) {
+                if (!exec.getEndMessage().isPresent()) {
                     positions.add(futureUpperBound);
                 }
             } else if (ise instanceof Operand) {

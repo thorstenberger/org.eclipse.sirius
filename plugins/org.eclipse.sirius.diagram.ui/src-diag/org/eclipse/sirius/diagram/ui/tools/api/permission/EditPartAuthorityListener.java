@@ -29,8 +29,8 @@ import org.eclipse.sirius.diagram.ui.tools.internal.figure.DiagramSemanticElemen
 import org.eclipse.sirius.ecore.extender.business.api.permission.IAuthorityListener;
 import org.eclipse.sirius.ecore.extender.business.api.permission.IPermissionAuthority;
 import org.eclipse.sirius.ecore.extender.business.api.permission.LockStatus;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 
 /**
@@ -115,8 +115,8 @@ public class EditPartAuthorityListener implements IAuthorityListener {
     public void refreshEditMode() {
         // Step 1: check if the current editor is null (means it has just been
         // closed)
-        final Option<DDiagramEditor> diagramEditorIfAny = getDDiagramEditor();
-        if (diagramEditorIfAny.some()) {
+        final java.util.Optional<DDiagramEditor> diagramEditorIfAny = getDDiagramEditor();
+        if (diagramEditorIfAny.isPresent()) {
             final DDiagramEditor diagramEditor = diagramEditorIfAny.get();
             final EObject semanticElement = part.resolveSemanticElement();
             final IPermissionAuthority auth = diagramEditor.getPermissionAuthority();
@@ -240,12 +240,12 @@ public class EditPartAuthorityListener implements IAuthorityListener {
     /**
      * Returns the DDiagramEditor associated to the current edit part (if any).
      */
-    private Option<DDiagramEditor> getDDiagramEditor() {
-        Option<DDiagramEditor> diagramEditor = Options.newNone();
+    private java.util.Optional<DDiagramEditor> getDDiagramEditor() {
+        java.util.Optional<DDiagramEditor> diagramEditor = java.util.Optional.empty();
         try {
-            diagramEditor = Options.newSome((DDiagramEditor) part.getViewer().getProperty(DDiagramEditor.EDITOR_ID));
+            diagramEditor = java.util.Optional.of((DDiagramEditor) part.getViewer().getProperty(DDiagramEditor.EDITOR_ID));
         } catch (NullPointerException e) {
-            // nothing to do, method will return Options.newNone()
+            // nothing to do, method will return java.util.Optional.empty()
         }
         return diagramEditor;
     }

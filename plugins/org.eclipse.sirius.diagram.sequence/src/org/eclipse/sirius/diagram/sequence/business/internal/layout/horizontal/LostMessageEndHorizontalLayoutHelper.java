@@ -33,7 +33,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.SequenceDi
 import org.eclipse.sirius.diagram.sequence.business.internal.layout.AbstractSequenceLayout;
 import org.eclipse.sirius.diagram.sequence.business.internal.layout.LayoutConstants;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -97,10 +97,10 @@ public class LostMessageEndHorizontalLayoutHelper {
                 EdgeTarget targetNode = getKnownTargetNode(lme);
                 if (targetNode != null) {
                     ISequenceEvent ise = getISequenceEvent(targetNode);
-                    if (ise != null && ise.getLifeline().some()) {
+                    if (ise != null && ise.getLifeline().isPresent()) {
                         lostSources.put(ise.getLifeline().get(), lme);
-                        Option<Operand> parentOperand = ise.getParentOperand();
-                        if (parentOperand.some()) {
+                        java.util.Optional<Operand> parentOperand = ise.getParentOperand();
+                        if (parentOperand.isPresent()) {
                             operands.put(lme, parentOperand.get());
                             operands2lostEnds.put(parentOperand.get(), lme);
                         } else {
@@ -111,10 +111,10 @@ public class LostMessageEndHorizontalLayoutHelper {
                 EdgeTarget sourceNode = getKnownSourceNode(lme);
                 if (sourceNode != null) {
                     ISequenceEvent ise = getISequenceEvent(sourceNode);
-                    if (ise != null && ise.getLifeline().some()) {
+                    if (ise != null && ise.getLifeline().isPresent()) {
                         lostTargets.put(ise.getLifeline().get(), lme);
-                        Option<Operand> parentOperand = ise.getParentOperand();
-                        if (parentOperand.some()) {
+                        java.util.Optional<Operand> parentOperand = ise.getParentOperand();
+                        if (parentOperand.isPresent()) {
                             operands.put(lme, parentOperand.get());
                             operands2lostEnds.put(parentOperand.get(), lme);
                         } else {
@@ -130,27 +130,27 @@ public class LostMessageEndHorizontalLayoutHelper {
         ISequenceNode sourceElement = msg.getSourceElement();
         ISequenceNode targetElement = msg.getTargetElement();
 
-        Option<Operand> parentOperand = msg.getParentOperand();
+        java.util.Optional<Operand> parentOperand = msg.getParentOperand();
         if (sourceElement != null && targetElement != null) {
-            Option<Lifeline> sourceLifeline = sourceElement.getLifeline();
-            Option<Lifeline> targetLifeline = targetElement.getLifeline();
+            java.util.Optional<Lifeline> sourceLifeline = sourceElement.getLifeline();
+            java.util.Optional<Lifeline> targetLifeline = targetElement.getLifeline();
 
             // Only messages with one lost end are handled.
-            if (sourceElement instanceof LostMessageEnd && targetLifeline.some()) {
+            if (sourceElement instanceof LostMessageEnd && targetLifeline.isPresent()) {
                 LostMessageEnd sourceLME = (LostMessageEnd) sourceElement;
                 lostSources.put(targetLifeline.get(), sourceLME);
                 lostMessages.put(sourceLME, msg);
-                if (parentOperand.some()) {
+                if (parentOperand.isPresent()) {
                     operands.put(sourceLME, parentOperand.get());
                     operands2lostEnds.put(parentOperand.get(), sourceLME);
                 } else {
                     diagramLostEnds.add(sourceLME);
                 }
-            } else if (targetElement instanceof LostMessageEnd && sourceLifeline.some()) {
+            } else if (targetElement instanceof LostMessageEnd && sourceLifeline.isPresent()) {
                 LostMessageEnd targetLME = (LostMessageEnd) targetElement;
                 lostTargets.put(sourceLifeline.get(), targetLME);
                 lostMessages.put(targetLME, msg);
-                if (parentOperand.some()) {
+                if (parentOperand.isPresent()) {
                     operands.put(targetLME, parentOperand.get());
                     operands2lostEnds.put(parentOperand.get(), targetLME);
                 } else {
@@ -271,7 +271,7 @@ public class LostMessageEndHorizontalLayoutHelper {
 
         if (Message.Kind.CREATION.equals(kind) && lifeline.getInstanceRole() != null) {
             refX = lifeline.getInstanceRole().getProperLogicalBounds().x;
-        } else if (Message.Kind.DESTRUCTION.equals(kind) && lifeline.getEndOfLife().some()) {
+        } else if (Message.Kind.DESTRUCTION.equals(kind) && lifeline.getEndOfLife().isPresent()) {
             refX = lifeline.getEndOfLife().get().getProperLogicalBounds().x;
         }
         return refX - lifelineX - LayoutConstants.LOST_MESSAGE_DEFAULT_WIDTH - lostEndWidth;

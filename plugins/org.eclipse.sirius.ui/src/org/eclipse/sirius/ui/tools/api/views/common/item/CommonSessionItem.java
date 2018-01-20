@@ -12,7 +12,7 @@ package org.eclipse.sirius.ui.tools.api.views.common.item;
 
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.common.ui.tools.api.view.common.item.CommonItem;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * An interface to get the wrapped object.
@@ -26,5 +26,5 @@ public interface CommonSessionItem extends CommonItem {
      * 
      * @return the Session which manages these representations
      */
-    Option<Session> getSession();
+    java.util.Optional<Session> getSession();
 }

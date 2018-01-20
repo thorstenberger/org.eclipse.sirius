@@ -36,7 +36,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.SequenceDi
 import org.eclipse.sirius.diagram.sequence.business.internal.query.ISequenceEventQuery;
 import org.eclipse.sirius.diagram.sequence.util.Range;
 import org.eclipse.sirius.diagram.ui.business.internal.operation.AbstractModelChangeOperation;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
@@ -149,8 +149,8 @@ public class VerticalSpaceExpansion extends AbstractModelChangeOperation<Void> {
         List<Lifeline> lifelines = sequenceDiagram.getAllLifelines();
         lifelines.removeAll(eventsToIgnore);
         for (Lifeline lifeline : lifelines) {
-            Option<Message> cm = lifeline.getCreationMessage();
-            if (cm.some() && isStrictlyBelowInsertionPoint(cm.get())) {
+            java.util.Optional<Message> cm = lifeline.getCreationMessage();
+            if (cm.isPresent() && isStrictlyBelowInsertionPoint(cm.get())) {
                 /*
                  * The whole lifeline is below the insertion point.
                  */
@@ -165,8 +165,8 @@ public class VerticalSpaceExpansion extends AbstractModelChangeOperation<Void> {
                 /*
                  * Only the end of the lifeline is below the insertion point.
                  */
-                Option<Message> dm = lifeline.getDestructionMessage();
-                if (!dm.some() || isStrictlyBelowInsertionPoint(dm.get())) {
+                java.util.Optional<Message> dm = lifeline.getDestructionMessage();
+                if (!dm.isPresent() || isStrictlyBelowInsertionPoint(dm.get())) {
                     expandDown(lifeline, expansionSize);
                 }
             }
@@ -263,8 +263,8 @@ public class VerticalSpaceExpansion extends AbstractModelChangeOperation<Void> {
 
         for (AbstractNodeEvent execution : Iterables.filter(eventsToShift, AbstractNodeEvent.class)) {
             Lifeline lep = execution.getLifeline().get();
-            Option<Message> cm = lep.getCreationMessage();
-            if (cm.some() && isStrictlyBelowInsertionPoint(cm.get())) {
+            java.util.Optional<Message> cm = lep.getCreationMessage();
+            if (cm.isPresent() && isStrictlyBelowInsertionPoint(cm.get())) {
                 continue;
             }
             /*

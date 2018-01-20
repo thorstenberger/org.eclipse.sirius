@@ -23,7 +23,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.layout.horizontal.S
 import org.eclipse.sirius.diagram.sequence.business.internal.layout.observation.SequenceObservationLayout;
 import org.eclipse.sirius.diagram.sequence.business.internal.layout.vertical.SequenceVerticalLayout;
 import org.eclipse.sirius.diagram.ui.business.api.query.NodeQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.collect.Iterables;
 
@@ -35,7 +35,7 @@ import com.google.common.collect.Iterables;
  */
 public class SequenceLayout {
 
-    private final Option<SequenceDiagram> sequenceDiagram;
+    private final java.util.Optional<SequenceDiagram> sequenceDiagram;
 
     private SequenceHorizontalLayout sequenceHorizontalLayout;
 
@@ -57,7 +57,7 @@ public class SequenceLayout {
         this.sequenceObservationLayout = new SequenceObservationLayout(sequenceDiagram.get());
     }
 
-    public Option<SequenceDiagram> getSequenceDiagram() {
+    public java.util.Optional<SequenceDiagram> getSequenceDiagram() {
         return sequenceDiagram;
     }
 
@@ -70,7 +70,7 @@ public class SequenceLayout {
      * @return true if horizontal layout has been done
      */
     public boolean horizontalLayout(boolean pack) {
-        if (this.sequenceHorizontalLayout != null && this.sequenceDiagram.some()) {
+        if (this.sequenceHorizontalLayout != null && this.sequenceDiagram.isPresent()) {
             return this.sequenceHorizontalLayout.layout(pack);
         }
         return false;
@@ -85,7 +85,7 @@ public class SequenceLayout {
      * @return true if vertical layout has been done
      */
     public boolean verticalLayout(boolean pack) {
-        if (this.sequenceVerticalLayout != null && this.sequenceDiagram.some()) {
+        if (this.sequenceVerticalLayout != null && this.sequenceDiagram.isPresent()) {
             return this.sequenceVerticalLayout.layout(pack);
         }
         return false;
@@ -103,7 +103,7 @@ public class SequenceLayout {
      * @return true if horizontal layout has been done
      */
     public boolean observationLayout(boolean pack) {
-        if (this.sequenceObservationLayout != null && this.sequenceDiagram.some()) {
+        if (this.sequenceObservationLayout != null && this.sequenceDiagram.isPresent()) {
             return this.sequenceObservationLayout.layout(pack);
         }
         return false;
@@ -114,7 +114,7 @@ public class SequenceLayout {
      */
     public void flagSequenceEvents() {
         // Flag event with their new position
-        if (this.sequenceDiagram.some()) {
+        if (this.sequenceDiagram.isPresent()) {
             SequenceDiagramAbsoluteBoundsFlagger flagHelper = new SequenceDiagramAbsoluteBoundsFlagger(sequenceDiagram.get());
             flagHelper.flag();
 

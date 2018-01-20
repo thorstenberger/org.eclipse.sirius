@@ -11,8 +11,8 @@
 package org.eclipse.sirius.tree.business.api.query;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tree.DTree;
 import org.eclipse.sirius.tree.DTreeItem;
 
@@ -40,15 +40,15 @@ public class DTreeItemQuery {
      * 
      * @return the Tree containing the treeItem
      */
-    public Option<DTree> getParentTree() {
+    public java.util.Optional<DTree> getParentTree() {
         EObject current = item;
         while (current != null) {
             if (current instanceof DTree) {
-                return Options.newSome((DTree) current);
+                return java.util.Optional.of((DTree) current);
             }
             current = current.eContainer();
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
 }

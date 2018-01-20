@@ -37,7 +37,7 @@ import org.eclipse.sirius.business.api.componentization.ViewpointRegistry;
 import org.eclipse.sirius.business.api.query.IdentifiedElementQuery;
 import org.eclipse.sirius.business.api.query.ViewpointQuery;
 import org.eclipse.sirius.common.tools.api.util.MessageTranslator;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ui.tools.internal.viewpoint.ViewpointHelper;
 import org.eclipse.sirius.viewpoint.description.RepresentationExtensionDescription;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
@@ -371,8 +371,8 @@ public class ViewpointSelectionDialog extends TitleAreaDialog {
                 if (!Iterables.any(selected, new Predicate<Viewpoint>() {
                     @Override
                     public boolean apply(Viewpoint vp) {
-                        Option<URI> uri = new ViewpointQuery(vp).getViewpointURI();
-                        if (uri.some()) {
+                        java.util.Optional<URI> uri = new ViewpointQuery(vp).getViewpointURI();
+                        if (uri.isPresent()) {
                             Matcher matcher = pattern.matcher(uri.get().toString());
                             return matcher.matches();
                         } else {

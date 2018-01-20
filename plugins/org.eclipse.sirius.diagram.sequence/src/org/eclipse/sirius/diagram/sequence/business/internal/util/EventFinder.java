@@ -23,7 +23,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.ISequenceE
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.Lifeline;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.Message;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
@@ -77,7 +77,7 @@ public class EventFinder {
      */
     public EventFinder(AbstractNodeEvent context) {
         this.context = context;
-        Preconditions.checkArgument(context.getLifeline().some());
+        Preconditions.checkArgument(context.getLifeline().isPresent());
         this.lifeline = context.getLifeline().get();
     }
 
@@ -161,8 +161,8 @@ public class EventFinder {
             List<ISequenceEvent> eventsToInspect = new ArrayList<>();
             if ((reconnect || reparent) && (context instanceof AbstractNodeEvent || context instanceof Lifeline)) {
                 for (View view : Iterables.filter(context.getNotationView().getChildren(), View.class)) {
-                    Option<ISequenceEvent> ise = ISequenceElementAccessor.getISequenceEvent(view);
-                    if (ise != null && ise.some() && !reparented.containsKey(ise.get())) {
+                    java.util.Optional<ISequenceEvent> ise = ISequenceElementAccessor.getISequenceEvent(view);
+                    if (ise != null && ise.isPresent() && !reparented.containsKey(ise.get())) {
                         eventsToInspect.add(ise.get());
                     }
                 }

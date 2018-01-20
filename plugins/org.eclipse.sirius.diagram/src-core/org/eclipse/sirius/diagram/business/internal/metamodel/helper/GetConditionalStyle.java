@@ -32,7 +32,7 @@ import org.eclipse.sirius.diagram.description.EdgeMappingImport;
 import org.eclipse.sirius.diagram.description.NodeMapping;
 import org.eclipse.sirius.diagram.description.NodeMappingImport;
 import org.eclipse.sirius.diagram.description.util.DescriptionSwitch;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.SiriusPlugin;
 import org.eclipse.sirius.viewpoint.description.ConditionalStyleDescription;
 
@@ -123,8 +123,8 @@ public class GetConditionalStyle extends DescriptionSwitch<List<? extends Condit
     private Collection<? extends ConditionalEdgeStyleDescription> getConditionalStyleOfImportedMapping(final EdgeMappingImport object) {
         final EList<ConditionalEdgeStyleDescription> result = new BasicEList<ConditionalEdgeStyleDescription>();
         if (dDiagram != null) {
-            Option<EdgeMapping> edgeMapping = new IEdgeMappingQuery(object.getImportedMapping()).getEdgeMapping();
-            if (edgeMapping.some()) {
+            java.util.Optional<EdgeMapping> edgeMapping = new IEdgeMappingQuery(object.getImportedMapping()).getEdgeMapping();
+            if (edgeMapping.isPresent()) {
                 result.addAll(edgeMapping.get().getConditionnalStyles());
             }
         }

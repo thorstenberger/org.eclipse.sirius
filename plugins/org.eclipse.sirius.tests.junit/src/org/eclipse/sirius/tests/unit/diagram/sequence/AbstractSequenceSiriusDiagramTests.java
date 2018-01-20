@@ -45,8 +45,8 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.State;
 import org.eclipse.sirius.diagram.sequence.business.internal.layout.LayoutConstants;
 import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
 import org.eclipse.sirius.ecore.extender.tool.api.ModelUtils;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.sample.interactions.Interaction;
 import org.eclipse.sirius.sample.interactions.Model;
 import org.eclipse.sirius.sample.interactions.Participant;
@@ -138,9 +138,9 @@ public abstract class AbstractSequenceSiriusDiagramTests extends SiriusDiagramTe
         }
     }
 
-    protected Option<SequenceDiagram> openSequenceDiagramOfType(String name, String type) {
-        Option<SequenceDDiagram> sequenceDDiagramOfType = getSequenceDDiagramOfType(name, type);
-        Assert.assertTrue("Sequence diagram " + name + " not found in " + getPath() + getSessionModel(), sequenceDDiagramOfType.some());
+    protected java.util.Optional<SequenceDiagram> openSequenceDiagramOfType(String name, String type) {
+        java.util.Optional<SequenceDDiagram> sequenceDDiagramOfType = getSequenceDDiagramOfType(name, type);
+        Assert.assertTrue("Sequence diagram " + name + " not found in " + getPath() + getSessionModel(), sequenceDDiagramOfType.isPresent());
         sequenceDDiagram = sequenceDDiagramOfType.get();
         editorPart = (DDiagramEditor) DialectUIManager.INSTANCE.openEditor(session, sequenceDDiagram, new NullProgressMonitor());
         TestsUtil.synchronizationWithUIThread();
@@ -149,17 +149,17 @@ public abstract class AbstractSequenceSiriusDiagramTests extends SiriusDiagramTe
         return ISequenceElementAccessor.getSequenceDiagram(diagramView);
     }
 
-    protected Option<SequenceDDiagram> getSequenceDDiagramOfType(String name, String type) {
+    protected java.util.Optional<SequenceDDiagram> getSequenceDDiagramOfType(String name, String type) {
         Collection<DRepresentation> sequenceDiagrams = getRepresentations(type);
         for (DRepresentation repr : sequenceDiagrams) {
             if (repr instanceof SequenceDDiagram && name.equals(repr.getName())) {
-                return Options.newSome((SequenceDDiagram) repr);
+                return java.util.Optional.of((SequenceDDiagram) repr);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
-    protected Option<SequenceDiagram> createSequenceDiagramOfType(String type) {
+    protected java.util.Optional<SequenceDiagram> createSequenceDiagramOfType(String type) {
         initViewpoint(InteractionsConstants.VIEWPOINT_NAME);
         sequenceDDiagram = (SequenceDDiagram) createRepresentation(type, interaction);
         editorPart = (DDiagramEditor) DialectUIManager.INSTANCE.openEditor(session, sequenceDDiagram, new NullProgressMonitor());
@@ -208,154 +208,154 @@ public abstract class AbstractSequenceSiriusDiagramTests extends SiriusDiagramTe
         return boundsCopy;
     }
 
-    protected Option<Lifeline> getLifelineByName(SequenceDiagram sd, String name) {
+    protected java.util.Optional<Lifeline> getLifelineByName(SequenceDiagram sd, String name) {
         return getLifelineByName(sd.getAllLifelines(), name);
     }
 
-    protected Option<Lifeline> getLifelineByName(Collection<Lifeline> lifelines, String name) {
+    protected java.util.Optional<Lifeline> getLifelineByName(Collection<Lifeline> lifelines, String name) {
         for (Lifeline lifeline : lifelines) {
             if (Objects.equal(getLifelineSemanticName(lifeline), name)) {
-                return Options.newSome(lifeline);
+                return java.util.Optional.of(lifeline);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     protected String getLifelineSemanticName(Lifeline lifeline) {
-        Option<EObject> target = lifeline.getSemanticTargetElement();
-        if (target.some()) {
+        java.util.Optional<EObject> target = lifeline.getSemanticTargetElement();
+        if (target.isPresent()) {
             Participant p = (Participant) target.get();
             return p.getName();
         }
         return null;
     }
 
-    protected Option<Message> getMessageByName(SequenceDiagram sd, String name) {
+    protected java.util.Optional<Message> getMessageByName(SequenceDiagram sd, String name) {
         return getMessageByName(sd.getAllMessages(), name);
     }
 
-    protected Option<Message> getMessageByName(Collection<Message> messages, String name) {
+    protected java.util.Optional<Message> getMessageByName(Collection<Message> messages, String name) {
         for (Message message : messages) {
             if (Objects.equal(getMessageSemanticName(message), name)) {
-                return Options.newSome(message);
+                return java.util.Optional.of(message);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     protected String getMessageSemanticName(Message message) {
-        Option<EObject> target = message.getSemanticTargetElement();
-        if (target.some()) {
+        java.util.Optional<EObject> target = message.getSemanticTargetElement();
+        if (target.isPresent()) {
             org.eclipse.sirius.sample.interactions.Message m = (org.eclipse.sirius.sample.interactions.Message) target.get();
             return m.getName();
         }
         return null;
     }
 
-    protected Option<InteractionUse> getInteractionUseByName(SequenceDiagram sd, String name) {
+    protected java.util.Optional<InteractionUse> getInteractionUseByName(SequenceDiagram sd, String name) {
         return getInteractionUseByName(sd.getAllInteractionUses(), name);
     }
 
-    protected Option<InteractionUse> getInteractionUseByName(Collection<InteractionUse> ius, String name) {
+    protected java.util.Optional<InteractionUse> getInteractionUseByName(Collection<InteractionUse> ius, String name) {
         for (InteractionUse iu : ius) {
             if (Objects.equal(getInteractionUseSemanticName(iu), name)) {
-                return Options.newSome(iu);
+                return java.util.Optional.of(iu);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     protected String getInteractionUseSemanticName(InteractionUse iu) {
-        Option<EObject> target = iu.getSemanticTargetElement();
-        if (target.some()) {
+        java.util.Optional<EObject> target = iu.getSemanticTargetElement();
+        if (target.isPresent()) {
             org.eclipse.sirius.sample.interactions.InteractionUse m = (org.eclipse.sirius.sample.interactions.InteractionUse) target.get();
             return m.getType();
         }
         return null;
     }
 
-    protected Option<CombinedFragment> getCombinedFragmentByName(SequenceDiagram sd, String name) {
+    protected java.util.Optional<CombinedFragment> getCombinedFragmentByName(SequenceDiagram sd, String name) {
         return getCombinedFragmentByName(sd.getAllCombinedFragments(), name);
     }
 
-    protected Option<CombinedFragment> getCombinedFragmentByName(Collection<CombinedFragment> cfs, String name) {
+    protected java.util.Optional<CombinedFragment> getCombinedFragmentByName(Collection<CombinedFragment> cfs, String name) {
         for (CombinedFragment cf : cfs) {
             if (Objects.equal(getCombinedFragmentSemanticName(cf), name)) {
-                return Options.newSome(cf);
+                return java.util.Optional.of(cf);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     protected String getCombinedFragmentSemanticName(CombinedFragment cf) {
-        Option<EObject> target = cf.getSemanticTargetElement();
-        if (target.some()) {
+        java.util.Optional<EObject> target = cf.getSemanticTargetElement();
+        if (target.isPresent()) {
             org.eclipse.sirius.sample.interactions.CombinedFragment m = (org.eclipse.sirius.sample.interactions.CombinedFragment) target.get();
             return m.getOperator();
         }
         return null;
     }
 
-    protected Option<Execution> getExecutionByName(SequenceDiagram sd, String name) {
+    protected java.util.Optional<Execution> getExecutionByName(SequenceDiagram sd, String name) {
         return getExecutionByName(sd.getAllExecutions(), name);
     }
 
-    protected Option<Execution> getExecutionByName(Collection<Execution> executions, String name) {
+    protected java.util.Optional<Execution> getExecutionByName(Collection<Execution> executions, String name) {
         for (Execution execution : executions) {
             if (Objects.equal(getExecutionSemanticName(execution), name)) {
-                return Options.newSome(execution);
+                return java.util.Optional.of(execution);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     protected String getExecutionSemanticName(Execution execution) {
-        Option<EObject> target = execution.getSemanticTargetElement();
-        if (target.some()) {
+        java.util.Optional<EObject> target = execution.getSemanticTargetElement();
+        if (target.isPresent()) {
             org.eclipse.sirius.sample.interactions.Execution m = (org.eclipse.sirius.sample.interactions.Execution) target.get();
             return m.getName();
         }
         return null;
     }
 
-    protected Option<State> getStateByName(SequenceDiagram sd, String name) {
+    protected java.util.Optional<State> getStateByName(SequenceDiagram sd, String name) {
         return getStateByName(sd.getAllStates(), name);
     }
 
-    protected Option<State> getStateByName(Collection<State> states, String name) {
+    protected java.util.Optional<State> getStateByName(Collection<State> states, String name) {
         for (State state : states) {
             if (Objects.equal(getStateSemanticName(state), name)) {
-                return Options.newSome(state);
+                return java.util.Optional.of(state);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     protected String getStateSemanticName(State state) {
-        Option<EObject> target = state.getSemanticTargetElement();
-        if (target.some()) {
+        java.util.Optional<EObject> target = state.getSemanticTargetElement();
+        if (target.isPresent()) {
             org.eclipse.sirius.sample.interactions.State m = (org.eclipse.sirius.sample.interactions.State) target.get();
             return m.getName();
         }
         return null;
     }
 
-    protected Option<Operand> getOperandByName(SequenceDiagram sd, String name) {
+    protected java.util.Optional<Operand> getOperandByName(SequenceDiagram sd, String name) {
         return getOperandByName(sd.getAllOperands(), name);
     }
 
-    protected Option<Operand> getOperandByName(Collection<Operand> operands, String name) {
+    protected java.util.Optional<Operand> getOperandByName(Collection<Operand> operands, String name) {
         for (Operand operand : operands) {
             if (Objects.equal(getOperandSemanticName(operand), name)) {
-                return Options.newSome(operand);
+                return java.util.Optional.of(operand);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     protected String getOperandSemanticName(Operand operand) {
-        Option<EObject> target = operand.getSemanticTargetElement();
-        if (target.some()) {
+        java.util.Optional<EObject> target = operand.getSemanticTargetElement();
+        if (target.isPresent()) {
             org.eclipse.sirius.sample.interactions.Operand m = (org.eclipse.sirius.sample.interactions.Operand) target.get();
             return m.getName();
         }

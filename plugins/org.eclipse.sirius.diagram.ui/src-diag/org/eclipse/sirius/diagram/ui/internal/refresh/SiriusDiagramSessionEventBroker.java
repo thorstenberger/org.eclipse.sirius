@@ -21,8 +21,8 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.sirius.business.api.session.ModelChangeTrigger;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.internal.session.SessionEventBrokerImpl;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Predicate;
 
@@ -82,9 +82,9 @@ public final class SiriusDiagramSessionEventBroker implements ModelChangeTrigger
     /**
      * {@inheritDoc}
      */
-    public Option<Command> localChangesAboutToCommit(Collection<Notification> notifications) {
+    public java.util.Optional<Command> localChangesAboutToCommit(Collection<Notification> notifications) {
         TransactionalEditingDomain domain = getSession().getTransactionalEditingDomain();
-        Option<Command> triggerCommand = Options.newSome(viewpointGMFSynchronizerDispatcher.getGMFNotationModelSynchronizationCmd(domain, notifications));
+        java.util.Optional<Command> triggerCommand = java.util.Optional.of(viewpointGMFSynchronizerDispatcher.getGMFNotationModelSynchronizationCmd(domain, notifications));
         return triggerCommand;
     }
 

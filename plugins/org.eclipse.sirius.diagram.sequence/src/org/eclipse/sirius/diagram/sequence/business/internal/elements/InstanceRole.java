@@ -22,8 +22,8 @@ import org.eclipse.sirius.diagram.DNode;
 import org.eclipse.sirius.diagram.business.api.query.NodeStyleQuery;
 import org.eclipse.sirius.diagram.sequence.Messages;
 import org.eclipse.sirius.diagram.sequence.description.DescriptionPackage;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.RGBValues;
 
@@ -98,7 +98,7 @@ public class InstanceRole extends AbstractSequenceNode {
      *         creation message.
      */
     public boolean isExplicitlyCreated() {
-        return getCreationMessage().some();
+        return getCreationMessage().isPresent();
     }
 
     /**
@@ -106,26 +106,26 @@ public class InstanceRole extends AbstractSequenceNode {
      * 
      * @return the creation message which creates the instance role, if any.
      */
-    public Option<Message> getCreationMessage() {
+    public java.util.Optional<Message> getCreationMessage() {
         Node node = getNotationNode();
         for (Edge edge : Iterables.filter(node.getTargetEdges(), Edge.class)) {
-            Option<Message> message = ISequenceElementAccessor.getMessage(edge);
-            if (message.some() && message.get().getKind() == Message.Kind.CREATION) {
+            java.util.Optional<Message> message = ISequenceElementAccessor.getMessage(edge);
+            if (message.isPresent() && message.get().getKind() == Message.Kind.CREATION) {
                 return message;
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     @Override
-    public Option<Lifeline> getLifeline() {
+    public java.util.Optional<Lifeline> getLifeline() {
         for (View child : Iterables.filter(getNotationView().getChildren(), View.class)) {
-            Option<Lifeline> lifeline = ISequenceElementAccessor.getLifeline(child);
-            if (lifeline.some()) {
+            java.util.Optional<Lifeline> lifeline = ISequenceElementAccessor.getLifeline(child);
+            if (lifeline.isPresent()) {
                 return lifeline;
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     @Override
@@ -160,12 +160,12 @@ public class InstanceRole extends AbstractSequenceNode {
      * @return the background color of the style of the DRepresentationElement
      *         associated to this Instance role.
      */
-    public Option<RGBValues> getBackgroundColor() {
+    public java.util.Optional<RGBValues> getBackgroundColor() {
         EObject targetElement = getNotationNode().getElement();
         if (targetElement instanceof DNode) {
             return new NodeStyleQuery(((DNode) targetElement).getOwnedStyle()).getBackgroundColor();
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -175,11 +175,11 @@ public class InstanceRole extends AbstractSequenceNode {
      * @return the label color of the style of the DRepresentationElement
      *         associated to this Instance role.
      */
-    public Option<RGBValues> getLabelColor() {
+    public java.util.Optional<RGBValues> getLabelColor() {
         EObject targetElement = getNotationNode().getElement();
         if (targetElement instanceof DNode) {
             return new NodeStyleQuery(((DNode) targetElement).getOwnedStyle()).getLabelColor();
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 }

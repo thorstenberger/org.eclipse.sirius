@@ -73,7 +73,7 @@ import org.eclipse.sirius.diagram.tools.internal.command.builders.PasteCommandBu
 import org.eclipse.sirius.diagram.tools.internal.command.builders.ReconnectionCommandBuilder;
 import org.eclipse.sirius.diagram.tools.internal.command.builders.SelectionWizardCommandBuilder;
 import org.eclipse.sirius.ecore.extender.business.api.permission.IPermissionAuthority;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.command.AbstractCommandFactory;
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.tools.api.command.SiriusCommand;
@@ -138,18 +138,18 @@ public class UndoRedoCapableEMFCommandFactory extends AbstractCommandFactory imp
                 // Let's launch the operation for the entire model.
                 root = EcoreUtil.getRootContainer(root);
             }
-            final Option<DRepresentation> representation = new EObjectQuery(rootObject).getRepresentation();
+            final java.util.Optional<DRepresentation> representation = new EObjectQuery(rootObject).getRepresentation();
             final DCommand result = new SiriusCommand(domain, tool.getName());
             //
             // Current selection.
-            if (representation.some() && tool.getDomainClass() == null || StringUtil.isEmpty(tool.getDomainClass().trim()) || this.modelAccessor.eInstanceOf(root, tool.getDomainClass())) {
+            if (representation.isPresent() && tool.getDomainClass() == null || StringUtil.isEmpty(tool.getDomainClass().trim()) || this.modelAccessor.eInstanceOf(root, tool.getDomainClass())) {
                 if (this.commandTaskHelper.checkPrecondition(root, tool) && tool.getInitialOperation() != null && tool.getInitialOperation().getFirstModelOperations() != null) {
                     //
                     // We append a new task.
                     result.getTasks().add(commandTaskHelper.buildTaskFromModelOperation(representation.get(), root, tool.getInitialOperation().getFirstModelOperations()));
                 }
             }
-            if (representation.some() && deepProcess) {
+            if (representation.isPresent() && deepProcess) {
                 final Iterator<EObject> iterContents = root.eAllContents();
                 while (iterContents.hasNext()) {
                     final EObject current = iterContents.next();
@@ -278,7 +278,7 @@ public class UndoRedoCapableEMFCommandFactory extends AbstractCommandFactory imp
 
         for (final DSemanticDecorator containerView : containerViews) {
             addRefreshTask(containerView, dCommand, tool);
-            Option<DDiagram> parentDiagram = new EObjectQuery(containerView).getParentDiagram();
+            java.util.Optional<DDiagram> parentDiagram = new EObjectQuery(containerView).getParentDiagram();
             dCommand.getTasks().add(new ElementsToSelectTask(tool, InterpreterUtil.getInterpreter(containerView), anySemantic, parentDiagram.get()));
         }
         return compoundCommand;
@@ -300,7 +300,7 @@ public class UndoRedoCapableEMFCommandFactory extends AbstractCommandFactory imp
         final DCommand command = buildOperationActionFromTool(tool, anySemantic, containerViews);
         for (final DSemanticDecorator containerView : containerViews) {
             addRefreshTask(containerView, command, tool);
-            Option<DDiagram> parentDiagram = new EObjectQuery(containerView).getParentDiagram();
+            java.util.Optional<DDiagram> parentDiagram = new EObjectQuery(containerView).getParentDiagram();
             command.getTasks().add(new ElementsToSelectTask(tool, InterpreterUtil.getInterpreter(containerView), anySemantic, parentDiagram.get()));
         }
         return command;
@@ -319,16 +319,16 @@ public class UndoRedoCapableEMFCommandFactory extends AbstractCommandFactory imp
             addDiagramVariable(result, firstContainerView, interpreter);
         }
 
-        Option<DRepresentation> representation = new EObjectQuery(firstContainerView).getRepresentation();
-        if (representation.some() && tool.getInitialOperation() != null && tool.getInitialOperation().getFirstModelOperations() != null) {
+        java.util.Optional<DRepresentation> representation = new EObjectQuery(firstContainerView).getRepresentation();
+        if (representation.isPresent() && tool.getInitialOperation() != null && tool.getInitialOperation().getFirstModelOperations() != null) {
             result.getTasks().add(commandTaskHelper.buildTaskFromModelOperation(representation.get(), container, tool.getInitialOperation().getFirstModelOperations()));
         }
         return result;
     }
 
     private void addDiagramVariable(final DCommand command, final EObject containerView, final IInterpreter interpreter) {
-        final Option<DDiagram> diag = new EObjectQuery(containerView).getParentDiagram();
-        if (diag.some()) {
+        final java.util.Optional<DDiagram> diag = new EObjectQuery(containerView).getParentDiagram();
+        if (diag.isPresent()) {
             command.getTasks().add(new AbstractCommandTask() {
                 @Override
                 public String getLabel() {
@@ -428,8 +428,8 @@ public class UndoRedoCapableEMFCommandFactory extends AbstractCommandFactory imp
         final ICommandTask initInterpreterVariables = new InitInterpreterVariablesTask(variables, stringVariables, InterpreterUtil.getInterpreter(target), uiCallBack);
         cmd.getTasks().add(initInterpreterVariables);
 
-        Option<DRepresentation> representation = new EObjectQuery(target).getRepresentation();
-        if (representation.some() && desc.getInitialOperation() != null && desc.getInitialOperation().getFirstModelOperations() != null) {
+        java.util.Optional<DRepresentation> representation = new EObjectQuery(target).getRepresentation();
+        if (representation.isPresent() && desc.getInitialOperation() != null && desc.getInitialOperation().getFirstModelOperations() != null) {
             cmd.getTasks().add(commandTaskHelper.buildTaskFromModelOperation(representation.get(), target.getTarget(), desc.getInitialOperation().getFirstModelOperations()));
         }
         return cmd;

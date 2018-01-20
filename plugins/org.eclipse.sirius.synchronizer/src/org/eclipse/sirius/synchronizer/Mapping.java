@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.synchronizer;
 
-import org.eclipse.sirius.ext.base.Option;
+
 
 
 /**
@@ -26,14 +26,14 @@ public interface Mapping {
      * 
      * @return the super mapping of the current mapping
      */
-    Option<? extends Mapping> getSuper();
+    java.util.Optional<? extends Mapping> getSuper();
 
     /**
      * Return the {@link AutomaticCreator} of this Mapping.
      * 
      * @return the {@link AutomaticCreator} of this Mapping
      */
-    Option<? extends AutomaticCreator> getCreator();
+    java.util.Optional<? extends AutomaticCreator> getCreator();
 
     /**
      * Returns the semantic partition associated to this mapping.

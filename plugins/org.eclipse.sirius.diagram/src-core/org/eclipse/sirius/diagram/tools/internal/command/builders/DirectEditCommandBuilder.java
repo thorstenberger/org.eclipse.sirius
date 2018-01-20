@@ -20,7 +20,7 @@ import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.Messages;
 import org.eclipse.sirius.diagram.business.api.query.EObjectQuery;
 import org.eclipse.sirius.diagram.description.tool.DirectEditLabel;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.tools.api.interpreter.InterpreterUtil;
 import org.eclipse.sirius.tools.internal.command.builders.ElementsToSelectTask;
@@ -64,8 +64,8 @@ public class DirectEditCommandBuilder extends AbstractDiagramCommandBuilder {
             IInterpreter interpreter = InterpreterUtil.getInterpreter(repElement);
             result.getTasks().add(new InitInterpreterFromParsedVariableTask(interpreter, messageFormat, newValue));
 
-            Option<DDiagram> parentDiagram = getDDiagram();
-            if (parentDiagram.some() && repElement.getTarget() != null && directEditTool.getInitialOperation() != null) {
+            java.util.Optional<DDiagram> parentDiagram = getDDiagram();
+            if (parentDiagram.isPresent() && repElement.getTarget() != null && directEditTool.getInitialOperation() != null) {
                 final ICommandTask operations = taskHelper.buildTaskFromModelOperation(parentDiagram.get(), repElement.getTarget(), directEditTool.getInitialOperation().getFirstModelOperations());
                 result.getTasks().add(operations);
             }
@@ -99,7 +99,7 @@ public class DirectEditCommandBuilder extends AbstractDiagramCommandBuilder {
     protected void addPostOperationTasks(final DCommand command, IInterpreter interpreter) {
         if (repElement instanceof DDiagramElement) {
             addRefreshTask((DDiagramElement) repElement, command, directEditTool);
-            Option<DDiagram> parentDiagram = new EObjectQuery(repElement).getParentDiagram();
+            java.util.Optional<DDiagram> parentDiagram = new EObjectQuery(repElement).getParentDiagram();
             command.getTasks().add(new ElementsToSelectTask(directEditTool, interpreter, repElement.getTarget(), parentDiagram.get()));
         }
     }
@@ -110,7 +110,7 @@ public class DirectEditCommandBuilder extends AbstractDiagramCommandBuilder {
     }
 
     @Override
-    protected Option<DDiagram> getDDiagram() {
+    protected java.util.Optional<DDiagram> getDDiagram() {
         return new EObjectQuery(repElement).getParentDiagram();
     }
 }

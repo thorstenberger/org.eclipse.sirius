@@ -115,7 +115,7 @@ import org.eclipse.sirius.diagram.ui.internal.edit.policies.InitialPointsOfReque
 import org.eclipse.sirius.diagram.ui.tools.api.command.GMFCommandWrapper;
 import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
 import org.eclipse.sirius.diagram.ui.tools.api.util.GMFNotationHelper;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 import org.eclipse.sirius.viewpoint.DMappingBased;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
@@ -201,8 +201,8 @@ public class SiriusGraphicalNodeEditPolicy extends TreeGraphicalNodeEditPolicy {
 
         if (source != null && target != null) {
             if (target != source) {
-                Option<EdgeMapping> edgeMapping = new IEdgeMappingQuery(edge.getActualMapping()).getEdgeMapping();
-                final ReconnectEdgeDescription tool = edgeMapping.some() ? getBestTool(edgeMapping.get(), true, source, target, edge, true) : null;
+                java.util.Optional<EdgeMapping> edgeMapping = new IEdgeMappingQuery(edge.getActualMapping()).getEdgeMapping();
+                final ReconnectEdgeDescription tool = edgeMapping.isPresent() ? getBestTool(edgeMapping.get(), true, source, target, edge, true) : null;
                 if (tool != null) {
                     final CompoundCommand result = new CompoundCommand();
                     result.add(this.getToolCommand(tool, edge, source, target));
@@ -313,8 +313,8 @@ public class SiriusGraphicalNodeEditPolicy extends TreeGraphicalNodeEditPolicy {
         Command cmd = UnexecutableCommand.INSTANCE;
         if (source != null && target != null) {
             if (target != source) {
-                Option<EdgeMapping> edgeMapping = new IEdgeMappingQuery(edge.getActualMapping()).getEdgeMapping();
-                final ReconnectEdgeDescription tool = edgeMapping.some() ? getBestTool(edgeMapping.get(), false, source, target, edge, true) : null;
+                java.util.Optional<EdgeMapping> edgeMapping = new IEdgeMappingQuery(edge.getActualMapping()).getEdgeMapping();
+                final ReconnectEdgeDescription tool = edgeMapping.isPresent() ? getBestTool(edgeMapping.get(), false, source, target, edge, true) : null;
                 if (tool != null) {
                     final CompoundCommand result = new CompoundCommand();
                     result.add(this.getToolCommand(tool, edge, source, target));
@@ -885,12 +885,12 @@ public class SiriusGraphicalNodeEditPolicy extends TreeGraphicalNodeEditPolicy {
 
         // Compute intersection between the line (source location<-->target
         // location) and the source node
-        Option<Point> intersectionSourcePoint = GraphicalHelper.getIntersection(absoluteSourceLocationIn100Percent, absoluteTargetLocationIn100Percent, srcEditPart, false, true);
+        java.util.Optional<Point> intersectionSourcePoint = GraphicalHelper.getIntersection(absoluteSourceLocationIn100Percent, absoluteTargetLocationIn100Percent, srcEditPart, false, true);
         // Compute intersection between the line (source location<-->target
         // location) and the target node
-        Option<Point> intersectionTargetPoint = GraphicalHelper.getIntersection(absoluteSourceLocationIn100Percent, absoluteTargetLocationIn100Percent, tgtEditPart, true, true);
+        java.util.Optional<Point> intersectionTargetPoint = GraphicalHelper.getIntersection(absoluteSourceLocationIn100Percent, absoluteTargetLocationIn100Percent, tgtEditPart, true, true);
         // Compute the snap source location and the snap target location
-        if (intersectionSourcePoint.some() && intersectionTargetPoint.some()) {
+        if (intersectionSourcePoint.isPresent() && intersectionTargetPoint.isPresent()) {
             PointList sourceSnappedPoints = snapLocationToGridAndToParentBorder(absoluteSourceLocationIn100Percent, absoluteSourceBoundsIn100Percent, intersectionSourcePoint.get());
             PointList targetSnappedPoints = snapLocationToGridAndToParentBorder(absoluteTargetLocationIn100Percent, absoluteTargetBoundsIn100Percent, intersectionTargetPoint.get());
             EdgeLayoutData edgeLayoutData = createEdgeLayoutData(srcEditPart, tgtEditPart, absoluteSourceBoundsIn100Percent, absoluteTargetBoundsIn100Percent, sourceSnappedPoints.getFirstPoint(),
@@ -1298,8 +1298,8 @@ public class SiriusGraphicalNodeEditPolicy extends TreeGraphicalNodeEditPolicy {
             boolean returnValue = false;
             DEdge dEdge = getCurrentDEdge((ReconnectRequest) request);
             if (dEdge != null) {
-                Option<EdgeMapping> edgeMapping = new IEdgeMappingQuery(dEdge.getActualMapping()).getEdgeMapping();
-                if (edgeMapping.some()) {
+                java.util.Optional<EdgeMapping> edgeMapping = new IEdgeMappingQuery(dEdge.getActualMapping()).getEdgeMapping();
+                if (edgeMapping.isPresent()) {
                     returnValue = canCreateNewEdge(request, dEdge, edgeMapping.get());
                 }
             }

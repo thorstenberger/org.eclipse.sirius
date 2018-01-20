@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.sirius.tests.swtbot.sequence;
 
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tests.unit.diagram.sequence.InteractionsConstants;
 
 /**
@@ -63,7 +63,7 @@ public abstract class AbstractLostFoundModelSequenceTests extends AbstractSequen
      * {@inheritDoc}
      */
     @Override
-    protected Option<String> getDRepresentationName() {
-        return Options.newSome(REPRESENTATION_NAME);
+    protected java.util.Optional<String> getDRepresentationName() {
+        return java.util.Optional.of(REPRESENTATION_NAME);
     }
 }

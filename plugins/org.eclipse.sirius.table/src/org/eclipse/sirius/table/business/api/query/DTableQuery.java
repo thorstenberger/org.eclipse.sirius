@@ -13,8 +13,8 @@ package org.eclipse.sirius.table.business.api.query;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.table.metamodel.table.DCell;
 import org.eclipse.sirius.table.metamodel.table.DLine;
 import org.eclipse.sirius.table.metamodel.table.DTable;
@@ -62,12 +62,12 @@ public class DTableQuery {
      * 
      * @return the first cell of a table.
      */
-    public Option<DCell> getFirstCell() {
+    public java.util.Optional<DCell> getFirstCell() {
         List<DCell> cells = getCells();
         if (cells.isEmpty()) {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
-        return Options.newSome(cells.get(0));
+        return java.util.Optional.of(cells.get(0));
     }
 
     /**

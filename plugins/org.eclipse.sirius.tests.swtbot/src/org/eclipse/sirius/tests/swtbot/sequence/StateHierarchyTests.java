@@ -13,7 +13,7 @@ package org.eclipse.sirius.tests.swtbot.sequence;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.ExecutionEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.StateEditPart;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.swtbot.sequence.condition.CheckNumberOfDescendants;
 import org.eclipse.sirius.tests.swtbot.support.api.business.UIDiagramRepresentation.ZoomLevel;
 import org.eclipse.sirius.tests.swtbot.support.api.condition.CheckEditPartResized;
@@ -81,8 +81,8 @@ public class StateHierarchyTests extends AbstractStatesSequenceTests {
         doCreateS1OnLifelineA(200, ZoomLevel.ZOOM_100.getAmount());
         bot.waitUntil(new CheckNumberOfDescendants(sequenceDiagramBot, StateEditPart.class, 1));
 
-        Option<SWTBotGefEditPart> executionOption = createExecutionWithResult(stateS1ScreenBounds.getBottom().getTranslated(0, 100));
-        Assert.assertTrue(executionOption.some());
+        java.util.Optional<SWTBotGefEditPart> executionOption = createExecutionWithResult(stateS1ScreenBounds.getBottom().getTranslated(0, 100));
+        Assert.assertTrue(executionOption.isPresent());
 
         SWTBotGefEditPart executionBot = executionOption.get();
         Rectangle executionBounds = editor.getBounds(executionBot);
@@ -108,13 +108,13 @@ public class StateHierarchyTests extends AbstractStatesSequenceTests {
         bot.waitUntil(new CheckNumberOfDescendants(sequenceDiagramBot, StateEditPart.class, 1));
 
         // Create an execution with a sub execution
-        Option<SWTBotGefEditPart> executionOption1 = createExecutionWithResult(stateS1ScreenBounds.getBottom().getTranslated(0, 100));
-        Assert.assertTrue(executionOption1.some());
+        java.util.Optional<SWTBotGefEditPart> executionOption1 = createExecutionWithResult(stateS1ScreenBounds.getBottom().getTranslated(0, 100));
+        Assert.assertTrue(executionOption1.isPresent());
         SWTBotGefEditPart executionBot1 = executionOption1.get();
         Rectangle executionBounds1 = editor.getBounds(executionBot1);
 
-        Option<SWTBotGefEditPart> executionOption2 = createExecutionWithResult(executionBounds1.getCenter());
-        Assert.assertTrue(executionOption2.some());
+        java.util.Optional<SWTBotGefEditPart> executionOption2 = createExecutionWithResult(executionBounds1.getCenter());
+        Assert.assertTrue(executionOption2.isPresent());
         SWTBotGefEditPart executionBot2 = executionOption2.get();
         Rectangle executionBounds2 = editor.getBounds(executionBot2);
         executionBounds1 = editor.getBounds(executionBot1);

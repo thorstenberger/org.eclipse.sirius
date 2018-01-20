@@ -41,8 +41,8 @@ import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.ISequenceE
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.layout.SequenceGraphicalHelper;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.util.CreateRequestQuery;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicates;
@@ -313,8 +313,8 @@ public class FrameCreationValidator extends AbstractSequenceInteractionValidator
         for (Message message : Iterables.filter(overlappedEvents, Message.class)) {
             if (!alreadyChecked.contains(message)) {
                 alreadyChecked.add(message);
-                Option<Lifeline> srcLifeline = message.getSourceLifeline();
-                if (srcLifeline.some() && !coverage.contains(srcLifeline.get())) {
+                java.util.Optional<Lifeline> srcLifeline = message.getSourceLifeline();
+                if (srcLifeline.isPresent() && !coverage.contains(srcLifeline.get())) {
                     // As we have coverage incompatibility we do
                     // insertion then we shift all events in the
                     // creationRange
@@ -338,8 +338,8 @@ public class FrameCreationValidator extends AbstractSequenceInteractionValidator
                     // red feedback, expansion is better
                 }
 
-                Option<Lifeline> tgtLifeline = message.getTargetLifeline();
-                if (tgtLifeline.some() && !coverage.contains(tgtLifeline.get())) {
+                java.util.Optional<Lifeline> tgtLifeline = message.getTargetLifeline();
+                if (tgtLifeline.isPresent() && !coverage.contains(tgtLifeline.get())) {
                     // As we have coverage incompatibility we do
                     // insertion then we shift all events in the
                     // creationRange
@@ -400,10 +400,10 @@ public class FrameCreationValidator extends AbstractSequenceInteractionValidator
     private boolean coveredByDeepestOperand(Lifeline lifeline, Set<Lifeline> graphicallyCoveredLifelines) {
         boolean coveredByDeepestOperand = true;
         Range inclusionRange = RangeHelper.verticalRange(creationBounds);
-        Option<Operand> findDeepestCoveringOperand = findDeepestCoveringOperand(graphicallyCoveredLifelines);
-        if (findDeepestCoveringOperand.some()) {
-            Option<Operand> parentOperand = lifeline.getParentOperand(inclusionRange);
-            coveredByDeepestOperand = parentOperand.some() && findDeepestCoveringOperand.get().equals(parentOperand.get());
+        java.util.Optional<Operand> findDeepestCoveringOperand = findDeepestCoveringOperand(graphicallyCoveredLifelines);
+        if (findDeepestCoveringOperand.isPresent()) {
+            java.util.Optional<Operand> parentOperand = lifeline.getParentOperand(inclusionRange);
+            coveredByDeepestOperand = parentOperand.isPresent() && findDeepestCoveringOperand.get().equals(parentOperand.get());
         }
         return coveredByDeepestOperand;
     }
@@ -417,12 +417,12 @@ public class FrameCreationValidator extends AbstractSequenceInteractionValidator
      * @return the deepest operand covering at least one of the lifelines on
      *         range of rect.
      */
-    private Option<Operand> findDeepestCoveringOperand(Set<Lifeline> graphicallyCoveredLifelines) {
-        Option<Operand> deepestOperandOption = Options.newNone();
+    private java.util.Optional<Operand> findDeepestCoveringOperand(Set<Lifeline> graphicallyCoveredLifelines) {
+        java.util.Optional<Operand> deepestOperandOption = java.util.Optional.empty();
         for (Lifeline lifeline : graphicallyCoveredLifelines) {
             // get the operand option for the current lifeline
-            Option<Operand> currentOperandOption = lifeline.getParentOperand(RangeHelper.verticalRange(creationBounds));
-            if (deepestOperandOption.some() && currentOperandOption.some()) {
+            java.util.Optional<Operand> currentOperandOption = lifeline.getParentOperand(RangeHelper.verticalRange(creationBounds));
+            if (deepestOperandOption.isPresent() && currentOperandOption.isPresent()) {
                 // save the deepest operand
                 Operand deepestOperand = deepestOperandOption.get();
                 Operand currentOperand = currentOperandOption.get();
@@ -430,7 +430,7 @@ public class FrameCreationValidator extends AbstractSequenceInteractionValidator
                 if (deepestOperand.getVerticalRange().includes(currentOperand.getVerticalRange())) {
                     deepestOperand = currentOperand;
                 }
-            } else if (!deepestOperandOption.some() && currentOperandOption.some()) {
+            } else if (!deepestOperandOption.isPresent() && currentOperandOption.isPresent()) {
                 // initialize the deepest operand;
                 deepestOperandOption = currentOperandOption;
             }

@@ -16,7 +16,7 @@ import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.ISequenceElementAccessor;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.Message;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.SequenceMessageEditPart;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.swtbot.support.api.editor.SWTBotSiriusDiagramEditor;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefConnectionEditPart;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
@@ -77,8 +77,8 @@ public class CheckReturnMessageNumber extends DefaultCondition {
                 if (input instanceof SequenceMessageEditPart) {
                     SequenceMessageEditPart smep = (SequenceMessageEditPart) input;
 
-                    Option<Message> message = ISequenceElementAccessor.getMessage(smep.getNotationView());
-                    if (Message.viewpointElementPredicate().apply(smep.resolveDiagramElement()) && message.some()) {
+                    java.util.Optional<Message> message = ISequenceElementAccessor.getMessage(smep.getNotationView());
+                    if (Message.viewpointElementPredicate().apply(smep.resolveDiagramElement()) && message.isPresent()) {
                         return Message.Kind.REPLY.equals(message.get().getKind());
                     }
                 }

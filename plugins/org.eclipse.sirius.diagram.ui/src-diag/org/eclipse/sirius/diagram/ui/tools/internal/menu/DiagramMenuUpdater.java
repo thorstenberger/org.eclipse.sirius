@@ -28,8 +28,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.sirius.diagram.ui.tools.internal.layout.provider.ArrangeAllOnlyLayoutProvider;
 import org.eclipse.sirius.diagram.ui.tools.internal.layout.provider.LayoutService;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPart;
@@ -137,8 +137,8 @@ public class DiagramMenuUpdater implements ISelectionListener {
      */
     private void disableArrangeSelectionActionFromDiagramMenu() {
         // Step 1 : we get the arrange Menu manager
-        Option<IMenuManager> arrangeMenuManager = getArrangeMenuManager();
-        if (arrangeMenuManager.some()) {
+        java.util.Optional<IMenuManager> arrangeMenuManager = getArrangeMenuManager();
+        if (arrangeMenuManager.isPresent()) {
             // Step 2 : we get the "Arrange Selection" Action
             IContributionItem arrangeSelectionItem = arrangeMenuManager.get().find(ActionIds.ACTION_ARRANGE_SELECTION);
             if (arrangeSelectionItem instanceof SubContributionItem) {
@@ -158,9 +158,9 @@ public class DiagramMenuUpdater implements ISelectionListener {
      *         arrange actions
      */
     @SuppressWarnings("restriction")
-    private Option<IMenuManager> getArrangeMenuManager() {
+    private java.util.Optional<IMenuManager> getArrangeMenuManager() {
 
-        Option<IMenuManager> arrangeMenuManagerOption = Options.newNone();
+        java.util.Optional<IMenuManager> arrangeMenuManagerOption = java.util.Optional.empty();
         MenuManager menuManager = null;
 
         // Step 1 : we get the active workbench's window's menuManager
@@ -185,7 +185,7 @@ public class DiagramMenuUpdater implements ISelectionListener {
                 if (arrangeMenu instanceof SubContributionItem) {
                     IContributionItem arrangeMenuContributionItem = ((SubContributionItem) arrangeMenu).getInnerItem();
                     if (arrangeMenuContributionItem instanceof IMenuManager) {
-                        arrangeMenuManagerOption = Options.newSome((IMenuManager) arrangeMenuContributionItem);
+                        arrangeMenuManagerOption = java.util.Optional.of((IMenuManager) arrangeMenuContributionItem);
                     }
                 }
             }

@@ -13,7 +13,7 @@ package org.eclipse.sirius.tests.swtbot.sequence;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.sirius.diagram.sequence.business.internal.layout.LayoutConstants;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.swtbot.sequence.condition.CheckMessageEditPartIsDisplayed;
 import org.eclipse.sirius.tests.swtbot.support.api.business.UIDiagramRepresentation.ZoomLevel;
 import org.eclipse.sirius.tests.swtbot.support.api.condition.OperationDoneCondition;
@@ -254,7 +254,7 @@ public class SequenceBasicMessageTest extends AbstractDefaultModelSequenceTests 
 
         // Create operand
         done = new OperationDoneCondition();
-        Option<SWTBotGefEditPart> newOperandOption = createCombinedFragmentOperandWithResult(combinedFragmentBounds.getCenter());
+        java.util.Optional<SWTBotGefEditPart> newOperandOption = createCombinedFragmentOperandWithResult(combinedFragmentBounds.getCenter());
         bot.waitUntil(done);
 
         SWTBotGefEditPart newOperandBot = newOperandOption.get();
@@ -322,7 +322,7 @@ public class SequenceBasicMessageTest extends AbstractDefaultModelSequenceTests 
 
         // Create operand
         done = new OperationDoneCondition();
-        Option<SWTBotGefEditPart> newOperandOption = createCombinedFragmentOperandWithResult(combinedFragmentBounds.getCenter());
+        java.util.Optional<SWTBotGefEditPart> newOperandOption = createCombinedFragmentOperandWithResult(combinedFragmentBounds.getCenter());
         bot.waitUntil(done);
 
         SWTBotGefEditPart newOperandBot = newOperandOption.get();
@@ -383,7 +383,7 @@ public class SequenceBasicMessageTest extends AbstractDefaultModelSequenceTests 
         Rectangle combinedFragmentBounds = editor.getBounds(combinedFragment);
         // Create operand
         done = new OperationDoneCondition();
-        Option<SWTBotGefEditPart> newOperandOption = createCombinedFragmentOperandWithResult(combinedFragmentBounds.getCenter());
+        java.util.Optional<SWTBotGefEditPart> newOperandOption = createCombinedFragmentOperandWithResult(combinedFragmentBounds.getCenter());
         bot.waitUntil(done);
 
         SWTBotGefEditPart newOperandBot = newOperandOption.get();

@@ -17,7 +17,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.layout.LayoutConsta
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.ExecutionEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.LifelineEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.OperandEditPart;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.swtbot.sequence.condition.CheckMessageEditPartIsDisplayed;
 import org.eclipse.sirius.tests.swtbot.sequence.condition.CheckNumberExecutionOnLifeline;
 import org.eclipse.sirius.tests.swtbot.sequence.condition.CheckSequenceMessageEditPartMoved;
@@ -175,10 +175,10 @@ public class CombinedFragmentsDisabledTests extends AbstractCombinedFragmentSequ
     public void testCombinedFragmentOperandCreationWithSingleClickOnFirstOperands() {
         Point creationLocation = firstOperandOfFirstCombinedFragmentBounds.getCenter();
         ICondition condition = new OperationDoneCondition();
-        Option<SWTBotGefEditPart> newOperandOption = createCombinedFragmentOperandWithResult(creationLocation);
+        java.util.Optional<SWTBotGefEditPart> newOperandOption = createCombinedFragmentOperandWithResult(creationLocation);
         bot.waitUntil(condition);
 
-        Assert.assertTrue(newOperandOption.some());
+        Assert.assertTrue(newOperandOption.isPresent());
 
         SWTBotGefEditPart newOperandBot = newOperandOption.get();
         bot.sleep(500);

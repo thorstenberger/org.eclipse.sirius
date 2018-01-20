@@ -14,8 +14,8 @@ import java.util.Iterator;
 
 import org.eclipse.sirius.business.api.query.ViewpointQuery;
 import org.eclipse.sirius.diagram.description.DiagramDescription;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.description.Group;
 import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
@@ -69,7 +69,7 @@ public class GroupQuery {
      * @return the {@link DiagramDescription} having the same name has the given
      *         one .
      */
-    public Option<DiagramDescription> findDiagramDescription(String diagramDescriptionName) {
+    public java.util.Optional<DiagramDescription> findDiagramDescription(String diagramDescriptionName) {
         Iterator<Viewpoint> itSirius = group.getOwnedViewpoints().iterator();
         while (itSirius.hasNext()) {
             Viewpoint viewpoint = itSirius.next();
@@ -78,12 +78,12 @@ public class GroupQuery {
                 RepresentationDescription description = itRepresentationDescription.next();
                 if (description instanceof DiagramDescription && ((DiagramDescription) description).getName() != null) {
                     if (((DiagramDescription) description).getName().equals(diagramDescriptionName)) {
-                        return Options.newSome((DiagramDescription) description);
+                        return java.util.Optional.of((DiagramDescription) description);
                     }
                 }
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
 }

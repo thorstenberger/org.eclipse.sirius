@@ -21,8 +21,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.business.api.query.EObjectQuery;
 import org.eclipse.sirius.common.tools.api.interpreter.TypeName;
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.properties.Category;
 import org.eclipse.sirius.properties.GroupDescription;
 import org.eclipse.sirius.properties.PageDescription;
@@ -52,7 +52,7 @@ public final class VSMNavigation {
      * @return <code>true</code> if the element is part of a Sirius properties view description.
      */
     public static boolean isInsideViewExtensionDescription(EObject vsmElement) {
-        return new EObjectQuery(vsmElement).getFirstAncestorOfType(PropertiesPackage.Literals.VIEW_EXTENSION_DESCRIPTION).some();
+        return new EObjectQuery(vsmElement).getFirstAncestorOfType(PropertiesPackage.Literals.VIEW_EXTENSION_DESCRIPTION).isPresent();
     }
 
     /**
@@ -98,11 +98,11 @@ public final class VSMNavigation {
      *            the VSM element.
      * @return the domain class of the VSM element, as determined by the enclosing {@link GroupDescription}.
      */
-    public static Option<Collection<String>> getDomainClassFromContainingGroup(EObject vsmElement) {
-        Option<Collection<String>> result = Options.newNone();
+    public static java.util.Optional<Collection<String>> getDomainClassFromContainingGroup(EObject vsmElement) {
+        java.util.Optional<Collection<String>> result = java.util.Optional.empty();
         GroupDescription group = VSMNavigation.findClosestGroupDescription(vsmElement);
         if (group != null) {
-            result = Options.newSome(getGroupDomainClass(group));
+            result = java.util.Optional.of(getGroupDomainClass(group));
         }
         return result;
     }
@@ -116,8 +116,8 @@ public final class VSMNavigation {
      */
     public static Collection<RepresentationDescription> getRepresentationDescriptionsInVSM(EObject vsmElement) {
         Collection<RepresentationDescription> result = new ArrayList<>();
-        Option<EObject> answer = getVSMRoot(vsmElement);
-        if (answer.some()) {
+        java.util.Optional<EObject> answer = getVSMRoot(vsmElement);
+        if (answer.isPresent()) {
             Group group = (Group) answer.get();
             for (Viewpoint viewpoint : group.getOwnedViewpoints()) {
                 result.addAll(viewpoint.getOwnedRepresentations());
@@ -135,8 +135,8 @@ public final class VSMNavigation {
      */
     public static Collection<String> getJavaExtensionsInVSM(EObject vsmElement) {
         Collection<String> result = new ArrayList<>();
-        Option<EObject> answer = getVSMRoot(vsmElement);
-        if (answer.some()) {
+        java.util.Optional<EObject> answer = getVSMRoot(vsmElement);
+        if (answer.isPresent()) {
             Group group = (Group) answer.get();
             for (Viewpoint vp : group.getOwnedViewpoints()) {
                 for (JavaExtension dep : vp.getOwnedJavaExtensions()) {
@@ -149,7 +149,7 @@ public final class VSMNavigation {
         return result;
     }
 
-    private static Option<EObject> getVSMRoot(EObject vsmElement) {
+    private static java.util.Optional<EObject> getVSMRoot(EObject vsmElement) {
         return new EObjectQuery(vsmElement).getFirstAncestorOfType(DescriptionPackage.Literals.GROUP);
     }
 
@@ -190,8 +190,8 @@ public final class VSMNavigation {
         if (vsmElement instanceof GroupDescription) {
             return (GroupDescription) vsmElement;
         } else {
-            Option<EObject> answer = new EObjectQuery(vsmElement).getFirstAncestorOfType(PropertiesPackage.Literals.GROUP_DESCRIPTION);
-            return answer.some() ? (GroupDescription) answer.get() : null;
+            java.util.Optional<EObject> answer = new EObjectQuery(vsmElement).getFirstAncestorOfType(PropertiesPackage.Literals.GROUP_DESCRIPTION);
+            return answer.isPresent() ? (GroupDescription) answer.get() : null;
         }
     }
 }

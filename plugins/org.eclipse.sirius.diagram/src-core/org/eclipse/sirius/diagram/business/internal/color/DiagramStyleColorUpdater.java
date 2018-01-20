@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.sirius.business.api.color.AbstractColorUpdater;
 import org.eclipse.sirius.diagram.DiagramPackage;
 import org.eclipse.sirius.diagram.description.style.StylePackage;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.BasicLabelStyle;
 import org.eclipse.sirius.viewpoint.Customizable;
 import org.eclipse.sirius.viewpoint.RGBValues;
@@ -87,16 +87,16 @@ public class DiagramStyleColorUpdater extends AbstractColorUpdater {
      *            the previous style (if existing) to keep compatible
      *            customization.
      */
-    public void updateColors(final EObject context, final Customizable style, final EObject description, Option<? extends Customizable> previousStyle) {
+    public void updateColors(final EObject context, final Customizable style, final EObject description, java.util.Optional<? extends Customizable> previousStyle) {
         updateColorReflectively(context, style, description, previousStyle);
     }
 
-    private void updateColorReflectively(final EObject context, final Customizable style, final EObject description, Option<? extends Customizable> previousStyle) {
+    private void updateColorReflectively(final EObject context, final Customizable style, final EObject description, java.util.Optional<? extends Customizable> previousStyle) {
         List<EAttribute> eAllAttributes = getAllStyleAttributes(style);
 
         for (final EAttribute feature : eAllAttributes) {
             if (descToStyleForColorFeatures.containsValue(feature) && description != null) {
-                if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(feature.getName())) {
+                if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(feature.getName())) {
                     EStructuralFeature eStructuralFeature = previousStyle.get().eClass().getEStructuralFeature(feature.getName());
                     if (eStructuralFeature == null) {
                         // If we don't found a matching feature, we search in
@@ -156,7 +156,7 @@ public class DiagramStyleColorUpdater extends AbstractColorUpdater {
      *            the previous style (if existing) to keep compatible
      *            customization.
      */
-    public void updateColors(final Style style, final StyleDescription description, Option<? extends Customizable> previousStyle) {
+    public void updateColors(final Style style, final StyleDescription description, java.util.Optional<? extends Customizable> previousStyle) {
         updateColorReflectively(null, style, description, previousStyle);
     }
 
@@ -171,7 +171,7 @@ public class DiagramStyleColorUpdater extends AbstractColorUpdater {
      *            the previous style (if existing) to keep compatible
      *            customization.
      */
-    public void updateColors(final BasicLabelStyle style, final BasicLabelStyleDescription description, Option<? extends Customizable> previousStyle) {
+    public void updateColors(final BasicLabelStyle style, final BasicLabelStyleDescription description, java.util.Optional<? extends Customizable> previousStyle) {
         updateColorReflectively(null, style, description, previousStyle);
     }
 }

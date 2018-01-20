@@ -18,8 +18,8 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ui.tools.api.views.common.item.ItemWrapper;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 
@@ -114,14 +114,14 @@ public class RepresentationItemImpl implements ItemWrapper, IAdaptable {
     }
 
     @Override
-    public Option<Session> getSession() {
+    public java.util.Optional<Session> getSession() {
         Session session = null;
 
         if (rep.get() != null) {
             session = SessionManager.INSTANCE.getSession(rep.get().getTarget());
         }
 
-        return Options.newSome(session);
+        return java.util.Optional.of(session);
     }
 
     @Override

@@ -93,8 +93,8 @@ import org.eclipse.sirius.diagram.description.NodeMappingImport;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.exception.FeatureNotFoundException;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.exception.MetaClassNotFoundException;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.base.cache.KeyCache;
 import org.eclipse.sirius.ext.base.collect.GSetIntersection;
 import org.eclipse.sirius.ext.base.collect.MultipleCollection;
@@ -444,8 +444,8 @@ public class DDiagramSynchronizer {
                 // activated layers
                 boolean hasBeenRefreshed = mappingsToEdgeTargets.keySet().contains(input);
                 if (!hasBeenRefreshed) {
-                    Option<EObject> parentLayer = new EObjectQuery(input).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getLayer());
-                    hasBeenRefreshed = parentLayer.some() && !getDiagram().getActivatedLayers().contains(parentLayer.get());
+                    java.util.Optional<EObject> parentLayer = new EObjectQuery(input).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getLayer());
+                    hasBeenRefreshed = parentLayer.isPresent() && !getDiagram().getActivatedLayers().contains(parentLayer.get());
                 }
                 return hasBeenRefreshed;
             }
@@ -1189,16 +1189,16 @@ public class DDiagramSynchronizer {
      *            semantic based decorations
      * @return an Option on DEdge
      */
-    public Option<DEdge> createEdgeMapping(DiagramMappingsManager mappingManager, final Map<DiagramElementMapping, Collection<EdgeTarget>> mappingsToEdgeTargets, final EdgeMapping mapping,
+    public java.util.Optional<DEdge> createEdgeMapping(DiagramMappingsManager mappingManager, final Map<DiagramElementMapping, Collection<EdgeTarget>> mappingsToEdgeTargets, final EdgeMapping mapping,
             final Map<EdgeMapping, Collection<MappingBasedDecoration>> edgeToMappingBasedDecoration, final Map<String, Collection<SemanticBasedDecoration>> edgeToSemanticBasedDecoration) {
 
         edgesDones = new HashSet<DDiagramElement>();
         Collection<DEdge> newEdges = createDEdgeOnMapping(mappingManager, mappingsToEdgeTargets, mapping, edgeToMappingBasedDecoration, edgeToSemanticBasedDecoration);
         edgesDones.clear();
         if (!newEdges.isEmpty()) {
-            return Options.newSome(newEdges.iterator().next());
+            return java.util.Optional.of(newEdges.iterator().next());
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     private Collection<DEdge> createDEdgeOnMapping(DiagramMappingsManager mappingManager, final Map<DiagramElementMapping, Collection<EdgeTarget>> mappingsToEdgeTargets, final EdgeMapping mapping,
@@ -1292,8 +1292,8 @@ public class DDiagramSynchronizer {
                     edgeCandidate.getEdge().setActualMapping(mapping);
                 }
                 this.sync.computeEdgeDecorations(edgeCandidate.getEdge(), edgeToMappingBasedDecoration, edgeToSemanticBasedDecoration);
-                Option<EdgeMapping> edgeMapping = new IEdgeMappingQuery(mapping).getEdgeMapping();
-                if (edgeMapping.some()) {
+                java.util.Optional<EdgeMapping> edgeMapping = new IEdgeMappingQuery(mapping).getEdgeMapping();
+                if (edgeMapping.isPresent()) {
                     this.sync.createStyle(edgeCandidate.getEdge(), edgeMapping.get(), diagram);
                     this.sync.refresh(edgeCandidate.getEdge());
                     this.sync.refreshStyle(edgeCandidate.getEdge(), edgeMapping.get(), diagram);
@@ -1370,12 +1370,12 @@ public class DDiagramSynchronizer {
          * If the source and the target are valid then we need to check that there are not displayed on the diagram (it
          * means that the edge is not displayed).
          */
-        final Option<EdgeMapping> actualMapping = new IEdgeMappingQuery(edgeCandidate.getMapping()).getEdgeMapping();
+        final java.util.Optional<EdgeMapping> actualMapping = new IEdgeMappingQuery(edgeCandidate.getMapping()).getEdgeMapping();
 
         final Iterator<DiagramElementMapping> sourceMappings;
         final Iterator<DiagramElementMapping> targetMappings;
 
-        if (actualMapping.some()) {
+        if (actualMapping.isPresent()) {
             sourceMappings = actualMapping.get().getSourceMapping().iterator();
             targetMappings = actualMapping.get().getTargetMapping().iterator();
         } else {

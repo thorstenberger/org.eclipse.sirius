@@ -18,8 +18,8 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.sirius.business.api.session.ModelChangeTrigger;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * Default refresh layout trigger for Sequence Diagram edit part.
@@ -55,13 +55,13 @@ public class RefreshLayoutTrigger implements ModelChangeTrigger {
     /**
      * {@inheritDoc}
      */
-    public Option<Command> localChangesAboutToCommit(Collection<Notification> notifications) {
+    public java.util.Optional<Command> localChangesAboutToCommit(Collection<Notification> notifications) {
         TransactionalEditingDomain domain = TransactionUtil.getEditingDomain(sequenceDiagram);
         if (sequenceDiagram == null || domain == null) {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
         Command refreshLayoutCommand = new RefreshLayoutCommand(domain, sequenceDiagram, true);
-        return Options.newSome(refreshLayoutCommand);
+        return java.util.Optional.of(refreshLayoutCommand);
     }
 
 }

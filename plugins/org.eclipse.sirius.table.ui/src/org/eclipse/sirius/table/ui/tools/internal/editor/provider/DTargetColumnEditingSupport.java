@@ -21,7 +21,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
 import org.eclipse.sirius.ecore.extender.business.api.permission.IPermissionAuthority;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.table.business.api.helper.TableHelper;
 import org.eclipse.sirius.table.metamodel.table.DCell;
 import org.eclipse.sirius.table.metamodel.table.DLine;
@@ -80,8 +80,8 @@ public class DTargetColumnEditingSupport extends EditingSupport {
         boolean canEdit = false;
         if (element instanceof DLine) {
             final DLine line = (DLine) element;
-            final Option<DCell> optionalCell = TableHelper.getCell(line, getTargetColumn());
-            if (optionalCell.some()) {
+            final java.util.Optional<DCell> optionalCell = TableHelper.getCell(line, getTargetColumn());
+            if (optionalCell.isPresent()) {
                 canEdit = getAuthority().canEditInstance(optionalCell.get().getTarget()) && TableHelper.canEditCrossTableCell(optionalCell.get());
             } else {
                 canEdit = getAuthority().canEditInstance(line) && getAuthority().canEditInstance(getTargetColumn()) && TableHelper.canEditCrossTableCell(line, getTargetColumn());
@@ -103,8 +103,8 @@ public class DTargetColumnEditingSupport extends EditingSupport {
         Object result = null;
         if (element instanceof DLine) {
             final DLine line = (DLine) element;
-            final Option<DCell> optionalEditedCell = TableHelper.getCell(line, targetColumn);
-            if (optionalEditedCell.some()) {
+            final java.util.Optional<DCell> optionalEditedCell = TableHelper.getCell(line, targetColumn);
+            if (optionalEditedCell.isPresent()) {
                 result = optionalEditedCell.get().getLabel();
             }
             if (result == null) {
@@ -127,11 +127,11 @@ public class DTargetColumnEditingSupport extends EditingSupport {
     protected void setValue(final Object element, final Object value) {
         if (element instanceof DLine && value instanceof String) {
             final DLine line = (DLine) element;
-            final Option<DCell> optionnalEditedCell = TableHelper.getCell(line, targetColumn);
+            final java.util.Optional<DCell> optionnalEditedCell = TableHelper.getCell(line, targetColumn);
 
             // To increase performance, we do nothing if the new value is the
             // same as the old one
-            if (optionnalEditedCell.some()) {
+            if (optionnalEditedCell.isPresent()) {
                 if (!value.equals(optionnalEditedCell.get().getLabel())) {
                     tableEditor.enablePropertiesUpdate(false);
                     Command command = tableCommandFactory.buildSetCellValueFromTool(optionnalEditedCell.get(), value);

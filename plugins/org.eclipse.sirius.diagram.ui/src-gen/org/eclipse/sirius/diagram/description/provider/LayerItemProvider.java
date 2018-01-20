@@ -34,7 +34,7 @@ import org.eclipse.sirius.diagram.description.style.StyleFactory;
 import org.eclipse.sirius.diagram.description.tool.ToolFactory;
 import org.eclipse.sirius.diagram.ui.provider.DiagramUIPlugin;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
 import org.eclipse.sirius.ui.tools.internal.util.EMFCoreUtil;
 import org.eclipse.sirius.viewpoint.description.DescriptionPackage;
@@ -225,8 +225,8 @@ public class LayerItemProvider extends DocumentedElementItemProvider {
     @Override
     public Object getImage(Object object) {
         if (object instanceof EObject) {
-            Option<URL> optionImageURL = EMFCoreUtil.getImage((EObject) object);
-            if (optionImageURL.some()) {
+            java.util.Optional<URL> optionImageURL = EMFCoreUtil.getImage((EObject) object);
+            if (optionImageURL.isPresent()) {
                 return optionImageURL.get();
             }
         }

@@ -48,8 +48,8 @@ import org.eclipse.sirius.diagram.ui.provider.Messages;
 import org.eclipse.sirius.diagram.ui.tools.api.graphical.edit.styles.IContainerLabelOffsets;
 import org.eclipse.sirius.diagram.ui.tools.internal.layout.provider.PinnedElementsLayoutProvider;
 import org.eclipse.sirius.diagram.ui.tools.internal.util.EditPartQuery;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.LabelAlignment;
 import org.eclipse.sirius.viewpoint.LabelStyle;
 import org.eclipse.sirius.viewpoint.Style;
@@ -206,8 +206,8 @@ public class RegionResizableEditPolicy extends AirResizableEditPolicy {
         super.showChangeBoundsFeedback(request);
 
         if (concernRegion()) {
-            Option<ChangeBoundsRequest> siblingRequest = getConstrainedSiblingRequest(request);
-            if (siblingRequest.some() && siblingRequest.get().getEditParts() != null && siblingRequest.get().getEditParts().size() == 1) {
+            java.util.Optional<ChangeBoundsRequest> siblingRequest = getConstrainedSiblingRequest(request);
+            if (siblingRequest.isPresent() && siblingRequest.get().getEditParts() != null && siblingRequest.get().getEditParts().size() == 1) {
                 if (siblingRequest.get().getTransformedRectangle(new Rectangle()).equals(new Rectangle())) {
                     return;
                 }
@@ -222,8 +222,8 @@ public class RegionResizableEditPolicy extends AirResizableEditPolicy {
         super.eraseChangeBoundsFeedback(request);
 
         if (concernRegion()) {
-            Option<ChangeBoundsRequest> siblingRequest = getConstrainedSiblingRequest(request);
-            if (siblingRequest.some() && siblingRequest.get().getEditParts() != null && siblingRequest.get().getEditParts().size() == 1) {
+            java.util.Optional<ChangeBoundsRequest> siblingRequest = getConstrainedSiblingRequest(request);
+            if (siblingRequest.isPresent() && siblingRequest.get().getEditParts() != null && siblingRequest.get().getEditParts().size() == 1) {
                 if (siblingRequest.get().getTransformedRectangle(new Rectangle()).equals(new Rectangle())) {
                     return;
                 }
@@ -272,16 +272,16 @@ public class RegionResizableEditPolicy extends AirResizableEditPolicy {
             ctc.add(org.eclipse.gmf.runtime.common.core.command.UnexecutableCommand.INSTANCE);
         }
 
-        Option<ChangeBoundsRequest> siblingRequest = getConstrainedSiblingRequest(request);
-        if (siblingRequest.some() && siblingRequest.get().getEditParts() != null && siblingRequest.get().getEditParts().size() == 1) {
+        java.util.Optional<ChangeBoundsRequest> siblingRequest = getConstrainedSiblingRequest(request);
+        if (siblingRequest.isPresent() && siblingRequest.get().getEditParts() != null && siblingRequest.get().getEditParts().size() == 1) {
             EditPart siblingPart = (EditPart) siblingRequest.get().getEditParts().get(0);
             ctc.add(new CommandProxy(siblingPart.getCommand(siblingRequest.get())));
         } else if (!(request.isConstrainedMove() || request.isConstrainedResize())) {
             ctc.add(org.eclipse.gmf.runtime.common.core.command.UnexecutableCommand.INSTANCE);
         }
 
-        Option<ChangeBoundsRequest> adjustChildrenRequest = getAdjustChildrenRequest(request);
-        if (adjustChildrenRequest.some()) {
+        java.util.Optional<ChangeBoundsRequest> adjustChildrenRequest = getAdjustChildrenRequest(request);
+        if (adjustChildrenRequest.isPresent()) {
             super.completeResizeCommand(ctc, adjustChildrenRequest.get());
         }
     }
@@ -297,7 +297,7 @@ public class RegionResizableEditPolicy extends AirResizableEditPolicy {
      *            the current change bounds request.
      * @return true to add the default {@link AirResizableEditPolicy} behavior.
      */
-    protected Option<ChangeBoundsRequest> getAdjustChildrenRequest(ChangeBoundsRequest request) {
+    protected java.util.Optional<ChangeBoundsRequest> getAdjustChildrenRequest(ChangeBoundsRequest request) {
         ChangeBoundsRequest requestToCompensate = null;
         RequestQuery requestQuery = new RequestQuery(request);
         if (request.getExtendedData().get(RegionContainerResizableEditPolicy.REGION_RESIZE_PROPAGATOR) == getRegionContainerPart()) {
@@ -322,7 +322,7 @@ public class RegionResizableEditPolicy extends AirResizableEditPolicy {
             }
             requestToCompensate = request;
         }
-        return Options.newSome(requestToCompensate);
+        return java.util.Optional.of(requestToCompensate);
     }
 
     private boolean validateResize(ChangeBoundsRequest request) {
@@ -335,8 +335,8 @@ public class RegionResizableEditPolicy extends AirResizableEditPolicy {
         return false;
     }
 
-    private Option<ChangeBoundsRequest> getConstrainedSiblingRequest(ChangeBoundsRequest request) {
-        Option<ChangeBoundsRequest> constrainedRequest = Options.newNone();
+    private java.util.Optional<ChangeBoundsRequest> getConstrainedSiblingRequest(ChangeBoundsRequest request) {
+        java.util.Optional<ChangeBoundsRequest> constrainedRequest = java.util.Optional.empty();
 
         RequestQuery query = new RequestQuery(request);
         Dimension sizeDelta = request.getSizeDelta().getCopy();
@@ -346,9 +346,9 @@ public class RegionResizableEditPolicy extends AirResizableEditPolicy {
 
         int stackDirection = getParentStackDirection();
         if (stackDirection == PositionConstants.NORTH_SOUTH) {
-            constrainedRequest = Options.newSome(getVStackConstrainedSiblingRequest(request, query, sizeDelta, allowedRegionContainerPropagation, regionContainer));
+            constrainedRequest = java.util.Optional.of(getVStackConstrainedSiblingRequest(request, query, sizeDelta, allowedRegionContainerPropagation, regionContainer));
         } else if (stackDirection == PositionConstants.EAST_WEST) {
-            constrainedRequest = Options.newSome(getHStackConstrainedSiblingRequest(request, query, sizeDelta, allowedRegionContainerPropagation, regionContainer));
+            constrainedRequest = java.util.Optional.of(getHStackConstrainedSiblingRequest(request, query, sizeDelta, allowedRegionContainerPropagation, regionContainer));
         }
         return constrainedRequest;
     }
@@ -360,8 +360,8 @@ public class RegionResizableEditPolicy extends AirResizableEditPolicy {
 
         if (query.isResizeFromTop()) {
             if (!isFirstRegionPart()) {
-                Option<AbstractDiagramElementContainerEditPart> pred = getPrecedingRegion();
-                if (pred.some() && !request.isConstrainedResize()) {
+                java.util.Optional<AbstractDiagramElementContainerEditPart> pred = getPrecedingRegion();
+                if (pred.isPresent() && !request.isConstrainedResize()) {
                     req.setEditParts(pred.get());
                     req.setResizeDirection(PositionConstants.SOUTH);
                     req.setSizeDelta(new Dimension(0, sizeDelta.getNegated().height));
@@ -377,8 +377,8 @@ public class RegionResizableEditPolicy extends AirResizableEditPolicy {
             }
         } else if (query.isResizeFromBottom()) {
             if (!isLastRegionPart()) {
-                Option<AbstractDiagramElementContainerEditPart> follo = getFollowingRegion();
-                if (follo.some() && !request.isConstrainedResize()) {
+                java.util.Optional<AbstractDiagramElementContainerEditPart> follo = getFollowingRegion();
+                if (follo.isPresent() && !request.isConstrainedResize()) {
                     Point moveDelta = new Point(sizeDelta.width, sizeDelta.height);
                     req.setEditParts(follo.get());
                     req.setResizeDirection(PositionConstants.NORTH);
@@ -440,8 +440,8 @@ public class RegionResizableEditPolicy extends AirResizableEditPolicy {
 
         if (query.isResizeFromLeft()) {
             if (!isFirstRegionPart()) {
-                Option<AbstractDiagramElementContainerEditPart> pred = getPrecedingRegion();
-                if (pred.some() && !request.isConstrainedResize()) {
+                java.util.Optional<AbstractDiagramElementContainerEditPart> pred = getPrecedingRegion();
+                if (pred.isPresent() && !request.isConstrainedResize()) {
                     req.setEditParts(pred.get());
                     req.setResizeDirection(PositionConstants.EAST);
                     req.setSizeDelta(new Dimension(sizeDelta.getNegated().width, 0));
@@ -457,8 +457,8 @@ public class RegionResizableEditPolicy extends AirResizableEditPolicy {
             }
         } else if (query.isResizeFromRight()) {
             if (!isLastRegionPart()) {
-                Option<AbstractDiagramElementContainerEditPart> follo = getFollowingRegion();
-                if (follo.some() && !request.isConstrainedResize()) {
+                java.util.Optional<AbstractDiagramElementContainerEditPart> follo = getFollowingRegion();
+                if (follo.isPresent() && !request.isConstrainedResize()) {
                     req.setEditParts(follo.get());
                     req.setResizeDirection(PositionConstants.WEST);
                     req.setSizeDelta(new Dimension(-sizeDelta.width, 0));
@@ -513,22 +513,22 @@ public class RegionResizableEditPolicy extends AirResizableEditPolicy {
         return regionContainer;
     }
 
-    private Option<AbstractDiagramElementContainerEditPart> getPrecedingRegion() {
+    private java.util.Optional<AbstractDiagramElementContainerEditPart> getPrecedingRegion() {
         List<AbstractDiagramElementContainerEditPart> siblingRegions = getSiblingRegionParts();
         int precedingIndex = siblingRegions.indexOf(getHost()) - 1;
         if (precedingIndex >= 0 && siblingRegions.size() >= precedingIndex) {
-            return Options.newSome(siblingRegions.get(precedingIndex));
+            return java.util.Optional.of(siblingRegions.get(precedingIndex));
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
-    private Option<AbstractDiagramElementContainerEditPart> getFollowingRegion() {
+    private java.util.Optional<AbstractDiagramElementContainerEditPart> getFollowingRegion() {
         List<AbstractDiagramElementContainerEditPart> siblingRegions = getSiblingRegionParts();
         int followingIndex = siblingRegions.indexOf(getHost()) + 1;
         if (followingIndex > 0 && siblingRegions.size() > followingIndex) {
-            return Options.newSome(siblingRegions.get(followingIndex));
+            return java.util.Optional.of(siblingRegions.get(followingIndex));
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     private boolean concernRegion() {

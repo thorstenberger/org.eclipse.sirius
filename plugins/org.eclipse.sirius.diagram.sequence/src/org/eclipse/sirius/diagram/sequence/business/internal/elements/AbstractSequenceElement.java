@@ -19,8 +19,8 @@ import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.business.api.query.DiagramElementMappingQuery;
 import org.eclipse.sirius.diagram.description.DiagramElementMapping;
 import org.eclipse.sirius.diagram.sequence.Messages;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 
 import com.google.common.base.Preconditions;
@@ -81,8 +81,8 @@ public abstract class AbstractSequenceElement extends AdapterImpl implements ISe
     @Override
     public SequenceDiagram getDiagram() {
         Diagram gmfDiagram = view.getDiagram();
-        Option<SequenceDiagram> diagram = ISequenceElementAccessor.getSequenceDiagram(gmfDiagram);
-        assert diagram.some() : Messages.AbstractSequenceElement_invalidDiagram;
+        java.util.Optional<SequenceDiagram> diagram = ISequenceElementAccessor.getSequenceDiagram(gmfDiagram);
+        assert diagram.isPresent() : Messages.AbstractSequenceElement_invalidDiagram;
         return diagram.get();
     }
 
@@ -106,11 +106,11 @@ public abstract class AbstractSequenceElement extends AdapterImpl implements ISe
     }
 
     @Override
-    public Option<EObject> getSemanticTargetElement() {
+    public java.util.Optional<EObject> getSemanticTargetElement() {
         if (view.getElement() instanceof DSemanticDecorator) {
-            return Options.newSome(((DSemanticDecorator) view.getElement()).getTarget());
+            return java.util.Optional.of(((DSemanticDecorator) view.getElement()).getTarget());
         } else {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
     }
 
@@ -120,17 +120,17 @@ public abstract class AbstractSequenceElement extends AdapterImpl implements ISe
      * 
      * @return option on the parent lifeline of this sequenceElement
      */
-    protected Option<Lifeline> getParentLifeline() {
+    protected java.util.Optional<Lifeline> getParentLifeline() {
         View current = view;
         do {
-            Option<Lifeline> lifeline = ISequenceElementAccessor.getLifeline(current);
-            if (lifeline.some()) {
+            java.util.Optional<Lifeline> lifeline = ISequenceElementAccessor.getLifeline(current);
+            if (lifeline.isPresent()) {
                 return lifeline;
             } else {
                 current = (View) current.eContainer();
             }
         } while (current != null && !(current instanceof Diagram));
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     @Override

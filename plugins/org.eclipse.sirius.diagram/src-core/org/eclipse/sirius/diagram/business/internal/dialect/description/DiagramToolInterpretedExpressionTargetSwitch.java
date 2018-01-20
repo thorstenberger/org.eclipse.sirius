@@ -25,8 +25,8 @@ import org.eclipse.sirius.diagram.description.tool.EdgeCreationDescription;
 import org.eclipse.sirius.diagram.description.tool.RequestDescription;
 import org.eclipse.sirius.diagram.description.tool.ToolPackage;
 import org.eclipse.sirius.diagram.description.tool.util.ToolSwitch;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
 import org.eclipse.sirius.viewpoint.description.RepresentationElementMapping;
 import org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription;
@@ -54,7 +54,7 @@ import com.google.common.collect.Iterables;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class DiagramToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Collection<String>>> {
+public class DiagramToolInterpretedExpressionTargetSwitch extends ToolSwitch<java.util.Optional<Collection<String>>> {
 
     /**
      * Constant used in switches on feature id to consider the case when the
@@ -95,13 +95,13 @@ public class DiagramToolInterpretedExpressionTargetSwitch extends ToolSwitch<Opt
      * @see org.eclipse.sirius.viewpoint.description.tool.util.ToolSwitch#doSwitch(org.eclipse.emf.ecore.EObject)
      */
     @Override
-    public Option<Collection<String>> doSwitch(EObject theEObject) {
-        Option<Collection<String>> doSwitch = super.doSwitch(theEObject);
+    public java.util.Optional<Collection<String>> doSwitch(EObject theEObject) {
+        java.util.Optional<Collection<String>> doSwitch = super.doSwitch(theEObject);
         if (doSwitch != null) {
             return doSwitch;
         }
         Collection<String> targets = Collections.emptySet();
-        return Options.newSome(targets);
+        return java.util.Optional.of(targets);
     }
 
     /**
@@ -153,13 +153,13 @@ public class DiagramToolInterpretedExpressionTargetSwitch extends ToolSwitch<Opt
      * {@inheritDoc}
      */
     @Override
-    public Option<Collection<String>> caseRequestDescription(RequestDescription object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseRequestDescription(RequestDescription object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getRequestDescription())) {
         case ToolPackage.REQUEST_DESCRIPTION__PRECONDITION:
         case ToolPackage.REQUEST_DESCRIPTION__ELEMENTS_TO_SELECT:
         case DO_NOT_CONSIDER_FEATURE:
-            result = Options.newNone();
+            result = java.util.Optional.empty();
             break;
         default:
             break;
@@ -171,13 +171,13 @@ public class DiagramToolInterpretedExpressionTargetSwitch extends ToolSwitch<Opt
      * {@inheritDoc}
      */
     @Override
-    public Option<Collection<String>> caseBehaviorTool(BehaviorTool object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseBehaviorTool(BehaviorTool object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getBehaviorTool())) {
         case ToolPackage.BEHAVIOR_TOOL__PRECONDITION:
         case ToolPackage.BEHAVIOR_TOOL__ELEMENTS_TO_SELECT:
         case DO_NOT_CONSIDER_FEATURE:
-            result = Options.newNone();
+            result = java.util.Optional.empty();
             break;
         default:
             break;
@@ -189,19 +189,19 @@ public class DiagramToolInterpretedExpressionTargetSwitch extends ToolSwitch<Opt
      * {@inheritDoc}
      */
     @Override
-    public Option<Collection<String>> caseEdgeCreationDescription(EdgeCreationDescription object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseEdgeCreationDescription(EdgeCreationDescription object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getEdgeCreationDescription())) {
         case ToolPackage.EDGE_CREATION_DESCRIPTION__CONNECTION_START_PRECONDITION:
         case DO_NOT_CONSIDER_FEATURE:
             Collection<String> targets = new LinkedHashSet<>();
             for (RepresentationElementMapping correspondingMapping : Iterables.concat(object.getEdgeMappings(), object.getExtraSourceMappings())) {
-                Option<Collection<String>> targetsFromMapping = globalSwitch.doSwitch(correspondingMapping, false);
-                if (targetsFromMapping.some()) {
+                java.util.Optional<Collection<String>> targetsFromMapping = globalSwitch.doSwitch(correspondingMapping, false);
+                if (targetsFromMapping.isPresent()) {
                     targets.addAll(targetsFromMapping.get());
                 }
             }
-            result = Options.newSome(targets);
+            result = java.util.Optional.of(targets);
             break;
         default:
             break;
@@ -213,7 +213,7 @@ public class DiagramToolInterpretedExpressionTargetSwitch extends ToolSwitch<Opt
      * {@inheritDoc}
      */
     @Override
-    public Option<Collection<String>> caseDeleteHookParameter(DeleteHookParameter object) {
+    public java.util.Optional<Collection<String>> caseDeleteHookParameter(DeleteHookParameter object) {
         // Default behavior for delete hooks parameters: returning the first
         // context
         // changing parent Model operation or the containing Tool
@@ -228,20 +228,20 @@ public class DiagramToolInterpretedExpressionTargetSwitch extends ToolSwitch<Opt
      * @see org.eclipse.sirius.viewpoint.description.tool.util.ToolSwitch#caseMappingBasedToolDescription(org.eclipse.sirius.viewpoint.description.tool.MappingBasedToolDescription)
      */
     @Override
-    public Option<Collection<String>> caseMappingBasedToolDescription(MappingBasedToolDescription tool) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseMappingBasedToolDescription(MappingBasedToolDescription tool) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(org.eclipse.sirius.viewpoint.description.tool.ToolPackage.eINSTANCE.getMappingBasedToolDescription())) {
         case org.eclipse.sirius.viewpoint.description.tool.ToolPackage.MAPPING_BASED_TOOL_DESCRIPTION__PRECONDITION:
         case org.eclipse.sirius.viewpoint.description.tool.ToolPackage.MAPPING_BASED_TOOL_DESCRIPTION__ELEMENTS_TO_SELECT:
         case DO_NOT_CONSIDER_FEATURE:
             Collection<String> targets = new LinkedHashSet<>();
             for (RepresentationElementMapping correspondingMapping : new MappingBasedToolDescriptionQuery(tool).getMappings()) {
-                Option<Collection<String>> targetsFromMapping = globalSwitch.doSwitch(correspondingMapping, false);
-                if (targetsFromMapping.some()) {
+                java.util.Optional<Collection<String>> targetsFromMapping = globalSwitch.doSwitch(correspondingMapping, false);
+                if (targetsFromMapping.isPresent()) {
                     targets.addAll(targetsFromMapping.get());
                 }
             }
-            result = Options.newSome(targets);
+            result = java.util.Optional.of(targets);
             break;
         default:
             break;

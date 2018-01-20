@@ -79,7 +79,7 @@ import org.eclipse.sirius.diagram.ui.tools.api.layout.LayoutUtils;
 import org.eclipse.sirius.diagram.ui.tools.internal.figure.LabelBorderStyleIds;
 import org.eclipse.sirius.diagram.ui.tools.internal.figure.RegionRoundedGradientRectangle;
 import org.eclipse.sirius.diagram.ui.tools.internal.figure.RoundedCornerMarginBorder;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.support.api.SiriusDiagramTestCase;
 import org.eclipse.sirius.tests.support.api.TestsUtil;
 import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
@@ -993,7 +993,7 @@ public class CompartmentsLayoutTest extends SiriusDiagramTestCase implements ICo
 
     private Insets getExpectedScrollPaneInsets(DNodeContainer dnc) {
         DDiagramElementContainerExperimentalQuery query = new DDiagramElementContainerExperimentalQuery(dnc);
-        Option<LabelBorderStyleDescription> labelBorderStyle = query.getLabelBorderStyle();
+        java.util.Optional<LabelBorderStyleDescription> labelBorderStyle = query.getLabelBorderStyle();
         final int defaultMargin = AbstractDNodeContainerCompartmentEditPart.DEFAULT_MARGIN;
 
         int borderSize = 0;
@@ -1004,7 +1004,7 @@ public class CompartmentsLayoutTest extends SiriusDiagramTestCase implements ICo
         Insets insets = new Insets(1, 0, 0, 0);
         if (new DNodeContainerExperimentalQuery(dnc).isRegionContainer()) {
             insets = new Insets(0, 0, -1, -1);
-        } else if (labelBorderStyle.some() && LabelBorderStyleIds.LABEL_FULL_BORDER_STYLE_FOR_CONTAINER_ID.equals(labelBorderStyle.get().getId())) {
+        } else if (labelBorderStyle.isPresent() && LabelBorderStyleIds.LABEL_FULL_BORDER_STYLE_FOR_CONTAINER_ID.equals(labelBorderStyle.get().getId())) {
             insets = new Insets(defaultMargin, defaultMargin, defaultMargin, defaultMargin);
         } else if (query.isRegionInVerticalStack()) {
             insets = new Insets(borderSize + defaultMargin, defaultMargin, defaultMargin, defaultMargin);

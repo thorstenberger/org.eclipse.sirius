@@ -24,7 +24,7 @@ import org.eclipse.sirius.diagram.ui.business.api.query.DDiagramGraphicalQuery;
 import org.eclipse.sirius.diagram.ui.business.internal.migration.DiagramRepresentationsFileMigrationParticipantV690;
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.DNode4EditPart;
 import org.eclipse.sirius.diagram.ui.part.SiriusVisualIDRegistry;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import org.eclipse.sirius.tests.support.api.SiriusDiagramTestCase;
 import org.eclipse.sirius.viewpoint.DView;
@@ -78,8 +78,8 @@ public class MigrationInconsistentGMFVisibilityTest extends SiriusDiagramTestCas
         DView view = session.getOwnedViews().iterator().next();
         DDiagram ddiagram = (DDiagram) new DViewQuery(view).getLoadedRepresentations().get(0);
         DDiagramGraphicalQuery query = new DDiagramGraphicalQuery(ddiagram);
-        Option<Diagram> option = query.getAssociatedGMFDiagram();
-        if (option.some()) {
+        java.util.Optional<Diagram> option = query.getAssociatedGMFDiagram();
+        if (option.isPresent()) {
             Iterator<EObject> iterator = Iterators.filter(option.get().eAllContents(), new Predicate<EObject>() {
                 @Override
                 public boolean apply(EObject arg0) {

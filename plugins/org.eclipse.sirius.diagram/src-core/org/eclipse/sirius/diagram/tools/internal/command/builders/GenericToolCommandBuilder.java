@@ -22,7 +22,7 @@ import org.eclipse.sirius.common.tools.api.interpreter.IInterpreter;
 import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.business.api.query.EObjectQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.tools.api.interpreter.InterpreterUtil;
 import org.eclipse.sirius.tools.internal.command.builders.ElementsToSelectTask;
@@ -71,8 +71,8 @@ public class GenericToolCommandBuilder extends AbstractDiagramCommandBuilder {
         final DCommand result = createEnclosingCommand();
         final IInterpreter interpreter = InterpreterUtil.getInterpreter(containerView);
         if (checkGenericToolPrecondition(interpreter)) {
-            Option<DDiagram> parentDiagram = getDDiagram();
-            if (parentDiagram.some() && tool.getInitialOperation() != null && tool.getInitialOperation().getFirstModelOperations() != null) {
+            java.util.Optional<DDiagram> parentDiagram = getDDiagram();
+            if (parentDiagram.isPresent() && tool.getInitialOperation() != null && tool.getInitialOperation().getFirstModelOperations() != null) {
                 addPreOperationTasks(result, interpreter);
 
                 EObject container = containerView;
@@ -118,7 +118,7 @@ public class GenericToolCommandBuilder extends AbstractDiagramCommandBuilder {
         } else if (containerView instanceof DDiagram) {
             addRefreshTask((DDiagram) containerView, command, tool);
         }
-        Option<DDiagram> parentDiagram = new EObjectQuery(containerView).getParentDiagram();
+        java.util.Optional<DDiagram> parentDiagram = new EObjectQuery(containerView).getParentDiagram();
         command.getTasks().add(new ElementsToSelectTask(tool, interpreter, containerView, parentDiagram.get()));
     }
 
@@ -170,7 +170,7 @@ public class GenericToolCommandBuilder extends AbstractDiagramCommandBuilder {
      * {@inheritDoc}
      */
     @Override
-    protected Option<DDiagram> getDDiagram() {
+    protected java.util.Optional<DDiagram> getDDiagram() {
         return new EObjectQuery(containerView).getParentDiagram();
     }
 }

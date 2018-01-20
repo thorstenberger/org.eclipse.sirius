@@ -22,7 +22,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.ISequenceE
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.Message;
 import org.eclipse.sirius.diagram.sequence.business.internal.layout.LayoutConstants;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.collect.Iterables;
 
@@ -98,8 +98,8 @@ public class SequenceMessageRangeHelper {
             RelativeBendpoint secondRB = (RelativeBendpoint) bendpoints.getPoints().get(1);
             newBendpoints.add(firstRB);
             int hGap = LayoutConstants.MESSAGE_TO_SELF_BENDPOINT_HORIZONTAL_GAP;
-            Option<Message> msg = ISequenceElementAccessor.getMessage(edge);
-            if (msg.some()) {
+            java.util.Optional<Message> msg = ISequenceElementAccessor.getMessage(edge);
+            if (msg.isPresent()) {
                 hGap = msg.get().getReflexiveMessageWidth();
             }
 

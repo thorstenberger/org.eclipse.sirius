@@ -31,7 +31,7 @@ import org.eclipse.sirius.business.internal.migration.RepresentationsFileVersion
 import org.eclipse.sirius.business.internal.migration.resource.MigrationUtil;
 import org.eclipse.sirius.business.internal.resource.parser.RepresentationsFileXMIHelper;
 import org.eclipse.sirius.common.tools.DslCommonPlugin;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.profiler.SiriusTasksKey;
 import org.osgi.framework.Version;
 
@@ -211,8 +211,8 @@ public class AirDResourceImpl extends XMIResourceImpl implements DResource, Aird
      */
     @Override
     public EObject getEObject(String uriFragment) {
-        Option<String> optionalRewrittenFragment = RepresentationsFileMigrationService.getInstance().getNewFragment(uriFragment);
-        if (optionalRewrittenFragment.some()) {
+        java.util.Optional<String> optionalRewrittenFragment = RepresentationsFileMigrationService.getInstance().getNewFragment(uriFragment);
+        if (optionalRewrittenFragment.isPresent()) {
             return getEObject(optionalRewrittenFragment.get());
         } else {
             return super.getEObject(uriFragment);

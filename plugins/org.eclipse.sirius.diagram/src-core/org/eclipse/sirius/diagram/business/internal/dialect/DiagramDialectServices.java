@@ -71,8 +71,8 @@ import org.eclipse.sirius.diagram.description.tool.Navigation;
 import org.eclipse.sirius.diagram.tools.api.command.ChangeLayerActivationCommand;
 import org.eclipse.sirius.diagram.tools.api.command.DiagramCommandFactoryService;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tools.api.command.CommandContext;
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.tools.api.command.ui.UICallBack;
@@ -425,14 +425,14 @@ public class DiagramDialectServices extends AbstractRepresentationDialectService
      * {@inheritDoc}
      */
     @Override
-    public Option<? extends AbstractCommandTask> createTask(CommandContext context, ModelAccessor extPackage, ModelOperation op, Session session, UICallBack uiCallback) {
-        Option<? extends AbstractCommandTask> task = Options.newNone();
+    public java.util.Optional<? extends AbstractCommandTask> createTask(CommandContext context, ModelAccessor extPackage, ModelOperation op, Session session, UICallBack uiCallback) {
+        java.util.Optional<? extends AbstractCommandTask> task = java.util.Optional.empty();
         if (op instanceof CreateView) {
             final CreateView createView = (CreateView) op;
-            task = Options.newSome(new CreateViewTask(context, extPackage, createView, session.getInterpreter()));
+            task = java.util.Optional.of(new CreateViewTask(context, extPackage, createView, session.getInterpreter()));
         } else if (op instanceof Navigation) {
             final Navigation doubleClickNavigation = (Navigation) op;
-            task = Options.newSome(new NavigationTask(context, extPackage, doubleClickNavigation, session.getInterpreter(), uiCallback));
+            task = java.util.Optional.of(new NavigationTask(context, extPackage, doubleClickNavigation, session.getInterpreter(), uiCallback));
         }
         return task;
     }

@@ -14,7 +14,7 @@ import org.eclipse.sirius.diagram.business.api.query.IEdgeMappingQuery;
 import org.eclipse.sirius.diagram.description.DescriptionPackage;
 import org.eclipse.sirius.diagram.description.EdgeMapping;
 import org.eclipse.sirius.diagram.description.IEdgeMapping;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * An helper dedicated to the ends centering property sections.
@@ -41,8 +41,8 @@ public class EdgeStyleEndsCenteringHelper {
         IEdgeMapping container = getEdgeStyleDescMappingContainer(obj);
         if (container != null) {
             IEdgeMappingQuery query = new IEdgeMappingQuery(container);
-            Option<EdgeMapping> option = query.getOriginalEdgeMapping();
-            if (option.some()) {
+            java.util.Optional<EdgeMapping> option = query.getOriginalEdgeMapping();
+            if (option.isPresent()) {
                 value = (option.get().eClass() == DescriptionPackage.Literals.EDGE_MAPPING);
             }
         }

@@ -16,8 +16,8 @@ import org.eclipse.gef.SnapToGrid;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.ExecutionEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.LifelineEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.SequenceMessageEditPart;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tests.swtbot.support.api.condition.CheckEditPartMoved;
 import org.eclipse.swtbot.eclipse.gef.finder.matchers.IsInstanceOf;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefConnectionEditPart;
@@ -55,8 +55,8 @@ public class ExecutionMove3Tests extends AbstractDefaultModelSequenceTests {
     }
 
     @Override
-    protected Option<String> getDRepresentationName() {
-        return Options.newSome(REPRESENTATION_NAME);
+    protected java.util.Optional<String> getDRepresentationName() {
+        return java.util.Optional.of(REPRESENTATION_NAME);
     }
 
     private SWTBotGefEditPart e1Bot;

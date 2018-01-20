@@ -54,7 +54,7 @@ import org.eclipse.sirius.business.api.query.URIQuery;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.business.api.session.SessionStatus;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ui.business.api.session.IEditingSession;
 import org.eclipse.sirius.ui.business.api.session.SessionUIManager;
 import org.eclipse.sirius.ui.tools.api.views.ViewHelper;
@@ -258,8 +258,8 @@ public class ContextMenuFiller implements IMenuListener, IMenuListener2 {
     private void computeModelDependenciesContextMenu(IMenuManager menu, Collection<?> selection) {
         Collection<ProjectDependenciesItem> items = getModelDependencies(selection);
         if (items.size() == 1 && selection.size() == 1) {
-            Option<Session> session = items.iterator().next().getSession();
-            if (session.some()) {
+            java.util.Optional<Session> session = items.iterator().next().getSession();
+            if (session.isPresent()) {
                 /* Add Model. */
 
                 addActionToMenu(menu, SESSION_MANAGEMENT_SEPARATOR, buildAddModelAction(session.get()));
@@ -322,8 +322,8 @@ public class ContextMenuFiller implements IMenuListener, IMenuListener2 {
         Session session = null;
         if (!diagramResources.isEmpty()) {
             for (AnalysisResourceItem diagramResource : diagramResources) {
-                Option<Session> s = diagramResource.getSession();
-                if (s.some()) {
+                java.util.Optional<Session> s = diagramResource.getSession();
+                if (s.isPresent()) {
                     session = s.get();
                     break;
                 }
@@ -492,8 +492,8 @@ public class ContextMenuFiller implements IMenuListener, IMenuListener2 {
 
     private void computeModelingProjectMenu(IMenuManager menu, IProject project) {
         Session session = null;
-        Option<ModelingProject> modelingProject = ModelingProject.asModelingProject(project);
-        if (modelingProject.some()) {
+        java.util.Optional<ModelingProject> modelingProject = ModelingProject.asModelingProject(project);
+        if (modelingProject.isPresent()) {
             session = modelingProject.get().getSession();
         }
 

@@ -21,8 +21,8 @@ import org.eclipse.sirius.diagram.Note;
 import org.eclipse.sirius.diagram.Square;
 import org.eclipse.sirius.diagram.WorkspaceImage;
 import org.eclipse.sirius.diagram.util.DiagramSwitch;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.RGBValues;
 
 /**
@@ -165,12 +165,12 @@ public class NodeStyleQuery {
      * 
      * @return the background color associated with this NodeStyle
      */
-    public Option<RGBValues> getBackgroundColor() {
+    public java.util.Optional<RGBValues> getBackgroundColor() {
         RGBValues color = new GetBackgroundColorForNodeStyleSwitch().doSwitch(nodeStyle);
         if (color == null) {
-            return Options.newNone();
+            return java.util.Optional.empty();
         } else {
-            return Options.newSome(color);
+            return java.util.Optional.of(color);
         }
     }
 
@@ -179,12 +179,12 @@ public class NodeStyleQuery {
      * 
      * @return the label color associated with this NodeStyle
      */
-    public Option<RGBValues> getLabelColor() {
+    public java.util.Optional<RGBValues> getLabelColor() {
         RGBValues color = nodeStyle.getLabelColor();
         if (color == null) {
-            return Options.newNone();
+            return java.util.Optional.empty();
         } else {
-            return Options.newSome(color);
+            return java.util.Optional.of(color);
         }
     }
 }

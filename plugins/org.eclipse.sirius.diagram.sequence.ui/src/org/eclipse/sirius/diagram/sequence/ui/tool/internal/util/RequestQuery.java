@@ -34,7 +34,7 @@ import org.eclipse.sirius.diagram.sequence.description.DestructionMessageMapping
 import org.eclipse.sirius.diagram.sequence.description.tool.MessageCreationTool;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.ExecutionEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.policy.SequenceMessageEditPolicy;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -91,8 +91,8 @@ public class RequestQuery extends org.eclipse.sirius.diagram.ui.business.interna
 
         Set<AbstractNodeEvent> result = new HashSet<>();
         for (IGraphicalEditPart part : editParts) {
-            Option<AbstractNodeEvent> execution = ISequenceElementAccessor.getAbstractNodeEvent(part.getNotationView());
-            if (execution.some()) {
+            java.util.Optional<AbstractNodeEvent> execution = ISequenceElementAccessor.getAbstractNodeEvent(part.getNotationView());
+            if (execution.isPresent()) {
                 result.add(execution.get());
             }
         }
@@ -113,8 +113,8 @@ public class RequestQuery extends org.eclipse.sirius.diagram.ui.business.interna
 
         Set<Execution> result = new HashSet<>();
         for (IGraphicalEditPart part : editParts) {
-            Option<Execution> execution = ISequenceElementAccessor.getExecution(part.getNotationView());
-            if (execution.some()) {
+            java.util.Optional<Execution> execution = ISequenceElementAccessor.getExecution(part.getNotationView());
+            if (execution.isPresent()) {
                 result.add(execution.get());
             }
         }
@@ -135,8 +135,8 @@ public class RequestQuery extends org.eclipse.sirius.diagram.ui.business.interna
 
         Set<ISequenceEvent> result = new HashSet<>();
         for (IGraphicalEditPart part : editParts) {
-            Option<ISequenceEvent> ise = ISequenceElementAccessor.getISequenceEvent(part.getNotationView());
-            if (ise.some()) {
+            java.util.Optional<ISequenceEvent> ise = ISequenceElementAccessor.getISequenceEvent(part.getNotationView());
+            if (ise.isPresent()) {
                 result.add(ise.get());
             }
         }
@@ -157,8 +157,8 @@ public class RequestQuery extends org.eclipse.sirius.diagram.ui.business.interna
 
         List<InstanceRole> instanceRoles = new ArrayList<InstanceRole>();
         for (IGraphicalEditPart part : editParts) {
-            Option<InstanceRole> instanceRole = ISequenceElementAccessor.getInstanceRole(part.getNotationView());
-            if (instanceRole.some()) {
+            java.util.Optional<InstanceRole> instanceRole = ISequenceElementAccessor.getInstanceRole(part.getNotationView());
+            if (instanceRole.isPresent()) {
                 instanceRoles.add(instanceRole.get());
             }
         }

@@ -39,8 +39,8 @@ import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.ExecutionE
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.util.FinalParentHelper;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.util.RequestQuery;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
@@ -440,16 +440,16 @@ public class AbstractNodeEventResizeSelectionValidator {
 
     private boolean checkGlobalPositions() {
         boolean safeMove = true;
-        final Option<Message> startMessage;
-        final Option<Message> endMessage;
+        final java.util.Optional<Message> startMessage;
+        final java.util.Optional<Message> endMessage;
 
         if (host instanceof Execution) {
             Execution exec = (Execution) host;
             startMessage = exec.getStartMessage();
             endMessage = exec.getEndMessage();
         } else {
-            startMessage = Options.newNone();
-            endMessage = Options.newNone();
+            startMessage = java.util.Optional.empty();
+            endMessage = java.util.Optional.empty();
         }
 
         Range actualRange = host.getVerticalRange();
@@ -464,7 +464,7 @@ public class AbstractNodeEventResizeSelectionValidator {
                     Range verticalRange = from.getVerticalRange();
                     if (host.equals(from)) {
                         verticalRange = finalRange;
-                    } else if (startMessage.some() && startMessage.get().equals(from)) {
+                    } else if (startMessage.isPresent() && startMessage.get().equals(from)) {
                         if (!startMessage.get().isReflective()) {
                             verticalRange = new Range(finalRange.getLowerBound(), finalRange.getLowerBound());
                         } else if (requestQuery.isResizeFromTop()) {
@@ -475,7 +475,7 @@ public class AbstractNodeEventResizeSelectionValidator {
                                 verticalRange = verticalRange.shifted(requestQuery.getLogicalDelta().y);
                             }
                         }
-                    } else if (endMessage.some() && endMessage.get().equals(from)) {
+                    } else if (endMessage.isPresent() && endMessage.get().equals(from)) {
                         if (!endMessage.get().isReflective()) {
                             verticalRange = new Range(finalRange.getUpperBound(), finalRange.getUpperBound());
                         } else if (requestQuery.isResizeFromBottom()) {

@@ -30,7 +30,7 @@ import org.eclipse.sirius.diagram.ui.provider.Messages;
 import org.eclipse.sirius.diagram.ui.tools.api.preferences.SiriusDiagramUiPreferencesKeys;
 import org.eclipse.sirius.diagram.ui.tools.internal.actions.distribute.DistributeAction;
 import org.eclipse.sirius.diagram.ui.tools.internal.editor.DDiagramEditorImpl;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.support.api.TestsUtil;
 import org.eclipse.sirius.tests.swtbot.Activator;
 import org.eclipse.sirius.tests.swtbot.support.api.AbstractSiriusSwtBotGefTestCase;
@@ -440,8 +440,8 @@ public class TabBarTest extends AbstractSiriusSwtBotGefTestCase {
                     continue;
                 }
 
-                Option<Object> fieldValue = ReflectionHelper.getFieldValueWithoutException(obj, field.getName());
-                assertFalse("The field " + field.getName() + " should be null for " + obj, fieldValue.some());
+                java.util.Optional<Object> fieldValue = ReflectionHelper.getFieldValueWithoutException(obj, field.getName());
+                assertFalse("The field " + field.getName() + " should be null for " + obj, fieldValue.isPresent());
             }
         }
     }

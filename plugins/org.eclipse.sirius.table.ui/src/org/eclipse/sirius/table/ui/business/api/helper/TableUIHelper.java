@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.table.business.api.helper.TableHelper;
 import org.eclipse.sirius.table.business.api.query.DCellQuery;
 import org.eclipse.sirius.table.business.api.query.DTableQuery;
@@ -90,8 +90,8 @@ public final class TableUIHelper {
                     listColumn.add(filler.getContent(column));
                     for (DLine line : new DTableQuery(TableHelper.getTable(column)).getAllLines()) {
                         if (line.isVisible()) {
-                            Option<DCell> optionalCell = TableHelper.getCell(line, column);
-                            if (optionalCell.some()) {
+                            java.util.Optional<DCell> optionalCell = TableHelper.getCell(line, column);
+                            if (optionalCell.isPresent()) {
                                 listColumn.add(filler.getContent(optionalCell.get()));
                             } else {
                                 listColumn.add(TableFiller.BLANK_MARKER);
@@ -133,8 +133,8 @@ public final class TableUIHelper {
         DTable parentTable = TableHelper.getTable(line);
         for (DColumn column : parentTable.getColumns()) {
             if (column.isVisible()) {
-                Option<DCell> optionalCell = TableHelper.getCell(line, column);
-                if (optionalCell.some()) {
+                java.util.Optional<DCell> optionalCell = TableHelper.getCell(line, column);
+                if (optionalCell.isPresent()) {
                     listLine.add(filler.getContent(optionalCell.get()));
                 } else {
                     listLine.add(filler.getContent(line, column));
@@ -310,7 +310,7 @@ public final class TableUIHelper {
             private boolean isCellExist(TreeItem treeItem, int index) {
                 if (treeItem.getData() instanceof DLine) {
                     final DLine dline = (DLine) treeItem.getData();
-                    return !TableHelper.getCell(dline, TableHelper.getTable(dline).getColumns().get(index)).some();
+                    return !TableHelper.getCell(dline, TableHelper.getTable(dline).getColumns().get(index)).isPresent();
                 }
                 return false;
             }
@@ -428,16 +428,16 @@ public final class TableUIHelper {
         }));
     }
 
-    private static String getForegroundStyleName(final Option<DTableElementStyle> optionalTableElementStyle) {
-        if (optionalTableElementStyle.some() && optionalTableElementStyle.get().getForegroundColor() != null) {
+    private static String getForegroundStyleName(final java.util.Optional<DTableElementStyle> optionalTableElementStyle) {
+        if (optionalTableElementStyle.isPresent() && optionalTableElementStyle.get().getForegroundColor() != null) {
             return TableUIHelper.getColorName(optionalTableElementStyle.get().getForegroundColor());
         } else {
             return StringUtil.EMPTY_STRING;
         }
     }
 
-    private static String getBackgroundStyleName(final Option<DTableElementStyle> optionalTableElementStyle) {
-        if (optionalTableElementStyle.some() && optionalTableElementStyle.get().getBackgroundColor() != null) {
+    private static String getBackgroundStyleName(final java.util.Optional<DTableElementStyle> optionalTableElementStyle) {
+        if (optionalTableElementStyle.isPresent() && optionalTableElementStyle.get().getBackgroundColor() != null) {
             return TableUIHelper.getColorName(optionalTableElementStyle.get().getBackgroundColor());
         } else {
             return StringUtil.EMPTY_STRING;

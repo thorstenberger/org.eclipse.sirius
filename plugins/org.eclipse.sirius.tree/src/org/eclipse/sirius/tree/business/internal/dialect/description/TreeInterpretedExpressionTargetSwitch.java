@@ -16,8 +16,8 @@ import java.util.LinkedHashSet;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.sirius.business.api.dialect.description.IInterpretedExpressionTargetSwitch;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tree.description.ConditionalTreeItemStyleDescription;
 import org.eclipse.sirius.tree.description.DescriptionPackage;
 import org.eclipse.sirius.tree.description.TreeCreationDescription;
@@ -49,7 +49,7 @@ import org.eclipse.sirius.viewpoint.description.RepresentationElementMapping;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  * 
  */
-public class TreeInterpretedExpressionTargetSwitch extends DescriptionSwitch<Option<Collection<String>>> {
+public class TreeInterpretedExpressionTargetSwitch extends DescriptionSwitch<java.util.Optional<Collection<String>>> {
 
     /**
      * Constant used in switches on feature id to consider the case when the
@@ -91,13 +91,13 @@ public class TreeInterpretedExpressionTargetSwitch extends DescriptionSwitch<Opt
      * @see org.eclipse.sirius.tree.description.util.DescriptionSwitch#doSwitch(org.eclipse.emf.ecore.EObject)
      */
     @Override
-    public Option<Collection<String>> doSwitch(EObject theEObject) {
-        Option<Collection<String>> doSwitch = super.doSwitch(theEObject);
+    public java.util.Optional<Collection<String>> doSwitch(EObject theEObject) {
+        java.util.Optional<Collection<String>> doSwitch = super.doSwitch(theEObject);
         if (doSwitch != null) {
             return doSwitch;
         }
         Collection<String> defaultResult = new LinkedHashSet<>();
-        return Options.newSome(defaultResult);
+        return java.util.Optional.of(defaultResult);
     }
 
     /*
@@ -114,15 +114,15 @@ public class TreeInterpretedExpressionTargetSwitch extends DescriptionSwitch<Opt
      * @see org.eclipse.sirius.tree.description.util.DescriptionSwitch#caseTreeDescription(org.eclipse.sirius.tree.description.TreeDescription)
      */
     @Override
-    public Option<Collection<String>> caseTreeDescription(TreeDescription object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseTreeDescription(TreeDescription object) {
+        java.util.Optional<Collection<String>> result = null;
         Collection<String> target = new LinkedHashSet<>();
         switch (featureID) {
         case DescriptionPackage.TREE_DESCRIPTION__PRECONDITION_EXPRESSION:
         case DescriptionPackage.TREE_DESCRIPTION__TITLE_EXPRESSION:
         case DO_NOT_CONSIDER_FEATURE:
             target.add(object.getDomainClass());
-            result = Options.newSome(target);
+            result = java.util.Optional.of(target);
             break;
         default:
             break;
@@ -138,8 +138,8 @@ public class TreeInterpretedExpressionTargetSwitch extends DescriptionSwitch<Opt
      * @see org.eclipse.sirius.tree.description.util.DescriptionSwitch#caseTreeItemMapping(org.eclipse.sirius.tree.description.TreeItemMapping)
      */
     @Override
-    public Option<Collection<String>> caseTreeItemMapping(TreeItemMapping object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseTreeItemMapping(TreeItemMapping object) {
+        java.util.Optional<Collection<String>> result = null;
         Collection<String> target = new LinkedHashSet<>();
         switch (featureID) {
         case DescriptionPackage.TREE_ITEM_MAPPING__SEMANTIC_CANDIDATES_EXPRESSION:
@@ -149,7 +149,7 @@ public class TreeInterpretedExpressionTargetSwitch extends DescriptionSwitch<Opt
         case DescriptionPackage.TREE_ITEM_MAPPING__SEMANTIC_ELEMENTS:
         case DO_NOT_CONSIDER_FEATURE:
             target.add(object.getDomainClass());
-            result = Options.newSome(target);
+            result = java.util.Optional.of(target);
             break;
         default:
             break;
@@ -161,8 +161,8 @@ public class TreeInterpretedExpressionTargetSwitch extends DescriptionSwitch<Opt
      * {@inheritDoc}
      */
     @Override
-    public Option<Collection<String>> caseTreeCreationDescription(TreeCreationDescription toolDescription) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseTreeCreationDescription(TreeCreationDescription toolDescription) {
+        java.util.Optional<Collection<String>> result = null;
         Collection<String> targets = new LinkedHashSet<>();
         switch (featureID) {
         case DescriptionPackage.TREE_CREATION_DESCRIPTION__TITLE_EXPRESSION:
@@ -170,12 +170,12 @@ public class TreeInterpretedExpressionTargetSwitch extends DescriptionSwitch<Opt
         case DescriptionPackage.TREE_CREATION_DESCRIPTION__PRECONDITION:
         case DescriptionPackage.TREE_CREATION_DESCRIPTION__ELEMENTS_TO_SELECT:
             for (RepresentationElementMapping mapping : toolDescription.getMappings()) {
-                Option<Collection<String>> mappingTypes = globalSwitch.doSwitch(mapping, false);
-                if (mappingTypes.some()) {
+                java.util.Optional<Collection<String>> mappingTypes = globalSwitch.doSwitch(mapping, false);
+                if (mappingTypes.isPresent()) {
                     targets.addAll(mappingTypes.get());
                 }
             }
-            result = Options.newSome(targets);
+            result = java.util.Optional.of(targets);
             break;
         default:
             break;
@@ -187,8 +187,8 @@ public class TreeInterpretedExpressionTargetSwitch extends DescriptionSwitch<Opt
      * {@inheritDoc}
      */
     @Override
-    public Option<Collection<String>> caseTreeNavigationDescription(TreeNavigationDescription toolDescription) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseTreeNavigationDescription(TreeNavigationDescription toolDescription) {
+        java.util.Optional<Collection<String>> result = null;
         Collection<String> targets = new LinkedHashSet<>();
         switch (featureID) {
         case DescriptionPackage.TREE_NAVIGATION_DESCRIPTION__BROWSE_EXPRESSION:
@@ -196,12 +196,12 @@ public class TreeInterpretedExpressionTargetSwitch extends DescriptionSwitch<Opt
         case DescriptionPackage.TREE_NAVIGATION_DESCRIPTION__PRECONDITION:
         case DescriptionPackage.TREE_NAVIGATION_DESCRIPTION__ELEMENTS_TO_SELECT:
             for (RepresentationElementMapping mapping : toolDescription.getMappings()) {
-                Option<Collection<String>> mappingTypes = globalSwitch.doSwitch(mapping, false);
-                if (mappingTypes.some()) {
+                java.util.Optional<Collection<String>> mappingTypes = globalSwitch.doSwitch(mapping, false);
+                if (mappingTypes.isPresent()) {
                     targets.addAll(mappingTypes.get());
                 }
             }
-            result = Options.newSome(targets);
+            result = java.util.Optional.of(targets);
             break;
         default:
             break;
@@ -216,7 +216,7 @@ public class TreeInterpretedExpressionTargetSwitch extends DescriptionSwitch<Opt
      * @see org.eclipse.sirius.tree.description.util.DescriptionSwitch#caseTreeItemStyleDescription(org.eclipse.sirius.tree.description.TreeItemStyleDescription)
      */
     @Override
-    public Option<Collection<String>> caseTreeItemStyleDescription(TreeItemStyleDescription object) {
+    public java.util.Optional<Collection<String>> caseTreeItemStyleDescription(TreeItemStyleDescription object) {
         return globalSwitch.doSwitch(getFirstRelevantContainer(object), false);
     }
 
@@ -227,7 +227,7 @@ public class TreeInterpretedExpressionTargetSwitch extends DescriptionSwitch<Opt
      * @see org.eclipse.sirius.tree.description.util.DescriptionSwitch#caseConditionalTreeItemStyleDescription(org.eclipse.sirius.tree.description.ConditionalTreeItemStyleDescription)
      */
     @Override
-    public Option<Collection<String>> caseConditionalTreeItemStyleDescription(ConditionalTreeItemStyleDescription object) {
+    public java.util.Optional<Collection<String>> caseConditionalTreeItemStyleDescription(ConditionalTreeItemStyleDescription object) {
         return globalSwitch.doSwitch(getFirstRelevantContainer(object), false);
     }
 
@@ -238,7 +238,7 @@ public class TreeInterpretedExpressionTargetSwitch extends DescriptionSwitch<Opt
      * @see org.eclipse.sirius.tree.description.util.DescriptionSwitch#caseTreeItemTool(org.eclipse.sirius.tree.description.TreeItemTool)
      */
     @Override
-    public Option<Collection<String>> caseTreeItemTool(TreeItemTool object) {
+    public java.util.Optional<Collection<String>> caseTreeItemTool(TreeItemTool object) {
         return globalSwitch.doSwitch(getFirstRelevantContainer(object), false);
     }
 
@@ -246,7 +246,7 @@ public class TreeInterpretedExpressionTargetSwitch extends DescriptionSwitch<Opt
      * {@inheritDoc}
      */
     @Override
-    public Option<Collection<String>> caseTreePopupMenu(TreePopupMenu object) {
+    public java.util.Optional<Collection<String>> caseTreePopupMenu(TreePopupMenu object) {
         return globalSwitch.doSwitch(getFirstRelevantContainer(object), false);
     }
 

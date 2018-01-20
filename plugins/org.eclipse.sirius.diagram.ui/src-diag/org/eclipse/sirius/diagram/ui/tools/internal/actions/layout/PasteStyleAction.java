@@ -38,7 +38,7 @@ import org.eclipse.sirius.diagram.ui.tools.api.ui.actions.ActionIds;
 import org.eclipse.sirius.diagram.ui.tools.internal.format.data.extension.FormatDataManagerRegistry;
 import org.eclipse.sirius.diagram.ui.tools.internal.layout.data.extension.LayoutDataManagerRegistry;
 import org.eclipse.sirius.ecore.extender.business.api.permission.PermissionAuthorityRegistry;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -107,11 +107,11 @@ public class PasteStyleAction extends AbstractCopyPasteFormatAction {
             final Iterator<?> iter = getSelectedObjects().iterator();
             DiagramEditPart diagramEditPart = getDiagramEditPart();
             if (diagramEditPart instanceof IDDiagramEditPart) {
-                final Option<DDiagram> diagram = ((IDDiagramEditPart) diagramEditPart).resolveDDiagram();
+                final java.util.Optional<DDiagram> diagram = ((IDDiagramEditPart) diagramEditPart).resolveDDiagram();
 
                 // If ddiagram is locked, we will return an unexecutableCommand
                 // so that action is disabled
-                if (diagram.some() && PermissionAuthorityRegistry.getDefault().getPermissionAuthority(diagram.get()).canEditInstance(diagram.get())) {
+                if (diagram.isPresent() && PermissionAuthorityRegistry.getDefault().getPermissionAuthority(diagram.get()).canEditInstance(diagram.get())) {
                     while (iter.hasNext()) {
                         final Object next = iter.next();
                         if (next instanceof IGraphicalEditPart) {

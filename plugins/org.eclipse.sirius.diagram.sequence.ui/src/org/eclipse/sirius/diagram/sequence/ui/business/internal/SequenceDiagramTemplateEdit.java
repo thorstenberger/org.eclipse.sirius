@@ -19,7 +19,7 @@ import org.eclipse.sirius.diagram.sequence.template.TSequenceDiagram;
 import org.eclipse.sirius.diagram.sequence.template.TemplateFactory;
 import org.eclipse.sirius.diagram.sequence.template.TemplatePackage;
 import org.eclipse.sirius.diagram.sequence.template.TemplateToDiagramDescriptionTransformer;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ui.business.api.template.RepresentationTemplateEdit;
 import org.eclipse.sirius.viewpoint.description.DescriptionPackage;
 import org.eclipse.sirius.viewpoint.description.RepresentationTemplate;
@@ -43,8 +43,8 @@ public class SequenceDiagramTemplateEdit implements RepresentationTemplateEdit {
      * {@inheritDoc}
      */
     public EObject getSourceElement(EObject vsmObject) {
-        Option<TSequenceDiagram> result = new EObjectQuery(vsmObject).getParentSequenceDiagramTemplate();
-        if (result.some()) {
+        java.util.Optional<TSequenceDiagram> result = new EObjectQuery(vsmObject).getParentSequenceDiagramTemplate();
+        if (result.isPresent()) {
             TSequenceDiagram template = result.get();
             ECrossReferenceAdapter crosser = getOrCreateCrossReferencer(template);
             for (Setting setting : crosser.getInverseReferences(vsmObject)) {
@@ -87,8 +87,8 @@ public class SequenceDiagramTemplateEdit implements RepresentationTemplateEdit {
      * {@inheritDoc}
      */
     public boolean isOverriden(EObject eObj, EStructuralFeature feature) {
-        Option<TSequenceDiagram> result = new EObjectQuery(eObj).getParentSequenceDiagramTemplate();
-        if (result.some()) {
+        java.util.Optional<TSequenceDiagram> result = new EObjectQuery(eObj).getParentSequenceDiagramTemplate();
+        if (result.isPresent()) {
             TSequenceDiagram template = result.get();
             return new TemplateToDiagramDescriptionTransformer(template).isOverriding(eObj, feature);
         }

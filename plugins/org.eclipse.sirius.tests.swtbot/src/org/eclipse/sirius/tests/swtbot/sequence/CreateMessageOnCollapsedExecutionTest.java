@@ -17,7 +17,7 @@ import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.business.api.query.DDiagramElementQuery;
 import org.eclipse.sirius.diagram.sequence.business.internal.layout.LayoutConstants;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.ExecutionEditPart;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.unit.diagram.sequence.InteractionsConstants;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditPart;
 
@@ -138,7 +138,7 @@ public class CreateMessageOnCollapsedExecutionTest extends AbstractDefaultModelS
     private void do_test_Create_Message_On_Execution(boolean collapse, String message_tool_id, String expected_message_name) {
         // Creation of an execution
         Point creationPoint = new Point(getLifelineScreenX(LIFELINE_A), 200);
-        Option<SWTBotGefEditPart> execA0 = createExecutionWithResult(creationPoint.x, creationPoint.y);
+        java.util.Optional<SWTBotGefEditPart> execA0 = createExecutionWithResult(creationPoint.x, creationPoint.y);
 
         if (collapse) {
             // Switch outline to filters section

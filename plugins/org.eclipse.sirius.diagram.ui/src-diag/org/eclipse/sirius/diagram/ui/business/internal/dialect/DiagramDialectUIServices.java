@@ -102,7 +102,7 @@ import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
 import org.eclipse.sirius.diagram.ui.tools.api.part.DiagramEditPartService;
 import org.eclipse.sirius.diagram.ui.tools.api.preferences.SiriusDiagramUiPreferencesKeys;
 import org.eclipse.sirius.diagram.ui.tools.internal.decoration.SiriusDecoratorProvider;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.profiler.SiriusTasksKey;
 import org.eclipse.sirius.ui.business.api.dialect.DialectEditor;
 import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
@@ -742,13 +742,13 @@ public class DiagramDialectUIServices implements DialectUIServices {
             }
         }
         EPackage parentPackage = null;
-        Option<EObject> parentDiagramDescription = new EObjectQuery(eObject).getFirstAncestorOfType(org.eclipse.sirius.diagram.description.DescriptionPackage.eINSTANCE.getDiagramDescription());
-        if (parentDiagramDescription.some()) {
+        java.util.Optional<EObject> parentDiagramDescription = new EObjectQuery(eObject).getFirstAncestorOfType(org.eclipse.sirius.diagram.description.DescriptionPackage.eINSTANCE.getDiagramDescription());
+        if (parentDiagramDescription.isPresent()) {
             parentPackage = parentDiagramDescription.get().eClass().getEPackage();
         } else {
-            Option<EObject> parentDiagramExtensionDescription = new EObjectQuery(eObject)
+            java.util.Optional<EObject> parentDiagramExtensionDescription = new EObjectQuery(eObject)
                     .getFirstAncestorOfType(org.eclipse.sirius.diagram.description.DescriptionPackage.eINSTANCE.getDiagramExtensionDescription());
-            if (parentDiagramExtensionDescription.some()) {
+            if (parentDiagramExtensionDescription.isPresent()) {
                 parentPackage = parentDiagramExtensionDescription.get().eClass().getEPackage();
             }
         }

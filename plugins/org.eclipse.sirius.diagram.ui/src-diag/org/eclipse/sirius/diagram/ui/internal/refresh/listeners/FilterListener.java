@@ -20,8 +20,8 @@ import org.eclipse.sirius.business.api.session.ModelChangeTrigger;
 import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.ui.business.api.helper.graphicalfilters.CompositeFilterApplicationBuilder;
 import org.eclipse.sirius.diagram.ui.internal.refresh.SiriusDiagramSessionEventBroker;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * A ModelChangeTrigger listener to refresh filter applications on each
@@ -64,9 +64,9 @@ public class FilterListener implements ModelChangeTrigger {
     /**
      * {@inheritDoc}
      */
-    public Option<Command> localChangesAboutToCommit(Collection<Notification> notifications) {
+    public java.util.Optional<Command> localChangesAboutToCommit(Collection<Notification> notifications) {
         Command cmd = new FilteredElementsUpdateCommand(domain, dDiagram);
-        return Options.newSome(cmd);
+        return java.util.Optional.of(cmd);
     }
 
     /**

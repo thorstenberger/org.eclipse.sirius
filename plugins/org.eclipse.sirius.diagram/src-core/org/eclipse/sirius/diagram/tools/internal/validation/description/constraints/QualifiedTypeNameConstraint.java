@@ -43,7 +43,7 @@ public class QualifiedTypeNameConstraint extends AbstractConstraint {
                     final Object value = eObj.eGet(feat);
                     if (value instanceof String) {
                         final TypeName className = TypeName.fromString((String) value);
-                        if (!className.getPackagePrefix().some()) { // $NON-NLS-1$
+                        if (!className.getPackagePrefix().isPresent()) { // $NON-NLS-1$
                             return ctx.createFailureStatus(new Object[] { value, feat.getName() });
                         }
                     }

@@ -31,7 +31,7 @@ import org.eclipse.gmf.runtime.notation.NotationFactory;
 import org.eclipse.sirius.diagram.ui.internal.refresh.GMFHelper;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
 import org.eclipse.sirius.diagram.ui.tools.internal.util.GMFNotationUtilities;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * Controls the movement of source and target edge anchor. Use to move vertical
@@ -90,8 +90,8 @@ public class TreeLayoutSetConnectionAnchorsCommand extends SetConnectionAnchorsC
                 } else {
                     // We are in reconnection (compute the sourceRefPoint using
                     // GMF model data)
-                    Option<Rectangle> optionalSourceBounds = GMFHelper.getAbsoluteBounds(edge.getSource());
-                    if (optionalSourceBounds.some()) {
+                    java.util.Optional<Rectangle> optionalSourceBounds = GMFHelper.getAbsoluteBounds(edge.getSource());
+                    if (optionalSourceBounds.isPresent()) {
                         sourceBounds = optionalSourceBounds.get();
                     }
                 }
@@ -114,8 +114,8 @@ public class TreeLayoutSetConnectionAnchorsCommand extends SetConnectionAnchorsC
                 } else {
                     // We are in reconnection (compute the sourceRefPoint using
                     // GMF model data)
-                    Option<Rectangle> optionalTargetBounds = GMFHelper.getAbsoluteBounds(edge.getTarget());
-                    if (optionalTargetBounds.some()) {
+                    java.util.Optional<Rectangle> optionalTargetBounds = GMFHelper.getAbsoluteBounds(edge.getTarget());
+                    if (optionalTargetBounds.isPresent()) {
                         targetBounds = optionalTargetBounds.get();
                     }
                 }

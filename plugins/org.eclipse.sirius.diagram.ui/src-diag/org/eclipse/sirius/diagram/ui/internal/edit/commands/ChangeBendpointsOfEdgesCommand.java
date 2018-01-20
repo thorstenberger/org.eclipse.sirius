@@ -42,8 +42,8 @@ import org.eclipse.sirius.diagram.ui.graphical.edit.part.specific.BracketEdgeEdi
 import org.eclipse.sirius.diagram.ui.graphical.edit.policies.SetConnectionBendpointsAccordingToDraw2DCommand;
 import org.eclipse.sirius.diagram.ui.graphical.edit.policies.SetConnectionBendpointsAccordingToExtremityMoveCommmand;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.collect.Iterables;
 
@@ -185,8 +185,8 @@ public class ChangeBendpointsOfEdgesCommand extends AbstractTransactionalCommand
     protected void completeCommandWithBendpointsChangedCommand(List<?> connectionEditParts, Point moveDelta, boolean sourceMove, List<AbstractGraphicalEditPart> allMovedEditParts,
             final TransactionalEditingDomain transactionalEditingDomain) {
         for (ConnectionEditPart connectionEditPart : Iterables.filter(connectionEditParts, ConnectionEditPart.class)) {
-            Option<CompositeTransactionalCommand> optionalCommand = getBendpointsChangedCommand(transactionalEditingDomain, moveDelta, connectionEditPart, allMovedEditParts, sourceMove);
-            if (optionalCommand.some()) {
+            java.util.Optional<CompositeTransactionalCommand> optionalCommand = getBendpointsChangedCommand(transactionalEditingDomain, moveDelta, connectionEditPart, allMovedEditParts, sourceMove);
+            if (optionalCommand.isPresent()) {
                 if (wrappedCommand == null) {
                     wrappedCommand = optionalCommand.get();
                 } else {
@@ -242,9 +242,9 @@ public class ChangeBendpointsOfEdgesCommand extends AbstractTransactionalCommand
      * @return An optional command that computes the new bendpoints of the
      *         <code>connectionEditPart</code> if needed.
      */
-    protected Option<CompositeTransactionalCommand> getBendpointsChangedCommand(TransactionalEditingDomain transactionalEditingDomain, Point moveDelta, ConnectionEditPart connectionEditPart,
+    protected java.util.Optional<CompositeTransactionalCommand> getBendpointsChangedCommand(TransactionalEditingDomain transactionalEditingDomain, Point moveDelta, ConnectionEditPart connectionEditPart,
             List<AbstractGraphicalEditPart> allMovedEditParts, boolean sourceMove) {
-        Option<CompositeTransactionalCommand> result = Options.newNone();
+        java.util.Optional<CompositeTransactionalCommand> result = java.util.Optional.empty();
         // Source (or target) of connections can be null if it is hidden. In
         // this case, the bendpoints are not adapted. If the source (or target)
         // is revealed after, the edge has not the same result as if it is
@@ -275,7 +275,7 @@ public class ChangeBendpointsOfEdgesCommand extends AbstractTransactionalCommand
                     setConnectionBendpointsCommand.setLabelsToUpdate(connectionEditPart);
                 }
                 command.add(setConnectionBendpointsCommand);
-                result = Options.newSome(command);
+                result = java.util.Optional.of(command);
             } else if (connectionEditPartQuery.isEdgeWithObliqueRoutingStyle() || connectionEditPartQuery.isEdgeWithRectilinearRoutingStyle()) {
                 if (!allMovedEditParts.isEmpty()) {
                     if (isBothSourceAndTargetMoved(connectionEditPart, allMovedEditParts, sourceMove)) {
@@ -300,7 +300,7 @@ public class ChangeBendpointsOfEdgesCommand extends AbstractTransactionalCommand
                         setConnectionBendpointsCommand.setEdgeAdapter(connectionEditPart);
                         setConnectionBendpointsCommand.setLabelsToUpdate(connectionEditPart);
                         command.add(setConnectionBendpointsCommand);
-                        result = Options.newSome(command);
+                        result = java.util.Optional.of(command);
                     }
                 }
             } else if (connectionEditPart instanceof BracketEdgeEditPart) {
@@ -313,7 +313,7 @@ public class ChangeBendpointsOfEdgesCommand extends AbstractTransactionalCommand
                         setLabelsOffsetCommand.setNewPointList(futurePointList);
                         setLabelsOffsetCommand.setLabelsToUpdate(connectionEditPart);
                         command.add(setLabelsOffsetCommand);
-                        result = Options.newSome(command);
+                        result = java.util.Optional.of(command);
                     }
                 }
             }

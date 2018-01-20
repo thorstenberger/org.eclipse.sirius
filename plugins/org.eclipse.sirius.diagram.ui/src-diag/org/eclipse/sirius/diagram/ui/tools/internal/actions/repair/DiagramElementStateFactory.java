@@ -26,7 +26,7 @@ import org.eclipse.sirius.diagram.DNodeListElement;
 import org.eclipse.sirius.diagram.business.api.query.DDiagramElementQuery;
 import org.eclipse.sirius.diagram.description.DiagramElementMapping;
 import org.eclipse.sirius.diagram.ui.tools.api.migration.DiagramCrossReferencer;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.description.RepresentationElementMapping;
 
 /**
@@ -80,9 +80,9 @@ public class DiagramElementStateFactory {
         boolean result = false;
 
         final EObject target = diagramElement.getTarget();
-        final Option<? extends RepresentationElementMapping> mapping = new DDiagramElementQuery(diagramElement).getMapping();
+        final java.util.Optional<? extends RepresentationElementMapping> mapping = new DDiagramElementQuery(diagramElement).getMapping();
 
-        if (target != null && mapping != null && mapping.some()) {
+        if (target != null && mapping != null && mapping.isPresent()) {
             if (diagramElement instanceof DEdge) {
                 DEdge edge = (DEdge) diagramElement;
                 if (edge.getSourceNode() instanceof DDiagramElement) {

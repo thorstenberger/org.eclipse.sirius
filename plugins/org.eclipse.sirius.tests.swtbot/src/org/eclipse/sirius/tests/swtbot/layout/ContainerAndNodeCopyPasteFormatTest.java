@@ -27,8 +27,8 @@ import org.eclipse.sirius.diagram.ui.provider.Messages;
 import org.eclipse.sirius.diagram.ui.tools.api.figure.LozengeFigure;
 import org.eclipse.sirius.diagram.ui.tools.api.figure.ODesignEllipseFigure;
 import org.eclipse.sirius.diagram.ui.tools.api.figure.SVGWorkspaceImageFigure;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tests.swtbot.Activator;
 import org.eclipse.sirius.tests.swtbot.support.api.AbstractSiriusSwtBotGefTestCase;
 import org.eclipse.sirius.tests.swtbot.support.api.business.UIResource;
@@ -217,7 +217,7 @@ public class ContainerAndNodeCopyPasteFormatTest extends AbstractSiriusSwtBotGef
         // Check LogicalFunction2 container locations before the copy layout.
         checkContainerBounds(diagramEditor3, LC2_LABEL, LC2_CONTAINER_BOUNDS_DIAG3, LC2_CONTAINER_BOUNDS_DIAG3);
 
-        Option<Color> originalCopiedColor = getBackgroundColor(diagramEditor3, LC2_LABEL);
+        java.util.Optional<Color> originalCopiedColor = getBackgroundColor(diagramEditor3, LC2_LABEL);
 
         // Copy LC1 layout
         diagramEditor3.click(LC2_POINT);
@@ -240,19 +240,19 @@ public class ContainerAndNodeCopyPasteFormatTest extends AbstractSiriusSwtBotGef
 
         // Check that style has not changed (current color is not the copied
         // color)
-        Option<Color> currentColor = getBackgroundColor(diagramEditor4, LC1_LABEL);
-        if (originalCopiedColor.some() && currentColor.some()) {
+        java.util.Optional<Color> currentColor = getBackgroundColor(diagramEditor4, LC1_LABEL);
+        if (originalCopiedColor.isPresent() && currentColor.isPresent()) {
             assertFalse("The style must not be changed with a Copy Layout", originalCopiedColor.get().equals(currentColor.get()));
         }
     }
 
-    private Option<Color> getBackgroundColor(SWTBotSiriusDiagramEditor editorToCheck, String label) {
+    private java.util.Optional<Color> getBackgroundColor(SWTBotSiriusDiagramEditor editorToCheck, String label) {
         SWTBotGefEditPart editPart = editorToCheck.getEditPart(label, AbstractDiagramElementContainerEditPart.class);
         if (editPart != null) {
             AbstractDiagramElementContainerEditPart part = (AbstractDiagramElementContainerEditPart) editPart.part();
-            return Options.newSome(part.getFigure().getBackgroundColor());
+            return java.util.Optional.of(part.getFigure().getBackgroundColor());
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

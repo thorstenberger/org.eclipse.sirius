@@ -38,7 +38,7 @@ import org.eclipse.sirius.business.internal.session.SessionFactoryImpl;
 import org.eclipse.sirius.common.tools.api.util.ReflectionHelper;
 import org.eclipse.sirius.diagram.tools.api.command.IDiagramCommandFactory;
 import org.eclipse.sirius.ecore.extender.tool.api.ModelUtils;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import org.eclipse.sirius.tests.support.api.EclipseTestsSupportHelper;
 import org.eclipse.sirius.tests.support.api.SiriusTestCase;
@@ -162,8 +162,8 @@ public class SetVersionTest extends SiriusTestCase {
 
     private SessionFactoryImpl createSessionFactoryImpl() {
         SessionFactoryImpl sessionFactoryImpl = null;
-        Option<Constructor> osConstructor = ReflectionHelper.setConstructorVisibleWithoutException(SessionFactoryImpl.class, new Class[0]);
-        if (osConstructor.some()) {
+        java.util.Optional<Constructor> osConstructor = ReflectionHelper.setConstructorVisibleWithoutException(SessionFactoryImpl.class, new Class[0]);
+        if (osConstructor.isPresent()) {
             try {
                 sessionFactoryImpl = (SessionFactoryImpl) osConstructor.get().newInstance(new Object[0]);
             } catch (IllegalArgumentException e) {
@@ -281,11 +281,11 @@ public class SetVersionTest extends SiriusTestCase {
         }
 
         AirDResouceQuery query = new AirDResouceQuery((AirdResource) session.getSessionResource());
-        Option<DAnalysis> dAnalysis = query.getDAnalysis();
+        java.util.Optional<DAnalysis> dAnalysis = query.getDAnalysis();
 
         // Check that the version attribute has not been set by the migration,
         // it will be set during save.
-        assertTrue(dAnalysis.some());
+        assertTrue(dAnalysis.isPresent());
         String version = dAnalysis.get().getVersion();
         assertTrue("The migration should still be marked as needed for next load.", RepresentationsFileMigrationService.getInstance().isMigrationNeeded(Version.parseVersion(version)));
 

@@ -436,7 +436,7 @@ public class SessionWorkspaceSyncTests extends SiriusDiagramTestCase implements 
     public void testSessionResourceSetSyncInstallation() throws Exception {
         assertTrue("This test requires the session to be opened.", session.isOpen());
         TransactionalEditingDomain domain = session.getTransactionalEditingDomain();
-        assertTrue("The current session should have a ResourceSetSync installed on its editing domain.", ResourceSetSync.getResourceSetSync(domain).some());
+        assertTrue("The current session should have a ResourceSetSync installed on its editing domain.", ResourceSetSync.getResourceSetSync(domain).isPresent());
 
         IEditingSession uiSession = SessionUIManager.INSTANCE.getOrCreateUISession(session);
         assertNotNull("An editing session should exist.", uiSession);
@@ -446,7 +446,7 @@ public class SessionWorkspaceSyncTests extends SiriusDiagramTestCase implements 
 
         assertFalse("The session should closed.", session.isOpen());
         assertFalse("The editing session should be closed too", uiSession.isOpen());
-        assertFalse("The resource set sync should have been removed during session closing.", ResourceSetSync.getResourceSetSync(domain).some());
+        assertFalse("The resource set sync should have been removed during session closing.", ResourceSetSync.getResourceSetSync(domain).isPresent());
     }
 
 }

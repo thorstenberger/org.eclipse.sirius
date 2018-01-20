@@ -34,7 +34,7 @@ import org.eclipse.sirius.diagram.ui.edit.api.part.AbstractDiagramContainerEditP
 import org.eclipse.sirius.diagram.ui.edit.api.part.AbstractDiagramListEditPart;
 import org.eclipse.sirius.diagram.ui.edit.api.part.AbstractDiagramNodeEditPart;
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.DEdgeEditPart;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 import org.eclipse.sirius.tests.swtbot.support.api.AbstractSiriusSwtBotGefTestCase;
 import org.eclipse.sirius.tests.swtbot.support.api.business.UIDiagramRepresentation.ZoomLevel;
@@ -392,13 +392,13 @@ public class EdgeCreationPositionTest extends AbstractSiriusSwtBotGefTestCase {
         anchorsLine.addPoint(sourcePoint);
         anchorsLine.addPoint(targetPoint);
 
-        Option<Point> sourceIntersection = GraphicalHelper.getIntersection(sourcePoint, targetPoint, source, false);
+        java.util.Optional<Point> sourceIntersection = GraphicalHelper.getIntersection(sourcePoint, targetPoint, source, false);
         assertTrue("Intersection should exist between source and edge : " + GraphicalHelper.getAbsoluteBoundsIn100Percent(source) + " and " + sourcePoint + "-->" + targetPoint,
-                sourceIntersection.some());
+                sourceIntersection.isPresent());
 
-        Option<Point> targetIntersection = GraphicalHelper.getIntersection(sourcePoint, targetPoint, target, true);
+        java.util.Optional<Point> targetIntersection = GraphicalHelper.getIntersection(sourcePoint, targetPoint, target, true);
         assertTrue("Intersection should exist between target and edge : " + GraphicalHelper.getAbsoluteBoundsIn100Percent(target) + " and " + sourcePoint + "-->" + targetPoint,
-                targetIntersection.some());
+                targetIntersection.isPresent());
 
         // GMF bendpoints
         @SuppressWarnings("unchecked")

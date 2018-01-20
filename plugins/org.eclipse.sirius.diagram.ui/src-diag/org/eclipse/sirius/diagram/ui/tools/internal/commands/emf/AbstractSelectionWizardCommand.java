@@ -21,7 +21,7 @@ import org.eclipse.sirius.common.tools.api.util.StringUtil;
 import org.eclipse.sirius.common.tools.api.util.TreeItemWrapper;
 import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.business.api.query.EObjectQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.sirius.viewpoint.SiriusPlugin;
 import org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription;
@@ -86,8 +86,8 @@ public abstract class AbstractSelectionWizardCommand extends RecordingCommand {
         } else {
             try {
                 preconditionResult = false;
-                Option<DDiagram> diagram = new EObjectQuery(containerView).getParentDiagram();
-                if (diagram.some()) {
+                java.util.Optional<DDiagram> diagram = new EObjectQuery(containerView).getParentDiagram();
+                if (diagram.isPresent()) {
                     interpreter.setVariable(IInterpreterSiriusVariables.DIAGRAM, diagram.get());
                 } else {
                     interpreter.setVariable(IInterpreterSiriusVariables.DIAGRAM, null);

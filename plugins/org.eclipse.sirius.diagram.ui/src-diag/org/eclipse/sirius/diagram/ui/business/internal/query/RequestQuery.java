@@ -30,8 +30,8 @@ import org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants;
 import org.eclipse.sirius.diagram.description.DescriptionPackage;
 import org.eclipse.sirius.diagram.description.NodeMapping;
 import org.eclipse.sirius.diagram.description.tool.impl.NodeCreationDescriptionImpl;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 
 import com.google.common.base.Predicates;
@@ -282,12 +282,12 @@ public class RequestQuery {
         if (request instanceof ChangeBoundsRequest) {
             ChangeBoundsRequest cbr = (ChangeBoundsRequest) request;
 
-            Option<IGraphicalEditPart> part = getOnePart();
-            if (part.some()) {
+            java.util.Optional<IGraphicalEditPart> part = getOnePart();
+            if (part.isPresent()) {
                 GraphicalHelper.logical2screen(result, part.get());
             }
             result = cbr.getTransformedRectangle(result);
-            if (part.some()) {
+            if (part.isPresent()) {
                 GraphicalHelper.screen2logical(result, part.get());
             }
         }
@@ -301,12 +301,12 @@ public class RequestQuery {
      * @return The first EditParts of the List containing the EditParts making
      *         this Request.
      */
-    protected Option<IGraphicalEditPart> getOnePart() {
+    protected java.util.Optional<IGraphicalEditPart> getOnePart() {
         List<IGraphicalEditPart> editParts = getEditParts();
         if (editParts != null && !editParts.isEmpty()) {
-            return Options.newSome(editParts.get(0));
+            return java.util.Optional.of(editParts.get(0));
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

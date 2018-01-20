@@ -187,7 +187,7 @@ public class ShiftDescendantMessagesOperation extends ShiftMessagesOperation {
     }
     
     private boolean isNonSequenceEdgeAttachment(Edge conn) {
-        return conn != null && conn.getElement() instanceof DEdge && !ISequenceElementAccessor.getMessage(conn).some();
+        return conn != null && conn.getElement() instanceof DEdge && !ISequenceElementAccessor.getMessage(conn).isPresent();
     }
 
     private void shiftAnchor(Edge edge) {

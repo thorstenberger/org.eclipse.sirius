@@ -62,8 +62,8 @@ import org.eclipse.sirius.diagram.ui.provider.Messages;
 import org.eclipse.sirius.diagram.ui.tools.api.graphical.edit.styles.IContainerLabelOffsets;
 import org.eclipse.sirius.diagram.ui.tools.api.layout.LayoutUtils;
 import org.eclipse.sirius.diagram.ui.tools.internal.figure.LabelBorderStyleIds;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ui.business.api.dialect.DialectEditor;
 import org.eclipse.sirius.ui.business.api.session.IEditingSession;
 import org.eclipse.sirius.ui.business.api.session.SessionUIManager;
@@ -181,8 +181,8 @@ public final class GMFHelper {
     }
 
     private static boolean hasFullLabelBorder(DDiagramElementContainer ddec) {
-        Option<LabelBorderStyleDescription> labelBorderStyle = new DDiagramElementContainerExperimentalQuery(ddec).getLabelBorderStyle();
-        return labelBorderStyle.some() && LabelBorderStyleIds.LABEL_FULL_BORDER_STYLE_FOR_CONTAINER_ID.equals(labelBorderStyle.get().getId());
+        java.util.Optional<LabelBorderStyleDescription> labelBorderStyle = new DDiagramElementContainerExperimentalQuery(ddec).getLabelBorderStyle();
+        return labelBorderStyle.isPresent() && LabelBorderStyleIds.LABEL_FULL_BORDER_STYLE_FOR_CONTAINER_ID.equals(labelBorderStyle.get().getId());
     }
 
     private static int getLabelSize(Node parentNode) {
@@ -326,7 +326,7 @@ public final class GMFHelper {
      * 
      * @return the absolute bounds of the edge relative to the origin (Diagram)
      */
-    public static Option<Rectangle> getAbsoluteBounds(Edge edge) {
+    public static java.util.Optional<Rectangle> getAbsoluteBounds(Edge edge) {
         return getAbsoluteBounds(edge, false);
     }
 
@@ -343,14 +343,14 @@ public final class GMFHelper {
      * 
      * @return the absolute bounds of the edge relative to the origin (Diagram)
      */
-    public static Option<Rectangle> getAbsoluteBounds(Edge edge, boolean insetsAware) {
+    public static java.util.Optional<Rectangle> getAbsoluteBounds(Edge edge, boolean insetsAware) {
         // Workaround for canonical refresh about edge on edge
-        Option<Rectangle> optionalSourceBounds = getAbsoluteBounds(edge.getSource(), insetsAware);
-        Option<Rectangle> optionalTargetBounds = getAbsoluteBounds(edge.getTarget(), insetsAware);
-        if (optionalSourceBounds.some() && optionalTargetBounds.some()) {
-            return Options.newSome(optionalSourceBounds.get().union(optionalTargetBounds.get()));
+        java.util.Optional<Rectangle> optionalSourceBounds = getAbsoluteBounds(edge.getSource(), insetsAware);
+        java.util.Optional<Rectangle> optionalTargetBounds = getAbsoluteBounds(edge.getTarget(), insetsAware);
+        if (optionalSourceBounds.isPresent() && optionalTargetBounds.isPresent()) {
+            return java.util.Optional.of(optionalSourceBounds.get().union(optionalTargetBounds.get()));
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -362,7 +362,7 @@ public final class GMFHelper {
      * @return an optional absolute bounds of the node or edge relative to the
      *         origin (Diagram)
      */
-    public static Option<Rectangle> getAbsoluteBounds(View view) {
+    public static java.util.Optional<Rectangle> getAbsoluteBounds(View view) {
         return getAbsoluteBounds(view, false);
     }
 
@@ -380,10 +380,10 @@ public final class GMFHelper {
      * @return an optional absolute bounds of the node or edge relative to the
      *         origin (Diagram)
      */
-    public static Option<Rectangle> getAbsoluteBounds(View view, boolean insetsAware) {
-        Option<Rectangle> result = Options.newNone();
+    public static java.util.Optional<Rectangle> getAbsoluteBounds(View view, boolean insetsAware) {
+        java.util.Optional<Rectangle> result = java.util.Optional.empty();
         if (view instanceof Node) {
-            result = Options.newSome(getAbsoluteBounds((Node) view, insetsAware));
+            result = java.util.Optional.of(getAbsoluteBounds((Node) view, insetsAware));
         } else if (view instanceof Edge) {
             result = getAbsoluteBounds((Edge) view, insetsAware);
         }
@@ -494,9 +494,9 @@ public final class GMFHelper {
             if (useFigureForAutoSizeConstraint) {
                 // Use the figure (if founded) to set width and height
                 // instead of (-1, -1)
-                Option<GraphicalEditPart> optionalTargetEditPart = getGraphicalEditPart(node);
+                java.util.Optional<GraphicalEditPart> optionalTargetEditPart = getGraphicalEditPart(node);
                 // CHECKSTYLE:OFF
-                if (optionalTargetEditPart.some()) {
+                if (optionalTargetEditPart.isPresent()) {
                     GraphicalEditPart graphicalEditPart = optionalTargetEditPart.get();
                     if (graphicalEditPart instanceof AbstractDiagramElementContainerEditPart) {
                         ((AbstractDiagramElementContainerEditPart) graphicalEditPart).forceFigureAutosize();
@@ -638,7 +638,7 @@ public final class GMFHelper {
      *            The view element that is searched
      * @return The optional corresponding edit part.
      */
-    public static Option<GraphicalEditPart> getGraphicalEditPart(View view) {
+    public static java.util.Optional<GraphicalEditPart> getGraphicalEditPart(View view) {
         if (view != null) {
             Diagram gmfDiagram = view.getDiagram();
             // Try the active editor first (most likely case in practice)
@@ -655,7 +655,7 @@ public final class GMFHelper {
                 }
             }
         }
-        return Options.<GraphicalEditPart> newNone();
+        return java.util.Optional.empty();
     }
 
     private static boolean isEditorFor(IEditorPart editor, Diagram diagram) {
@@ -673,12 +673,12 @@ public final class GMFHelper {
      *            the editor where looking for the edit part.
      * @return The optional corresponding edit part.
      */
-    public static Option<GraphicalEditPart> getGraphicalEditPart(View view, DiagramEditor editor) {
-        Option<GraphicalEditPart> result = Options.newNone();
+    public static java.util.Optional<GraphicalEditPart> getGraphicalEditPart(View view, DiagramEditor editor) {
+        java.util.Optional<GraphicalEditPart> result = java.util.Optional.empty();
         final Map<?, ?> editPartRegistry = editor.getDiagramGraphicalViewer().getEditPartRegistry();
         final EditPart targetEditPart = (EditPart) editPartRegistry.get(view);
         if (targetEditPart instanceof GraphicalEditPart) {
-            result = Options.newSome((GraphicalEditPart) targetEditPart);
+            result = java.util.Optional.of((GraphicalEditPart) targetEditPart);
         }
         return result;
     }

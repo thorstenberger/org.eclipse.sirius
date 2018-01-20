@@ -88,8 +88,8 @@ import org.eclipse.sirius.diagram.description.style.StylePackage;
 import org.eclipse.sirius.diagram.description.style.WorkspaceImageDescription;
 import org.eclipse.sirius.diagram.tools.api.preferences.SiriusDiagramCorePreferences;
 import org.eclipse.sirius.diagram.util.DiagramSwitch;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.BasicLabelStyle;
 import org.eclipse.sirius.viewpoint.Customizable;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
@@ -143,7 +143,7 @@ public final class StyleHelper {
      *            the style to refresh.
      */
     public void refreshStyle(final Style style) {
-        refreshStyle(style, Options.newSome(style));
+        refreshStyle(style, java.util.Optional.of(style));
     }
 
     /**
@@ -154,7 +154,7 @@ public final class StyleHelper {
      * @param previousStyle
      *            the previous style (if existing) to keep compatible customization.
      */
-    public void refreshStyle(final Style style, final Option<? extends Style> previousStyle) {
+    public void refreshStyle(final Style style, final java.util.Optional<? extends Style> previousStyle) {
         if (style != null && !isWorkspaceImageStyleWithNotWorkspaceImageDescription(style)) {
             // No need to update the style's description as we take its
             // description.
@@ -166,13 +166,13 @@ public final class StyleHelper {
             // only necessary for WorkspaceImageDescription who was be
             // Container Style or Node Style.
             if (description instanceof ContainerStyleDescription && style instanceof ContainerStyle) {
-                updateContainerStyle((ContainerStyleDescription) description, (ContainerStyle) style, (Option<Style>) previousStyle);
+                updateContainerStyle((ContainerStyleDescription) description, (ContainerStyle) style, (java.util.Optional<Style>) previousStyle);
             }
             if (description instanceof NodeStyleDescription && style instanceof NodeStyle) {
-                updateNodeStyle((NodeStyleDescription) description, (NodeStyle) style, (Option<Style>) previousStyle);
+                updateNodeStyle((NodeStyleDescription) description, (NodeStyle) style, (java.util.Optional<Style>) previousStyle);
             }
             if (description instanceof EdgeStyleDescription) {
-                updateEdgeStyle((EdgeStyleDescription) description, (EdgeStyle) style, (Option<EdgeStyle>) previousStyle);
+                updateEdgeStyle((EdgeStyleDescription) description, (EdgeStyle) style, (java.util.Optional<EdgeStyle>) previousStyle);
             }
             refreshColors(description, style, previousStyle);
         }
@@ -231,18 +231,18 @@ public final class StyleHelper {
         if (description.getCenterLabelStyleDescription() != null) {
             style.setCenterLabelStyle(DiagramFactory.eINSTANCE.createCenterLabelStyle());
         }
-        Option<EdgeStyle> noPreviousStyle = Options.newNone();
+        java.util.Optional<EdgeStyle> noPreviousStyle = java.util.Optional.empty();
         updateEdgeStyle(description, style, noPreviousStyle);
         refreshColors(description, style, noPreviousStyle);
         return style;
     }
 
-    private void updateEdgeStyle(final EdgeStyleDescription edgeDescription, final EdgeStyle edgeStyle, Option<EdgeStyle> previousStyle) {
+    private void updateEdgeStyle(final EdgeStyleDescription edgeDescription, final EdgeStyle edgeStyle, java.util.Optional<EdgeStyle> previousStyle) {
         if (edgeStyle.getDescription() != edgeDescription) {
             edgeStyle.setDescription(edgeDescription);
         }
         if (edgeDescription != null) {
-            if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.EDGE_STYLE__SOURCE_ARROW.getName())) {
+            if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.EDGE_STYLE__SOURCE_ARROW.getName())) {
                 edgeStyle.setSourceArrow(previousStyle.get().getSourceArrow());
                 edgeStyle.getCustomFeatures().add(DiagramPackage.Literals.EDGE_STYLE__SOURCE_ARROW.getName());
             } else {
@@ -251,7 +251,7 @@ public final class StyleHelper {
                     edgeStyle.setSourceArrow(edgeDescription.getSourceArrow());
                 }
             }
-            if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.EDGE_STYLE__TARGET_ARROW.getName())) {
+            if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.EDGE_STYLE__TARGET_ARROW.getName())) {
                 edgeStyle.setTargetArrow(previousStyle.get().getTargetArrow());
                 edgeStyle.getCustomFeatures().add(DiagramPackage.Literals.EDGE_STYLE__TARGET_ARROW.getName());
             } else {
@@ -261,7 +261,7 @@ public final class StyleHelper {
                 }
             }
 
-            if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.EDGE_STYLE__LINE_STYLE.getName())) {
+            if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.EDGE_STYLE__LINE_STYLE.getName())) {
                 edgeStyle.setLineStyle(previousStyle.get().getLineStyle());
                 edgeStyle.getCustomFeatures().add(DiagramPackage.Literals.EDGE_STYLE__LINE_STYLE.getName());
             } else {
@@ -270,7 +270,7 @@ public final class StyleHelper {
                     edgeStyle.setLineStyle(edgeDescription.getLineStyle());
                 }
             }
-            if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.EDGE_STYLE__FOLDING_STYLE.getName())) {
+            if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.EDGE_STYLE__FOLDING_STYLE.getName())) {
                 edgeStyle.setFoldingStyle(previousStyle.get().getFoldingStyle());
                 edgeStyle.getCustomFeatures().add(DiagramPackage.Literals.EDGE_STYLE__FOLDING_STYLE.getName());
             } else {
@@ -279,7 +279,7 @@ public final class StyleHelper {
                     edgeStyle.setFoldingStyle(edgeDescription.getFoldingStyle());
                 }
             }
-            if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.EDGE_STYLE__SIZE.getName())) {
+            if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.EDGE_STYLE__SIZE.getName())) {
                 edgeStyle.setSize(previousStyle.get().getSize());
                 edgeStyle.getCustomFeatures().add(DiagramPackage.Literals.EDGE_STYLE__SIZE.getName());
             } else {
@@ -300,22 +300,22 @@ public final class StyleHelper {
             // the edge routing override is enable, it is more priority than the
             // VSM style but less that the manual customization.
             final IPreferencesService service = Platform.getPreferencesService();
-            Option<EdgeRouting> overrideEdgeRouting = Options.newNone();
+            java.util.Optional<EdgeRouting> overrideEdgeRouting = java.util.Optional.empty();
             boolean isOverideEnabled = service.getBoolean(DiagramPlugin.ID, SiriusDiagramCorePreferences.PREF_ENABLE_OVERRIDE, SiriusDiagramCorePreferences.PREF_ENABLE_OVERRIDE_DEFAULT_VALUE, null);
             if (isOverideEnabled) {
                 int routingStyle = service.getInt(DiagramPlugin.ID, SiriusDiagramCorePreferences.PREF_LINE_STYLE, SiriusDiagramCorePreferences.PREF_LINE_STYLE_DEFAULT_VALUE, null);
-                overrideEdgeRouting = Options.newSome(EdgeRouting.get(routingStyle));
+                overrideEdgeRouting = java.util.Optional.of(EdgeRouting.get(routingStyle));
             }
             // If a previous style exists, we are not on a creation of an edge
             // so the potential override is ignored.
-            if (previousStyle.some()) {
+            if (previousStyle.isPresent()) {
                 // If the previous style has been manually customized we use the
                 // same customization.
                 if (previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.EDGE_STYLE__ROUTING_STYLE.getName())) {
                     edgeStyle.setRoutingStyle(previousStyle.get().getRoutingStyle());
                     edgeStyle.getCustomFeatures().add(DiagramPackage.Literals.EDGE_STYLE__ROUTING_STYLE.getName());
                 }
-            } else if (overrideEdgeRouting.some()) {
+            } else if (overrideEdgeRouting.isPresent()) {
                 // Add the feature routingStyle as customization
                 edgeStyle.getCustomFeatures().add(DiagramPackage.Literals.EDGE_STYLE__ROUTING_STYLE.getName());
                 // Set the new value if different.
@@ -335,8 +335,8 @@ public final class StyleHelper {
         }
     }
 
-    private void updateLabels(EdgeStyleDescription edgeDescription, EdgeStyle edgeStyle, Option<EdgeStyle> previousStyle) {
-        if (previousStyle.some()) {
+    private void updateLabels(EdgeStyleDescription edgeDescription, EdgeStyle edgeStyle, java.util.Optional<EdgeStyle> previousStyle) {
+        if (previousStyle.isPresent()) {
             if (previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.EDGE_STYLE__CENTER_LABEL_STYLE.getName())) {
                 edgeStyle.getCustomFeatures().add(DiagramPackage.Literals.EDGE_STYLE__CENTER_LABEL_STYLE.getName());
                 edgeStyle.setCenterLabelStyle(previousStyle.get().getCenterLabelStyle());
@@ -351,7 +351,7 @@ public final class StyleHelper {
         }
         updateEdgeLabel(centerLabelStyleDesc, centerLabelStyle);
 
-        if (previousStyle.some()) {
+        if (previousStyle.isPresent()) {
             if (previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.EDGE_STYLE__BEGIN_LABEL_STYLE.getName())) {
                 edgeStyle.getCustomFeatures().add(DiagramPackage.Literals.EDGE_STYLE__BEGIN_LABEL_STYLE.getName());
                 edgeStyle.setBeginLabelStyle(previousStyle.get().getBeginLabelStyle());
@@ -366,7 +366,7 @@ public final class StyleHelper {
         }
         updateEdgeLabel(beginLabelStyleDec, beginLabelStyle);
 
-        if (previousStyle.some()) {
+        if (previousStyle.isPresent()) {
             if (previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.EDGE_STYLE__END_LABEL_STYLE.getName())) {
                 edgeStyle.getCustomFeatures().add(DiagramPackage.Literals.EDGE_STYLE__END_LABEL_STYLE.getName());
                 edgeStyle.setBeginLabelStyle(previousStyle.get().getBeginLabelStyle());
@@ -383,9 +383,9 @@ public final class StyleHelper {
         updateEdgeLabel(endLabelStyleDesc, endLabelStyle);
     }
 
-    private void updateEdgeCenteringInformations(EdgeStyleDescription edgeDescription, EdgeStyle edgeStyle, Option<EdgeStyle> previousStyle) {
+    private void updateEdgeCenteringInformations(EdgeStyleDescription edgeDescription, EdgeStyle edgeStyle, java.util.Optional<EdgeStyle> previousStyle) {
 
-        if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.EDGE_STYLE__CENTERED.getName())) {
+        if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.EDGE_STYLE__CENTERED.getName())) {
             edgeStyle.setCentered(previousStyle.get().getCentered());
             edgeStyle.getCustomFeatures().add(DiagramPackage.Literals.EDGE_STYLE__CENTERED.getName());
         } else {
@@ -484,15 +484,15 @@ public final class StyleHelper {
 
     private void updateEdgeLabel(BasicLabelStyleDescription description, BasicLabelStyle style) {
         if (description != null && style != null) {
-            Option<NodeStyle> noPreviousStyle = Options.newNone();
+            java.util.Optional<NodeStyle> noPreviousStyle = java.util.Optional.empty();
             updateBasicLabelStyleFeatures(description, style, noPreviousStyle);
         }
     }
 
-    private void updateLabelStyleFeatures(final LabelStyleDescription description, final LabelStyle style, Option<? extends LabelStyle> previousStyle) {
+    private void updateLabelStyleFeatures(final LabelStyleDescription description, final LabelStyle style, java.util.Optional<? extends LabelStyle> previousStyle) {
         final LabelAlignment alignment = description.getLabelAlignment();
 
-        if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(ViewpointPackage.Literals.LABEL_STYLE__LABEL_ALIGNMENT.getName())) {
+        if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(ViewpointPackage.Literals.LABEL_STYLE__LABEL_ALIGNMENT.getName())) {
             style.setLabelAlignment(previousStyle.get().getLabelAlignment());
             style.getCustomFeatures().add(ViewpointPackage.Literals.LABEL_STYLE__LABEL_ALIGNMENT.getName());
         } else {
@@ -503,11 +503,11 @@ public final class StyleHelper {
         updateBasicLabelStyleFeatures(description, style, previousStyle);
     }
 
-    private void updateBasicLabelStyleFeatures(final BasicLabelStyleDescription description, final BasicLabelStyle style, Option<? extends BasicLabelStyle> previousStyle) {
+    private void updateBasicLabelStyleFeatures(final BasicLabelStyleDescription description, final BasicLabelStyle style, java.util.Optional<? extends BasicLabelStyle> previousStyle) {
         final List<FontFormat> format = description.getLabelFormat();
         final int size = description.getLabelSize();
 
-        if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(ViewpointPackage.Literals.BASIC_LABEL_STYLE__SHOW_ICON.getName())) {
+        if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(ViewpointPackage.Literals.BASIC_LABEL_STYLE__SHOW_ICON.getName())) {
             style.setShowIcon(previousStyle.get().isShowIcon());
             style.getCustomFeatures().add(ViewpointPackage.Literals.BASIC_LABEL_STYLE__SHOW_ICON.getName());
         } else {
@@ -516,7 +516,7 @@ public final class StyleHelper {
             }
         }
 
-        if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(ViewpointPackage.Literals.BASIC_LABEL_STYLE__ICON_PATH.getName())) {
+        if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(ViewpointPackage.Literals.BASIC_LABEL_STYLE__ICON_PATH.getName())) {
             style.setIconPath(previousStyle.get().getIconPath());
             style.getCustomFeatures().add(ViewpointPackage.Literals.BASIC_LABEL_STYLE__ICON_PATH.getName());
         } else {
@@ -526,7 +526,7 @@ public final class StyleHelper {
             }
         }
 
-        if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(ViewpointPackage.Literals.BASIC_LABEL_STYLE__LABEL_FORMAT.getName())) {
+        if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(ViewpointPackage.Literals.BASIC_LABEL_STYLE__LABEL_FORMAT.getName())) {
             FontFormatHelper.setFontFormat(style.getLabelFormat(), previousStyle.get().getLabelFormat());
             style.getCustomFeatures().add(ViewpointPackage.Literals.BASIC_LABEL_STYLE__LABEL_FORMAT.getName());
         } else {
@@ -535,7 +535,7 @@ public final class StyleHelper {
             }
         }
 
-        if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(ViewpointPackage.Literals.BASIC_LABEL_STYLE__LABEL_SIZE.getName())) {
+        if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(ViewpointPackage.Literals.BASIC_LABEL_STYLE__LABEL_SIZE.getName())) {
             style.setLabelSize(Math.max(previousStyle.get().getLabelSize(), 1));
             style.getCustomFeatures().add(ViewpointPackage.Literals.BASIC_LABEL_STYLE__LABEL_SIZE.getName());
         } else {
@@ -564,7 +564,7 @@ public final class StyleHelper {
         }
         if (style != null) {
             style.setHideLabelByDefault(description.isHideLabelByDefault());
-            Option<Style> noPreviousStyle = Options.newNone();
+            java.util.Optional<Style> noPreviousStyle = java.util.Optional.empty();
             refreshColors(description, style, noPreviousStyle);
         }
 
@@ -579,19 +579,19 @@ public final class StyleHelper {
      *            and a NodeStyle (example we passed from a NodeStyle to a WorkspaceImageDescription). If the style is
      *            not a WorkspaceImageDescription, the previousStyle is inevitably a ContainerStyle.
      */
-    private void updateContainerStyle(final ContainerStyleDescription description, final ContainerStyle style, Option<? extends Style> previousStyle) {
+    private void updateContainerStyle(final ContainerStyleDescription description, final ContainerStyle style, java.util.Optional<? extends Style> previousStyle) {
         if (description instanceof FlatContainerStyleDescription && style instanceof FlatContainerStyle) {
-            updateFlatContainerStyle((FlatContainerStyle) style, (FlatContainerStyleDescription) description, (Option<ContainerStyle>) previousStyle);
+            updateFlatContainerStyle((FlatContainerStyle) style, (FlatContainerStyleDescription) description, (java.util.Optional<ContainerStyle>) previousStyle);
         } else if (description instanceof ShapeContainerStyleDescription && style instanceof ShapeContainerStyle) {
-            updateShapeContainerStyle((ShapeContainerStyle) style, (ShapeContainerStyleDescription) description, (Option<ContainerStyle>) previousStyle);
+            updateShapeContainerStyle((ShapeContainerStyle) style, (ShapeContainerStyleDescription) description, (java.util.Optional<ContainerStyle>) previousStyle);
         } else if (description instanceof WorkspaceImageDescription && style instanceof WorkspaceImage) {
             updateWorkspaceImage((WorkspaceImage) style, (WorkspaceImageDescription) description, previousStyle);
         }
 
         if (previousStyle.get() instanceof BorderedStyle) {
-            updateBorderedStyleFeatures(description, style, (Option<BorderedStyle>) previousStyle);
+            updateBorderedStyleFeatures(description, style, (java.util.Optional<BorderedStyle>) previousStyle);
         } else {
-            Option<BorderedStyle> noPreviousBorderedStyle = Options.newNone();
+            java.util.Optional<BorderedStyle> noPreviousBorderedStyle = java.util.Optional.empty();
             updateBorderedStyleFeatures(description, style, noPreviousBorderedStyle);
         }
 
@@ -608,8 +608,8 @@ public final class StyleHelper {
      * @param previousStyle
      *            the previous style
      */
-    private void updateHideLabelCapabilityFeature(final HideLabelCapabilityStyleDescription description, final HideLabelCapabilityStyle style, Option<? extends Style> previousStyle) {
-        if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.HIDE_LABEL_CAPABILITY_STYLE__HIDE_LABEL_BY_DEFAULT.getName())) {
+    private void updateHideLabelCapabilityFeature(final HideLabelCapabilityStyleDescription description, final HideLabelCapabilityStyle style, java.util.Optional<? extends Style> previousStyle) {
+        if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.HIDE_LABEL_CAPABILITY_STYLE__HIDE_LABEL_BY_DEFAULT.getName())) {
             if (previousStyle.get() instanceof HideLabelCapabilityStyle) {
                 style.setHideLabelByDefault(((HideLabelCapabilityStyle) previousStyle.get()).isHideLabelByDefault());
             }
@@ -657,7 +657,7 @@ public final class StyleHelper {
         if (style != null) {
             style.setLabelPosition(description.getLabelPosition());
             style.setHideLabelByDefault(description.isHideLabelByDefault());
-            Option<Style> noPreviousStyle = Options.newNone();
+            java.util.Optional<Style> noPreviousStyle = java.util.Optional.empty();
             refreshColors(description, style, noPreviousStyle);
         }
         return style;
@@ -672,42 +672,42 @@ public final class StyleHelper {
      *            WorkspaceImageDescription). If the style is not a WorkspaceImageDescription, the previousStyle is
      *            inevitably a NodeStyle.
      */
-    private void updateNodeStyle(final NodeStyleDescription description, final NodeStyle style, Option<? extends Style> previousStyle) {
+    private void updateNodeStyle(final NodeStyleDescription description, final NodeStyle style, java.util.Optional<? extends Style> previousStyle) {
         boolean brokenStyle = false;
 
         if (description instanceof CustomStyleDescription) {
             if (style instanceof CustomStyle) {
-                updateCustomStyle((CustomStyle) style, (CustomStyleDescription) description, (Option<NodeStyle>) previousStyle);
+                updateCustomStyle((CustomStyle) style, (CustomStyleDescription) description, (java.util.Optional<NodeStyle>) previousStyle);
             } else {
                 brokenStyle = true;
             }
         } else if (description instanceof SquareDescription) {
             if (style instanceof Square) {
-                updateSquare((Square) style, (SquareDescription) description, (Option<NodeStyle>) previousStyle);
+                updateSquare((Square) style, (SquareDescription) description, (java.util.Optional<NodeStyle>) previousStyle);
             } else {
                 brokenStyle = true;
             }
         } else if (description instanceof DotDescription) {
             if (style instanceof Dot) {
-                updateDot((Dot) style, (DotDescription) description, (Option<NodeStyle>) previousStyle);
+                updateDot((Dot) style, (DotDescription) description, (java.util.Optional<NodeStyle>) previousStyle);
             } else {
                 brokenStyle = true;
             }
         } else if (description instanceof GaugeCompositeStyleDescription) {
             if (style instanceof GaugeCompositeStyle) {
-                updateGaugeCompositeStyle((GaugeCompositeStyle) style, (GaugeCompositeStyleDescription) description, (Option<NodeStyle>) previousStyle);
+                updateGaugeCompositeStyle((GaugeCompositeStyle) style, (GaugeCompositeStyleDescription) description, (java.util.Optional<NodeStyle>) previousStyle);
             } else {
                 brokenStyle = true;
             }
         } else if (description instanceof NoteDescription) {
             if (style instanceof Note) {
-                updateNote((Note) style, (NoteDescription) description, (Option<NodeStyle>) previousStyle);
+                updateNote((Note) style, (NoteDescription) description, (java.util.Optional<NodeStyle>) previousStyle);
             } else {
                 brokenStyle = true;
             }
         } else if (description instanceof BundledImageDescription) {
             if (style instanceof BundledImage) {
-                updateBundledImage((BundledImage) style, (BundledImageDescription) description, (Option<NodeStyle>) previousStyle);
+                updateBundledImage((BundledImage) style, (BundledImageDescription) description, (java.util.Optional<NodeStyle>) previousStyle);
             } else {
                 brokenStyle = true;
             }
@@ -719,13 +719,13 @@ public final class StyleHelper {
             }
         } else if (description instanceof EllipseNodeDescription) {
             if (style instanceof Ellipse) {
-                updateEllipse((Ellipse) style, (EllipseNodeDescription) description, (Option<NodeStyle>) previousStyle);
+                updateEllipse((Ellipse) style, (EllipseNodeDescription) description, (java.util.Optional<NodeStyle>) previousStyle);
             } else {
                 brokenStyle = true;
             }
         } else if (description instanceof LozengeNodeDescription) {
             if (style instanceof Lozenge) {
-                updateLozenge((Lozenge) style, (LozengeNodeDescription) description, (Option<NodeStyle>) previousStyle);
+                updateLozenge((Lozenge) style, (LozengeNodeDescription) description, (java.util.Optional<NodeStyle>) previousStyle);
             } else {
                 brokenStyle = true;
             }
@@ -737,13 +737,13 @@ public final class StyleHelper {
         }
 
         if (previousStyle.get() instanceof BorderedStyle) {
-            updateBorderedStyleFeatures(description, style, (Option<BorderedStyle>) previousStyle);
+            updateBorderedStyleFeatures(description, style, (java.util.Optional<BorderedStyle>) previousStyle);
         } else {
-            Option<BorderedStyle> noPreviousBorderedStyle = Options.newNone();
+            java.util.Optional<BorderedStyle> noPreviousBorderedStyle = java.util.Optional.empty();
             updateBorderedStyleFeatures(description, style, noPreviousBorderedStyle);
         }
 
-        if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.NODE_STYLE__LABEL_POSITION.getName())) {
+        if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.NODE_STYLE__LABEL_POSITION.getName())) {
             if (previousStyle.get() instanceof NodeStyle) {
                 style.setLabelPosition(((NodeStyle) previousStyle.get()).getLabelPosition());
             }
@@ -762,8 +762,8 @@ public final class StyleHelper {
      * @param style
      * @param previousStyle
      */
-    private void updateBorderedStyleFeatures(BorderedStyleDescription description, BorderedStyle style, Option<BorderedStyle> previousStyle) {
-        if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.BORDERED_STYLE__BORDER_SIZE.getName())) {
+    private void updateBorderedStyleFeatures(BorderedStyleDescription description, BorderedStyle style, java.util.Optional<BorderedStyle> previousStyle) {
+        if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.BORDERED_STYLE__BORDER_SIZE.getName())) {
             style.setBorderSize(previousStyle.get().getBorderSize());
             style.getCustomFeatures().add(DiagramPackage.Literals.BORDERED_STYLE__BORDER_SIZE.getName());
         } else {
@@ -780,7 +780,7 @@ public final class StyleHelper {
             }
         }
 
-        if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.BORDERED_STYLE__BORDER_SIZE_COMPUTATION_EXPRESSION.getName())) {
+        if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.BORDERED_STYLE__BORDER_SIZE_COMPUTATION_EXPRESSION.getName())) {
             style.setBorderSizeComputationExpression(previousStyle.get().getBorderSizeComputationExpression());
             style.getCustomFeatures().add(DiagramPackage.Literals.BORDERED_STYLE__BORDER_SIZE_COMPUTATION_EXPRESSION.getName());
         } else {
@@ -790,7 +790,7 @@ public final class StyleHelper {
             }
         }
 
-        if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.BORDERED_STYLE__BORDER_LINE_STYLE.getName())) {
+        if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.BORDERED_STYLE__BORDER_LINE_STYLE.getName())) {
             style.setBorderLineStyle(previousStyle.get().getBorderLineStyle());
             style.getCustomFeatures().add(DiagramPackage.Literals.BORDERED_STYLE__BORDER_LINE_STYLE.getName());
         } else {
@@ -822,13 +822,13 @@ public final class StyleHelper {
     private FlatContainerStyle createFlatContainerStyle(final FlatContainerStyleDescription description) {
         final FlatContainerStyle style = DiagramFactory.eINSTANCE.createFlatContainerStyle();
         style.setDescription(description);
-        Option<ContainerStyle> noPreviousStyle = Options.newNone();
+        java.util.Optional<ContainerStyle> noPreviousStyle = java.util.Optional.empty();
         updateFlatContainerStyle(style, description, noPreviousStyle);
         return style;
     }
 
-    private void updateFlatContainerStyle(final FlatContainerStyle style, final FlatContainerStyleDescription description, Option<ContainerStyle> previousStyle) {
-        if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.FLAT_CONTAINER_STYLE__BACKGROUND_STYLE.getName())
+    private void updateFlatContainerStyle(final FlatContainerStyle style, final FlatContainerStyleDescription description, java.util.Optional<ContainerStyle> previousStyle) {
+        if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.FLAT_CONTAINER_STYLE__BACKGROUND_STYLE.getName())
                 && previousStyle.get() instanceof FlatContainerStyle) {
             style.setBackgroundStyle(((FlatContainerStyle) previousStyle.get()).getBackgroundStyle());
             style.getCustomFeatures().add(DiagramPackage.Literals.FLAT_CONTAINER_STYLE__BACKGROUND_STYLE.getName());
@@ -848,15 +848,15 @@ public final class StyleHelper {
     private ShapeContainerStyle createShapeContainerStyle(final ShapeContainerStyleDescription description) {
         final ShapeContainerStyle style = DiagramFactory.eINSTANCE.createShapeContainerStyle();
         style.setDescription(description);
-        Option<ContainerStyle> noPreviousStyle = Options.newNone();
+        java.util.Optional<ContainerStyle> noPreviousStyle = java.util.Optional.empty();
         updateShapeContainerStyle(style, description, noPreviousStyle);
         return style;
     }
 
-    private void updateShapeContainerStyle(final ShapeContainerStyle style, final ShapeContainerStyleDescription description, Option<ContainerStyle> previousStyle) {
+    private void updateShapeContainerStyle(final ShapeContainerStyle style, final ShapeContainerStyleDescription description, java.util.Optional<ContainerStyle> previousStyle) {
         updateLabelStyleFeatures(description, style, previousStyle);
 
-        if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.SHAPE_CONTAINER_STYLE__SHAPE.getName())
+        if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.SHAPE_CONTAINER_STYLE__SHAPE.getName())
                 && previousStyle.get() instanceof ShapeContainerStyle) {
             style.setShape(((ShapeContainerStyle) previousStyle.get()).getShape());
             style.getCustomFeatures().add(DiagramPackage.Literals.SHAPE_CONTAINER_STYLE__SHAPE.getName());
@@ -941,17 +941,17 @@ public final class StyleHelper {
     private WorkspaceImage createWorkspaceImage(final WorkspaceImageDescription description) {
         final WorkspaceImage image = DiagramFactory.eINSTANCE.createWorkspaceImage();
         image.setDescription(description);
-        Option<ContainerStyle> noPreviousStyle = Options.newNone();
+        java.util.Optional<ContainerStyle> noPreviousStyle = java.util.Optional.empty();
         updateWorkspaceImage(image, description, noPreviousStyle);
         return image;
     }
 
-    private void updateWorkspaceImage(final WorkspaceImage image, final WorkspaceImageDescription description, Option<? extends Style> previousStyle) {
-        if (!previousStyle.some() || (previousStyle.some() && previousStyle.get() instanceof LabelStyle)) {
-            updateLabelStyleFeatures(description, image, (Option<LabelStyle>) previousStyle);
+    private void updateWorkspaceImage(final WorkspaceImage image, final WorkspaceImageDescription description, java.util.Optional<? extends Style> previousStyle) {
+        if (!previousStyle.isPresent() || (previousStyle.isPresent() && previousStyle.get() instanceof LabelStyle)) {
+            updateLabelStyleFeatures(description, image, (java.util.Optional<LabelStyle>) previousStyle);
         }
 
-        if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.WORKSPACE_IMAGE__WORKSPACE_PATH.getName())
+        if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.WORKSPACE_IMAGE__WORKSPACE_PATH.getName())
                 && previousStyle.get() instanceof WorkspaceImage) {
             image.setWorkspacePath(((WorkspaceImage) previousStyle.get()).getWorkspacePath());
             image.getCustomFeatures().add(DiagramPackage.Literals.WORKSPACE_IMAGE__WORKSPACE_PATH.getName());
@@ -983,15 +983,15 @@ public final class StyleHelper {
     private BundledImage createBundledImage(final BundledImageDescription description) {
         final BundledImage image = DiagramFactory.eINSTANCE.createBundledImage();
         image.setDescription(description);
-        Option<NodeStyle> noPreviousStyle = Options.newNone();
+        java.util.Optional<NodeStyle> noPreviousStyle = java.util.Optional.empty();
         updateBundledImage(image, description, noPreviousStyle);
         return image;
     }
 
-    private void updateBundledImage(final BundledImage image, final BundledImageDescription description, Option<NodeStyle> previousStyle) {
+    private void updateBundledImage(final BundledImage image, final BundledImageDescription description, java.util.Optional<NodeStyle> previousStyle) {
         updateLabelStyleFeatures(description, image, previousStyle);
 
-        if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.BUNDLED_IMAGE__SHAPE.getName()) && previousStyle.get() instanceof BundledImage) {
+        if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.BUNDLED_IMAGE__SHAPE.getName()) && previousStyle.get() instanceof BundledImage) {
             image.setShape(((BundledImage) previousStyle.get()).getShape());
             image.getCustomFeatures().add(DiagramPackage.Literals.BUNDLED_IMAGE__SHAPE.getName());
         } else {
@@ -1008,24 +1008,24 @@ public final class StyleHelper {
     private Note createNote(final NoteDescription description) {
         final Note style = DiagramFactory.eINSTANCE.createNote();
         style.setDescription(description);
-        Option<NodeStyle> noPreviousStyle = Options.newNone();
+        java.util.Optional<NodeStyle> noPreviousStyle = java.util.Optional.empty();
         updateNote(style, description, noPreviousStyle);
         return style;
     }
 
-    private void updateNote(final Note style, final NoteDescription description, Option<NodeStyle> previousStyle) {
+    private void updateNote(final Note style, final NoteDescription description, java.util.Optional<NodeStyle> previousStyle) {
         updateLabelStyleFeatures(description, style, previousStyle);
     }
 
     private GaugeCompositeStyle createGaugeCompositeStyle(final GaugeCompositeStyleDescription description) {
         final GaugeCompositeStyle style = DiagramFactory.eINSTANCE.createGaugeCompositeStyle();
         style.setDescription(description);
-        Option<NodeStyle> noPreviousStyle = Options.newNone();
+        java.util.Optional<NodeStyle> noPreviousStyle = java.util.Optional.empty();
         updateGaugeCompositeStyle(style, description, noPreviousStyle);
         return style;
     }
 
-    private void updateGaugeCompositeStyle(final GaugeCompositeStyle style, final GaugeCompositeStyleDescription description, Option<NodeStyle> previousStyle) {
+    private void updateGaugeCompositeStyle(final GaugeCompositeStyle style, final GaugeCompositeStyleDescription description, java.util.Optional<NodeStyle> previousStyle) {
         updateLabelStyleFeatures(description, style, previousStyle);
 
         EList<GaugeSection> newGaugeSections = new BasicEList<GaugeSection>();
@@ -1083,15 +1083,15 @@ public final class StyleHelper {
     private Dot createDot(final DotDescription description) {
         final Dot style = DiagramFactory.eINSTANCE.createDot();
         style.setDescription(description);
-        Option<NodeStyle> noPreviousStyle = Options.newNone();
+        java.util.Optional<NodeStyle> noPreviousStyle = java.util.Optional.empty();
         updateDot(style, description, noPreviousStyle);
         return style;
     }
 
-    private void updateDot(final Dot style, final DotDescription description, Option<NodeStyle> previousStyle) {
+    private void updateDot(final Dot style, final DotDescription description, java.util.Optional<NodeStyle> previousStyle) {
         updateLabelStyleFeatures(description, style, previousStyle);
 
-        if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.DOT__STROKE_SIZE_COMPUTATION_EXPRESSION.getName()) && previousStyle.get() instanceof Dot) {
+        if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.DOT__STROKE_SIZE_COMPUTATION_EXPRESSION.getName()) && previousStyle.get() instanceof Dot) {
             style.setStrokeSizeComputationExpression(((Dot) previousStyle.get()).getStrokeSizeComputationExpression());
             style.getCustomFeatures().add(DiagramPackage.Literals.DOT__STROKE_SIZE_COMPUTATION_EXPRESSION.getName());
         } else {
@@ -1105,12 +1105,12 @@ public final class StyleHelper {
     private Square createSquare(final SquareDescription description) {
         final Square style = DiagramFactory.eINSTANCE.createSquare();
         style.setDescription(description);
-        Option<NodeStyle> noPreviousStyle = Options.newNone();
+        java.util.Optional<NodeStyle> noPreviousStyle = java.util.Optional.empty();
         updateSquare(style, description, noPreviousStyle);
         return style;
     }
 
-    private void updateSquare(final Square style, final SquareDescription description, Option<NodeStyle> previousStyle) {
+    private void updateSquare(final Square style, final SquareDescription description, java.util.Optional<NodeStyle> previousStyle) {
         updateLabelStyleFeatures(description, style, previousStyle);
         if (style.getHeight().intValue() != description.getHeight().intValue() && !style.getCustomFeatures().contains(DiagramPackage.Literals.SQUARE__HEIGHT.getName())) {
             style.setHeight(description.getHeight());
@@ -1136,15 +1136,15 @@ public final class StyleHelper {
     private CustomStyle createCustomStyle(final CustomStyleDescription description) {
         final CustomStyle style = DiagramFactory.eINSTANCE.createCustomStyle();
         style.setDescription(description);
-        Option<NodeStyle> noPreviousStyle = Options.newNone();
+        java.util.Optional<NodeStyle> noPreviousStyle = java.util.Optional.empty();
         updateCustomStyle(style, description, noPreviousStyle);
         return style;
     }
 
-    private void updateCustomStyle(final CustomStyle style, final CustomStyleDescription description, Option<NodeStyle> previousStyle) {
+    private void updateCustomStyle(final CustomStyle style, final CustomStyleDescription description, java.util.Optional<NodeStyle> previousStyle) {
         updateLabelStyleFeatures(description, style, previousStyle);
 
-        if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.CUSTOM_STYLE__ID.getName()) && previousStyle.get() instanceof CustomStyle) {
+        if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.CUSTOM_STYLE__ID.getName()) && previousStyle.get() instanceof CustomStyle) {
             style.setId(((CustomStyle) previousStyle.get()).getId());
             style.getCustomFeatures().add(DiagramPackage.Literals.CUSTOM_STYLE__ID.getName());
         } else {
@@ -1157,12 +1157,12 @@ public final class StyleHelper {
     private Lozenge createLozenge(final LozengeNodeDescription description) {
         final Lozenge style = DiagramFactory.eINSTANCE.createLozenge();
         style.setDescription(description);
-        Option<NodeStyle> noPreviousStyle = Options.newNone();
+        java.util.Optional<NodeStyle> noPreviousStyle = java.util.Optional.empty();
         updateLozenge(style, description, noPreviousStyle);
         return style;
     }
 
-    private void updateLozenge(final Lozenge style, final LozengeNodeDescription description, Option<NodeStyle> previousStyle) {
+    private void updateLozenge(final Lozenge style, final LozengeNodeDescription description, java.util.Optional<NodeStyle> previousStyle) {
         updateLabelStyleFeatures(description, style, previousStyle);
 
         if (style.eContainer() instanceof DNode) {
@@ -1185,10 +1185,10 @@ public final class StyleHelper {
                     if (node.getWidth() == null || node.getWidth().intValue() != width.intValue()) {
                         node.setWidth(width);
                     }
-                    if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.LOZENGE__WIDTH.getName()) && previousStyle.get() instanceof Lozenge) {
+                    if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.LOZENGE__WIDTH.getName()) && previousStyle.get() instanceof Lozenge) {
                         style.setWidth(((Lozenge) previousStyle.get()).getWidth());
                         style.getCustomFeatures().add(DiagramPackage.Literals.LOZENGE__WIDTH.getName());
-                    } else if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.ELLIPSE__HORIZONTAL_DIAMETER.getName())
+                    } else if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.ELLIPSE__HORIZONTAL_DIAMETER.getName())
                             && previousStyle.get() instanceof Ellipse) {
                         style.setWidth(((Ellipse) previousStyle.get()).getHorizontalDiameter());
                         style.getCustomFeatures().add(DiagramPackage.Literals.LOZENGE__WIDTH.getName());
@@ -1201,10 +1201,10 @@ public final class StyleHelper {
                         node.setHeight(height);
                     }
 
-                    if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.LOZENGE__HEIGHT.getName()) && previousStyle.get() instanceof Lozenge) {
+                    if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.LOZENGE__HEIGHT.getName()) && previousStyle.get() instanceof Lozenge) {
                         style.setHeight(((Lozenge) previousStyle.get()).getHeight());
                         style.getCustomFeatures().add(DiagramPackage.Literals.LOZENGE__HEIGHT.getName());
-                    } else if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.ELLIPSE__VERTICAL_DIAMETER.getName())
+                    } else if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.ELLIPSE__VERTICAL_DIAMETER.getName())
                             && previousStyle.get() instanceof Ellipse) {
                         style.setHeight(((Ellipse) previousStyle.get()).getVerticalDiameter());
                         style.getCustomFeatures().add(DiagramPackage.Literals.LOZENGE__HEIGHT.getName());
@@ -1225,12 +1225,12 @@ public final class StyleHelper {
     private NodeStyle createEllipse(final EllipseNodeDescription description) {
         final Ellipse style = DiagramFactory.eINSTANCE.createEllipse();
         style.setDescription(description);
-        Option<NodeStyle> noPreviousStyle = Options.newNone();
+        java.util.Optional<NodeStyle> noPreviousStyle = java.util.Optional.empty();
         updateEllipse(style, description, noPreviousStyle);
         return style;
     }
 
-    private void updateEllipse(final Ellipse style, final EllipseNodeDescription description, Option<NodeStyle> previousStyle) {
+    private void updateEllipse(final Ellipse style, final EllipseNodeDescription description, java.util.Optional<NodeStyle> previousStyle) {
         if (style.getDescription() != description) {
             style.setDescription(description);
         }
@@ -1256,10 +1256,10 @@ public final class StyleHelper {
                     if (node.getWidth() == null || node.getWidth().intValue() != width.intValue()) {
                         node.setWidth(width);
                     }
-                    if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.LOZENGE__WIDTH.getName()) && previousStyle.get() instanceof Lozenge) {
+                    if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.LOZENGE__WIDTH.getName()) && previousStyle.get() instanceof Lozenge) {
                         style.setHorizontalDiameter(((Lozenge) previousStyle.get()).getWidth());
                         style.getCustomFeatures().add(DiagramPackage.Literals.ELLIPSE__HORIZONTAL_DIAMETER.getName());
-                    } else if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.ELLIPSE__HORIZONTAL_DIAMETER.getName())
+                    } else if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.ELLIPSE__HORIZONTAL_DIAMETER.getName())
                             && previousStyle.get() instanceof Ellipse) {
                         style.setHorizontalDiameter(((Ellipse) previousStyle.get()).getHorizontalDiameter());
                         style.getCustomFeatures().add(DiagramPackage.Literals.ELLIPSE__HORIZONTAL_DIAMETER.getName());
@@ -1271,10 +1271,10 @@ public final class StyleHelper {
                     if (node.getHeight() == null || node.getHeight().intValue() != height.intValue()) {
                         node.setHeight(height);
                     }
-                    if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.LOZENGE__HEIGHT.getName()) && previousStyle.get() instanceof Lozenge) {
+                    if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.LOZENGE__HEIGHT.getName()) && previousStyle.get() instanceof Lozenge) {
                         style.setVerticalDiameter(((Lozenge) previousStyle.get()).getHeight());
                         style.getCustomFeatures().add(DiagramPackage.Literals.ELLIPSE__VERTICAL_DIAMETER.getName());
-                    } else if (previousStyle.some() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.ELLIPSE__VERTICAL_DIAMETER.getName())
+                    } else if (previousStyle.isPresent() && previousStyle.get().getCustomFeatures().contains(DiagramPackage.Literals.ELLIPSE__VERTICAL_DIAMETER.getName())
                             && previousStyle.get() instanceof Ellipse) {
                         style.setVerticalDiameter(((Ellipse) previousStyle.get()).getVerticalDiameter());
                         style.getCustomFeatures().add(DiagramPackage.Literals.ELLIPSE__VERTICAL_DIAMETER.getName());
@@ -1302,7 +1302,7 @@ public final class StyleHelper {
      * @param previousStyle
      *            the previous style (if existing) to keep compatible customization.
      */
-    protected void refreshColors(StyleDescription description, final Style style, Option<? extends Style> previousStyle) {
+    protected void refreshColors(StyleDescription description, final Style style, java.util.Optional<? extends Style> previousStyle) {
         EObject context = style.eContainer();
         /*
          * If there is no description we won't have a lot of chance to update anything..
@@ -1321,32 +1321,32 @@ public final class StyleHelper {
         }
     }
 
-    private void refreshEdgeLabelColors(final EObject context, Style style, StyleDescription description, Option<? extends Style> previousStyle) {
+    private void refreshEdgeLabelColors(final EObject context, Style style, StyleDescription description, java.util.Optional<? extends Style> previousStyle) {
         if (style instanceof EdgeStyle && description instanceof EdgeStyleDescription) {
             EdgeStyleDescription edgeStyleDescription = (EdgeStyleDescription) description;
             EdgeStyle edgeStyle = (EdgeStyle) style;
 
             CenterLabelStyle centerLabelStyle = edgeStyle.getCenterLabelStyle();
             if (centerLabelStyle != null) {
-                Option<CenterLabelStyle> previousCenterLabelStyle = Options.newNone();
-                if (previousStyle.some()) {
-                    previousCenterLabelStyle = Options.newSome(((EdgeStyle) previousStyle.get()).getCenterLabelStyle());
+                java.util.Optional<CenterLabelStyle> previousCenterLabelStyle = java.util.Optional.empty();
+                if (previousStyle.isPresent()) {
+                    previousCenterLabelStyle = java.util.Optional.of(((EdgeStyle) previousStyle.get()).getCenterLabelStyle());
                 }
                 colorUpdater.updateColors(context, centerLabelStyle, edgeStyleDescription.getCenterLabelStyleDescription(), previousCenterLabelStyle);
             }
             BeginLabelStyle beginLabelStyle = edgeStyle.getBeginLabelStyle();
             if (beginLabelStyle != null) {
-                Option<BeginLabelStyle> previousBeginLabelStyle = Options.newNone();
-                if (previousStyle.some()) {
-                    previousBeginLabelStyle = Options.newSome(((EdgeStyle) previousStyle.get()).getBeginLabelStyle());
+                java.util.Optional<BeginLabelStyle> previousBeginLabelStyle = java.util.Optional.empty();
+                if (previousStyle.isPresent()) {
+                    previousBeginLabelStyle = java.util.Optional.of(((EdgeStyle) previousStyle.get()).getBeginLabelStyle());
                 }
                 colorUpdater.updateColors(context, beginLabelStyle, edgeStyleDescription.getBeginLabelStyleDescription(), previousBeginLabelStyle);
             }
             EndLabelStyle endLabelStyle = edgeStyle.getEndLabelStyle();
             if (endLabelStyle != null) {
-                Option<EndLabelStyle> previousEndLabelStyle = Options.newNone();
-                if (previousStyle.some()) {
-                    previousEndLabelStyle = Options.newSome(((EdgeStyle) previousStyle.get()).getEndLabelStyle());
+                java.util.Optional<EndLabelStyle> previousEndLabelStyle = java.util.Optional.empty();
+                if (previousStyle.isPresent()) {
+                    previousEndLabelStyle = java.util.Optional.of(((EdgeStyle) previousStyle.get()).getEndLabelStyle());
                 }
                 colorUpdater.updateColors(context, endLabelStyle, edgeStyleDescription.getEndLabelStyleDescription(), previousEndLabelStyle);
             }
@@ -1378,7 +1378,7 @@ public final class StyleHelper {
             /* Let's affect the new style. */
             new SetStyleSwitch(bestStyle).doSwitch(diagramElement);
             // Refresh the style
-            new RefreshStyleSwitch(Options.newSome(currentStyle)).doSwitch(diagramElement);
+            new RefreshStyleSwitch(java.util.Optional.of(currentStyle)).doSwitch(diagramElement);
         }
     }
 
@@ -1475,7 +1475,7 @@ public final class StyleHelper {
      * @author <a href="mailto:laurent.redor@obeo.fr">Laurent Redor</a>
      */
     private final class RefreshStyleSwitch extends DiagramSwitch<Object> {
-        Option<? extends Style> previousStyle = Options.newNone();
+        java.util.Optional<? extends Style> previousStyle = java.util.Optional.empty();
 
         /**
          * Default constructor.
@@ -1493,7 +1493,7 @@ public final class StyleHelper {
          *            the previous style (if existing) to keep compatible customization.
          * 
          */
-        private RefreshStyleSwitch(Option<? extends Style> previousStyle) {
+        private RefreshStyleSwitch(java.util.Optional<? extends Style> previousStyle) {
             this.previousStyle = previousStyle;
         }
 

@@ -31,8 +31,8 @@ import org.eclipse.sirius.common.tools.api.util.StringUtil;
 import org.eclipse.sirius.editor.tools.api.menu.AbstractEObjectRefactoringAction;
 import org.eclipse.sirius.editor.tools.api.menu.AbstractMenuBuilder;
 import org.eclipse.sirius.editor.tools.api.menu.AbstractUndoRecordingCommand;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tree.description.DescriptionFactory;
 import org.eclipse.sirius.tree.description.TreeDescription;
 import org.eclipse.sirius.tree.description.TreeItemEditionTool;
@@ -209,8 +209,8 @@ class TreeDescriptionBuilderFromEClass {
         style.setLabelExpression("feature:name");
         style.setLabelSize(10);
 
-        Option<EAttribute> editableName = lookForEditableName(eClassToStartFrom);
-        if (editableName.some()) {
+        java.util.Optional<EAttribute> editableName = lookForEditableName(eClassToStartFrom);
+        if (editableName.isPresent()) {
             handleEditableName(map, editableName);
         }
 
@@ -244,8 +244,8 @@ class TreeDescriptionBuilderFromEClass {
                     map.getReusedTreeItemMappings().add(childMap);
                 }
 
-                Option<OperationAction> createChild = getAlreadyExistingMenuItem(leaf, ownedReferences.getName());
-                if (createChild.some()) {
+                java.util.Optional<OperationAction> createChild = getAlreadyExistingMenuItem(leaf, ownedReferences.getName());
+                if (createChild.isPresent()) {
                     MenuItemDescriptionReference ref = ToolFactory.eINSTANCE.createMenuItemDescriptionReference();
                     ref.setItem(createChild.get());
                     menu.getMenuItemDescriptions().add(ref);
@@ -281,7 +281,7 @@ class TreeDescriptionBuilderFromEClass {
         return map;
     }
 
-    protected void handleEditableName(TreeItemMapping map, Option<EAttribute> editableName) {
+    protected void handleEditableName(TreeItemMapping map, java.util.Optional<EAttribute> editableName) {
         EAttribute editableFeature = editableName.get();
         TreeItemEditionTool editTool = DescriptionFactory.eINSTANCE.createTreeItemEditionTool();
         editTool.setName(editableFeature.getName());
@@ -320,7 +320,7 @@ class TreeDescriptionBuilderFromEClass {
         return found;
     }
 
-    private Option<OperationAction> getAlreadyExistingMenuItem(EClass leaf, String referenceName) {
+    private java.util.Optional<OperationAction> getAlreadyExistingMenuItem(EClass leaf, String referenceName) {
         OperationAction found = null;
         Iterator<OperationAction> it = doneItems.get(leaf).iterator();
         while (it.hasNext() && found == null) {
@@ -333,10 +333,10 @@ class TreeDescriptionBuilderFromEClass {
                 }
             }
         }
-        return Options.newSome(found);
+        return java.util.Optional.of(found);
     }
 
-    private Option<EAttribute> lookForEditableName(EClass eClassToStartFrom) {
+    private java.util.Optional<EAttribute> lookForEditableName(EClass eClassToStartFrom) {
         Iterator<EAttribute> it = Iterators.filter(eClassToStartFrom.getEAllAttributes().iterator(), new Predicate<EAttribute>() {
 
             public boolean apply(EAttribute input) {
@@ -344,9 +344,9 @@ class TreeDescriptionBuilderFromEClass {
             }
         });
         if (it.hasNext()) {
-            return Options.newSome(it.next());
+            return java.util.Optional.of(it.next());
         } else {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
     }
 

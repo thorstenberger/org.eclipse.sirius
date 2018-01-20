@@ -15,7 +15,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.sirius.common.tools.api.interpreter.VariableType;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * Query inspecting the Description of representations to determine useful
@@ -33,7 +33,7 @@ public interface IInterpretedExpressionQuery {
      * 
      * @return the expected DomainClass(es) name for the given expression
      */
-    Option<Collection<String>> getTargetDomainClasses();
+    java.util.Optional<Collection<String>> getTargetDomainClasses();
 
     /**
      * Returns the list of EPackages to import to be able to interpret the given

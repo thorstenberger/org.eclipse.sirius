@@ -19,7 +19,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.DEdgeEditPart;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 import org.eclipse.sirius.tests.swtbot.support.api.AbstractSiriusSwtBotGefTestCase;
 import org.eclipse.sirius.tests.swtbot.support.api.business.UIDiagramRepresentation.ZoomLevel;
@@ -301,9 +301,9 @@ public class RemoveEdgeBendpointsTest extends AbstractSiriusSwtBotGefTestCase {
         GraphicalHelper.screen2logical(lineOrigin, (IGraphicalEditPart) swtBotGefConnectionEditPart.part());
         GraphicalHelper.screen2logical(lineTerminus, (IGraphicalEditPart) swtBotGefConnectionEditPart.part());
 
-        Option<Point> expectedFirstBendpoint = GraphicalHelper.getIntersection(lineOrigin, lineTerminus,
+        java.util.Optional<Point> expectedFirstBendpoint = GraphicalHelper.getIntersection(lineOrigin, lineTerminus,
                 (IGraphicalEditPart) sourceSwtBotGefEditPart.part(), true);
-        Option<Point> expectedSecondBendpoint = GraphicalHelper.getIntersection(lineOrigin, lineTerminus,
+        java.util.Optional<Point> expectedSecondBendpoint = GraphicalHelper.getIntersection(lineOrigin, lineTerminus,
                 (IGraphicalEditPart) targetSwtBotGefEditPart.part(), false);
 
         assertConnectionEndPointEquals("Wrong edge source connection", expectedFirstBendpoint.get(),
@@ -344,9 +344,9 @@ public class RemoveEdgeBendpointsTest extends AbstractSiriusSwtBotGefTestCase {
         Point realTargetConnection = pointList.getPoint(nbPoint - 1);
         Point realSourceConnection = pointList.getPoint(0);
 
-        Option<Point> intersectionAnchorsSrcFigure = GraphicalHelper.getIntersection(srcAnchorPoint, tgtAnchorPoint,
+        java.util.Optional<Point> intersectionAnchorsSrcFigure = GraphicalHelper.getIntersection(srcAnchorPoint, tgtAnchorPoint,
                 (IGraphicalEditPart) sourceSwtBotGefEditPart.part(), true);
-        Option<Point> intersectionAnchorsTgtFigure = GraphicalHelper.getIntersection(srcAnchorPoint, tgtAnchorPoint,
+        java.util.Optional<Point> intersectionAnchorsTgtFigure = GraphicalHelper.getIntersection(srcAnchorPoint, tgtAnchorPoint,
                 (IGraphicalEditPart) targetSwtBotGefEditPart.part(), false);
 
         // check if source and target are correct

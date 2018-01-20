@@ -14,7 +14,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.description.contribution.EObjectReference;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * Resolves {@link EObjectReference}s.
@@ -32,5 +32,5 @@ public interface ReferenceResolver {
      * @return the {@link EObject} denoted by the reference, if it could be
      *         determined.
      */
-    Option<EObject> resolve(EObjectReference ref, Map<String, Object> context);
+    java.util.Optional<EObject> resolve(EObjectReference ref, Map<String, Object> context);
 }

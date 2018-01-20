@@ -22,8 +22,8 @@ import org.eclipse.sirius.business.api.dialect.description.DefaultInterpretedExp
 import org.eclipse.sirius.business.api.dialect.description.IInterpretedExpressionTargetSwitch;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterSiriusVariables;
 import org.eclipse.sirius.common.tools.api.interpreter.VariableType;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tree.TreePackage;
 import org.eclipse.sirius.tree.description.DescriptionPackage;
 import org.eclipse.sirius.tree.description.TreeItemContainerDropTool;
@@ -121,9 +121,9 @@ public class TreeInterpretedExpressionQuery extends AbstractInterpretedExpressio
          * 
          * @see org.eclipse.sirius.business.api.dialect.description.IInterpretedExpressionTargetSwitch#doSwitch(org.eclipse.emf.ecore.EObject)
          */
-        public Option<Collection<String>> doSwitch(EObject target, boolean considerFeature) {
+        public java.util.Optional<Collection<String>> doSwitch(EObject target, boolean considerFeature) {
             Collection<String> targetTypes = new LinkedHashSet<>();
-            Option<Collection<String>> expressionTarget = Options.newSome(targetTypes);
+            java.util.Optional<Collection<String>> expressionTarget = java.util.Optional.of(targetTypes);
             if (target != null) {
                 String packageURI = target.eClass().getEPackage().getNsURI();
                 // We first try to apply the Tree specific switch
@@ -132,7 +132,7 @@ public class TreeInterpretedExpressionQuery extends AbstractInterpretedExpressio
                     expressionTarget = specificTreeSwitch.doSwitch(target);
                 }
                 // If no result has been found, we use the default switch
-                if (expressionTarget.some() && expressionTarget.get().isEmpty()) {
+                if (expressionTarget.isPresent() && expressionTarget.get().isEmpty()) {
                     expressionTarget = defaultSwitch.doSwitch(target, considerFeature);
                 }
             }

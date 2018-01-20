@@ -23,8 +23,8 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.sirius.business.api.componentization.ViewpointRegistry;
 import org.eclipse.sirius.business.api.query.ViewpointQuery;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.description.DescriptionPackage;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
 import org.eclipse.swt.widgets.Shell;
@@ -71,7 +71,7 @@ public class ViewpoitnDependenciesSelectionDialog {
      *         the end-user, or {@link Options#newNone()} if the user canceled
      *         the dialog.
      */
-    public Option<Set<URI>> selectReusedViewpoints(Shell shell) {
+    public java.util.Optional<Set<URI>> selectReusedViewpoints(Shell shell) {
         return selectViewpoints(shell, DescriptionPackage.eINSTANCE.getViewpoint_Reuses(), "Reused Viewpoints", "Select the viewpoints from which this viewpoint will reuse elements:");
     }
 
@@ -85,7 +85,7 @@ public class ViewpoitnDependenciesSelectionDialog {
      *         customization by the end-user, or {@link Options#newNone()} if
      *         the user canceled the dialog.
      */
-    public Option<Set<URI>> selectCustomizedViewpoints(Shell shell) {
+    public java.util.Optional<Set<URI>> selectCustomizedViewpoints(Shell shell) {
         return selectViewpoints(shell, DescriptionPackage.eINSTANCE.getViewpoint_Customizes(), "Customized Viewpoints", "Select the viewpoints this viewpoint will customize:");
     }
 
@@ -99,11 +99,11 @@ public class ViewpoitnDependenciesSelectionDialog {
      *         by the end-user, or {@link Options#newNone()} if the user
      *         canceled the dialog.
      */
-    public Option<Set<URI>> selectConflictsViewpoints(Shell shell) {
+    public java.util.Optional<Set<URI>> selectConflictsViewpoints(Shell shell) {
         return selectViewpoints(shell, DescriptionPackage.eINSTANCE.getViewpoint_Customizes(), "Conflicting Viewpoints", "Select the viewpoints this viewpoint is in conflict with:");
     }
 
-    private Option<Set<URI>> selectViewpoints(Shell shell, EAttribute attribute, String title, String message) {
+    private java.util.Optional<Set<URI>> selectViewpoints(Shell shell, EAttribute attribute, String title, String message) {
         List<URI> available = getAvailableViewpointsURIs();
         available.remove(new ViewpointQuery(viewpoint).getViewpointURI().get());
         Collections.sort(available, Ordering.usingToString());
@@ -115,9 +115,9 @@ public class ViewpoitnDependenciesSelectionDialog {
         lsd.setTitle(title);
         if (lsd.open() == Window.OK) {
             Set<URI> result = ImmutableSet.copyOf(Iterators.filter(Iterators.forArray(lsd.getResult()), URI.class));
-            return Options.newSome(result);
+            return java.util.Optional.of(result);
         } else {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
     }
 
@@ -129,8 +129,8 @@ public class ViewpoitnDependenciesSelectionDialog {
     private List<URI> getAvailableViewpointsURIs() {
         return Lists.newArrayList(Iterables.filter(Iterables.transform(ViewpointRegistry.getInstance().getViewpoints(), new Function<Viewpoint, URI>() {
             public URI apply(Viewpoint from) {
-                Option<URI> uri = new ViewpointQuery(from).getViewpointURI();
-                if (uri.some()) {
+                java.util.Optional<URI> uri = new ViewpointQuery(from).getViewpointURI();
+                if (uri.isPresent()) {
                     return uri.get();
                 } else {
                     return null;

@@ -44,7 +44,7 @@ import org.eclipse.sirius.diagram.description.tool.DeleteElementDescription;
 import org.eclipse.sirius.diagram.description.tool.DirectEditLabel;
 import org.eclipse.sirius.diagram.description.tool.DoubleClickDescription;
 import org.eclipse.sirius.diagram.description.tool.ReconnectEdgeDescription;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.table.metamodel.table.description.TableMapping;
 import org.eclipse.sirius.tests.support.api.SiriusTestCase;
 import org.eclipse.sirius.tests.support.internal.helper.ModelInitializer;
@@ -229,7 +229,7 @@ public class InterpretedExpressionTargetSwitchTest extends SiriusTestCase {
         IInterpretedExpressionQuery query = DialectManager.INSTANCE.createInterpretedExpressionQuery(element, attribute);
 
         // Step 1 : getting the DomainClass of the target
-        Option<Collection<String>> targetDomainClassesOption = null;
+        java.util.Optional<Collection<String>> targetDomainClassesOption = null;
         try {
             targetDomainClassesOption = query.getTargetDomainClasses();
         } catch (Exception e) {
@@ -240,7 +240,7 @@ public class InterpretedExpressionTargetSwitchTest extends SiriusTestCase {
 
         // Step 2 : analyze the result
         if (targetDomainClassesOption != null) {
-            if (targetDomainClassesOption.some()) {
+            if (targetDomainClassesOption.isPresent()) {
                 if (targetDomainClassesOption.get().contains(DOMAIN_CLASS_FOR_TEST)) {
                     test_expression_ok.add(attribute);
                 } else if (element instanceof ViewValidationRule
@@ -256,7 +256,7 @@ public class InterpretedExpressionTargetSwitchTest extends SiriusTestCase {
                 }
             } else {
                 // See IInterpretedExpressionTargetSwitch#doSwitch :
-                // Option<Collection<String>> javadoc
+                // java.util.Optional<Collection<String>> javadoc
                 // Feature which do not need target type.
                 test_expression_ok.add(attribute);
             }
@@ -500,11 +500,11 @@ public class InterpretedExpressionTargetSwitchTest extends SiriusTestCase {
             Collection<? extends EClass> compatibleCandidates = super.findCompatibleCandidates(element, reference, currentScope);
 
             EObjectQuery query = new EObjectQuery(element);
-            Option<EObject> parentRepDesc = query.getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getRepresentationDescription());
+            java.util.Optional<EObject> parentRepDesc = query.getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getRepresentationDescription());
             boolean fromTableOrTreePackage = org.eclipse.sirius.table.metamodel.table.description.DescriptionPackage.eINSTANCE == currentScope
                     || org.eclipse.sirius.tree.description.DescriptionPackage.eINSTANCE == currentScope;
 
-            if (fromTableOrTreePackage && parentRepDesc.some() && parentRepDesc.get() instanceof DiagramDescription) {
+            if (fromTableOrTreePackage && parentRepDesc.isPresent() && parentRepDesc.get() instanceof DiagramDescription) {
                 // Some table/tree tools could be created by the MM initializer
                 // in diagrams tools sections (type compatibility).
                 Predicate<EClass> toRemove = new Predicate<EClass>() {

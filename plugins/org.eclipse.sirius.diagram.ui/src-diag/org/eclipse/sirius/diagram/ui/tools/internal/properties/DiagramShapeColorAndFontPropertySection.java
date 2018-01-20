@@ -62,7 +62,7 @@ import org.eclipse.sirius.diagram.ui.tools.api.image.DiagramImagesPath;
 import org.eclipse.sirius.diagram.ui.tools.internal.actions.style.ResetStylePropertiesToDefaultValuesAction;
 import org.eclipse.sirius.diagram.ui.tools.internal.actions.style.SetStyleToWorkspaceImageAction;
 import org.eclipse.sirius.diagram.ui.tools.internal.dialogs.ColorPalettePopup;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.command.EditingDomainUndoContext;
 import org.eclipse.sirius.viewpoint.BasicLabelStyle;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
@@ -402,8 +402,8 @@ public class DiagramShapeColorAndFontPropertySection extends ShapeColorsAndFonts
                 IDiagramElementEditPart diagramElementEditPart = (IDiagramElementEditPart) selectedEditPart;
                 DDiagramElement dde = diagramElementEditPart.resolveDiagramElement();
                 DDiagramElementQuery ddeQuery = new DDiagramElementQuery(dde);
-                Option<BasicLabelStyle> oldStyle = ddeQuery.getLabelStyle();
-                if (oldStyle.some()) {
+                java.util.Optional<BasicLabelStyle> oldStyle = ddeQuery.getLabelStyle();
+                if (oldStyle.isPresent()) {
                     BasicLabelStyle basicLabelStyle = oldStyle.get();
                     styles.add(basicLabelStyle);
                 }

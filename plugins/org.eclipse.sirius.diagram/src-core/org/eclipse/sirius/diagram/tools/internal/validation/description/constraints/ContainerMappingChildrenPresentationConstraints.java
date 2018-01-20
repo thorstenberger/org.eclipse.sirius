@@ -23,7 +23,7 @@ import org.eclipse.sirius.diagram.description.filter.MappingFilter;
 import org.eclipse.sirius.diagram.description.style.ContainerStyleDescription;
 import org.eclipse.sirius.diagram.description.style.FlatContainerStyleDescription;
 import org.eclipse.sirius.diagram.description.style.WorkspaceImageDescription;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.internal.validation.AbstractConstraint;
 
 import com.google.common.collect.Iterables;
@@ -120,8 +120,8 @@ public class ContainerMappingChildrenPresentationConstraints extends AbstractCon
         } else if (eObj instanceof MappingFilter && MAPPING_FILTER_ON_REGION_MAPPING_RULE_ID.equals(ctx.getCurrentConstraintId())) {
             result = validateMappingFilterOnRegions(ctx, (MappingFilter) eObj);
         } else if (eObj instanceof ContainerStyleDescription) {
-            Option<EObject> parentContainerMapping = new EObjectQuery(eObj).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getContainerMapping());
-            if (REGION_REGION_CONTAINER_MAPPING_STYLE_RULE_ID.equals(ctx.getCurrentConstraintId()) && parentContainerMapping.some()) {
+            java.util.Optional<EObject> parentContainerMapping = new EObjectQuery(eObj).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getContainerMapping());
+            if (REGION_REGION_CONTAINER_MAPPING_STYLE_RULE_ID.equals(ctx.getCurrentConstraintId()) && parentContainerMapping.isPresent()) {
                 result = validateStyle(ctx, (ContainerStyleDescription) eObj, (ContainerMapping) parentContainerMapping.get());
             }
         }

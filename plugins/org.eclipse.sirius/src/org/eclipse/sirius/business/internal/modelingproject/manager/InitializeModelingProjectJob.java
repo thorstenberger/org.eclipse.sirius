@@ -26,7 +26,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.sirius.business.api.modelingproject.ModelingProject;
 import org.eclipse.sirius.business.internal.modelingproject.marker.ModelingMarker;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.Messages;
 import org.eclipse.sirius.viewpoint.SiriusPlugin;
 
@@ -134,8 +134,8 @@ public class InitializeModelingProjectJob extends WorkspaceJob {
             }
             monitor.beginTask("", projectsTable.length); //$NON-NLS-1$
             for (IProject project : projectsTable) {
-                Option<ModelingProject> optionalModelingProject = ModelingProject.asModelingProject(project);
-                if (optionalModelingProject.some()) {
+                java.util.Optional<ModelingProject> optionalModelingProject = ModelingProject.asModelingProject(project);
+                if (optionalModelingProject.isPresent()) {
                     // Clean existing marker if exists
                     try {
                         optionalModelingProject.get().getProject().deleteMarkers(ModelingMarker.MARKER_TYPE, false, IResource.DEPTH_ZERO);

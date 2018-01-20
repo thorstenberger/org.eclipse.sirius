@@ -19,7 +19,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.sirius.business.api.session.Session;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ui.tools.api.views.common.item.ProjectDependenciesItem;
 import org.eclipse.sirius.viewpoint.DAnalysisSessionEObject;
 import org.eclipse.sirius.viewpoint.provider.Messages;
@@ -62,8 +62,8 @@ public abstract class AbstractProjectDependenciesItem implements ProjectDependen
     public Collection<?> getChildren() {
         Collection<Object> children = new LinkedHashSet<>();
 
-        Option<Session> optionalSession = getSession();
-        if (optionalSession.some()) {
+        java.util.Optional<Session> optionalSession = getSession();
+        if (optionalSession.isPresent()) {
             Session session = optionalSession.get();
             /*
              * Retrieve all resources of the session not located directly in the project

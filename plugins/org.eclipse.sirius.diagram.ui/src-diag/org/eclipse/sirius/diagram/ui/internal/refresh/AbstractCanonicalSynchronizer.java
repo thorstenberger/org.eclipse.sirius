@@ -69,7 +69,7 @@ import org.eclipse.sirius.diagram.ui.part.SiriusNodeDescriptor;
 import org.eclipse.sirius.diagram.ui.part.SiriusVisualIDRegistry;
 import org.eclipse.sirius.diagram.ui.provider.DiagramUIPlugin;
 import org.eclipse.sirius.diagram.ui.tools.api.graphical.edit.styles.IBorderItemOffsets;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -239,8 +239,8 @@ public abstract class AbstractCanonicalSynchronizer implements CanonicalSynchron
         if (isRegionsContainer) {
             regionsContainersToLayoutWithImpactStatus.put(gmfView, Boolean.TRUE);
         } else if (isPartOfRegionsContainer) {
-            Option<View> realRegionsContainer = new ViewQuery(gmfView).getAncestor(DNodeContainerEditPart.VISUAL_ID, DNodeContainer2EditPart.VISUAL_ID);
-            if (realRegionsContainer.some()) {
+            java.util.Optional<View> realRegionsContainer = new ViewQuery(gmfView).getAncestor(DNodeContainerEditPart.VISUAL_ID, DNodeContainer2EditPart.VISUAL_ID);
+            if (realRegionsContainer.isPresent()) {
                 regionsContainersToLayoutWithImpactStatus.put(realRegionsContainer.get(), Boolean.TRUE);
             }
         }
@@ -475,7 +475,7 @@ public abstract class AbstractCanonicalSynchronizer implements CanonicalSynchron
             // if a location has been registered in SiriusLayoutDataManager but we were not able to retrieve it before
             // -> Set a center location for child DNode of DNodeContainer like in
             // AirXYLayoutEditPolicy#getConstraintFor(request)
-            if (location == null && SiriusLayoutDataManager.INSTANCE.getData().some()) {
+            if (location == null && SiriusLayoutDataManager.INSTANCE.getData().isPresent()) {
                 // mark with special layout
                 markCreatedViewsWithCenterLayout(createdView);
                 isAlreadylayouted = true;
@@ -531,8 +531,8 @@ public abstract class AbstractCanonicalSynchronizer implements CanonicalSynchron
 
                 if (size == null) {
                     if (new ViewQuery(createdView).isForNameEditPart()) {
-                        Option<Rectangle> optionalRect = GMFHelper.getAbsoluteBounds(createdView);
-                        if (optionalRect.some()) {
+                        java.util.Optional<Rectangle> optionalRect = GMFHelper.getAbsoluteBounds(createdView);
+                        if (optionalRect.isPresent()) {
                             size = optionalRect.get().getSize();
                         }
                     }
@@ -685,7 +685,7 @@ public abstract class AbstractCanonicalSynchronizer implements CanonicalSynchron
                     // before -> Set a center location for child DNode of DNodeContainer like in
                     // AirXYLayoutEditPolicy#getConstraintFor(request), except for children of regions container for
                     // which layout is managed with RegionContainerUpdateLayoutOperation.
-                    if (layoutData == null && SiriusLayoutDataManager.INSTANCE.getData().some() && !(new DNodeContainerExperimentalQuery((DNodeContainer) parent).isRegionContainer())) {
+                    if (layoutData == null && SiriusLayoutDataManager.INSTANCE.getData().isPresent() && !(new DNodeContainerExperimentalQuery((DNodeContainer) parent).isRegionContainer())) {
                         // mark with special layout
                         markCreatedViewsWithCenterLayout(createdView);
                         isAlreadylayouted = true;

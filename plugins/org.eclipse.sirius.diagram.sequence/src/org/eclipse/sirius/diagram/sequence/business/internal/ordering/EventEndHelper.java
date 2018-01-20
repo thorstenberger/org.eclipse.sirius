@@ -21,7 +21,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.SequenceDi
 import org.eclipse.sirius.diagram.sequence.ordering.CompoundEventEnd;
 import org.eclipse.sirius.diagram.sequence.ordering.EventEnd;
 import org.eclipse.sirius.diagram.sequence.ordering.SingleEventEnd;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -136,9 +136,9 @@ public final class EventEndHelper {
         List<EventEnd> ends = new ArrayList<>();
         SequenceDiagram sdep = part.getDiagram();
         SequenceDDiagram seqDiag = (SequenceDDiagram) sdep.getNotationDiagram().getElement();
-        Option<EObject> semanticEvent = part.getSemanticTargetElement();
+        java.util.Optional<EObject> semanticEvent = part.getSemanticTargetElement();
         for (EventEnd ee : seqDiag.getSemanticOrdering().getEventEnds()) {
-            if (semanticEvent.some() && EventEndHelper.getSemanticEvents(ee).contains(semanticEvent.get())) {
+            if (semanticEvent.isPresent() && EventEndHelper.getSemanticEvents(ee).contains(semanticEvent.get())) {
                 ends.add(ee);
             }
         }
@@ -209,8 +209,8 @@ public final class EventEndHelper {
      */
     public static ISequenceEvent findISequenceEvent(SingleEventEnd end, SequenceDiagram sdep) {
         for (ISequenceEvent ise : sdep.getAllDelimitedSequenceEvents()) {
-            Option<EObject> semanticEvent = ise.getSemanticTargetElement();
-            if (semanticEvent.some() && end.getSemanticEvent().equals(semanticEvent.get())) {
+            java.util.Optional<EObject> semanticEvent = ise.getSemanticTargetElement();
+            if (semanticEvent.isPresent() && end.getSemanticEvent().equals(semanticEvent.get())) {
                 return ise;
             }
         }

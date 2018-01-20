@@ -76,8 +76,8 @@ import org.eclipse.sirius.diagram.ui.tools.internal.figure.SynchronizeStatusFigu
 import org.eclipse.sirius.diagram.ui.tools.internal.layout.ordering.ViewOrderingProviderRegistry;
 import org.eclipse.sirius.ecore.extender.business.api.permission.IPermissionAuthority;
 import org.eclipse.sirius.ecore.extender.business.api.permission.PermissionAuthorityRegistry;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.gmf.runtime.diagram.ui.tools.RubberbandDragTracker;
 import org.eclipse.sirius.ext.gmf.runtime.editpolicies.SiriusSnapFeedbackPolicy;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
@@ -107,13 +107,13 @@ public abstract class AbstractDDiagramEditPart extends DiagramEditPart implement
     }
 
     @Override
-    public final Option<DDiagram> resolveDDiagram() {
+    public final java.util.Optional<DDiagram> resolveDDiagram() {
         final EObject resolveSemanticElement = resolveSemanticElement();
 
         if (resolveSemanticElement instanceof DDiagram) {
-            return Options.newSome((DDiagram) resolveSemanticElement);
+            return java.util.Optional.of((DDiagram) resolveSemanticElement);
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     @Override
@@ -223,28 +223,28 @@ public abstract class AbstractDDiagramEditPart extends DiagramEditPart implement
      */
     protected void createEditPartForRevealedEdge(Notification notification) {
         // Step 1 : determine if an edit part needs to be created for this edge
-        Option<Edge> edgeToRefresh = Options.newNone();
+        java.util.Optional<Edge> edgeToRefresh = java.util.Optional.empty();
 
         // If the visibility of an edge as changed from false to true
         if (Notification.SET == notification.getEventType()) {
             if (!notification.getOldBooleanValue() && notification.getNewBooleanValue()) {
                 // Then an Edit part has to be created for this edge
-                edgeToRefresh = Options.newSome((Edge) notification.getNotifier());
+                edgeToRefresh = java.util.Optional.of((Edge) notification.getNotifier());
             }
         }
 
         // Step 2 : create the edit part for the revealed edge if needed
-        if (edgeToRefresh.some()) {
+        if (edgeToRefresh.isPresent()) {
             // To do so, we refresh the source and the target of the revealed
             // edge
             List<IGraphicalEditPart> editPartsToRefresh = new ArrayList<IGraphicalEditPart>();
             Edge edge = edgeToRefresh.get();
-            Option<IGraphicalEditPart> sourcePart = getEditPartFor(edge.getSource());
-            if (sourcePart.some()) {
+            java.util.Optional<IGraphicalEditPart> sourcePart = getEditPartFor(edge.getSource());
+            if (sourcePart.isPresent()) {
                 editPartsToRefresh.add(sourcePart.get());
             }
-            Option<IGraphicalEditPart> targetPart = getEditPartFor(edge.getTarget());
-            if (targetPart.some() && !editPartsToRefresh.contains(targetPart.get())) {
+            java.util.Optional<IGraphicalEditPart> targetPart = getEditPartFor(edge.getTarget());
+            if (targetPart.isPresent() && !editPartsToRefresh.contains(targetPart.get())) {
                 editPartsToRefresh.add(targetPart.get());
             }
             for (IGraphicalEditPart editPartToRefresh : editPartsToRefresh) {
@@ -278,12 +278,12 @@ public abstract class AbstractDDiagramEditPart extends DiagramEditPart implement
         // List all edges extremity to refresh
         List<IGraphicalEditPart> editPartsToRefresh = new ArrayList<IGraphicalEditPart>();
         for (Edge edge : edgesToRefresh) {
-            Option<IGraphicalEditPart> sourcePart = getEditPartFor(edge.getSource());
-            if (sourcePart.some() && !editPartsToRefresh.contains(sourcePart.get())) {
+            java.util.Optional<IGraphicalEditPart> sourcePart = getEditPartFor(edge.getSource());
+            if (sourcePart.isPresent() && !editPartsToRefresh.contains(sourcePart.get())) {
                 editPartsToRefresh.add(sourcePart.get());
             }
-            Option<IGraphicalEditPart> targetPart = getEditPartFor(edge.getTarget());
-            if (targetPart.some() && !editPartsToRefresh.contains(targetPart.get())) {
+            java.util.Optional<IGraphicalEditPart> targetPart = getEditPartFor(edge.getTarget());
+            if (targetPart.isPresent() && !editPartsToRefresh.contains(targetPart.get())) {
                 editPartsToRefresh.add(targetPart.get());
             }
         }
@@ -313,12 +313,12 @@ public abstract class AbstractDDiagramEditPart extends DiagramEditPart implement
         return result;
     }
 
-    private Option<IGraphicalEditPart> getEditPartFor(View view) {
+    private java.util.Optional<IGraphicalEditPart> getEditPartFor(View view) {
         Map<?, ?> registry = this.getViewer().getEditPartRegistry();
         if (view != null && registry.containsKey(view) && registry.get(view) instanceof IGraphicalEditPart) {
-            return Options.newSome((IGraphicalEditPart) registry.get(view));
+            return java.util.Optional.of((IGraphicalEditPart) registry.get(view));
         } else {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
     }
 

@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Preconditions;
 
@@ -69,12 +69,12 @@ public class QuickOutlineDescriptor {
      * @return the first page of this quick outline or <code>null</code> if this
      *         outline has no page.
      */
-    public Option<QuickOutlinePageDescriptor> getFirstPage() {
+    public java.util.Optional<QuickOutlinePageDescriptor> getFirstPage() {
         QuickOutlinePageDescriptor firstPage = null;
         if (!this.pages.isEmpty()) {
             firstPage = this.pages.get(0);
         }
-        return Options.fromNullable(firstPage);
+        return java.util.Optional.ofNullable(firstPage);
     }
 
     /**
@@ -86,13 +86,13 @@ public class QuickOutlineDescriptor {
      * @return the next page of <code>page</code> or the first page if
      *         <code>page</code> is <code>null</code>.
      */
-    public Option<QuickOutlinePageDescriptor> getNextPage(QuickOutlinePageDescriptor page) {
-        Option<QuickOutlinePageDescriptor> result;
+    public java.util.Optional<QuickOutlinePageDescriptor> getNextPage(QuickOutlinePageDescriptor page) {
+        java.util.Optional<QuickOutlinePageDescriptor> result;
         if (page == null) {
             result = getFirstPage();
         } else {
             int indexNextPage = (this.pages.indexOf(page) + 1) % this.pages.size();
-            result = Options.newSome(this.pages.get(indexNextPage));
+            result = java.util.Optional.of(this.pages.get(indexNextPage));
         }
         return result;
     }

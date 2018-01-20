@@ -16,8 +16,8 @@ import java.util.LinkedHashSet;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.sirius.business.api.dialect.description.IInterpretedExpressionTargetSwitch;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.description.style.BasicLabelStyleDescription;
 import org.eclipse.sirius.viewpoint.description.style.StyleDescription;
 import org.eclipse.sirius.viewpoint.description.style.util.StyleSwitch;
@@ -42,7 +42,7 @@ import org.eclipse.sirius.viewpoint.description.style.util.StyleSwitch;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class StyleInterpretedExpressionTargetSwitch extends StyleSwitch<Option<Collection<String>>> {
+public class StyleInterpretedExpressionTargetSwitch extends StyleSwitch<java.util.Optional<Collection<String>>> {
 
     /**
      * Constant used in switches on feature id to consider the case when the
@@ -80,13 +80,13 @@ public class StyleInterpretedExpressionTargetSwitch extends StyleSwitch<Option<C
      * @see org.eclipse.sirius.viewpoint.description.style.util.StyleSwitch#doSwitch(org.eclipse.emf.ecore.EObject)
      */
     @Override
-    public Option<Collection<String>> doSwitch(EObject theEObject) {
-        Option<Collection<String>> doSwitch = super.doSwitch(theEObject);
+    public java.util.Optional<Collection<String>> doSwitch(EObject theEObject) {
+        java.util.Optional<Collection<String>> doSwitch = super.doSwitch(theEObject);
         if (doSwitch != null) {
             return doSwitch;
         }
         Collection<String> targets = new LinkedHashSet<>();
-        return Options.newSome(targets);
+        return java.util.Optional.of(targets);
     }
 
     /**
@@ -120,7 +120,7 @@ public class StyleInterpretedExpressionTargetSwitch extends StyleSwitch<Option<C
      * @see org.eclipse.sirius.viewpoint.description.style.util.StyleSwitch#caseStyleDescription(org.eclipse.sirius.viewpoint.description.style.StyleDescription)
      */
     @Override
-    public Option<Collection<String>> caseStyleDescription(StyleDescription object) {
+    public java.util.Optional<Collection<String>> caseStyleDescription(StyleDescription object) {
         // BY DEFAULT, the target of all Interpreted expressions related to a
         // style is the RepresentationElementMapping that contains it
         return globalSwitch.doSwitch(getFirstRelevantContainer(object), false);
@@ -133,7 +133,7 @@ public class StyleInterpretedExpressionTargetSwitch extends StyleSwitch<Option<C
      * @see org.eclipse.sirius.viewpoint.description.style.util.StyleSwitch#caseBasicLabelStyleDescription(org.eclipse.sirius.viewpoint.description.style.BasicLabelStyleDescription)
      */
     @Override
-    public Option<Collection<String>> caseBasicLabelStyleDescription(BasicLabelStyleDescription object) {
+    public java.util.Optional<Collection<String>> caseBasicLabelStyleDescription(BasicLabelStyleDescription object) {
         return globalSwitch.doSwitch(getFirstRelevantContainer(object), false);
     }
 }

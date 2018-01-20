@@ -12,8 +12,8 @@ package org.eclipse.sirius.diagram.sequence.ui.business.internal;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.sirius.diagram.sequence.template.TSequenceDiagram;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * Class responsible for querying a model starting from an EObject.
@@ -40,14 +40,14 @@ public class EObjectQuery {
      * 
      * @return the first TSequenceDiagram being parent of the current EObject.
      */
-    public Option<TSequenceDiagram> getParentSequenceDiagramTemplate() {
+    public java.util.Optional<TSequenceDiagram> getParentSequenceDiagramTemplate() {
         EObject cur = start;
         while (cur != null) {
             if (cur instanceof TSequenceDiagram) {
-                return Options.newSome((TSequenceDiagram) cur);
+                return java.util.Optional.of((TSequenceDiagram) cur);
             }
             cur = cur.eContainer();
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 }

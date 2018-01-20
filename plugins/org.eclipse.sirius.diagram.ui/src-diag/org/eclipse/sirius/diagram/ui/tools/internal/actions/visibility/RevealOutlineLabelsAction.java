@@ -27,7 +27,7 @@ import org.eclipse.sirius.diagram.ui.provider.Messages;
 import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
 import org.eclipse.sirius.diagram.ui.tools.api.image.DiagramImagesPath;
 import org.eclipse.sirius.diagram.ui.tools.internal.editor.DiagramOutlinePage;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * Action to reveal labels in outline.
@@ -73,8 +73,8 @@ public class RevealOutlineLabelsAction extends AbstractRevealElementsAction<Obje
         if (element instanceof DDiagramElement) {
             run((DDiagramElement) element);
         } else if (element instanceof AbstractDDiagramElementLabelItemProvider) {
-            Option<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) element).getDiagramElementTarget();
-            if (optionTarget.some()) {
+            java.util.Optional<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) element).getDiagramElementTarget();
+            if (optionTarget.isPresent()) {
                 run(optionTarget.get());
             }
         } else if (element instanceof IDiagramElementEditPart) {

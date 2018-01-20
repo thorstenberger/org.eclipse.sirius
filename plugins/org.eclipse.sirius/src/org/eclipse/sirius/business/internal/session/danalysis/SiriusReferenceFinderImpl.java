@@ -26,7 +26,7 @@ import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.query.DRepresentationQuery;
 import org.eclipse.sirius.business.api.query.EObjectQuery;
 import org.eclipse.sirius.business.api.query.SiriusReferenceFinder;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.ViewpointPackage;
@@ -76,8 +76,8 @@ public class SiriusReferenceFinderImpl implements SiriusReferenceFinder {
         for (EObject semanticObject : semanticObjects) {
             Set<DRepresentationDescriptor> repDescs = new LinkedHashSet<>();
             referencingSiriusElements.get(semanticObject).stream().forEach(obj -> {
-                Option<DRepresentation> representation = new EObjectQuery(obj).getRepresentation();
-                if (representation.some()) {
+                java.util.Optional<DRepresentation> representation = new EObjectQuery(obj).getRepresentation();
+                if (representation.isPresent()) {
                     DRepresentationDescriptor representationDescriptor = new DRepresentationQuery(representation.get()).getRepresentationDescriptor();
                     if (representationDescriptor != null) {
                         repDescs.add(representationDescriptor);

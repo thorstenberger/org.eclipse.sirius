@@ -13,8 +13,8 @@ package org.eclipse.sirius.diagram.ui.tools.api.figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrapLabel;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.collect.Iterables;
 
@@ -46,14 +46,14 @@ public class FigureQuery {
      * 
      * @return the first label figure or null if any
      */
-    public Option<IFigure> getLabelFigure() {
-        Option<IFigure> result = Options.newNone();
+    public java.util.Optional<IFigure> getLabelFigure() {
+        java.util.Optional<IFigure> result = java.util.Optional.empty();
         if (figure instanceof SiriusWrapLabel || figure instanceof WrapLabel || figure instanceof Label) {
-            result = Options.newSome(figure);
+            result = java.util.Optional.of(figure);
         } else {
             for (IFigure childFigure : Iterables.filter(figure.getChildren(), IFigure.class)) {
-                Option<IFigure> temp = new FigureQuery(childFigure).getLabelFigure();
-                if (temp.some()) {
+                java.util.Optional<IFigure> temp = new FigureQuery(childFigure).getLabelFigure();
+                if (temp.isPresent()) {
                     result = temp;
                     break;
                 }
@@ -69,17 +69,17 @@ public class FigureQuery {
      * 
      * @return the label of the first label figure or null if any
      */
-    public Option<String> getText() {
-        Option<String> result = Options.newNone();
-        Option<IFigure> labelFigure = getLabelFigure();
-        if (labelFigure.some()) {
+    public java.util.Optional<String> getText() {
+        java.util.Optional<String> result = java.util.Optional.empty();
+        java.util.Optional<IFigure> labelFigure = getLabelFigure();
+        if (labelFigure.isPresent()) {
             if (labelFigure.get() instanceof SiriusWrapLabel) {
-                result = Options.newSome(((SiriusWrapLabel) labelFigure.get()).getText());
+                result = java.util.Optional.of(((SiriusWrapLabel) labelFigure.get()).getText());
             }
             if (labelFigure.get() instanceof WrapLabel) {
-                result = Options.newSome(((WrapLabel) labelFigure.get()).getText());
+                result = java.util.Optional.of(((WrapLabel) labelFigure.get()).getText());
             } else if (labelFigure.get() instanceof Label) {
-                result = Options.newSome(((Label) labelFigure.get()).getText());
+                result = java.util.Optional.of(((Label) labelFigure.get()).getText());
             }
         }
         return result;

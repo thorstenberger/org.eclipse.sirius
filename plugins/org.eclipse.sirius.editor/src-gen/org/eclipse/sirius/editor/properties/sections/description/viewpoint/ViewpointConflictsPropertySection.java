@@ -22,7 +22,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.sirius.editor.properties.sections.common.AbstractTextPropertySection;
 import org.eclipse.sirius.editor.tools.internal.presentation.ViewpoitnDependenciesSelectionDialog;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.description.DescriptionPackage;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
 import org.eclipse.swt.SWT;
@@ -120,8 +120,8 @@ public class ViewpointConflictsPropertySection extends AbstractTextPropertySecti
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if (eObject instanceof Viewpoint) {
-                    Option<Set<URI>> userChoice = new ViewpoitnDependenciesSelectionDialog((Viewpoint) eObject).selectConflictsViewpoints(composite.getShell());
-                    if (userChoice.some()) {
+                    java.util.Optional<Set<URI>> userChoice = new ViewpoitnDependenciesSelectionDialog((Viewpoint) eObject).selectConflictsViewpoints(composite.getShell());
+                    if (userChoice.isPresent()) {
                         List<URI> value = Lists.newArrayList(userChoice.get());
                         EditingDomain editingDomain = ((IEditingDomainProvider) getPart()).getEditingDomain();
                         editingDomain.getCommandStack().execute(SetCommand.create(editingDomain, eObject, getFeature(), value));

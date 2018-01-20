@@ -18,8 +18,8 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gmf.runtime.diagram.ui.figures.BorderedNodeFigure;
 import org.eclipse.sirius.diagram.ui.tools.api.figure.locator.DBorderItemLocator;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
@@ -68,7 +68,7 @@ public class FeedbackDBorderItemLocator extends DBorderItemLocator {
      * @return the optional Rectangle of the border item that is in conflict
      *         with the given bordered node (none option if no conflict)
      */
-    protected Option<Rectangle> conflicts(final Rectangle recommendedRect, List<IFigure> figuresToCheck, final Collection<IFigure> portsFiguresToIgnore) {
+    protected java.util.Optional<Rectangle> conflicts(final Rectangle recommendedRect, List<IFigure> figuresToCheck, final Collection<IFigure> portsFiguresToIgnore) {
         final ListIterator<IFigure> iterator = figuresToCheck.listIterator();
         while (iterator.hasNext()) {
             final IFigure borderItem = iterator.next();
@@ -76,11 +76,11 @@ public class FeedbackDBorderItemLocator extends DBorderItemLocator {
                 if (borderItem.isVisible()) {
                     final Rectangle rect = new Rectangle(borderItem.getBounds());
                     if (!(portsFiguresToIgnore.contains(borderItem)) && rect.intersects(recommendedRect)) {
-                        return Options.newSome(rect);
+                        return java.util.Optional.of(rect);
                     }
                 }
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 }

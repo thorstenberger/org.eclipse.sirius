@@ -30,8 +30,8 @@ import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.DSemanticDiagram;
 import org.eclipse.sirius.diagram.sequence.SequenceDDiagram;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.sirius.viewpoint.ViewpointPackage;
 
@@ -58,7 +58,7 @@ public final class ISequenceElementAccessor {
      *            .
      * @return .
      */
-    public static Option<ISequenceElement> getISequenceElement(View notationView) {
+    public static java.util.Optional<ISequenceElement> getISequenceElement(View notationView) {
         return ISequenceElementAccessor.getOrCreate(notationView, ISequenceElement.class);
     }
 
@@ -77,8 +77,8 @@ public final class ISequenceElementAccessor {
         if (view.eContainer() instanceof View && (CombinedFragment.compartmentNotationPredicate().apply(view) || Operand.compartmentNotationPredicate().apply(view))) {
             view = (View) view.eContainer();
         }
-        Option<ISequenceElement> sequenceElementOption = ISequenceElementAccessor.getISequenceElement(view);
-        isPartOfSequenceElement = sequenceElementOption.some();
+        java.util.Optional<ISequenceElement> sequenceElementOption = ISequenceElementAccessor.getISequenceElement(view);
+        isPartOfSequenceElement = sequenceElementOption.isPresent();
         return isPartOfSequenceElement;
     }
 
@@ -89,7 +89,7 @@ public final class ISequenceElementAccessor {
      *            .
      * @return .
      */
-    public static Option<SequenceDiagram> getSequenceDiagram(Diagram diagramView) {
+    public static java.util.Optional<SequenceDiagram> getSequenceDiagram(Diagram diagramView) {
         return ISequenceElementAccessor.getOrCreate(diagramView, SequenceDiagram.class);
     }
 
@@ -100,7 +100,7 @@ public final class ISequenceElementAccessor {
      *            .
      * @return .
      */
-    public static Option<ISequenceEvent> getISequenceEvent(View view) {
+    public static java.util.Optional<ISequenceEvent> getISequenceEvent(View view) {
         return ISequenceElementAccessor.getOrCreate(view, ISequenceEvent.class);
     }
 
@@ -111,7 +111,7 @@ public final class ISequenceElementAccessor {
      *            .
      * @return .
      */
-    public static Option<ISequenceNode> getISequenceNode(View view) {
+    public static java.util.Optional<ISequenceNode> getISequenceNode(View view) {
         return ISequenceElementAccessor.getOrCreate(view, ISequenceNode.class);
     }
 
@@ -122,7 +122,7 @@ public final class ISequenceElementAccessor {
      *            .
      * @return .
      */
-    public static Option<InstanceRole> getInstanceRole(View view) {
+    public static java.util.Optional<InstanceRole> getInstanceRole(View view) {
         return ISequenceElementAccessor.getOrCreate(view, InstanceRole.class);
     }
 
@@ -133,7 +133,7 @@ public final class ISequenceElementAccessor {
      *            .
      * @return .
      */
-    public static Option<Lifeline> getLifeline(View view) {
+    public static java.util.Optional<Lifeline> getLifeline(View view) {
         return ISequenceElementAccessor.getOrCreate(view, Lifeline.class);
     }
 
@@ -144,7 +144,7 @@ public final class ISequenceElementAccessor {
      *            .
      * @return .
      */
-    public static Option<EndOfLife> getEndOfLife(View view) {
+    public static java.util.Optional<EndOfLife> getEndOfLife(View view) {
         return ISequenceElementAccessor.getOrCreate(view, EndOfLife.class);
     }
 
@@ -155,7 +155,7 @@ public final class ISequenceElementAccessor {
      *            .
      * @return .
      */
-    public static Option<AbstractNodeEvent> getAbstractNodeEvent(View view) {
+    public static java.util.Optional<AbstractNodeEvent> getAbstractNodeEvent(View view) {
         return ISequenceElementAccessor.getOrCreate(view, AbstractNodeEvent.class);
     }
 
@@ -166,7 +166,7 @@ public final class ISequenceElementAccessor {
      *            .
      * @return .
      */
-    public static Option<Execution> getExecution(View view) {
+    public static java.util.Optional<Execution> getExecution(View view) {
         return ISequenceElementAccessor.getOrCreate(view, Execution.class);
     }
 
@@ -177,7 +177,7 @@ public final class ISequenceElementAccessor {
      *            .
      * @return .
      */
-    public static Option<State> getState(View view) {
+    public static java.util.Optional<State> getState(View view) {
         return ISequenceElementAccessor.getOrCreate(view, State.class);
     }
 
@@ -188,7 +188,7 @@ public final class ISequenceElementAccessor {
      *            .
      * @return .
      */
-    public static Option<Message> getMessage(View view) {
+    public static java.util.Optional<Message> getMessage(View view) {
         return ISequenceElementAccessor.getOrCreate(view, Message.class);
     }
 
@@ -199,7 +199,7 @@ public final class ISequenceElementAccessor {
      *            .
      * @return .
      */
-    public static Option<InteractionUse> getInteractionUse(View view) {
+    public static java.util.Optional<InteractionUse> getInteractionUse(View view) {
         return ISequenceElementAccessor.getOrCreate(view, InteractionUse.class);
     }
 
@@ -210,7 +210,7 @@ public final class ISequenceElementAccessor {
      *            .
      * @return .
      */
-    public static Option<CombinedFragment> getCombinedFragment(View view) {
+    public static java.util.Optional<CombinedFragment> getCombinedFragment(View view) {
         return ISequenceElementAccessor.getOrCreate(view, CombinedFragment.class);
     }
 
@@ -221,7 +221,7 @@ public final class ISequenceElementAccessor {
      *            .
      * @return .
      */
-    public static Option<Operand> getOperand(View view) {
+    public static java.util.Optional<Operand> getOperand(View view) {
         return ISequenceElementAccessor.getOrCreate(view, Operand.class);
     }
 
@@ -232,7 +232,7 @@ public final class ISequenceElementAccessor {
      *            .
      * @return .
      */
-    public static Option<LostMessageEnd> getLostMessageEnd(View view) {
+    public static java.util.Optional<LostMessageEnd> getLostMessageEnd(View view) {
         return ISequenceElementAccessor.getOrCreate(view, LostMessageEnd.class);
     }
 
@@ -243,7 +243,7 @@ public final class ISequenceElementAccessor {
      *            .
      * @return .
      */
-    public static Option<ObservationPoint> getObservationPoint(View view) {
+    public static java.util.Optional<ObservationPoint> getObservationPoint(View view) {
         return ISequenceElementAccessor.getOrCreate(view, ObservationPoint.class);
     }
 
@@ -255,7 +255,7 @@ public final class ISequenceElementAccessor {
      *            the notation view.
      * @return existing or new {@link ISequenceElement}.
      */
-    private static <T extends ISequenceElement> Option<T> getOrCreate(View notationView, Class<T> expectedType) {
+    private static <T extends ISequenceElement> java.util.Optional<T> getOrCreate(View notationView, Class<T> expectedType) {
         T ise = null;
 
         if (notationView != null) {
@@ -272,7 +272,7 @@ public final class ISequenceElementAccessor {
                 }
             }
         }
-        return Options.newSome(ise);
+        return java.util.Optional.of(ise);
     }
 
     private static ISequenceElement createSequenceElement(View notationView) {
@@ -329,10 +329,10 @@ public final class ISequenceElementAccessor {
             for (Setting setting : xref.getInverseReferences(semanticElement)) {
                 if (ISequenceElementAccessor.isDiagramElementTargetReference(setting)) {
                     DDiagramElement dde = (DDiagramElement) setting.getEObject();
-                    Option<View> optView = ISequenceElementAccessor.getGMFView(dde, xref);
-                    if (optView.some()) {
-                        Option<ISequenceEvent> elt = ISequenceElementAccessor.getISequenceEvent(optView.get());
-                        if (elt.some() && diagram.equals(elt.get().getDiagram())) {
+                    java.util.Optional<View> optView = ISequenceElementAccessor.getGMFView(dde, xref);
+                    if (optView.isPresent()) {
+                        java.util.Optional<ISequenceEvent> elt = ISequenceElementAccessor.getISequenceEvent(optView.get());
+                        if (elt.isPresent() && diagram.equals(elt.get().getDiagram())) {
                             result.add(elt.get());
                         }
                     }
@@ -362,14 +362,14 @@ public final class ISequenceElementAccessor {
             for (Setting setting : xref.getInverseReferences(semanticElement)) {
                 if (ISequenceElementAccessor.isDiagramElementTargetReference(setting)) {
                     DDiagramElement dde = (DDiagramElement) setting.getEObject();
-                    Option<View> optView = ISequenceElementAccessor.getGMFView(dde, xref);
-                    if (optView.some() && diagram.equals(dde.getParentDiagram())) {
+                    java.util.Optional<View> optView = ISequenceElementAccessor.getGMFView(dde, xref);
+                    if (optView.isPresent() && diagram.equals(dde.getParentDiagram())) {
                         result.add(optView.get());
                     }
                 } else if (ISequenceElementAccessor.isDiagramTargetReference(setting)) {
                     DSemanticDiagram foundDiag = (DSemanticDiagram) setting.getEObject();
-                    Option<View> optView = ISequenceElementAccessor.getGMFView(foundDiag, xref);
-                    if (optView.some() && diagram.equals(foundDiag)) {
+                    java.util.Optional<View> optView = ISequenceElementAccessor.getGMFView(foundDiag, xref);
+                    if (optView.isPresent() && diagram.equals(foundDiag)) {
                         result.add(optView.get());
                     }
                 }
@@ -404,16 +404,16 @@ public final class ISequenceElementAccessor {
         }
     }
 
-    private static Option<View> getGMFView(DSemanticDecorator dSem, ECrossReferenceAdapter xref) {
+    private static java.util.Optional<View> getGMFView(DSemanticDecorator dSem, ECrossReferenceAdapter xref) {
         for (Setting setting : xref.getInverseReferences(dSem)) {
             if (ISequenceElementAccessor.isViewElementReference(setting)) {
                 EObject view = setting.getEObject();
                 if (view instanceof View && ((View) view).getDiagram() != null) {
-                    return Options.newSome((View) view);
+                    return java.util.Optional.of((View) view);
                 }
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     private static boolean isViewElementReference(Setting setting) {

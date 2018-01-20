@@ -30,8 +30,8 @@ import org.eclipse.sirius.common.tools.api.interpreter.IInterpreter;
 import org.eclipse.sirius.common.tools.api.util.MessageTranslator;
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
 import org.eclipse.sirius.common.ui.SiriusTransPlugin;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tools.api.command.ICommandFactory;
 import org.eclipse.sirius.tools.api.interpreter.InterpreterUtil;
 import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
@@ -145,9 +145,9 @@ public abstract class AbstractCreateRepresentationFromRepresentationCreationDesc
             return;
         }
 
-        Option<DRepresentation> optionalCreatedRepresentation = executeCreationCommand(getInitialOperationCommand(name), getCreateRepresentationCommand(name));
+        java.util.Optional<DRepresentation> optionalCreatedRepresentation = executeCreationCommand(getInitialOperationCommand(name), getCreateRepresentationCommand(name));
         if (target != null) {
-            if (!optionalCreatedRepresentation.some()) {
+            if (!optionalCreatedRepresentation.isPresent()) {
                 final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
                 MessageDialog.openWarning(shell, Messages.AbstractCreateRepresentationFromRepresentationCreationDescription_creationError_title,
                         Messages.AbstractCreateRepresentationFromRepresentationCreationDescription_creationError_message);
@@ -166,7 +166,7 @@ public abstract class AbstractCreateRepresentationFromRepresentationCreationDesc
      *            Command that creates the new representation.
      * @return The created representation
      */
-    protected abstract Option<DRepresentation> executeCreationCommand(Option<Command> initialOperationCommand, CreateRepresentationCommand createRepresentationCommand);
+    protected abstract java.util.Optional<DRepresentation> executeCreationCommand(java.util.Optional<Command> initialOperationCommand, CreateRepresentationCommand createRepresentationCommand);
 
     /**
      * Return the command that executes all the initial operations. This command
@@ -176,11 +176,11 @@ public abstract class AbstractCreateRepresentationFromRepresentationCreationDesc
      *            The default representation name of the new representation.
      * @return an optional command that executes all the initial operations.
      */
-    protected Option<Command> getInitialOperationCommand(String defaultRepresentationName) {
+    protected java.util.Optional<Command> getInitialOperationCommand(String defaultRepresentationName) {
         if (isInitialOperation()) {
-            return Options.newSome(commandFactory.buildDoExecuteDetailsOperation(target, desc, defaultRepresentationName));
+            return java.util.Optional.of(commandFactory.buildDoExecuteDetailsOperation(target, desc, defaultRepresentationName));
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

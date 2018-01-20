@@ -16,7 +16,7 @@ import org.eclipse.sirius.diagram.sequence.SequenceDDiagram;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.SequenceDiagram;
 import org.eclipse.sirius.diagram.sequence.business.internal.layout.SequenceLayout;
 import org.eclipse.sirius.diagram.ui.business.internal.operation.AbstractModelChangeOperation;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Preconditions;
 
@@ -56,9 +56,9 @@ public class SynchronizeGraphicalOrderingOperation extends AbstractModelChangeOp
         boolean result = false;
         Preconditions.checkNotNull(sequenceDiagram);
         SequenceLayout sequenceLayout = new SequenceLayout(sequenceDiagram);
-        Option<SequenceDiagram> sd = sequenceLayout.getSequenceDiagram();
+        java.util.Optional<SequenceDiagram> sd = sequenceLayout.getSequenceDiagram();
 
-        if (sd.some()) {
+        if (sd.isPresent()) {
             SequenceDDiagram diagram = (SequenceDDiagram) sd.get().getNotationDiagram().getElement();
 
             if (diagram != null && (diagram.getGraphicalOrdering().getEventEnds().size() == diagram.getSemanticOrdering().getEventEnds().size())) {

@@ -18,7 +18,7 @@ import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.CombinedFr
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.ExecutionEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.LifelineEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.OperandEditPart;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.sample.interactions.Interaction;
 import org.eclipse.sirius.tests.swtbot.sequence.condition.CheckMessageEditPartIsDisplayed;
 import org.eclipse.sirius.tests.swtbot.sequence.condition.CheckNumberOfDescendants;
@@ -49,10 +49,10 @@ public class CombinedFragmentsTests extends AbstractCombinedFragmentSequenceTest
     public void testCombinedFragmentOperandMultipleSelectionDeletionNotPossible() {
         Point creationLocation = secondOperandOfFirstCombinedFragmentBounds.getCenter();
         CheckEditPartMoved checkMoved = new CheckEditPartMoved(secondCombinedFragmentBot);
-        Option<SWTBotGefEditPart> newOperandOption1 = createCombinedFragmentOperandWithResult(creationLocation);
+        java.util.Optional<SWTBotGefEditPart> newOperandOption1 = createCombinedFragmentOperandWithResult(creationLocation);
         bot.waitUntil(checkMoved);
 
-        Assert.assertTrue(newOperandOption1.some());
+        Assert.assertTrue(newOperandOption1.isPresent());
 
         SWTBotGefEditPart newOperandBot1 = newOperandOption1.get();
         Rectangle newOperandBounds1 = editor.getBounds(newOperandBot1);
@@ -77,10 +77,10 @@ public class CombinedFragmentsTests extends AbstractCombinedFragmentSequenceTest
 
         creationLocation = newOperandBounds1.getCenter();
         checkMoved = new CheckEditPartMoved(secondCombinedFragmentBot);
-        Option<SWTBotGefEditPart> newOperandOption2 = createCombinedFragmentOperandWithResult(creationLocation);
+        java.util.Optional<SWTBotGefEditPart> newOperandOption2 = createCombinedFragmentOperandWithResult(creationLocation);
         bot.waitUntil(checkMoved);
 
-        Assert.assertTrue(newOperandOption2.some());
+        Assert.assertTrue(newOperandOption2.isPresent());
 
         SWTBotGefEditPart newOperandBot2 = newOperandOption2.get();
         Rectangle newOperandBounds2 = editor.getBounds(newOperandBot2);

@@ -15,8 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.sirius.common.tools.Messages;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * An profilerTask registry maintains a mapping between symbolic profilerTask
@@ -42,13 +42,13 @@ public class ProfilerTaskRegistry {
      *            the key
      * @return an option of ProfilerTask
      */
-    public Option<ProfilerTask> get(String key) {
-        Option<ProfilerTask> result = Options.newNone();
+    public java.util.Optional<ProfilerTask> get(String key) {
+        java.util.Optional<ProfilerTask> result = java.util.Optional.empty();
         // can be null
         if (key != null) {
             ProfilerTask profilerTask = getTable().get(key);
             if (profilerTask != null) {
-                result = Options.newSome(profilerTask);
+                result = java.util.Optional.of(profilerTask);
             }
         }
         return result;

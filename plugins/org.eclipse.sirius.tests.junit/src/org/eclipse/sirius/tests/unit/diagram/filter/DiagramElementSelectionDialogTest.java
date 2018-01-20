@@ -32,8 +32,8 @@ import org.eclipse.sirius.diagram.business.api.query.DDiagramElementQuery;
 import org.eclipse.sirius.diagram.ui.business.api.provider.AbstractDDiagramElementLabelItemProvider;
 import org.eclipse.sirius.diagram.ui.tools.internal.dialogs.DiagramElementsSelectionDialog;
 import org.eclipse.sirius.diagram.ui.tools.internal.dialogs.DiagramElementsSelectionDialogPatternMatcher;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import org.eclipse.sirius.tests.support.api.SiriusDiagramTestCase;
 import org.eclipse.sirius.tests.support.api.TestsUtil;
@@ -73,8 +73,8 @@ public class DiagramElementSelectionDialogTest extends SiriusDiagramTestCase imp
             if (input instanceof DDiagramElement) {
                 result = !(new DDiagramElementQuery((DDiagramElement) input).isHidden());
             } else if (input instanceof AbstractDDiagramElementLabelItemProvider) {
-                Option<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) input).getDiagramElementTarget();
-                if (optionTarget.some()) {
+                java.util.Optional<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) input).getDiagramElementTarget();
+                if (optionTarget.isPresent()) {
                     result = !(new DDiagramElementQuery(optionTarget.get()).isLabelHidden());
                 }
             }
@@ -87,8 +87,8 @@ public class DiagramElementSelectionDialogTest extends SiriusDiagramTestCase imp
             if (from instanceof DDiagramElement) {
                 HideFilterHelper.INSTANCE.hide((DDiagramElement) from);
             } else if (from instanceof AbstractDDiagramElementLabelItemProvider) {
-                Option<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) from).getDiagramElementTarget();
-                if (optionTarget.some()) {
+                java.util.Optional<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) from).getDiagramElementTarget();
+                if (optionTarget.isPresent()) {
                     HideFilterHelper.INSTANCE.hideLabel(optionTarget.get());
                 }
             }
@@ -419,8 +419,8 @@ public class DiagramElementSelectionDialogTest extends SiriusDiagramTestCase imp
         }
 
         private String getLabelName(AbstractDDiagramElementLabelItemProvider checkDiagramElement) {
-            Option<DDiagramElement> optionTarget = checkDiagramElement.getDiagramElementTarget();
-            if (optionTarget.some()) {
+            java.util.Optional<DDiagramElement> optionTarget = checkDiagramElement.getDiagramElementTarget();
+            if (optionTarget.isPresent()) {
                 return optionTarget.get().getName() + " label";
             }
             fail("It should not be possible to have a label wrapper with no DDiagramElement.");
@@ -441,12 +441,12 @@ public class DiagramElementSelectionDialogTest extends SiriusDiagramTestCase imp
          *      boolean)
          */
         @Override
-        protected Option<Set<Object>> askUserForNewSelection(Shell parent, Set<Object> initialSelection) {
+        protected java.util.Optional<Set<Object>> askUserForNewSelection(Shell parent, Set<Object> initialSelection) {
             // We just open the dialog, without blocking execution flow
             setupDialog(parent, initialSelection);
             dialog.setBlockOnOpen(false);
             dialog.open();
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
 
         /**
@@ -464,8 +464,8 @@ public class DiagramElementSelectionDialogTest extends SiriusDiagramTestCase imp
             initContentProvider(includeNodeLabel);
 
             Set<Object> allSelectedElements = Collections.unmodifiableSet(getAllSelectedElements());
-            Option<Set<Object>> response = askUserForNewSelection(parent, allSelectedElements);
-            if (response.some()) {
+            java.util.Optional<Set<Object>> response = askUserForNewSelection(parent, allSelectedElements);
+            if (response.isPresent()) {
                 Set<Object> selectedAfter = response.get();
                 applyRequestedChanges(allSelectedElements, selectedAfter);
                 assert selectedAfter.equals(allSelectedElements);

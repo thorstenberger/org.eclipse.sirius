@@ -13,7 +13,7 @@ package org.eclipse.sirius.table.ui.tools.internal.editor.provider;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.ILabelDecorator;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.jface.viewers.IToolTipProvider;
 import org.eclipse.sirius.table.business.api.helper.TableHelper;
 import org.eclipse.sirius.table.metamodel.table.DCell;
@@ -51,8 +51,8 @@ public class DTableDecoratingLabelProvider extends DTableColumnLabelProvider imp
             DCell cell = null;
             if (element instanceof DLine) {
                 final DLine line = (DLine) element;
-                Option<DCell> optionalCell = TableHelper.getCell(line, column);
-                if (optionalCell.some()) {
+                java.util.Optional<DCell> optionalCell = TableHelper.getCell(line, column);
+                if (optionalCell.isPresent()) {
                     cell = optionalCell.get();
                 }
             } else if (element instanceof DCell) {

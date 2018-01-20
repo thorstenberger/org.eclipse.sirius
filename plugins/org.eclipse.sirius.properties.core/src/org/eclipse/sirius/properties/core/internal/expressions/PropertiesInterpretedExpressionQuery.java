@@ -39,8 +39,8 @@ import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterContext;
 import org.eclipse.sirius.common.tools.api.interpreter.TypeName;
 import org.eclipse.sirius.common.tools.api.interpreter.ValidationResult;
 import org.eclipse.sirius.common.tools.api.interpreter.VariableType;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.properties.DynamicMappingForDescription;
 import org.eclipse.sirius.properties.GroupDescription;
 import org.eclipse.sirius.properties.PageDescription;
@@ -135,8 +135,8 @@ public final class PropertiesInterpretedExpressionQuery extends AbstractInterpre
 
         // Also add metamodels explicitly added to the ViewExtensionDescription,
         // if any.
-        Option<EObject> viewDescriptionOpt = new EObjectQuery(target).getFirstAncestorOfType(PropertiesPackage.Literals.VIEW_EXTENSION_DESCRIPTION);
-        if (viewDescriptionOpt.some()) {
+        java.util.Optional<EObject> viewDescriptionOpt = new EObjectQuery(target).getFirstAncestorOfType(PropertiesPackage.Literals.VIEW_EXTENSION_DESCRIPTION);
+        if (viewDescriptionOpt.isPresent()) {
             ViewExtensionDescription ved = (ViewExtensionDescription) viewDescriptionOpt.get();
             result.addAll(ved.getMetamodels());
         }
@@ -247,11 +247,11 @@ public final class PropertiesInterpretedExpressionQuery extends AbstractInterpre
     }
 
     @Override
-    protected Option<EObject> getToolContext() {
-        Option<EObject> result = super.getToolContext();
-        if (!result.some()) {
+    protected java.util.Optional<EObject> getToolContext() {
+        java.util.Optional<EObject> result = super.getToolContext();
+        if (!result.isPresent()) {
             if (target instanceof PageDescription || target instanceof GroupDescription) {
-                result = Options.newSome(target);
+                result = java.util.Optional.of(target);
             } else {
                 result = new EObjectQuery(target).getFirstAncestorOfType(ToolPackage.Literals.INITIAL_OPERATION);
             }
@@ -273,8 +273,8 @@ public final class PropertiesInterpretedExpressionQuery extends AbstractInterpre
             } else if (callbackFeature == PropertiesPackage.Literals.ABSTRACT_CHECKBOX_DESCRIPTION__INITIAL_OPERATION) {
                 availableVariables.put(EEFExpressionUtils.EEFCheckbox.NEW_VALUE, booleanType);
             } else if (callbackFeature == PropertiesPackage.Literals.ABSTRACT_HYPERLINK_DESCRIPTION__INITIAL_OPERATION) {
-                Option<Collection<String>> domainClass = VSMNavigation.getDomainClassFromContainingGroup(toolContext);
-                if (domainClass.some()) {
+                java.util.Optional<Collection<String>> domainClass = VSMNavigation.getDomainClassFromContainingGroup(toolContext);
+                if (domainClass.isPresent()) {
                     availableVariables.put(EEFExpressionUtils.EEFHyperlink.SELECTION, VariableType.fromStrings(domainClass.get()));
                 } else {
                     availableVariables.put(EEFExpressionUtils.EEFHyperlink.SELECTION, unkownType);
@@ -285,8 +285,8 @@ public final class PropertiesInterpretedExpressionQuery extends AbstractInterpre
                  */
                 availableVariables.put(EEFExpressionUtils.EEFText.NEW_VALUE, getResultType(toolContext.eContainer(), PropertiesPackage.Literals.ABSTRACT_RADIO_DESCRIPTION__CANDIDATES_EXPRESSION));
             } else if (callbackFeature == PropertiesPackage.Literals.WIDGET_ACTION__INITIAL_OPERATION) {
-                Option<Collection<String>> domainClass = VSMNavigation.getDomainClassFromContainingGroup(toolContext);
-                if (!domainClass.some()) {
+                java.util.Optional<Collection<String>> domainClass = VSMNavigation.getDomainClassFromContainingGroup(toolContext);
+                if (!domainClass.isPresent()) {
                     availableVariables.put(EEFExpressionUtils.EEFHyperlink.SELECTION, VariableType.fromStrings(domainClass.get()));
                 } else {
                     availableVariables.put(EEFExpressionUtils.EEFHyperlink.SELECTION, unkownType);
@@ -349,15 +349,15 @@ public final class PropertiesInterpretedExpressionQuery extends AbstractInterpre
         }
 
         @Override
-        public Option<Collection<String>> doSwitch(EObject target, boolean considerFeature) {
+        public java.util.Optional<Collection<String>> doSwitch(EObject target, boolean considerFeature) {
             Collection<String> targetTypes = new LinkedHashSet<>();
-            Option<Collection<String>> expressionTarget = Options.newSome(targetTypes);
+            java.util.Optional<Collection<String>> expressionTarget = java.util.Optional.of(targetTypes);
             if (target != null) {
-                if (expressionTarget.some() && expressionTarget.get().isEmpty()) {
+                if (expressionTarget.isPresent() && expressionTarget.get().isEmpty()) {
                     propertiesSwitch.setConsiderFeature(considerFeature);
                     expressionTarget = propertiesSwitch.doSwitch(target);
                 }
-                if (expressionTarget.some() && expressionTarget.get().isEmpty()) {
+                if (expressionTarget.isPresent() && expressionTarget.get().isEmpty()) {
                     delegateSwitch.setConsiderFeature(considerFeature);
                     expressionTarget = delegateSwitch.doSwitch(target);
                 }

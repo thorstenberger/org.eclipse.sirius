@@ -20,7 +20,7 @@ import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.ui.business.api.query.DDiagramGraphicalQuery;
 import org.eclipse.sirius.diagram.ui.tools.internal.editor.DDiagramEditorImpl;
 import org.eclipse.sirius.diagram.ui.tools.internal.palette.SectionPaletteDrawer;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import org.eclipse.sirius.tests.support.api.EclipseTestsSupportHelper;
 import org.eclipse.sirius.tests.support.api.TestsUtil;
@@ -144,8 +144,8 @@ public class ModifySessionOutsideEclipseTest extends AbstractPaletteManagerTest 
             }
         }
         assertNotNull("DDiagram not found", dDiagram);
-        Option<Diagram> optionalDiagram = new DDiagramGraphicalQuery(dDiagram).getAssociatedGMFDiagram();
-        assertTrue("No GMF Diagram is associated to the current Sirius DDiagram.", optionalDiagram.some());
+        java.util.Optional<Diagram> optionalDiagram = new DDiagramGraphicalQuery(dDiagram).getAssociatedGMFDiagram();
+        assertTrue("No GMF Diagram is associated to the current Sirius DDiagram.", optionalDiagram.isPresent());
         diagram = optionalDiagram.get();
     }
 

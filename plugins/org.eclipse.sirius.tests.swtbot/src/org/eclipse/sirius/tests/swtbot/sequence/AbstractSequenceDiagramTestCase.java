@@ -56,8 +56,8 @@ import org.eclipse.sirius.diagram.tools.api.preferences.SiriusDiagramPreferences
 import org.eclipse.sirius.diagram.ui.tools.api.figure.SiriusWrapLabel;
 import org.eclipse.sirius.diagram.ui.tools.api.layout.LayoutUtils;
 import org.eclipse.sirius.diagram.ui.tools.api.preferences.SiriusDiagramUiPreferencesKeys;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 import org.eclipse.sirius.tests.swtbot.Activator;
 import org.eclipse.sirius.tests.swtbot.support.api.AbstractSiriusSwtBotGefTestCase;
@@ -337,7 +337,7 @@ public abstract class AbstractSequenceDiagramTestCase extends AbstractSiriusSwtB
      * 
      * @return the representation name as defined in the .aird model
      */
-    protected abstract Option<String> getDRepresentationName();
+    protected abstract java.util.Optional<String> getDRepresentationName();
 
     @Override
     protected void onSetUpBeforeClosingWelcomePage() throws Exception {
@@ -362,8 +362,8 @@ public abstract class AbstractSequenceDiagramTestCase extends AbstractSiriusSwtB
         } else {
             sessionAirdResource = new UIResource(designerProject, FILE_DIR, getSessionModel());
             localSession = designerPerspective.openSessionFromFile(sessionAirdResource, true);
-            Option<String> dRepresentationName = getDRepresentationName();
-            if (dRepresentationName.some()) {
+            java.util.Optional<String> dRepresentationName = getDRepresentationName();
+            if (dRepresentationName.isPresent()) {
                 editor = (SWTBotSiriusDiagramEditor) openRepresentation(localSession.getOpenedSession(), getRepresentationId(), dRepresentationName.get(), DDiagram.class);
             }
         }
@@ -758,7 +758,7 @@ public abstract class AbstractSequenceDiagramTestCase extends AbstractSiriusSwtB
      * 
      * @return the newly created CombinedFragment's Operand
      */
-    protected Option<SWTBotGefEditPart> createCombinedFragmentOperandWithResult(final Point singleClickPoint) {
+    protected java.util.Optional<SWTBotGefEditPart> createCombinedFragmentOperandWithResult(final Point singleClickPoint) {
         List<SWTBotGefEditPart> combinedFragments = editor.rootEditPart().descendants(IsInstanceOf.instanceOf(CombinedFragmentEditPart.class));
         Assert.assertNotNull(combinedFragments);
         Assert.assertFalse(combinedFragments.isEmpty());
@@ -801,9 +801,9 @@ public abstract class AbstractSequenceDiagramTestCase extends AbstractSiriusSwtB
             descendantsAfter.removeAll(descendantsBefore);
             Assert.assertEquals(1, descendantsAfter.size());
             SWTBotGefEditPart resultEditPartBot = descendantsAfter.get(0);
-            return Options.newSome(resultEditPartBot);
+            return java.util.Optional.of(resultEditPartBot);
         } else {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
     }
 
@@ -874,11 +874,11 @@ public abstract class AbstractSequenceDiagramTestCase extends AbstractSiriusSwtB
         applyOneClicTool(InteractionsConstants.EXECUTION_TOOL_ID, xLocation, yLocation);
     }
 
-    protected Option<SWTBotGefEditPart> createExecutionWithResult(Point location) {
+    protected java.util.Optional<SWTBotGefEditPart> createExecutionWithResult(Point location) {
         return createExecutionWithResult(location.x, location.y);
     }
 
-    protected Option<SWTBotGefEditPart> createExecutionWithResult(int xLocation, int yLocation) {
+    protected java.util.Optional<SWTBotGefEditPart> createExecutionWithResult(int xLocation, int yLocation) {
         List<SWTBotGefEditPart> descendantsBefore = editor.rootEditPart().descendants(IsInstanceOf.instanceOf(ExecutionEditPart.class));
         createExecution(xLocation, yLocation);
         List<SWTBotGefEditPart> descendantsAfter = editor.rootEditPart().descendants(IsInstanceOf.instanceOf(ExecutionEditPart.class));
@@ -887,9 +887,9 @@ public abstract class AbstractSequenceDiagramTestCase extends AbstractSiriusSwtB
             descendantsAfter.removeAll(descendantsBefore);
             Assert.assertEquals(1, descendantsAfter.size());
             SWTBotGefEditPart resultEditPartBot = descendantsAfter.get(0);
-            return Options.newSome(resultEditPartBot);
+            return java.util.Optional.of(resultEditPartBot);
         } else {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
     }
 
@@ -897,11 +897,11 @@ public abstract class AbstractSequenceDiagramTestCase extends AbstractSiriusSwtB
         applyOneClicTool(InteractionsConstants.STATE_TOOL_ID, xLocation, yLocation);
     }
 
-    protected Option<SWTBotGefEditPart> createStateWithResult(Point location) {
+    protected java.util.Optional<SWTBotGefEditPart> createStateWithResult(Point location) {
         return createStateWithResult(location.x, location.y);
     }
 
-    protected Option<SWTBotGefEditPart> createStateWithResult(int xLocation, int yLocation) {
+    protected java.util.Optional<SWTBotGefEditPart> createStateWithResult(int xLocation, int yLocation) {
         List<SWTBotGefEditPart> descendantsBefore = editor.rootEditPart().descendants(IsInstanceOf.instanceOf(StateEditPart.class));
         createState(xLocation, yLocation);
         List<SWTBotGefEditPart> descendantsAfter = editor.rootEditPart().descendants(IsInstanceOf.instanceOf(StateEditPart.class));
@@ -910,9 +910,9 @@ public abstract class AbstractSequenceDiagramTestCase extends AbstractSiriusSwtB
             descendantsAfter.removeAll(descendantsBefore);
             Assert.assertEquals(1, descendantsAfter.size());
             SWTBotGefEditPart resultEditPartBot = descendantsAfter.get(0);
-            return Options.newSome(resultEditPartBot);
+            return java.util.Optional.of(resultEditPartBot);
         } else {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
     }
 
@@ -920,11 +920,11 @@ public abstract class AbstractSequenceDiagramTestCase extends AbstractSiriusSwtB
         applyOneClicTool(InteractionsConstants.PUNCTUAL_STATE_TOOL_ID, xLocation, yLocation);
     }
 
-    protected Option<SWTBotGefEditPart> createPunctualStateWithResult(Point location) {
+    protected java.util.Optional<SWTBotGefEditPart> createPunctualStateWithResult(Point location) {
         return createPunctualStateWithResult(location.x, location.y);
     }
 
-    protected Option<SWTBotGefEditPart> createPunctualStateWithResult(int xLocation, int yLocation) {
+    protected java.util.Optional<SWTBotGefEditPart> createPunctualStateWithResult(int xLocation, int yLocation) {
         List<SWTBotGefEditPart> descendantsBefore = editor.rootEditPart().descendants(IsInstanceOf.instanceOf(StateEditPart.class));
         createPunctualState(xLocation, yLocation);
         List<SWTBotGefEditPart> descendantsAfter = editor.rootEditPart().descendants(IsInstanceOf.instanceOf(StateEditPart.class));
@@ -933,9 +933,9 @@ public abstract class AbstractSequenceDiagramTestCase extends AbstractSiriusSwtB
             descendantsAfter.removeAll(descendantsBefore);
             Assert.assertEquals(1, descendantsAfter.size());
             SWTBotGefEditPart resultEditPartBot = descendantsAfter.get(0);
-            return Options.newSome(resultEditPartBot);
+            return java.util.Optional.of(resultEditPartBot);
         } else {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
     }
 

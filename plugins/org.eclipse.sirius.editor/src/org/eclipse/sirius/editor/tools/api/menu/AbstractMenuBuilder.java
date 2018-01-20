@@ -42,8 +42,8 @@ import org.eclipse.sirius.business.internal.metamodel.helper.EClassHelper;
 import org.eclipse.sirius.editor.editorPlugin.SiriusEditorPlugin;
 import org.eclipse.sirius.editor.tools.internal.editor.EditorCustomizationManager;
 import org.eclipse.sirius.editor.tools.internal.menu.CustomChildTextAdapter;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.description.DescriptionPackage;
 import org.eclipse.ui.IEditorPart;
 
@@ -280,8 +280,8 @@ public abstract class AbstractMenuBuilder {
      * 
      * @return the menu manager.
      */
-    protected Option<IMenuManager> getMenu() {
-        return Options.newSome(myMenuManager);
+    protected java.util.Optional<IMenuManager> getMenu() {
+        return java.util.Optional.of(myMenuManager);
     }
 
     private void createMenuManager() {
@@ -450,7 +450,7 @@ public abstract class AbstractMenuBuilder {
      * Populate the menu.
      */
     public void populateMenu() {
-        if (getMenu().some()) {
+        if (getMenu().isPresent()) {
             populateManager(getMenu().get(), advancedChildActions, null);
         }
     }
@@ -459,7 +459,7 @@ public abstract class AbstractMenuBuilder {
      * Depopulate the menu.
      */
     public void depopulateMenu() {
-        if (getMenu().some()) {
+        if (getMenu().isPresent()) {
             depopulateManager(getMenu().get(), advancedChildActions);
         }
     }

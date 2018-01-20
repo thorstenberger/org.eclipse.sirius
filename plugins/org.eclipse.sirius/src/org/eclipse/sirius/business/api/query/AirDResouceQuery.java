@@ -11,8 +11,8 @@
 package org.eclipse.sirius.business.api.query;
 
 import org.eclipse.sirius.business.api.session.resource.AirdResource;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.description.DAnnotationEntry;
 
@@ -51,11 +51,11 @@ public class AirDResouceQuery {
      * 
      * @return the DAnalysis of the resource
      */
-    public Option<DAnalysis> getDAnalysis() {
+    public java.util.Optional<DAnalysis> getDAnalysis() {
         if (analysis != null) {
-            return Options.newSome(analysis);
+            return java.util.Optional.of(analysis);
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -71,7 +71,7 @@ public class AirDResouceQuery {
         if (analysis == null) {
             return true;
         }
-        final Option<DAnnotationEntry> annotation = new DAnalysisQuery(analysis).getAnnotation(ANNOTATION_SOURCE, tag);
-        return annotation.some();
+        final java.util.Optional<DAnnotationEntry> annotation = new DAnalysisQuery(analysis).getAnnotation(ANNOTATION_SOURCE, tag);
+        return annotation.isPresent();
     }
 }

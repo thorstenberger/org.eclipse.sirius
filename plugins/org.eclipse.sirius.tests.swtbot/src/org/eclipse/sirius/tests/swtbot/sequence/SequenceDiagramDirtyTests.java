@@ -14,8 +14,8 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionStatus;
 import org.eclipse.sirius.diagram.DDiagram;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tests.swtbot.support.api.editor.SWTBotSiriusDiagramEditor;
 import org.eclipse.sirius.tests.unit.diagram.sequence.InteractionsConstants;
 
@@ -53,8 +53,8 @@ public class SequenceDiagramDirtyTests extends AbstractSequenceDiagramTestCase {
      * {@inheritDoc}
      */
     @Override
-    protected Option<String> getDRepresentationName() {
-        return Options.newSome("Complex");
+    protected java.util.Optional<String> getDRepresentationName() {
+        return java.util.Optional.of("Complex");
     }
 
     /**

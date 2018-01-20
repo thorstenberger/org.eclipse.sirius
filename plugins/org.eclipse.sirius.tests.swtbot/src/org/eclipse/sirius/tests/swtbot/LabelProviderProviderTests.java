@@ -29,7 +29,7 @@ import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.ui.internal.sheet.SiriusSheetLabelProvider;
 import org.eclipse.sirius.diagram.ui.provider.DiagramUIPlugin;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.table.metamodel.table.DTableElement;
 import org.eclipse.sirius.tests.support.api.ImageEquality;
 import org.eclipse.sirius.tests.swtbot.LabelProviderProviderTests.DiagramLabelProviderProviderStub.DiagramLabelProvider;
@@ -280,7 +280,7 @@ public class LabelProviderProviderTests extends AbstractSiriusSwtBotGefTestCase 
         Object oldLabelProvider = null;
         if (Platform.getBundle("org.eclipse.emf.eef.runtime") != null) {
             IPage currentPage = ((org.eclipse.ui.views.properties.PropertySheet) propertiesView.getReference().getView(false)).getCurrentPage();
-            Option<Object> valueOption = ReflectionHelper.getFieldValueWithoutException(currentPage, "registry");
+            java.util.Optional<Object> valueOption = ReflectionHelper.getFieldValueWithoutException(currentPage, "registry");
             assertTrue(valueOption.get() instanceof TabbedPropertyRegistry);
             TabbedPropertyRegistry tabbedPropertyRegistry = (TabbedPropertyRegistry) valueOption.get();
             String contributorId = (String) ReflectionHelper.getFieldValueWithoutException(tabbedPropertyRegistry, "contributorId").get();
@@ -300,7 +300,7 @@ public class LabelProviderProviderTests extends AbstractSiriusSwtBotGefTestCase 
 
     private void checkPropertiesLabelProvider(SWTBotView propertiesView, Class<?> labelProviderType) {
         IPage currentPage = ((org.eclipse.ui.views.properties.PropertySheet) propertiesView.getReference().getView(false)).getCurrentPage();
-        Option<Object> valueOption = ReflectionHelper.getFieldValueWithoutException(currentPage, "registry");
+        java.util.Optional<Object> valueOption = ReflectionHelper.getFieldValueWithoutException(currentPage, "registry");
         assertTrue(valueOption.get() instanceof TabbedPropertyRegistry);
         TabbedPropertyRegistry tabbedPropertyRegistry = (TabbedPropertyRegistry) valueOption.get();
         assertEquals("The properties view labelProvider is not of the expected type", labelProviderType, tabbedPropertyRegistry.getLabelProvider().getClass());
@@ -309,7 +309,7 @@ public class LabelProviderProviderTests extends AbstractSiriusSwtBotGefTestCase 
     private void resetPropertyViewLabelProvider(SWTBotView propertiesView, Object oldLabelProvider) {
         if (oldLabelProvider != null) {
             IPage currentPage = ((org.eclipse.ui.views.properties.PropertySheet) propertiesView.getReference().getView(false)).getCurrentPage();
-            Option<Object> valueOption = ReflectionHelper.getFieldValueWithoutException(currentPage, "registry");
+            java.util.Optional<Object> valueOption = ReflectionHelper.getFieldValueWithoutException(currentPage, "registry");
             assertTrue(valueOption.get() instanceof TabbedPropertyRegistry);
             TabbedPropertyRegistry tabbedPropertyRegistry = (TabbedPropertyRegistry) valueOption.get();
             ReflectionHelper.setFieldValueWithoutException(tabbedPropertyRegistry, "labelProvider", oldLabelProvider);

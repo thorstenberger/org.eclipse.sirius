@@ -25,7 +25,7 @@ import org.eclipse.sirius.diagram.description.DiagramElementMapping;
 import org.eclipse.sirius.diagram.description.EdgeMapping;
 import org.eclipse.sirius.diagram.description.EdgeMappingImport;
 import org.eclipse.sirius.diagram.impl.DEdgeImpl;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.Style;
 
 /**
@@ -52,8 +52,8 @@ public class DEdgeSpec extends DEdgeImpl {
      */
     @Override
     public void refresh() {
-        Option<EdgeMapping> edgeMapping = new IEdgeMappingQuery(getActualMapping()).getEdgeMapping();
-        if (edgeMapping.some()) {
+        java.util.Optional<EdgeMapping> edgeMapping = new IEdgeMappingQuery(getActualMapping()).getEdgeMapping();
+        if (edgeMapping.isPresent()) {
             edgeMapping.get().updateEdge(this);
         }
     }

@@ -29,8 +29,8 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.eclipse.sirius.business.api.migration.IMigrationParticipant;
 import org.eclipse.sirius.common.tools.api.util.EclipseUtil;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.Messages;
 import org.eclipse.sirius.viewpoint.SiriusPlugin;
 import org.osgi.framework.Version;
@@ -159,11 +159,11 @@ public abstract class AbstractSiriusMigrationService implements IMigrationPartic
      * @return the optional new uri fragment (none if no changes).
      */
     @Override
-    public Option<String> getNewFragment(String uriFragment) {
-        Option<String> optionalNewFragment = Options.newNone();
+    public java.util.Optional<String> getNewFragment(String uriFragment) {
+        java.util.Optional<String> optionalNewFragment = java.util.Optional.empty();
         for (IMigrationParticipant contribution : delegatesParticipants) {
             optionalNewFragment = contribution.getNewFragment(uriFragment);
-            if (optionalNewFragment.some()) {
+            if (optionalNewFragment.isPresent()) {
                 break;
             }
         }

@@ -15,8 +15,8 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * An {@link Adapter} to associate a {@link ModelAccessor} to a
@@ -61,13 +61,13 @@ public class ModelAccessorAdapter implements Adapter {
      *            ModelAccessorAdapter
      * @return the associated ModelAccessorAdapter if it exists
      */
-    public static Option<ModelAccessorAdapter> getAdapter(ResourceSet resourceSet) {
+    public static java.util.Optional<ModelAccessorAdapter> getAdapter(ResourceSet resourceSet) {
         for (Adapter adapter : resourceSet.eAdapters()) {
             if (adapter instanceof ModelAccessorAdapter) {
-                return Options.newSome((ModelAccessorAdapter) adapter);
+                return java.util.Optional.of((ModelAccessorAdapter) adapter);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -78,13 +78,13 @@ public class ModelAccessorAdapter implements Adapter {
      *            The resource set from which to remove the ModelAccessorAdapter
      * @return the ModelAccessor of the removed adapter
      */
-    public static Option<ModelAccessor> removeAdapter(ResourceSet resourceSet) {
-        Option<ModelAccessorAdapter> optionalAdapter = getAdapter(resourceSet);
-        if (optionalAdapter.some()) {
+    public static java.util.Optional<ModelAccessor> removeAdapter(ResourceSet resourceSet) {
+        java.util.Optional<ModelAccessorAdapter> optionalAdapter = getAdapter(resourceSet);
+        if (optionalAdapter.isPresent()) {
             resourceSet.eAdapters().remove(optionalAdapter.get());
-            return Options.newSome(optionalAdapter.get().getModelAccessor());
+            return java.util.Optional.of(optionalAdapter.get().getModelAccessor());
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -96,8 +96,8 @@ public class ModelAccessorAdapter implements Adapter {
      *            The resource set from which to remove the ModelAccessorAdapter
      */
     public static void disposeModelAccessor(ResourceSet resourceSet) {
-        Option<ModelAccessor> optionalRemovedAdapter = removeAdapter(resourceSet);
-        if (optionalRemovedAdapter.some()) {
+        java.util.Optional<ModelAccessor> optionalRemovedAdapter = removeAdapter(resourceSet);
+        if (optionalRemovedAdapter.isPresent()) {
             optionalRemovedAdapter.get().dispose();
         }
     }

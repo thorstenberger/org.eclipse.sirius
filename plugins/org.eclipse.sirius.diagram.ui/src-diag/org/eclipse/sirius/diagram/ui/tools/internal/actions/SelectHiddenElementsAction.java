@@ -37,7 +37,7 @@ import org.eclipse.sirius.diagram.ui.tools.api.ui.actions.ActionIds;
 import org.eclipse.sirius.diagram.ui.tools.internal.actions.visibility.HideDDiagramElementAction;
 import org.eclipse.sirius.diagram.ui.tools.internal.dialogs.DiagramElementsSelectionDialog;
 import org.eclipse.sirius.diagram.ui.tools.internal.editor.DDiagramEditorImpl;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
 
@@ -106,8 +106,8 @@ public class SelectHiddenElementsAction extends AbstractDiagramAction {
             if (input instanceof DDiagramElement) {
                 result = !(new DDiagramElementQuery((DDiagramElement) input).isHidden());
             } else if (input instanceof AbstractDDiagramElementLabelItemProvider) {
-                Option<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) input).getDiagramElementTarget();
-                if (optionTarget.some()) {
+                java.util.Optional<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) input).getDiagramElementTarget();
+                if (optionTarget.isPresent()) {
                     result = !(new DDiagramElementQuery(optionTarget.get()).isLabelHidden());
                 }
             }
@@ -121,8 +121,8 @@ public class SelectHiddenElementsAction extends AbstractDiagramAction {
             if (from instanceof DDiagramElement) {
                 HideFilterHelper.INSTANCE.hide((DDiagramElement) from);
             } else if (from instanceof AbstractDDiagramElementLabelItemProvider) {
-                Option<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) from).getDiagramElementTarget();
-                if (optionTarget.some()) {
+                java.util.Optional<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) from).getDiagramElementTarget();
+                if (optionTarget.isPresent()) {
                     HideFilterHelper.INSTANCE.hideLabel(optionTarget.get());
                 }
             }

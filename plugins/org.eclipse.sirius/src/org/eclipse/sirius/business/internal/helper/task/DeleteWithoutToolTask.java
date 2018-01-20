@@ -21,7 +21,7 @@ import org.eclipse.sirius.business.api.helper.task.ICommandTask;
 import org.eclipse.sirius.business.api.helper.task.TaskHelper;
 import org.eclipse.sirius.business.api.query.EObjectQuery;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
@@ -91,8 +91,8 @@ public class DeleteWithoutToolTask extends AbstractCompoundTask {
     @Override
     protected List<ICommandTask> prepareSubTasks() {
         List<ICommandTask> subTasks = new ArrayList<>();
-        Option<DRepresentation> parentRepresentation = new EObjectQuery(element).getRepresentation();
-        if (parentRepresentation.some()) {
+        java.util.Optional<DRepresentation> parentRepresentation = new EObjectQuery(element).getRepresentation();
+        if (parentRepresentation.isPresent()) {
 
             if (semanticElements == null) {
                 EObject semanticElement = element.getTarget();

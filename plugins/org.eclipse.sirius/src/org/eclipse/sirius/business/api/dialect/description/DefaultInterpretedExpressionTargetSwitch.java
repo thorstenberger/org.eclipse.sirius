@@ -20,8 +20,8 @@ import org.eclipse.sirius.business.internal.dialect.description.DescriptionInter
 import org.eclipse.sirius.business.internal.dialect.description.StyleInterpretedExpressionTargetSwitch;
 import org.eclipse.sirius.business.internal.dialect.description.ToolInterpretedExpressionTargetSwitch;
 import org.eclipse.sirius.business.internal.dialect.description.ValidationInterpretedExpressionTargetSwitch;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
 import org.eclipse.sirius.viewpoint.description.RepresentationElementMapping;
 import org.eclipse.sirius.viewpoint.description.RepresentationExtensionDescription;
@@ -67,26 +67,26 @@ public class DefaultInterpretedExpressionTargetSwitch implements IInterpretedExp
      * @see org.eclipse.sirius.business.api.dialect.description.IInterpretedExpressionTargetSwitch#doSwitch(org.eclipse.emf.ecore.EObject,
      *      boolean)
      */
-    public Option<Collection<String>> doSwitch(EObject theEObject, boolean considerFeature) {
+    public java.util.Optional<Collection<String>> doSwitch(EObject theEObject, boolean considerFeature) {
         Collection<String> targetTypes = new LinkedHashSet<>();
-        Option<Collection<String>> expressionTarget = Options.newSome(targetTypes);
+        java.util.Optional<Collection<String>> expressionTarget = java.util.Optional.of(targetTypes);
         if (theEObject != null) {
             descriptionSwitch.setConsiderFeature(considerFeature);
             expressionTarget = descriptionSwitch.doSwitch(theEObject);
 
-            if (expressionTarget.some() && expressionTarget.get().isEmpty()) {
+            if (expressionTarget.isPresent() && expressionTarget.get().isEmpty()) {
                 styleSwitch.setConsiderFeature(considerFeature);
                 expressionTarget = styleSwitch.doSwitch(theEObject);
             }
 
-            if (expressionTarget.some() && expressionTarget.get().isEmpty()) {
+            if (expressionTarget.isPresent() && expressionTarget.get().isEmpty()) {
                 validationSwitch.setConsiderFeature(considerFeature);
                 expressionTarget = validationSwitch.doSwitch(theEObject);
             }
 
             // Tool in last position -> tool will return a default EObject value
             // as domain class.
-            if (expressionTarget.some() && expressionTarget.get().isEmpty()) {
+            if (expressionTarget.isPresent() && expressionTarget.get().isEmpty()) {
                 toolSwitch.setConsiderFeature(considerFeature);
                 expressionTarget = toolSwitch.doSwitch(theEObject);
             }

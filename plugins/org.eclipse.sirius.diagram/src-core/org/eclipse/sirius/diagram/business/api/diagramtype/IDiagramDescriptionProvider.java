@@ -22,7 +22,7 @@ import org.eclipse.sirius.business.api.dialect.description.IInterpretedExpressio
 import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.description.DiagramDescription;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 
 /**
@@ -205,7 +205,7 @@ public interface IDiagramDescriptionProvider {
      * @return an optional {@link ICollapseUpdater} for this kind of
      *         <code>diagram</code>.
      */
-    Option<? extends ICollapseUpdater> getCollapseUpdater(DDiagram diagram);
+    java.util.Optional<? extends ICollapseUpdater> getCollapseUpdater(DDiagram diagram);
 
     /**
      * Allows the {@link IDiagramDescriptionProvider} to customize the tooltip

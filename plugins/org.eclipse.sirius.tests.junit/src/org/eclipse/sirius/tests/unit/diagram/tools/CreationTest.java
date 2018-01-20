@@ -21,8 +21,8 @@ import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterSiriusVariabl
 import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.description.tool.ToolFactory;
 import org.eclipse.sirius.diagram.tools.internal.command.builders.AbstractDiagramCommandBuilder;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tests.unit.common.DocbookTestCase;
 import org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription;
 
@@ -61,8 +61,8 @@ public class CreationTest extends DocbookTestCase {
          * {@inheritDoc}
          */
         @Override
-        protected Option<DDiagram> getDDiagram() {
-            return Options.newNone();
+        protected java.util.Optional<DDiagram> getDDiagram() {
+            return java.util.Optional.empty();
         }
     }
 

@@ -15,8 +15,8 @@ import org.eclipse.sirius.diagram.business.api.query.ContainerMappingQuery;
 import org.eclipse.sirius.diagram.description.ContainerMapping;
 import org.eclipse.sirius.diagram.editor.properties.sections.description.containermapping.ContainerMappingChildrenPresentationPropertySection;
 import org.eclipse.sirius.editor.editorPlugin.SiriusEditor;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Button;
@@ -35,12 +35,12 @@ public class ContainerMappingChildrenPresentationPropertySectionSpec extends Con
 
         if (button != null && eObject instanceof ContainerMapping) {
             ContainerMapping containerMapping = (ContainerMapping) eObject;
-            Option<String> experimentalStackButtons = shouldMarkCompartmentsExperimental(containerMapping);
+            java.util.Optional<String> experimentalStackButtons = shouldMarkCompartmentsExperimental(containerMapping);
             updateControls(experimentalStackButtons);
         }
     }
 
-    private Option<String> shouldMarkCompartmentsExperimental(ContainerMapping containerMapping) {
+    private java.util.Optional<String> shouldMarkCompartmentsExperimental(ContainerMapping containerMapping) {
         boolean experimental = false;
         StringBuilder message = new StringBuilder("Experimental");
         experimental = new ContainerMappingQuery(containerMapping).isRegion();
@@ -57,10 +57,10 @@ public class ContainerMappingChildrenPresentationPropertySectionSpec extends Con
             }
         }
         message.append(".");
-        return experimental ? Options.newSome(message.toString()) : Options.<String> newNone();
+        return experimental ? java.util.Optional.of(message.toString()) : java.util.Optional.empty();
     }
 
-    private void updateControls(Option<String> experimentalStackButtons) {
+    private void updateControls(java.util.Optional<String> experimentalStackButtons) {
         String hStackButtonText = getText(ContainerLayout.HORIZONTAL_STACK);
         String vStackButtonText = getText(ContainerLayout.VERTICAL_STACK);
 
@@ -79,9 +79,9 @@ public class ContainerMappingChildrenPresentationPropertySectionSpec extends Con
         }
     }
 
-    private boolean updateButton(Button b, Option<String> experimentalStackButtons) {
+    private boolean updateButton(Button b, java.util.Optional<String> experimentalStackButtons) {
         boolean needsLayout = false;
-        if (experimentalStackButtons.some()) {
+        if (experimentalStackButtons.isPresent()) {
             b.setToolTipText(experimentalStackButtons.get());
             Font f = b.getFont();
             if (f != null && f.getFontData().length > 0) {

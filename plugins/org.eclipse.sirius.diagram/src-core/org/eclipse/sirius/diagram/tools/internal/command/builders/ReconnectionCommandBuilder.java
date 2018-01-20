@@ -41,7 +41,7 @@ import org.eclipse.sirius.diagram.tools.internal.command.reconnect.ReconnectSour
 import org.eclipse.sirius.diagram.tools.internal.command.reconnect.SetEdgeActualMappingCommand;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.exception.FeatureNotFoundException;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.exception.MetaClassNotFoundException;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.command.CommandContext;
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.tools.api.interpreter.InterpreterUtil;
@@ -126,7 +126,7 @@ public class ReconnectionCommandBuilder extends AbstractDiagramCommandBuilder {
             final DCommand cmd = createEnclosingCommand();
             cmd.getTasks().add(createOtherEndVariableTask);
             cmd.getTasks().add(new InitInterpreterVariablesTask(variables, InterpreterUtil.getInterpreter(reconnectionSource), uiCallback));
-            Option<DDiagram> parentDiagram = getDDiagram();
+            java.util.Optional<DDiagram> parentDiagram = getDDiagram();
             if (tool.getInitialOperation() != null && tool.getInitialOperation().getFirstModelOperations() != null) {
                 cmd.getTasks().add(taskHelper.buildTaskFromModelOperation(parentDiagram.get(), edge.getTarget(), tool.getInitialOperation().getFirstModelOperations()));
             }
@@ -135,7 +135,7 @@ public class ReconnectionCommandBuilder extends AbstractDiagramCommandBuilder {
             setObject.setFeatureName(featureName);
             setObject.setObject(reconnectionTarget);
 
-            Option<DRepresentation> representation = new EObjectQuery(edge).getRepresentation();
+            java.util.Optional<DRepresentation> representation = new EObjectQuery(edge).getRepresentation();
             final CommandContext edgeContext = new CommandContext(edge, representation.get());
             cmd.getTasks().add(new SetValueTask(edgeContext, this.modelAccessor, setObject, new EObjectQuery(edge).getSession().getInterpreter()));
 
@@ -158,8 +158,8 @@ public class ReconnectionCommandBuilder extends AbstractDiagramCommandBuilder {
     }
 
     private boolean isEdgeActualMappingUsingDomainElement(IEdgeMapping actualMapping) {
-        Option<EdgeMapping> edgeMapping = new IEdgeMappingQuery(actualMapping).getEdgeMapping();
-        Assert.isTrue(edgeMapping.some(), Messages.ReconnectionCommandBuilder_mappingImportErrorMsg);
+        java.util.Optional<EdgeMapping> edgeMapping = new IEdgeMappingQuery(actualMapping).getEdgeMapping();
+        Assert.isTrue(edgeMapping.isPresent(), Messages.ReconnectionCommandBuilder_mappingImportErrorMsg);
         return edgeMapping.get().isUseDomainElement();
     }
 
@@ -304,7 +304,7 @@ public class ReconnectionCommandBuilder extends AbstractDiagramCommandBuilder {
      * {@inheritDoc}
      */
     @Override
-    protected Option<DDiagram> getDDiagram() {
+    protected java.util.Optional<DDiagram> getDDiagram() {
         return new EObjectQuery(edge).getParentDiagram();
     }
 }

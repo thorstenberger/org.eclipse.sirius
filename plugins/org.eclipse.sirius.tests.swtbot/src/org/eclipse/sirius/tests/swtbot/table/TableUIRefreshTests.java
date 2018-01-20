@@ -19,7 +19,7 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.sirius.business.api.metamodel.helper.FontFormatHelper;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.table.business.api.query.DCellQuery;
 import org.eclipse.sirius.table.metamodel.table.DCell;
 import org.eclipse.sirius.table.metamodel.table.DColumn;
@@ -146,8 +146,8 @@ public class TableUIRefreshTests extends AbstractTreeSiriusSWTBotGefTestCase {
      */
     public void testTableElementStyleBackgroundColor() {
         // Test a first color change
-        Option<DTableElementStyle> optionalBackgroundStyleToApply = new DCellQuery(firstDCellOfFirstDLine).getBackgroundStyleToApply();
-        assertTrue("We should have a currentStyle for the cell.", optionalBackgroundStyleToApply.some());
+        java.util.Optional<DTableElementStyle> optionalBackgroundStyleToApply = new DCellQuery(firstDCellOfFirstDLine).getBackgroundStyleToApply();
+        assertTrue("We should have a currentStyle for the cell.", optionalBackgroundStyleToApply.isPresent());
         DTableElementStyle dTableElementStyle = optionalBackgroundStyleToApply.get();
         RGBValues backgroundColor = dTableElementStyle.getBackgroundColor();
         if (backgroundColor == null) {
@@ -203,8 +203,8 @@ public class TableUIRefreshTests extends AbstractTreeSiriusSWTBotGefTestCase {
      * correctly the text size in swt {@link TreeItem} .
      */
     public void testTableElementStyleLabelSize() {
-        Option<DTableElementStyle> optionalForegroundStyleToApply = new DCellQuery(firstDCellOfSecondDLine).getForegroundStyleToApply();
-        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        java.util.Optional<DTableElementStyle> optionalForegroundStyleToApply = new DCellQuery(firstDCellOfSecondDLine).getForegroundStyleToApply();
+        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
         DTableElementStyle dTableElementStyle = optionalForegroundStyleToApply.get();
         int labelSize = dTableElementStyle.getLabelSize();
 
@@ -253,8 +253,8 @@ public class TableUIRefreshTests extends AbstractTreeSiriusSWTBotGefTestCase {
      * correctly the text format in swt {@link TreeItem} .
      */
     public void testTableElementStyleLabelFormat() {
-        Option<DTableElementStyle> optionalForegroundStyleToApply = new DCellQuery(firstDCellOfSecondDLine).getForegroundStyleToApply();
-        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        java.util.Optional<DTableElementStyle> optionalForegroundStyleToApply = new DCellQuery(firstDCellOfSecondDLine).getForegroundStyleToApply();
+        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
         DTableElementStyle dTableElementStyle = optionalForegroundStyleToApply.get();
 
         // Test a the bold font format
@@ -331,8 +331,8 @@ public class TableUIRefreshTests extends AbstractTreeSiriusSWTBotGefTestCase {
      */
     public void testTableElementStyleLabelColor() {
         // Test a first color change
-        Option<DTableElementStyle> optionalForegroundStyleToApply = new DCellQuery(firstDCellOfFirstDLine).getForegroundStyleToApply();
-        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        java.util.Optional<DTableElementStyle> optionalForegroundStyleToApply = new DCellQuery(firstDCellOfFirstDLine).getForegroundStyleToApply();
+        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
         DTableElementStyle dTableElementStyle = optionalForegroundStyleToApply.get();
         RGBValues labelColor = dTableElementStyle.getForegroundColor();
         if (labelColor == null) {

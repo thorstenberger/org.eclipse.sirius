@@ -24,7 +24,7 @@ import org.eclipse.sirius.business.api.query.ViewpointQuery;
 import org.eclipse.sirius.business.internal.contribution.ReuseHelper;
 import org.eclipse.sirius.description.contribution.Contribution;
 import org.eclipse.sirius.description.contribution.ContributionPackage;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.emf.AllContents;
 import org.eclipse.sirius.table.metamodel.table.description.TableDescription;
 import org.eclipse.sirius.viewpoint.description.DescriptionPackage;
@@ -110,8 +110,8 @@ public class TableContributionsFinder implements Function<Iterable<EObject>, Ite
     }
 
     private String getTargetSiriusURI(RepresentationDescription target) {
-        Option<EObject> parentVp = new EObjectQuery(target).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getViewpoint());
-        if (parentVp.some()) {
+        java.util.Optional<EObject> parentVp = new EObjectQuery(target).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getViewpoint());
+        if (parentVp.isPresent()) {
             Viewpoint vp = (Viewpoint) parentVp.get();
             String uri = getSiriusURI(vp);
             if (uri != null) {
@@ -129,8 +129,8 @@ public class TableContributionsFinder implements Function<Iterable<EObject>, Ite
      * @return the viewpoint URI associated to the given Sirius
      */
     protected String getSiriusURI(Viewpoint vp) {
-        Option<URI> uri = new ViewpointQuery(vp).getViewpointURI();
-        if (uri.some()) {
+        java.util.Optional<URI> uri = new ViewpointQuery(vp).getViewpointURI();
+        if (uri.isPresent()) {
             return uri.get().toString();
         } else {
             return null;

@@ -20,7 +20,7 @@ import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.CombinedFr
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.ExecutionEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.InteractionUseEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.OperandEditPart;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.swtbot.sequence.condition.CheckMessageEditPartIsDisplayed;
 import org.eclipse.sirius.tests.swtbot.sequence.condition.CheckNumberOfDescendants;
 import org.eclipse.sirius.tests.swtbot.sequence.condition.CheckResize;
@@ -134,8 +134,8 @@ public class CombinedFragmentsOperandOverlapTests extends AbstractCombinedFragme
     public void testMoveExecutionOnLifelineCanNotHaveItSourceMessageOverlapingCF() {
         // create an execution on lifeline B
         Point executionLocation = new Point(instanceRoleEditPartCBounds.getCenter().x, e1Bounds.getBottom().getTranslated(0, 10).y);
-        Option<SWTBotGefEditPart> newExecutionBotOption = createExecutionWithResult(executionLocation);
-        Assert.assertTrue(newExecutionBotOption.some());
+        java.util.Optional<SWTBotGefEditPart> newExecutionBotOption = createExecutionWithResult(executionLocation);
+        Assert.assertTrue(newExecutionBotOption.isPresent());
         SWTBotGefEditPart newExecutionBot = newExecutionBotOption.get();
         Rectangle newExecutionBounds = editor.getBounds(newExecutionBot);
 
@@ -168,8 +168,8 @@ public class CombinedFragmentsOperandOverlapTests extends AbstractCombinedFragme
     public void testMoveExecutionOnLifelineCanNotHaveItTargetMessageOverlapingCF() {
         // create an execution on lifeline B
         Point executionLocation = new Point(instanceRoleEditPartCBounds.getCenter().x, e1Bounds.getBottom().getTranslated(0, 10).y);
-        Option<SWTBotGefEditPart> newExecutionBotOption = createExecutionWithResult(executionLocation);
-        Assert.assertTrue(newExecutionBotOption.some());
+        java.util.Optional<SWTBotGefEditPart> newExecutionBotOption = createExecutionWithResult(executionLocation);
+        Assert.assertTrue(newExecutionBotOption.isPresent());
         SWTBotGefEditPart newExecutionBot = newExecutionBotOption.get();
         Rectangle newExecutionBounds = editor.getBounds(newExecutionBot);
 
@@ -202,8 +202,8 @@ public class CombinedFragmentsOperandOverlapTests extends AbstractCombinedFragme
     public void testMoveExecutionOnLifelineCanNotHaveItsSourceMessageOverlapingOperand() {
         // create an execution on lifeline B
         Point executionLocation = new Point(instanceRoleEditPartCBounds.getCenter().x, e1Bounds.getBottom().getTranslated(0, 10).y);
-        Option<SWTBotGefEditPart> newExecutionBotOption = createExecutionWithResult(executionLocation);
-        Assert.assertTrue(newExecutionBotOption.some());
+        java.util.Optional<SWTBotGefEditPart> newExecutionBotOption = createExecutionWithResult(executionLocation);
+        Assert.assertTrue(newExecutionBotOption.isPresent());
         SWTBotGefEditPart newExecutionBot = newExecutionBotOption.get();
         Rectangle newExecutionBounds = editor.getBounds(newExecutionBot);
 
@@ -236,8 +236,8 @@ public class CombinedFragmentsOperandOverlapTests extends AbstractCombinedFragme
     public void testMoveExecutionOnLifelineCanNotHaveItsTargetMessageOverlapingOperand() {
         // create an execution on lifeline B
         Point executionLocation = new Point(instanceRoleEditPartCBounds.getCenter().x, e1Bounds.getBottom().getTranslated(0, 10).y);
-        Option<SWTBotGefEditPart> newExecutionBotOption = createExecutionWithResult(executionLocation);
-        Assert.assertTrue(newExecutionBotOption.some());
+        java.util.Optional<SWTBotGefEditPart> newExecutionBotOption = createExecutionWithResult(executionLocation);
+        Assert.assertTrue(newExecutionBotOption.isPresent());
         SWTBotGefEditPart newExecutionBot = newExecutionBotOption.get();
         Rectangle newExecutionBounds = editor.getBounds(newExecutionBot);
 

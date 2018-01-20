@@ -13,7 +13,7 @@ package org.eclipse.sirius.diagram.sequence.ui.tool.internal.layout;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.ISequenceElementAccessor;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.InteractionUse;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Function;
 
@@ -49,8 +49,8 @@ public class InstanceUseVerticalPositionFunction implements Function<IGraphicalE
      *         <code>INVALID_POSITION</code>.
      */
     public Integer apply(IGraphicalEditPart graphicalEditPart) {
-        Option<InteractionUse> interactionUse = ISequenceElementAccessor.getInteractionUse(graphicalEditPart.getNotationView());
-        if (interactionUse.some()) {
+        java.util.Optional<InteractionUse> interactionUse = ISequenceElementAccessor.getInteractionUse(graphicalEditPart.getNotationView());
+        if (interactionUse.isPresent()) {
             return interactionUse.get().getVerticalRange().getLowerBound();
         } else {
             return INVALID_POSITION;

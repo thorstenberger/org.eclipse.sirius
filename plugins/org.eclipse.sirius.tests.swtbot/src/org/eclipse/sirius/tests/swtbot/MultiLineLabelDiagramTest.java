@@ -41,7 +41,7 @@ import org.eclipse.sirius.diagram.ui.internal.edit.parts.DNodeListNameEditPart;
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.DNodeNameEditPart;
 import org.eclipse.sirius.diagram.ui.tools.api.figure.FigureQuery;
 import org.eclipse.sirius.diagram.ui.tools.api.figure.SiriusWrapLabel;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.swtbot.support.api.AbstractSiriusSwtBotGefTestCase;
 import org.eclipse.sirius.tests.swtbot.support.api.business.UIResource;
 import org.eclipse.sirius.tests.swtbot.support.api.condition.CheckBoundsCondition;
@@ -557,8 +557,8 @@ public class MultiLineLabelDiagramTest extends AbstractSiriusSwtBotGefTestCase {
     }
 
     private void checkDeactivatedDirectEdit(SWTBotGefEditPart dEdgeNameEditPartBot, IFigure nameFigure) {
-        Option<IFigure> wrapLabelFigureOption = new FigureQuery(nameFigure).getLabelFigure();
-        assertTrue("This figure should have a label figure.", wrapLabelFigureOption.some());
+        java.util.Optional<IFigure> wrapLabelFigureOption = new FigureQuery(nameFigure).getLabelFigure();
+        assertTrue("This figure should have a label figure.", wrapLabelFigureOption.isPresent());
         assertTrue("The figure of this label should be a SiriusWrapLabel.", wrapLabelFigureOption.get() instanceof SiriusWrapLabel);
         SiriusWrapLabel viewpointWrapLabel = (SiriusWrapLabel) wrapLabelFigureOption.get();
         String wrapText = viewpointWrapLabel.getText();
@@ -821,8 +821,8 @@ public class MultiLineLabelDiagramTest extends AbstractSiriusSwtBotGefTestCase {
      */
     private void assertLabelMultiLines(IFigure labelFigureOrParent, int nbLinesExpected) {
 
-        Option<IFigure> wrapLabelFigureOption = new FigureQuery(labelFigureOrParent).getLabelFigure();
-        assertTrue("This figure should have a label figure.", wrapLabelFigureOption.some());
+        java.util.Optional<IFigure> wrapLabelFigureOption = new FigureQuery(labelFigureOrParent).getLabelFigure();
+        assertTrue("This figure should have a label figure.", wrapLabelFigureOption.isPresent());
         assertTrue("The figure of this label should be a SiriusWrapLabel.", wrapLabelFigureOption.get() instanceof SiriusWrapLabel);
         SiriusWrapLabel viewpointWrapLabel = (SiriusWrapLabel) wrapLabelFigureOption.get();
         String wrapText = viewpointWrapLabel.getSubStringText();

@@ -16,7 +16,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.layout.LayoutConsta
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.ExecutionEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.InstanceRoleEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.InteractionUseEditPart;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.swtbot.sequence.condition.CheckNumberExecutionOnLifeline;
 import org.eclipse.sirius.tests.swtbot.support.api.condition.CheckEditPartMoved;
 import org.eclipse.sirius.tests.swtbot.support.api.condition.CheckEditPartResized;
@@ -60,8 +60,8 @@ public class InteractionUseTests extends AbstractInteractionUseSequenceTests {
     public void testIndirectMoveOfIUCanNotOverlapUnmovedIU() {
         Point createLocation = new Point(instanceRoleEditPartEBounds.getCenter().x, firstInteractionUseBounds.getBottom().getTranslated(0, 10).y);
 
-        Option<SWTBotGefEditPart> newExecutionOption = createExecutionWithResult(createLocation);
-        Assert.assertTrue("An execution should have been created at " + createLocation, newExecutionOption.some());
+        java.util.Optional<SWTBotGefEditPart> newExecutionOption = createExecutionWithResult(createLocation);
+        Assert.assertTrue("An execution should have been created at " + createLocation, newExecutionOption.isPresent());
         SWTBotGefEditPart newExecutionBot = newExecutionOption.get();
         Rectangle newExecutionBounds = editor.getBounds(newExecutionBot);
 

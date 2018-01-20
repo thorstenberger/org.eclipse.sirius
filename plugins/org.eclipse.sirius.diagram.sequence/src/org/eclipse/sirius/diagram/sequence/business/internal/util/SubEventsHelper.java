@@ -35,7 +35,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.State;
 import org.eclipse.sirius.diagram.sequence.business.internal.ordering.EventEndHelper;
 import org.eclipse.sirius.diagram.sequence.business.internal.query.ISequenceEventQuery;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -127,9 +127,9 @@ public final class SubEventsHelper {
             return coverage.get(ise);
         }
 
-        Option<Lifeline> lifeline = ise.getLifeline();
+        java.util.Optional<Lifeline> lifeline = ise.getLifeline();
         Collection<Lifeline> coveredLifelines = new LinkedHashSet<>();
-        if (lifeline.some()) {
+        if (lifeline.isPresent()) {
             coveredLifelines.add(lifeline.get());
         } else if (ise instanceof Operand) {
             coveredLifelines.addAll(getCoverage(((Operand) ise).getCombinedFragment()));
@@ -137,12 +137,12 @@ public final class SubEventsHelper {
             coveredLifelines.addAll(((AbstractFrame) ise).computeCoveredLifelines());
         } else if (ise instanceof Message) {
             Message msg = (Message) ise;
-            Option<Lifeline> sourceLifeline = msg.getSourceLifeline();
-            if (sourceLifeline.some()) {
+            java.util.Optional<Lifeline> sourceLifeline = msg.getSourceLifeline();
+            if (sourceLifeline.isPresent()) {
                 coveredLifelines.add(sourceLifeline.get());
             }
-            Option<Lifeline> targetLifeline = msg.getTargetLifeline();
-            if (targetLifeline.some()) {
+            java.util.Optional<Lifeline> targetLifeline = msg.getTargetLifeline();
+            if (targetLifeline.isPresent()) {
                 coveredLifelines.add(targetLifeline.get());
             }
         }
@@ -194,8 +194,8 @@ public final class SubEventsHelper {
         }
 
         for (View view : childViews) {
-            Option<ISequenceEvent> iSequenceEvent = ISequenceElementAccessor.getISequenceEvent(view);
-            if (iSequenceEvent.some()) {
+            java.util.Optional<ISequenceEvent> iSequenceEvent = ISequenceElementAccessor.getISequenceEvent(view);
+            if (iSequenceEvent.isPresent()) {
                 ISequenceEvent ise = iSequenceEvent.get();
                 if (parentConnections.contains(view) || parentRange.includes(ise.getVerticalRange())) {
                     childrenEvents.add(iSequenceEvent.get());

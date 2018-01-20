@@ -39,7 +39,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.util.ISequenceEleme
 import org.eclipse.sirius.diagram.sequence.business.internal.util.ParentOperandFinder;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.util.RequestQuery;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
@@ -189,13 +189,13 @@ public class ISEComplexMoveValidator extends AbstractSequenceInteractionValidato
     private void populateMessageToResize() {
         for (Execution movedExec : Iterables.filter(movedElements, Execution.class)) {
 
-            Option<Message> startMessage = movedExec.getStartMessage();
-            if (startMessage.some() && startMessage.get().surroundsEventOnSameLifeline()) {
+            java.util.Optional<Message> startMessage = movedExec.getStartMessage();
+            if (startMessage.isPresent() && startMessage.get().surroundsEventOnSameLifeline()) {
                 startReflexiveMessageToResize.add(startMessage.get());
             }
 
-            Option<Message> endMessage = movedExec.getEndMessage();
-            if (endMessage.some() && endMessage.get().surroundsEventOnSameLifeline()) {
+            java.util.Optional<Message> endMessage = movedExec.getEndMessage();
+            if (endMessage.isPresent() && endMessage.get().surroundsEventOnSameLifeline()) {
                 endReflexiveMessageToResize.add(endMessage.get());
             }
         }
@@ -299,10 +299,10 @@ public class ISEComplexMoveValidator extends AbstractSequenceInteractionValidato
 
     private boolean moveIsValid(ISequenceEvent ise, boolean topLevel) {
         final Range futureExtRange = getFutureExtendedRange(ise);
-        Option<Lifeline> lifeline = ise.getLifeline();
+        java.util.Optional<Lifeline> lifeline = ise.getLifeline();
         boolean result = true;
 
-        if (lifeline.some()) {
+        if (lifeline.isPresent()) {
             EventFinder futureParentFinder = new EventFinder(lifeline.get());
             futureParentFinder.setEventsToIgnore(Predicates.equalTo(ise));
             futureParentFinder.setVerticalRangefunction(rangeFunction);
@@ -355,11 +355,11 @@ public class ISEComplexMoveValidator extends AbstractSequenceInteractionValidato
 
     private boolean messageMoveIsValid(final Message message) {
         boolean result = true;
-        Option<Operand> parentOperand = message.getParentOperand();
+        java.util.Optional<Operand> parentOperand = message.getParentOperand();
 
         // If parent operand is moved too, no check for source/target validity :
         // it will not change.
-        if (!(parentOperand.some() && movedElements.contains(parentOperand.get()))) {
+        if (!(parentOperand.isPresent() && movedElements.contains(parentOperand.get()))) {
 
             ISequenceEvent potentialSource = getMessageEnd(message, message.getSourceLifeline(), parentOperand);
             ISequenceEvent potentialTarget = getMessageEnd(message, message.getTargetLifeline(), parentOperand);
@@ -395,8 +395,8 @@ public class ISEComplexMoveValidator extends AbstractSequenceInteractionValidato
         return result;
     }
 
-    private ISequenceEvent getMessageEnd(final Message message, Option<Lifeline> lifeline, Option<Operand> parentOperand) {
-        if (lifeline.some()) {
+    private ISequenceEvent getMessageEnd(final Message message, java.util.Optional<Lifeline> lifeline, java.util.Optional<Operand> parentOperand) {
+        if (lifeline.isPresent()) {
             EventFinder newEndFinder = new EventFinder(lifeline.get());
             newEndFinder.setReconnection(false);
 
@@ -409,7 +409,7 @@ public class ISEComplexMoveValidator extends AbstractSequenceInteractionValidato
     }
 
     private boolean checkOperandStability(ISequenceEvent ise, boolean topLevel, ISequenceEvent insertionParent) {
-        Option<Operand> parentOperand = ise.getParentOperand();
+        java.util.Optional<Operand> parentOperand = ise.getParentOperand();
         Operand futureOperand = null;
         if (insertionParent instanceof Operand) {
             futureOperand = (Operand) insertionParent;
@@ -447,13 +447,13 @@ public class ISEComplexMoveValidator extends AbstractSequenceInteractionValidato
     private boolean checkRemoteExpansion(ISequenceEvent ise, boolean topLevel, Range futureExtRange, Range insertionPoint) {
         if (ise instanceof Execution) {
             Execution exec = (Execution) ise;
-            Option<Message> startMessage = exec.getStartMessage();
-            Option<Message> endMessage = exec.getEndMessage();
+            java.util.Optional<Message> startMessage = exec.getStartMessage();
+            java.util.Optional<Message> endMessage = exec.getEndMessage();
 
-            if (startMessage.some() && endMessage.some() && !startReflexiveMessageToResize.contains(startMessage.get()) && !endReflexiveMessageToResize.contains(endMessage.get())) {
-                Option<Lifeline> startLifeline = startMessage.get().getSourceLifeline();
+            if (startMessage.isPresent() && endMessage.isPresent() && !startReflexiveMessageToResize.contains(startMessage.get()) && !endReflexiveMessageToResize.contains(endMessage.get())) {
+                java.util.Optional<Lifeline> startLifeline = startMessage.get().getSourceLifeline();
                 // Should be the same...
-                Option<Lifeline> targetLifeline = endMessage.get().getTargetLifeline();
+                java.util.Optional<Lifeline> targetLifeline = endMessage.get().getTargetLifeline();
 
                 Range srcInsertionRange = rangeFunction.apply(startMessage.get());
                 ISequenceEvent remoteSource = getRemoteEnd(startMessage, startLifeline, srcInsertionRange);
@@ -462,7 +462,7 @@ public class ISEComplexMoveValidator extends AbstractSequenceInteractionValidato
                 Range tgtInsertionRange = rangeFunction.apply(endMessage.get());
                 ISequenceEvent remoteTarget = getRemoteEnd(endMessage, targetLifeline, tgtInsertionRange);
 
-                boolean remoteCanChildOccupy = startLifeline.some() && remoteSource != null && remoteTarget == remoteSource || !startLifeline.some();
+                boolean remoteCanChildOccupy = startLifeline.isPresent() && remoteSource != null && remoteTarget == remoteSource || !startLifeline.isPresent();
                 boolean tryExpand = topLevel || expansionZone.isEmpty();
                 boolean canExpandedChildOccupy = remoteSource != null && remoteSource.canChildOccupy(ise, srcInsertionRange);
                 if (!remoteCanChildOccupy && tryExpand && canExpandedChildOccupy) {
@@ -475,9 +475,9 @@ public class ISEComplexMoveValidator extends AbstractSequenceInteractionValidato
         return true;
     }
 
-    private ISequenceEvent getRemoteEnd(Option<Message> message, Option<Lifeline> lifeline, Range insertionRange) {
+    private ISequenceEvent getRemoteEnd(java.util.Optional<Message> message, java.util.Optional<Lifeline> lifeline, Range insertionRange) {
         ISequenceEvent remoteEnd = null;
-        if (lifeline.some()) {
+        if (lifeline.isPresent()) {
             EventFinder remoteSrcFinder = new EventFinder(lifeline.get());
             remoteSrcFinder.setEventsToIgnore(Predicates.equalTo((ISequenceEvent) message.get()));
             remoteSrcFinder.setVerticalRangefunction(rangeFunction);
@@ -493,12 +493,12 @@ public class ISEComplexMoveValidator extends AbstractSequenceInteractionValidato
         Range futureExtRange = rangeFunction.apply(ise);
         if (ise instanceof Execution) {
             Execution exec = (Execution) ise;
-            Option<Message> startMessage = exec.getStartMessage();
-            if (startMessage.some() && !startReflexiveMessageToResize.contains(startMessage.get())) {
+            java.util.Optional<Message> startMessage = exec.getStartMessage();
+            if (startMessage.isPresent() && !startReflexiveMessageToResize.contains(startMessage.get())) {
                 futureExtRange = futureExtRange.union(rangeFunction.apply(startMessage.get()));
             }
-            Option<Message> endMessage = exec.getEndMessage();
-            if (endMessage.some() && !endReflexiveMessageToResize.contains(endMessage.get())) {
+            java.util.Optional<Message> endMessage = exec.getEndMessage();
+            if (endMessage.isPresent() && !endReflexiveMessageToResize.contains(endMessage.get())) {
                 futureExtRange = futureExtRange.union(rangeFunction.apply(endMessage.get()));
             }
         }
@@ -547,13 +547,13 @@ public class ISEComplexMoveValidator extends AbstractSequenceInteractionValidato
             }
 
             Range extendedVerticalRange = movedEvent.getExtendedVerticalRange();
-            Option<Message> startMessage = movedEvent.getStartMessage();
-            if (startMessage.some() && startReflexiveMessageToResize.contains(startMessage.get())) {
+            java.util.Optional<Message> startMessage = movedEvent.getStartMessage();
+            if (startMessage.isPresent() && startReflexiveMessageToResize.contains(startMessage.get())) {
                 extendedVerticalRange = new Range(startMessage.get().getVerticalRange().getUpperBound(), extendedVerticalRange.getUpperBound());
             }
 
-            Option<Message> endMessage = movedEvent.getEndMessage();
-            if (endMessage.some() && endReflexiveMessageToResize.contains(endMessage.get())) {
+            java.util.Optional<Message> endMessage = movedEvent.getEndMessage();
+            if (endMessage.isPresent() && endReflexiveMessageToResize.contains(endMessage.get())) {
                 extendedVerticalRange = new Range(extendedVerticalRange.getLowerBound(), endMessage.get().getVerticalRange().getLowerBound());
             }
 

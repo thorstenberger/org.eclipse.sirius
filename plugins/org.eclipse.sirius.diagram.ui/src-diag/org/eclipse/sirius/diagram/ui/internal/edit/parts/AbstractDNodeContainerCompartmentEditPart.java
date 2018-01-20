@@ -86,8 +86,8 @@ import org.eclipse.sirius.diagram.ui.tools.api.requests.RequestConstants;
 import org.eclipse.sirius.diagram.ui.tools.internal.figure.LabelBorderStyleIds;
 import org.eclipse.sirius.diagram.ui.tools.internal.graphical.edit.policies.ContainerCompartmentNodeEditPolicy;
 import org.eclipse.sirius.diagram.ui.tools.internal.ruler.SiriusSnapToHelperUtil;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.gmf.runtime.editpolicies.SiriusSnapFeedbackPolicy;
 import org.eclipse.sirius.ui.tools.api.color.VisualBindingManager;
 import org.eclipse.sirius.viewpoint.RGBValues;
@@ -215,8 +215,8 @@ public abstract class AbstractDNodeContainerCompartmentEditPart extends ShapeCom
      */
     protected void configureBorder(ResizableCompartmentFigure rcf) {
         boolean shouldHaveBorder = isRegionContainerCompartment();
-        Option<LabelBorderStyleDescription> labelBorderStyle = getLabelBorderStyle();
-        if (labelBorderStyle.some()) {
+        java.util.Optional<LabelBorderStyleDescription> labelBorderStyle = getLabelBorderStyle();
+        if (labelBorderStyle.isPresent()) {
             shouldHaveBorder = shouldHaveBorder || LabelBorderStyleIds.LABEL_FULL_BORDER_STYLE_FOR_CONTAINER_ID.equals(labelBorderStyle.get().getId());
         }
 
@@ -260,8 +260,8 @@ public abstract class AbstractDNodeContainerCompartmentEditPart extends ShapeCom
         }
 
         boolean fullLabelBorder = false;
-        Option<LabelBorderStyleDescription> labelBorderStyle = getLabelBorderStyle();
-        if (labelBorderStyle.some()) {
+        java.util.Optional<LabelBorderStyleDescription> labelBorderStyle = getLabelBorderStyle();
+        if (labelBorderStyle.isPresent()) {
             fullLabelBorder = LabelBorderStyleIds.LABEL_FULL_BORDER_STYLE_FOR_CONTAINER_ID.equals(labelBorderStyle.get().getId());
         }
 
@@ -313,12 +313,12 @@ public abstract class AbstractDNodeContainerCompartmentEditPart extends ShapeCom
         return style == null ? false : style.isCollapsed();
     }
 
-    private Option<LabelBorderStyleDescription> getLabelBorderStyle() {
+    private java.util.Optional<LabelBorderStyleDescription> getLabelBorderStyle() {
         EObject element = resolveSemanticElement();
         if (element instanceof DDiagramElementContainer) {
             return new DDiagramElementContainerExperimentalQuery((DDiagramElementContainer) element).getLabelBorderStyle();
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     @Override
@@ -394,18 +394,18 @@ public abstract class AbstractDNodeContainerCompartmentEditPart extends ShapeCom
     }
 
     private boolean isRegionContainerCompartment() {
-        Option<DNodeContainerExperimentalQuery> query = getDNodeContainerQuery();
-        return query.some() && query.get().isRegionContainer();
+        java.util.Optional<DNodeContainerExperimentalQuery> query = getDNodeContainerQuery();
+        return query.isPresent() && query.get().isRegionContainer();
     }
 
-    private Option<DNodeContainerExperimentalQuery> getDNodeContainerQuery() {
+    private java.util.Optional<DNodeContainerExperimentalQuery> getDNodeContainerQuery() {
         DNodeContainerExperimentalQuery query = null;
         EObject eObject = resolveSemanticElement();
         if (eObject instanceof DNodeContainer) {
             query = new DNodeContainerExperimentalQuery((DNodeContainer) eObject);
         }
 
-        return Options.newSome(query);
+        return java.util.Optional.of(query);
     }
 
     /**
@@ -486,8 +486,8 @@ public abstract class AbstractDNodeContainerCompartmentEditPart extends ShapeCom
     @Override
     protected LayoutManager getLayoutManager() {
         LayoutManager layoutManager = null;
-        Option<DNodeContainerExperimentalQuery> query = getDNodeContainerQuery();
-        if (query.some() && query.get().isRegionContainer()) {
+        java.util.Optional<DNodeContainerExperimentalQuery> query = getDNodeContainerQuery();
+        if (query.isPresent() && query.get().isRegionContainer()) {
             if (query.get().isVerticalStackContainer()) {
                 layoutManager = new RegionContainerLayoutManager(true);
             } else if (query.get().isHorizontaltackContainer()) {

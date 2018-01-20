@@ -25,7 +25,7 @@ import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.RelativeBendpoints;
 import org.eclipse.sirius.diagram.ui.business.api.query.ConnectionEditPartQuery;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 
 /**
@@ -168,8 +168,8 @@ public class SetConnectionBendpointsAccordingToExtremityMoveCommmand extends Set
         } else if (connectionPointList.size() > 2) {
             // Compute intersection between the line (moved
             // sourceRefPoint<-->second point) and the source node
-            Option<Point> intersectionPoint = GraphicalHelper.getIntersection(sourceRefPoint, connectionPointList.getPoint(1), sourceBounds.getTranslated(moveDelta), false);
-            if (intersectionPoint.some()) {
+            java.util.Optional<Point> intersectionPoint = GraphicalHelper.getIntersection(sourceRefPoint, connectionPointList.getPoint(1), sourceBounds.getTranslated(moveDelta), false);
+            if (intersectionPoint.isPresent()) {
                 connectionPointList.setPoint(intersectionPoint.get(), 0);
             } else {
                 connectionPointList.setPoint(connectionPointList.getPoint(0).translate(moveDelta), 0);
@@ -178,14 +178,14 @@ public class SetConnectionBendpointsAccordingToExtremityMoveCommmand extends Set
             // If the edge has only one segment, we must compute the
             // intersection between the line (moved
             // sourceRefPoint<-->targetRefPoint) the source and target nodes
-            Option<Point> sourceIntersectionPoint = GraphicalHelper.getIntersection(sourceRefPoint, targetRefPoint, sourceBounds.getTranslated(moveDelta), false);
-            if (sourceIntersectionPoint.some()) {
+            java.util.Optional<Point> sourceIntersectionPoint = GraphicalHelper.getIntersection(sourceRefPoint, targetRefPoint, sourceBounds.getTranslated(moveDelta), false);
+            if (sourceIntersectionPoint.isPresent()) {
                 connectionPointList.setPoint(sourceIntersectionPoint.get(), 0);
             } else {
                 connectionPointList.setPoint(connectionPointList.getPoint(0).translate(moveDelta), 0);
             }
-            Option<Point> targetIntersectionPoint = GraphicalHelper.getIntersection(sourceRefPoint, targetRefPoint, targetBounds, false);
-            if (targetIntersectionPoint.some()) {
+            java.util.Optional<Point> targetIntersectionPoint = GraphicalHelper.getIntersection(sourceRefPoint, targetRefPoint, targetBounds, false);
+            if (targetIntersectionPoint.isPresent()) {
                 connectionPointList.setPoint(targetIntersectionPoint.get(), 1);
             }
         }
@@ -234,9 +234,9 @@ public class SetConnectionBendpointsAccordingToExtremityMoveCommmand extends Set
             // Compute intersection between the line
             // (moved targetRefPoint<-->second to last point) and the target
             // node
-            Option<Point> intersectionPoint = GraphicalHelper.getIntersection(targetRefPoint, connectionPointList.getPoint(connectionPointList.size() - 2), targetBounds.getTranslated(moveDelta),
+            java.util.Optional<Point> intersectionPoint = GraphicalHelper.getIntersection(targetRefPoint, connectionPointList.getPoint(connectionPointList.size() - 2), targetBounds.getTranslated(moveDelta),
                     false);
-            if (intersectionPoint.some()) {
+            if (intersectionPoint.isPresent()) {
                 connectionPointList.setPoint(intersectionPoint.get(), connectionPointList.size() - 1);
             } else {
                 connectionPointList.setPoint(connectionPointList.getPoint(connectionPointList.size() - 1).translate(moveDelta), connectionPointList.size() - 1);
@@ -245,12 +245,12 @@ public class SetConnectionBendpointsAccordingToExtremityMoveCommmand extends Set
             // If the edge has only one segment, we must compute the
             // intersection between the line (sourceRefPoint<-->moved
             // targetRefPoint) and the source and target nodes
-            Option<Point> sourceIntersectionPoint = GraphicalHelper.getIntersection(sourceRefPoint, targetRefPoint, sourceBounds, false);
-            if (sourceIntersectionPoint.some()) {
+            java.util.Optional<Point> sourceIntersectionPoint = GraphicalHelper.getIntersection(sourceRefPoint, targetRefPoint, sourceBounds, false);
+            if (sourceIntersectionPoint.isPresent()) {
                 connectionPointList.setPoint(sourceIntersectionPoint.get(), connectionPointList.size() - 2);
             }
-            Option<Point> targetIntersectionPoint = GraphicalHelper.getIntersection(sourceRefPoint, targetRefPoint, targetBounds.getTranslated(moveDelta), false);
-            if (targetIntersectionPoint.some()) {
+            java.util.Optional<Point> targetIntersectionPoint = GraphicalHelper.getIntersection(sourceRefPoint, targetRefPoint, targetBounds.getTranslated(moveDelta), false);
+            if (targetIntersectionPoint.isPresent()) {
                 connectionPointList.setPoint(targetIntersectionPoint.get(), connectionPointList.size() - 1);
             } else {
                 connectionPointList.setPoint(connectionPointList.getPoint(connectionPointList.size() - 1).translate(moveDelta), connectionPointList.size() - 1);
@@ -407,14 +407,14 @@ public class SetConnectionBendpointsAccordingToExtremityMoveCommmand extends Set
             // Add necessary point to complete the first (or last) segment if
             // points have been removed from source (or target).
             if (lastRemovedFromSource != null) {
-                Option<Point> optionalIntersection = getComplementaryPoint(newLine, source, lastRemovedFromSource, newLine.getFirstPoint(), toleranceValue);
-                if (optionalIntersection.some()) {
+                java.util.Optional<Point> optionalIntersection = getComplementaryPoint(newLine, source, lastRemovedFromSource, newLine.getFirstPoint(), toleranceValue);
+                if (optionalIntersection.isPresent()) {
                     newLine.insertPoint(optionalIntersection.get(), 0);
                 }
             }
             if (lastRemovedFromTarget != null) {
-                Option<Point> optionalIntersection = getComplementaryPoint(newLine, target, lastRemovedFromTarget, newLine.getLastPoint(), toleranceValue);
-                if (optionalIntersection.some()) {
+                java.util.Optional<Point> optionalIntersection = getComplementaryPoint(newLine, target, lastRemovedFromTarget, newLine.getLastPoint(), toleranceValue);
+                if (optionalIntersection.isPresent()) {
                     newLine.addPoint(optionalIntersection.get());
                 }
             }
@@ -440,8 +440,8 @@ public class SetConnectionBendpointsAccordingToExtremityMoveCommmand extends Set
      *         line from <code>otherPointExtremity</code> to
      *         <code>lastRemoved</code> and <code>nodeBouds</code>.
      */
-    private static Option<Point> getComplementaryPoint(PointList pointsList, PrecisionRectangle nodeBouds, Point lastRemoved, Point otherPointExtremity, int toleranceValue) {
-        Option<Point> optionalIntersection;
+    private static java.util.Optional<Point> getComplementaryPoint(PointList pointsList, PrecisionRectangle nodeBouds, Point lastRemoved, Point otherPointExtremity, int toleranceValue) {
+        java.util.Optional<Point> optionalIntersection;
         if (Math.abs(lastRemoved.x - otherPointExtremity.x) < toleranceValue) {
             // Vertical
             if (lastRemoved.preciseY() < otherPointExtremity.preciseY()) {

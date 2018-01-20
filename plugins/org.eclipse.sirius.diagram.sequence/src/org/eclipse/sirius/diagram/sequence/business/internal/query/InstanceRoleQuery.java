@@ -12,7 +12,7 @@ package org.eclipse.sirius.diagram.sequence.business.internal.query;
 
 import org.eclipse.sirius.diagram.business.api.diagramtype.HeaderData;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.InstanceRole;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.RGBValues;
 
 import com.google.common.base.Preconditions;
@@ -44,8 +44,8 @@ public class InstanceRoleQuery {
      * @return the header data corresponding to this instance role.
      */
     public HeaderData getHeaderData() {
-        Option<RGBValues> optionalBackgroundColor = instanceRole.getBackgroundColor();
-        Option<RGBValues> optionalLabelColor = instanceRole.getLabelColor();
+        java.util.Optional<RGBValues> optionalBackgroundColor = instanceRole.getBackgroundColor();
+        java.util.Optional<RGBValues> optionalLabelColor = instanceRole.getLabelColor();
         return new HeaderData(instanceRole.getName(), instanceRole.getBounds().x, instanceRole.getBounds().width, optionalBackgroundColor.get(), optionalLabelColor.get());
     }
 }

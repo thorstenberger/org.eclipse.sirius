@@ -20,8 +20,8 @@ import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.sequence.Messages;
 import org.eclipse.sirius.diagram.sequence.description.DescriptionPackage;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -89,7 +89,7 @@ public class EndOfLife extends AbstractSequenceNode {
     }
 
     @Override
-    public Option<Lifeline> getLifeline() {
+    public java.util.Optional<Lifeline> getLifeline() {
         return getParentLifeline();
     }
 
@@ -98,15 +98,15 @@ public class EndOfLife extends AbstractSequenceNode {
      * 
      * @return the destruction message which targets this EOL, if any.
      */
-    public Option<Message> getDestructionMessage() {
+    public java.util.Optional<Message> getDestructionMessage() {
         Node node = getNotationNode();
         for (Edge edge : Iterables.filter(node.getTargetEdges(), Edge.class)) {
-            Option<Message> message = ISequenceElementAccessor.getMessage(edge);
-            if (message.some() && message.get().getKind() == Message.Kind.DESTRUCTION) {
+            java.util.Optional<Message> message = ISequenceElementAccessor.getMessage(edge);
+            if (message.isPresent() && message.get().getKind() == Message.Kind.DESTRUCTION) {
                 return message;
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     @Override
@@ -130,7 +130,7 @@ public class EndOfLife extends AbstractSequenceNode {
      *         destruction message.
      */
     public boolean isExplicitelyDestroyed() {
-        return getDestructionMessage().some();
+        return getDestructionMessage().isPresent();
     }
 
 }

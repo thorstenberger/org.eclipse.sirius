@@ -45,7 +45,7 @@ import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.validator.Opera
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.util.RequestQuery;
 import org.eclipse.sirius.diagram.sequence.util.Range;
 import org.eclipse.sirius.diagram.ui.graphical.edit.policies.AirResizableEditPolicy;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.collect.Iterables;
 
@@ -146,8 +146,8 @@ public class OperandResizableEditPolicy extends AirResizableEditPolicy {
         Command result = null;
         CompositeTransactionalCommand ctc = new CompositeTransactionalCommand(self.getEditingDomain(), Messages.OperandResizableEditPolicy_resizeCompositeCommand);
         ctc.add(OperandResizableEditPolicy.getResizeBorderItemTCommand(self, request));
-        Option<Operand> operandOption = ISequenceElementAccessor.getOperand(self.getNotationView());
-        if (operandOption.some()) {
+        java.util.Optional<Operand> operandOption = ISequenceElementAccessor.getOperand(self.getNotationView());
+        if (operandOption.isPresent()) {
             Operand operand = operandOption.get();
             int operandIndex = operand.getIndex();
             if (request.getResizeDirection() == PositionConstants.NORTH) {
@@ -164,7 +164,7 @@ public class OperandResizableEditPolicy extends AirResizableEditPolicy {
                     }
                 } else if (previousOperandEditPart != null) {
                     // We apply the inverse resize to the previous operand
-                    Option<Operand> previousOperandOption = ISequenceElementAccessor.getOperand(previousOperandEditPart.getNotationView());
+                    java.util.Optional<Operand> previousOperandOption = ISequenceElementAccessor.getOperand(previousOperandEditPart.getNotationView());
                     Operand previousOperand = previousOperandOption.get();
                     Range previousOperandVerticalRange = previousOperand.getVerticalRange();
                     Range combinedFragmentVerticalRange = previousOperand.getCombinedFragment().getVerticalRange();
@@ -186,7 +186,7 @@ public class OperandResizableEditPolicy extends AirResizableEditPolicy {
                     }
                 } else if (followingOperandEditPart != null) {
                     // We apply the inverse resize to the following operand
-                    Option<Operand> followingOperandOption = ISequenceElementAccessor.getOperand(followingOperandEditPart.getNotationView());
+                    java.util.Optional<Operand> followingOperandOption = ISequenceElementAccessor.getOperand(followingOperandEditPart.getNotationView());
                     Operand followingOperand = followingOperandOption.get();
                     Range followingOperandVerticalRange = followingOperand.getVerticalRange();
                     Range combinedFragmentVerticalRange = followingOperand.getCombinedFragment().getVerticalRange();
@@ -244,8 +244,8 @@ public class OperandResizableEditPolicy extends AirResizableEditPolicy {
      */
     private OperandEditPart getPreviousOperandEditPart(int currentOperandIndex) {
         for (OperandEditPart operandEditPart : Iterables.filter(getHost().getParent().getChildren(), OperandEditPart.class)) {
-            Option<Operand> operandOption = ISequenceElementAccessor.getOperand(operandEditPart.getNotationView());
-            if (operandOption.some()) {
+            java.util.Optional<Operand> operandOption = ISequenceElementAccessor.getOperand(operandEditPart.getNotationView());
+            if (operandOption.isPresent()) {
                 Operand operand = operandOption.get();
                 int operandIndex = operand.getIndex();
                 if (operandIndex == currentOperandIndex - 1) {
@@ -266,8 +266,8 @@ public class OperandResizableEditPolicy extends AirResizableEditPolicy {
      */
     private OperandEditPart getFollowingOperandEditPart(int currentOperandIndex) {
         for (OperandEditPart operandEditPart : Iterables.filter(getHost().getParent().getChildren(), OperandEditPart.class)) {
-            Option<Operand> operandOption = ISequenceElementAccessor.getOperand(operandEditPart.getNotationView());
-            if (operandOption.some()) {
+            java.util.Optional<Operand> operandOption = ISequenceElementAccessor.getOperand(operandEditPart.getNotationView());
+            if (operandOption.isPresent()) {
                 Operand operand = operandOption.get();
                 int operandIndex = operand.getIndex();
                 if (operandIndex == currentOperandIndex + 1) {

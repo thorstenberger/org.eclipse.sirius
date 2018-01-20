@@ -69,8 +69,8 @@ import org.eclipse.sirius.diagram.EdgeTarget;
 import org.eclipse.sirius.diagram.ui.business.api.view.SiriusLayoutDataManager;
 import org.eclipse.sirius.diagram.ui.graphical.figures.SiriusLayoutHelper;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 
 import com.google.common.base.Predicate;
@@ -335,7 +335,7 @@ public final class SiriusLayoutDataManagerImpl implements SiriusLayoutDataManage
      */
     @Override
     public EdgeLayoutData getData(final DEdge edge, final boolean searchParent) {
-        Option<EdgeLayoutData> noEdgeLayoutData = Options.newNone();
+        java.util.Optional<EdgeLayoutData> noEdgeLayoutData = java.util.Optional.empty();
         return getData(edge, searchParent, noEdgeLayoutData);
     }
 
@@ -345,10 +345,10 @@ public final class SiriusLayoutDataManagerImpl implements SiriusLayoutDataManage
         if (edge == null) {
             return null;
         }
-        return getData(edge, searchParent, Options.newSome(egdeLayoutData));
+        return getData(edge, searchParent, java.util.Optional.of(egdeLayoutData));
     }
 
-    private EdgeLayoutData getData(DEdge edge, boolean searchParent, Option<EdgeLayoutData> optionalOppositeEgdeLayoutData) {
+    private EdgeLayoutData getData(DEdge edge, boolean searchParent, java.util.Optional<EdgeLayoutData> optionalOppositeEgdeLayoutData) {
         EdgeLayoutData result = null;
         if (result == null) {
             // Search the edge in all rootsLayoutData
@@ -356,10 +356,10 @@ public final class SiriusLayoutDataManagerImpl implements SiriusLayoutDataManage
                 if (abstractLayoutData instanceof LayoutData) {
                     LayoutData layoutData = (LayoutData) abstractLayoutData;
                     result = layoutData.getData(edge, ignoreConsumeState);
-                    if (result != null && (!optionalOppositeEgdeLayoutData.some() || !(optionalOppositeEgdeLayoutData.get().equals(result)))) {
+                    if (result != null && (!optionalOppositeEgdeLayoutData.isPresent() || !(optionalOppositeEgdeLayoutData.get().equals(result)))) {
                         break;
                     }
-                } else if (abstractLayoutData instanceof EdgeLayoutData && (!optionalOppositeEgdeLayoutData.some() || !(optionalOppositeEgdeLayoutData.get().equals(abstractLayoutData)))) {
+                } else if (abstractLayoutData instanceof EdgeLayoutData && (!optionalOppositeEgdeLayoutData.isPresent() || !(optionalOppositeEgdeLayoutData.get().equals(abstractLayoutData)))) {
                     EdgeLayoutData edgeLayoutData = (EdgeLayoutData) abstractLayoutData;
                     EdgeTarget edgeSource = edge.getSourceNode();
                     EdgeTarget edgeTarget = edge.getTargetNode();
@@ -931,11 +931,11 @@ public final class SiriusLayoutDataManagerImpl implements SiriusLayoutDataManage
     }
 
     @Override
-    public Option<AbstractLayoutData> getData() {
+    public java.util.Optional<AbstractLayoutData> getData() {
         if (!rootsLayoutData.isEmpty()) {
-            return Options.newSome(rootsLayoutData.iterator().next());
+            return java.util.Optional.of(rootsLayoutData.iterator().next());
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     @Override

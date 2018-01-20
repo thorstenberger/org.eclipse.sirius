@@ -13,8 +13,8 @@ package org.eclipse.sirius.diagram.business.api.query;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ECrossReferenceAdapter;
 import org.eclipse.sirius.diagram.DDiagram;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.DRepresentation;
 
 /**
@@ -57,11 +57,11 @@ public class EObjectQuery extends org.eclipse.sirius.business.api.query.EObjectQ
      * 
      * @return the diagram if found, null otherwise.
      */
-    public Option<DDiagram> getParentDiagram() {
-        Option<DRepresentation> parentRepresentation = getRepresentation();
-        if (parentRepresentation.some() && parentRepresentation.get() instanceof DDiagram) {
-            return Options.newSome((DDiagram) parentRepresentation.get());
+    public java.util.Optional<DDiagram> getParentDiagram() {
+        java.util.Optional<DRepresentation> parentRepresentation = getRepresentation();
+        if (parentRepresentation.isPresent() && parentRepresentation.get() instanceof DDiagram) {
+            return java.util.Optional.of((DDiagram) parentRepresentation.get());
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 }

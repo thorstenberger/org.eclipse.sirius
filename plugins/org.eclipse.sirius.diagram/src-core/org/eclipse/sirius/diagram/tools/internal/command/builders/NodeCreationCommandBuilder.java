@@ -29,8 +29,8 @@ import org.eclipse.sirius.diagram.DSemanticDiagram;
 import org.eclipse.sirius.diagram.business.api.query.EObjectQuery;
 import org.eclipse.sirius.diagram.business.internal.helper.task.CreateDNodeTask;
 import org.eclipse.sirius.diagram.description.tool.NodeCreationDescription;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.tools.api.interpreter.InterpreterUtil;
 import org.eclipse.sirius.tools.internal.command.builders.ElementsToSelectTask;
@@ -114,7 +114,7 @@ public class NodeCreationCommandBuilder extends AbstractDiagramCommandBuilder {
                 final DCommand result = buildCreateNodeCommandFromTool(diagramElement.getTarget(), diagramElement);
                 result.getTasks().add(buildCreateNodeTask(result));
                 addRefreshTask(diagramElement, result, tool);
-                Option<DDiagram> parentDiagram = new EObjectQuery(diagramElement).getParentDiagram();
+                java.util.Optional<DDiagram> parentDiagram = new EObjectQuery(diagramElement).getParentDiagram();
                 result.getTasks().add(new ElementsToSelectTask(tool, InterpreterUtil.getInterpreter(diagramElement.getTarget()), diagramElement.getTarget(), parentDiagram.get()));
                 return result;
             }
@@ -218,7 +218,7 @@ public class NodeCreationCommandBuilder extends AbstractDiagramCommandBuilder {
      * {@inheritDoc}
      */
     @Override
-    protected Option<DDiagram> getDDiagram() {
-        return Options.newSome(diagram);
+    protected java.util.Optional<DDiagram> getDDiagram() {
+        return java.util.Optional.of(diagram);
     }
 }

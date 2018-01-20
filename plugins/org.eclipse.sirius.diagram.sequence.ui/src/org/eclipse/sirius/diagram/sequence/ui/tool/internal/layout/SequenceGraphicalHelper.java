@@ -33,7 +33,7 @@ import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.LifelineEd
 import org.eclipse.sirius.diagram.sequence.util.Range;
 import org.eclipse.sirius.diagram.ui.tools.api.graphical.edit.styles.IBorderItemOffsets;
 import org.eclipse.sirius.diagram.ui.tools.api.util.GMFNotationHelper;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 
 import com.google.common.collect.Iterables;
@@ -85,8 +85,8 @@ public final class SequenceGraphicalHelper {
     public static EObject getInstanceRoleBefore(SequenceDDiagram diagram, int x) {
         Iterable<Diagram> diagramViews = Iterables.filter(ISequenceElementAccessor.getViewsForSemanticElement(diagram, diagram.getTarget()), Diagram.class);
         if (!Iterables.isEmpty(diagramViews)) {
-            Option<SequenceDiagram> seqDiag = ISequenceElementAccessor.getSequenceDiagram(diagramViews.iterator().next());
-            if (seqDiag.some()) {
+            java.util.Optional<SequenceDiagram> seqDiag = ISequenceElementAccessor.getSequenceDiagram(diagramViews.iterator().next());
+            if (seqDiag.isPresent()) {
                 for (InstanceRole ir : Lists.reverse(seqDiag.get().getSortedInstanceRole())) {
                     int pos = ir.getProperLogicalBounds().x;
                     if (pos <= x) {

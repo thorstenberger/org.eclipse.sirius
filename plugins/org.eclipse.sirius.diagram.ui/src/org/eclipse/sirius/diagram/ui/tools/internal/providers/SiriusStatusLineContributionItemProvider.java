@@ -25,7 +25,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.business.api.query.EObjectQuery;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.ui.IWorkbenchPage;
 
 /**
@@ -72,8 +72,8 @@ public class SiriusStatusLineContributionItemProvider extends AbstractStatusLine
 
         private String getText(EObject selectedElement) {
             String result = StringStatics.BLANK;
-            Option<DDiagram> optionalDiagram = new EObjectQuery(selectedElement).getParentDiagram();
-            if (optionalDiagram.some()) {
+            java.util.Optional<DDiagram> optionalDiagram = new EObjectQuery(selectedElement).getParentDiagram();
+            if (optionalDiagram.isPresent()) {
                 if (optionalDiagram.get().isSynchronized()) {
                     result = Messages.SiriusStatusLineContributionItemProvider_diagramSynchronized;
                 } else {

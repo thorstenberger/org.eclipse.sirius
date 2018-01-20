@@ -20,7 +20,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.sirius.business.api.componentization.ViewpointResourceHandler;
 import org.eclipse.sirius.business.api.query.ViewpointQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
 
 import com.google.common.base.Function;
@@ -177,8 +177,8 @@ public class MaskingPolicy {
 
         MaskingChange change = new MaskingChange();
         for (Viewpoint viewpoint : resourceHandler.collectViewpointDefinitions(loaded)) {
-            Option<URI> uri = new ViewpointQuery(viewpoint).getViewpointURI();
-            Preconditions.checkState(uri.some(), "Could not identify logical Sirius URI for Sirius " + viewpoint); //$NON-NLS-1$
+            java.util.Optional<URI> uri = new ViewpointQuery(viewpoint).getViewpointURI();
+            Preconditions.checkState(uri.isPresent(), "Could not identify logical Sirius URI for Sirius " + viewpoint); //$NON-NLS-1$
             SiriusImplementation vi = new SiriusImplementation(uri.get(), loaded);
             List<SiriusImplementation> implementations = viewpointImplementations.get(vi.logicalURI);
             int insertionPoint = insertSorted(implementations, vi);

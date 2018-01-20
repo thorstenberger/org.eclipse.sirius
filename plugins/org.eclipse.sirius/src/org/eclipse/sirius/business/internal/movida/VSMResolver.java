@@ -16,7 +16,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.sirius.business.internal.movida.registry.ViewpointRegistry;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.base.relations.Relation;
 
 import com.google.common.base.Function;
@@ -68,8 +68,8 @@ public class VSMResolver {
         Iterable<URI> allPhysical = Iterables.transform(allLogical, new Function<URI, URI>() {
             @Override
             public URI apply(URI from) {
-                Option<URI> provider = registry.getProvider(from);
-                if (provider.some()) {
+                java.util.Optional<URI> provider = registry.getProvider(from);
+                if (provider.isPresent()) {
                     return provider.get();
                 } else {
                     missing.add(from);

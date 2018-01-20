@@ -21,8 +21,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.business.internal.query.ModelingProjectQuery;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.Messages;
 
 /**
@@ -125,7 +125,7 @@ public class ModelingProject implements IProjectNature, IModelingElement {
      * @return an optional ModelingProject (none if this project is not a
      *         modeling project).
      */
-    public static Option<ModelingProject> asModelingProject(IProject project) {
+    public static java.util.Optional<ModelingProject> asModelingProject(IProject project) {
         IProjectNature nature = null;
 
         if (project != null) {
@@ -137,10 +137,10 @@ public class ModelingProject implements IProjectNature, IModelingElement {
         }
 
         if (nature instanceof ModelingProject) {
-            return Options.newSome((ModelingProject) nature);
+            return java.util.Optional.of((ModelingProject) nature);
         }
 
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -155,8 +155,8 @@ public class ModelingProject implements IProjectNature, IModelingElement {
          * file for a a project should be very low, most often there will be
          * only one.
          */
-        final Option<URI> optionalUri = getMainRepresentationsFileURI(new NullProgressMonitor());
-        if (optionalUri.some()) {
+        final java.util.Optional<URI> optionalUri = getMainRepresentationsFileURI(new NullProgressMonitor());
+        if (optionalUri.isPresent()) {
             for (Session session : SessionManager.INSTANCE.getSessions()) {
                 if (session.getSessionResource() != null && optionalUri.get().equals(session.getSessionResource().getURI())) {
                     return session;
@@ -180,7 +180,7 @@ public class ModelingProject implements IProjectNature, IModelingElement {
      * @throws IllegalArgumentException
      *             In case of multiples main aird in the references.
      */
-    public Option<URI> getMainRepresentationsFileURI(IProgressMonitor monitor) throws IllegalArgumentException {
+    public java.util.Optional<URI> getMainRepresentationsFileURI(IProgressMonitor monitor) throws IllegalArgumentException {
         return getMainRepresentationsFileURI(monitor, false, false);
     }
 
@@ -206,8 +206,8 @@ public class ModelingProject implements IProjectNature, IModelingElement {
      *             In case of problem during computing the main representations
      *             file.
      */
-    public Option<URI> getMainRepresentationsFileURI(IProgressMonitor monitor, boolean force, boolean throwException) throws IllegalArgumentException {
-        Option<URI> mainRepresentationsFileURIOption = Options.newNone();
+    public java.util.Optional<URI> getMainRepresentationsFileURI(IProgressMonitor monitor, boolean force, boolean throwException) throws IllegalArgumentException {
+        java.util.Optional<URI> mainRepresentationsFileURIOption = java.util.Optional.empty();
         try {
             monitor.beginTask(Messages.ModelingProject_getMainRepFileURIMsg, 1);
             if (force) {
@@ -232,7 +232,7 @@ public class ModelingProject implements IProjectNature, IModelingElement {
             monitor.done();
         }
         if (mainRepresentationsFileURI != null) {
-            mainRepresentationsFileURIOption = Options.newSome(mainRepresentationsFileURI);
+            mainRepresentationsFileURIOption = java.util.Optional.of(mainRepresentationsFileURI);
         }
         return mainRepresentationsFileURIOption;
     }
@@ -248,8 +248,8 @@ public class ModelingProject implements IProjectNature, IModelingElement {
      */
     public boolean isMainRepresentationsFile(IFile representationsFile) {
         boolean result = false;
-        Option<URI> optionalMainRepresentationsFile = getMainRepresentationsFileURI(new NullProgressMonitor());
-        if (optionalMainRepresentationsFile.some()) {
+        java.util.Optional<URI> optionalMainRepresentationsFile = getMainRepresentationsFileURI(new NullProgressMonitor());
+        if (optionalMainRepresentationsFile.isPresent()) {
             result = optionalMainRepresentationsFile.get().equals(URI.createPlatformResourceURI(representationsFile.getFullPath().toString(), true));
         }
         return result;

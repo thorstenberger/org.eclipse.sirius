@@ -30,8 +30,8 @@ import org.eclipse.sirius.business.api.query.FileQuery;
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
 import org.eclipse.sirius.common.ui.tools.api.util.SWTUtil;
 import org.eclipse.sirius.common.ui.tools.api.view.IExpandSelectionTarget;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ui.tools.api.project.ModelingProjectManager;
 import org.eclipse.sirius.ui.tools.api.views.LockDecorationUpdater;
 import org.eclipse.sirius.ui.tools.api.views.modelexplorerview.IModelExplorerTabExtension;
@@ -351,9 +351,9 @@ public class ModelExplorerView extends CommonNavigator implements IModelExplorer
         // file here.
 
         if (element instanceof IProject) {
-            Option<ModelingProject> optionalModelingProject = ModelingProject.asModelingProject((IProject) element);
-            if (optionalModelingProject.some()) {
-                Option<URI> optionalMainSessionFileURI = Options.newNone();
+            java.util.Optional<ModelingProject> optionalModelingProject = ModelingProject.asModelingProject((IProject) element);
+            if (optionalModelingProject.isPresent()) {
+                java.util.Optional<URI> optionalMainSessionFileURI = java.util.Optional.empty();
                 try {
                     optionalMainSessionFileURI = optionalModelingProject.get().getMainRepresentationsFileURI(new NullProgressMonitor(), false, true);
                 } catch (IllegalArgumentException e) {
@@ -361,7 +361,7 @@ public class ModelExplorerView extends CommonNavigator implements IModelExplorer
                     Job invalidModelingProjectMarkerUpdaterJob = new InvalidModelingProjectMarkerUpdaterJob(project, e.getMessage());
                     invalidModelingProjectMarkerUpdaterJob.schedule();
                 }
-                if (optionalMainSessionFileURI.some()) {
+                if (optionalMainSessionFileURI.isPresent()) {
                     // Load the main representations file of this modeling
                     // project if it's not already loaded or during loading.
                     ModelingProjectManager.INSTANCE.loadAndOpenRepresentationsFile(optionalMainSessionFileURI.get());

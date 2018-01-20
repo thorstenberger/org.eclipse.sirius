@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.sirius.business.api.metamodel.helper.FontFormatHelper;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.table.business.api.query.DCellQuery;
 import org.eclipse.sirius.table.business.api.query.DTableQuery;
 import org.eclipse.sirius.table.business.api.refresh.DTableSynchronizer;
@@ -518,10 +518,10 @@ public class DTableSynchronizerTest extends TableTestCase {
         sync.setTable(newTable);
         sync.refresh(new NullProgressMonitor());
 
-        Option<DCell> optionalCell = new DTableQuery(newTable).getFirstCell();
-        if (optionalCell.some()) {
-            Option<DTableElementStyle> optionalForegroundStyleToApply = new DCellQuery(optionalCell.get()).getForegroundStyleToApply();
-            assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        java.util.Optional<DCell> optionalCell = new DTableQuery(newTable).getFirstCell();
+        if (optionalCell.isPresent()) {
+            java.util.Optional<DTableElementStyle> optionalForegroundStyleToApply = new DCellQuery(optionalCell.get()).getForegroundStyleToApply();
+            assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
             checkStyle(optionalForegroundStyleToApply.get(), false, 8, Collections.emptyList());
         }
 
@@ -543,9 +543,9 @@ public class DTableSynchronizerTest extends TableTestCase {
         sync.refresh(new NullProgressMonitor());
 
         optionalCell = new DTableQuery(newTable).getFirstCell();
-        if (optionalCell.some()) {
-            Option<DTableElementStyle> optionalForegroundStyleToApply = new DCellQuery(optionalCell.get()).getForegroundStyleToApply();
-            assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        if (optionalCell.isPresent()) {
+            java.util.Optional<DTableElementStyle> optionalForegroundStyleToApply = new DCellQuery(optionalCell.get()).getForegroundStyleToApply();
+            assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
             List<FontFormat> fontFormat = new ArrayList<FontFormat>();
             fontFormat.add(FontFormat.BOLD_LITERAL);
             checkStyle(optionalForegroundStyleToApply.get(), true, 14, fontFormat);
@@ -563,9 +563,9 @@ public class DTableSynchronizerTest extends TableTestCase {
         sync.refresh(new NullProgressMonitor());
 
         optionalCell = new DTableQuery(newTable).getFirstCell();
-        if (optionalCell.some()) {
-            Option<DTableElementStyle> optionalForegroundStyleToApply = new DCellQuery(optionalCell.get()).getForegroundStyleToApply();
-            assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        if (optionalCell.isPresent()) {
+            java.util.Optional<DTableElementStyle> optionalForegroundStyleToApply = new DCellQuery(optionalCell.get()).getForegroundStyleToApply();
+            assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
             checkStyle(optionalForegroundStyleToApply.get(), false, 8, Collections.emptyList());
         }
     }

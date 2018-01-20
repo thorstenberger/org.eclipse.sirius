@@ -62,7 +62,7 @@ import org.eclipse.sirius.business.internal.movida.Movida;
 import org.eclipse.sirius.common.tools.api.util.EqualityHelper;
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
 import org.eclipse.sirius.common.ui.tools.api.util.SWTUtil;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ui.business.internal.commands.ChangeViewpointSelectionCommand;
 import org.eclipse.sirius.ui.tools.internal.viewpoint.ViewpointHelper;
 import org.eclipse.sirius.viewpoint.description.RepresentationExtensionDescription;
@@ -393,8 +393,8 @@ public final class ViewpointSelection {
         Set<String> selectedURIs = Sets.newHashSet(Iterables.filter(Iterables.transform(selected, new Function<Viewpoint, String>() {
             @Override
             public String apply(Viewpoint from) {
-                Option<URI> uri = new ViewpointQuery(from).getViewpointURI();
-                if (uri.some()) {
+                java.util.Optional<URI> uri = new ViewpointQuery(from).getViewpointURI();
+                if (uri.isPresent()) {
                     return uri.get().toString();
                 } else {
                     return null;

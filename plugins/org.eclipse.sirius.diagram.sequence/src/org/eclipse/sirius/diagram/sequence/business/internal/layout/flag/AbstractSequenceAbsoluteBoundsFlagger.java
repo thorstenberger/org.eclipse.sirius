@@ -52,7 +52,7 @@ public abstract class AbstractSequenceAbsoluteBoundsFlagger {
 
             AbsoluteBoundsFilter flag = getOrCreateFlag(dde);
 
-            if (ise instanceof LostMessageEnd && !((LostMessageEnd) ise).getMessage().some()) {
+            if (ise instanceof LostMessageEnd && !((LostMessageEnd) ise).getMessage().isPresent()) {
                 flag.setX(LayoutConstants.TOOL_CREATION_FLAG_FROM_SEMANTIC.x);
             }
 

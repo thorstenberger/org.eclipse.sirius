@@ -56,7 +56,7 @@ import org.eclipse.sirius.diagram.description.tool.ContainerDropDescription;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.exception.FeatureNotFoundException;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.exception.MetaClassNotFoundException;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.DMappingBased;
 import org.eclipse.sirius.viewpoint.SiriusPlugin;
 import org.eclipse.sirius.viewpoint.description.SemanticBasedDecoration;
@@ -330,8 +330,8 @@ public final class DnDTasksOperations {
 
     private static boolean addCandidate(final DEdge edge, final Collection<DEdgeCandidate> candidates, final DEdgeCandidate candidate) {
         boolean added = false;
-        Option<EdgeMapping> edgeMapping = new IEdgeMappingQuery(edge.getActualMapping()).getEdgeMapping();
-        if (edgeMapping.some()) {
+        java.util.Optional<EdgeMapping> edgeMapping = new IEdgeMappingQuery(edge.getActualMapping()).getEdgeMapping();
+        if (edgeMapping.isPresent()) {
             if (edgeMapping.get().isUseDomainElement()) {
                 if (edge.getTarget() == candidate.getSemantic()) {
                     added = candidates.add(candidate);

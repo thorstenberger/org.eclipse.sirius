@@ -76,7 +76,7 @@ import org.eclipse.sirius.diagram.sequence.util.Range;
 import org.eclipse.sirius.diagram.ui.edit.internal.part.DiagramBorderNodeEditPartOperation;
 import org.eclipse.sirius.diagram.ui.graphical.edit.policies.SpecificBorderItemSelectionEditPolicy;
 import org.eclipse.sirius.diagram.ui.tools.internal.edit.command.CommandFactory;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.draw2d.figure.FigureUtilities;
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 import org.eclipse.swt.graphics.Color;
@@ -411,8 +411,8 @@ public class ExecutionSelectionEditPolicy extends SpecificBorderItemSelectionEdi
             toIgnore.addAll(sequenceEventsUpperToInsertionTime);
         }
 
-        Option<Lifeline> srcLifeline = message.getSourceLifeline();
-        if (srcLifeline.some()) {
+        java.util.Optional<Lifeline> srcLifeline = message.getSourceLifeline();
+        if (srcLifeline.isPresent()) {
             EventFinder srcFinder = new EventFinder(srcLifeline.get());
             srcFinder.setReconnection(true);
             srcFinder.setEventsToIgnore(Predicates.in(toIgnore));
@@ -439,8 +439,8 @@ public class ExecutionSelectionEditPolicy extends SpecificBorderItemSelectionEdi
             toIgnore.addAll(sequenceEventsUpperToInsertionTime);
         }
 
-        Option<Lifeline> tgtLifeline = message.getTargetLifeline();
-        if (tgtLifeline.some()) {
+        java.util.Optional<Lifeline> tgtLifeline = message.getTargetLifeline();
+        if (tgtLifeline.isPresent()) {
             EventFinder tgtFinder = new EventFinder(tgtLifeline.get());
             tgtFinder.setReconnection(true);
             tgtFinder.setEventsToIgnore(Predicates.in(toIgnore));

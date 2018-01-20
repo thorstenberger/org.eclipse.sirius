@@ -47,8 +47,8 @@ import org.eclipse.sirius.diagram.ui.graphical.edit.policies.ContainerCreationEd
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.DDiagramEditPart;
 import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
 import org.eclipse.sirius.diagram.ui.tools.api.properties.PropertiesService;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tools.api.ui.property.IPropertiesProvider;
 import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
 
@@ -190,8 +190,8 @@ public class SequenceDiagramEditPart extends DDiagramEditPart {
         getEditingDomain().addResourceSetListener(semanticOrderingSynchronizer);
         getEditingDomain().addResourceSetListener(refreshZorder);
 
-        Option<SessionEventBroker> broker = getSessionBroker();
-        if (broker.some()) {
+        java.util.Optional<SessionEventBroker> broker = getSessionBroker();
+        if (broker.isPresent()) {
             SessionEventBroker sessionEventBroker = broker.get();
 
             Predicate<Notification> refreshLayoutScope = new RefreshLayoutScope();
@@ -204,15 +204,15 @@ public class SequenceDiagramEditPart extends DDiagramEditPart {
         }
     }
 
-    private Option<SessionEventBroker> getSessionBroker() {
+    private java.util.Optional<SessionEventBroker> getSessionBroker() {
         DDiagramEditor diagramEditor = (DDiagramEditor) this.getViewer().getProperty(DDiagramEditor.EDITOR_ID);
         if (diagramEditor != null) {
             Session session = diagramEditor.getSession();
             if (session != null && session.isOpen()) {
-                return Options.newSome(diagramEditor.getSession().getEventBroker());
+                return java.util.Optional.of(diagramEditor.getSession().getEventBroker());
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     private void setCustomCommandFactoryProvider(DDiagramEditor diagramEditor) {
@@ -247,8 +247,8 @@ public class SequenceDiagramEditPart extends DDiagramEditPart {
 
         getEditingDomain().removeResourceSetListener(refreshZorder);
         getEditingDomain().removeResourceSetListener(semanticOrderingSynchronizer);
-        Option<SessionEventBroker> broker = getSessionBroker();
-        if (broker.some()) {
+        java.util.Optional<SessionEventBroker> broker = getSessionBroker();
+        if (broker.isPresent()) {
             SessionEventBroker sessionEventBroker = broker.get();
             sessionEventBroker.removeLocalTrigger(refreshLayout);
             sessionEventBroker.removeLocalTrigger(sequenceCanonicalSynchronizer);

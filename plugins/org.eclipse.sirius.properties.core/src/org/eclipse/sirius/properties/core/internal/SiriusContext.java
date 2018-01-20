@@ -19,8 +19,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.sirius.business.api.query.EObjectQuery;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationElement;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
@@ -132,7 +132,7 @@ public final class SiriusContext {
      */
     private static SiriusContext fromDRepresentationElement(DRepresentationElement dre) {
         Session session = new EObjectQuery(dre).getSession();
-        Option<DRepresentation> repr = new EObjectQuery(dre).getRepresentation();
+        java.util.Optional<DRepresentation> repr = new EObjectQuery(dre).getRepresentation();
         return new SiriusContext(dre, session, repr.get(), dre, dre.getTarget());
     }
 
@@ -171,8 +171,8 @@ public final class SiriusContext {
      * 
      * @return the session to which the input element is associated.
      */
-    public Option<Session> getSession() {
-        return Options.fromNullable(session);
+    public java.util.Optional<Session> getSession() {
+        return java.util.Optional.ofNullable(session);
     }
 
     /**
@@ -185,8 +185,8 @@ public final class SiriusContext {
      * @return the Sirius representation to which the input element is
      *         associated.
      */
-    public Option<DRepresentation> getDRepresentation() {
-        return Options.fromNullable(representation);
+    public java.util.Optional<DRepresentation> getDRepresentation() {
+        return java.util.Optional.ofNullable(representation);
     }
 
     /**
@@ -204,11 +204,11 @@ public final class SiriusContext {
      * 
      * @return the main semantic element associated to the input.
      */
-    public Option<EObject> getMainSemanticElement() {
+    public java.util.Optional<EObject> getMainSemanticElement() {
         if (semanticDecorator != null) {
-            return Options.newSome(semanticDecorator.getTarget());
+            return java.util.Optional.of(semanticDecorator.getTarget());
         } else {
-            return Options.newSome(mainSemanticElement);
+            return java.util.Optional.of(mainSemanticElement);
         }
     }
 
@@ -218,11 +218,11 @@ public final class SiriusContext {
      * 
      * @return the additional semantic elements associated to the input.
      */
-    public Option<List<EObject>> getAdditionalSemanticElements() {
+    public java.util.Optional<List<EObject>> getAdditionalSemanticElements() {
         if (semanticDecorator instanceof DRepresentationElement) {
-            return Options.newSome((List<EObject>) ((DRepresentationElement) semanticDecorator).getSemanticElements());
+            return java.util.Optional.of((List<EObject>) ((DRepresentationElement) semanticDecorator).getSemanticElements());
         } else {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
     }
 }

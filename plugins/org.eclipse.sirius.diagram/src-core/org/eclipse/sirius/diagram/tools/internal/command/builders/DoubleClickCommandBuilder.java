@@ -23,7 +23,7 @@ import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.business.api.query.EObjectQuery;
 import org.eclipse.sirius.diagram.description.tool.DoubleClickDescription;
 import org.eclipse.sirius.diagram.description.tool.Navigation;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.tools.api.interpreter.InterpreterUtil;
 import org.eclipse.sirius.tools.internal.command.builders.ElementsToSelectTask;
@@ -71,7 +71,7 @@ public class DoubleClickCommandBuilder extends AbstractDiagramCommandBuilder {
             IInterpreter interpreter = InterpreterUtil.getInterpreter(dDiagramElement);
             cmd.getTasks().add(new InitInterpreterVariablesTask(variables, interpreter, uiCallback));
 
-            Option<DDiagram> parentDiagram = getDDiagram();
+            java.util.Optional<DDiagram> parentDiagram = getDDiagram();
             if (tool.getInitialOperation() != null && tool.getInitialOperation().getFirstModelOperations() != null) {
                 cmd.getTasks().add(taskHelper.buildTaskFromModelOperation(parentDiagram.get(), dDiagramElement, tool.getInitialOperation().getFirstModelOperations()));
                 addPostOperationTasks(cmd, interpreter);
@@ -103,7 +103,7 @@ public class DoubleClickCommandBuilder extends AbstractDiagramCommandBuilder {
     protected void addPostOperationTasks(final DCommand command, IInterpreter interpreter) {
         if (dDiagramElement != null) {
             addRefreshTask(dDiagramElement, command, tool);
-            Option<DDiagram> parentDiagram = new EObjectQuery(dDiagramElement).getParentDiagram();
+            java.util.Optional<DDiagram> parentDiagram = new EObjectQuery(dDiagramElement).getParentDiagram();
             command.getTasks().add(new ElementsToSelectTask(tool, interpreter, dDiagramElement.getTarget(), parentDiagram.get()));
         }
     }
@@ -120,7 +120,7 @@ public class DoubleClickCommandBuilder extends AbstractDiagramCommandBuilder {
      * {@inheritDoc}
      */
     @Override
-    protected Option<DDiagram> getDDiagram() {
+    protected java.util.Optional<DDiagram> getDDiagram() {
         return new EObjectQuery(dDiagramElement).getParentDiagram();
     }
 }

@@ -66,8 +66,8 @@ import org.eclipse.sirius.diagram.ui.provider.DiagramUIPlugin;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
 import org.eclipse.sirius.diagram.ui.tools.api.command.GMFCommandWrapper;
 import org.eclipse.sirius.diagram.ui.tools.api.draw2d.ui.figures.FigureUtilities;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tools.api.ui.ExternalJavaActionProvider;
 import org.eclipse.sirius.tools.api.ui.IExternalJavaAction;
 import org.eclipse.sirius.viewpoint.DMappingBased;
@@ -173,21 +173,21 @@ public class PopupMenuContribution implements IContributionItemProvider {
                     Point relativeCursorLocationToPrimarySelection = getCurrentLocation(primarySelection);
 
                     for (final PopupMenu popMenu : new LinkedHashSet<>(activatedPopupMenus)) {
-                        Option<? extends IContributionItem> contributionItem = buildContributionItemToAdd(domain, selectedViews, popMenu, emfCommandFactory, primarySelection,
+                        java.util.Optional<? extends IContributionItem> contributionItem = buildContributionItemToAdd(domain, selectedViews, popMenu, emfCommandFactory, primarySelection,
                                 relativeCursorLocationToPrimarySelection);
-                        if (contributionItem.some()) {
+                        if (contributionItem.isPresent()) {
                             menu.appendToGroup(IWorkbenchActionConstants.MB_ADDITIONS, contributionItem.get());
                         }
                     }
                     for (final OperationAction operationAction : new LinkedHashSet<>(activatedOperationActionMenus)) {
-                        Option<IAction> action = buildActionToAdd(domain, selectedViews, operationAction, emfCommandFactory, primarySelection, relativeCursorLocationToPrimarySelection);
-                        if (action.some()) {
+                        java.util.Optional<IAction> action = buildActionToAdd(domain, selectedViews, operationAction, emfCommandFactory, primarySelection, relativeCursorLocationToPrimarySelection);
+                        if (action.isPresent()) {
                             menu.appendToGroup(IWorkbenchActionConstants.MB_ADDITIONS, action.get());
                         }
                     }
                     for (final ExternalJavaAction externalJavaAction : new LinkedHashSet<>(activatedExternalJavaActionMenus)) {
-                        Option<IAction> action = buildActionToAdd(domain, selectedViews, externalJavaAction, emfCommandFactory, primarySelection, relativeCursorLocationToPrimarySelection);
-                        if (action.some()) {
+                        java.util.Optional<IAction> action = buildActionToAdd(domain, selectedViews, externalJavaAction, emfCommandFactory, primarySelection, relativeCursorLocationToPrimarySelection);
+                        if (action.isPresent()) {
                             menu.appendToGroup(IWorkbenchActionConstants.MB_ADDITIONS, action.get());
                         }
                     }
@@ -260,7 +260,7 @@ public class PopupMenuContribution implements IContributionItemProvider {
      *            contextual action)
      * @return an optional IContributionItem.
      */
-    private Option<? extends IContributionItem> buildContributionItemToAdd(final EditDomain domain, final Collection<DSemanticDecorator> selectedViews, final PopupMenu popupMenu,
+    private java.util.Optional<? extends IContributionItem> buildContributionItemToAdd(final EditDomain domain, final Collection<DSemanticDecorator> selectedViews, final PopupMenu popupMenu,
             final IDiagramCommandFactory emfCommandFactory, EditPart primarySelection, Point currentMouseLocation) {
 
         final EObject semantic = selectedViews.iterator().next().getTarget();
@@ -298,9 +298,9 @@ public class PopupMenuContribution implements IContributionItemProvider {
         // finalize
         if (subMenu.getSize() > 0) {
             subMenu.setVisible(true);
-            return Options.newSome(subMenu);
+            return java.util.Optional.of(subMenu);
         } else {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
     }
 
@@ -331,7 +331,7 @@ public class PopupMenuContribution implements IContributionItemProvider {
      * @param selectedViews
      *            the semantic viewpoint element under focus.
      */
-    private Option<IAction> buildActionToAdd(final EditDomain domain, final Collection<DSemanticDecorator> selectedViews, final MenuItemDescription menuItemDescription,
+    private java.util.Optional<IAction> buildActionToAdd(final EditDomain domain, final Collection<DSemanticDecorator> selectedViews, final MenuItemDescription menuItemDescription,
             final IDiagramCommandFactory emfCommandFactory, EditPart primarySelection, Point currentMouseLocation) {
         final EObject semantic = selectedViews.iterator().next().getTarget();
         IInterpreter interpreter = null;
@@ -343,10 +343,10 @@ public class PopupMenuContribution implements IContributionItemProvider {
         if (interpreter != null && preconditionHolds(menuItemDescription, selectedViews, semantic, interpreter)) {
             final IAction action = buildMenuItemAction(menuItemDescription, selectedViews, domain, emfCommandFactory, interpreter, primarySelection, currentMouseLocation);
             if (action != null) {
-                return Options.newSome(action);
+                return java.util.Optional.of(action);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

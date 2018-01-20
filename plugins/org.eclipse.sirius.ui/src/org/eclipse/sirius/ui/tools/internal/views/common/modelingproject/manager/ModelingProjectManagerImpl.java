@@ -47,7 +47,7 @@ import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.business.api.session.SessionManagerListener;
 import org.eclipse.sirius.business.internal.modelingproject.marker.ModelingMarker;
 import org.eclipse.sirius.business.internal.query.ModelingProjectQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.command.semantic.AddSemanticResourceCommand;
 import org.eclipse.sirius.ui.tools.api.project.ModelingProjectManager;
 import org.eclipse.sirius.ui.tools.internal.views.common.modelingproject.OpenRepresentationsFileJob;
@@ -353,11 +353,11 @@ public class ModelingProjectManagerImpl implements ModelingProjectManager {
             project.setDescription(description, new SubProgressMonitor(monitor, 1));
 
             // check project
-            Option<ModelingProject> optionalModelingProject = ModelingProject.asModelingProject(project);
-            if (optionalModelingProject.some()) {
+            java.util.Optional<ModelingProject> optionalModelingProject = ModelingProject.asModelingProject(project);
+            if (optionalModelingProject.isPresent()) {
                 try {
-                    Option<URI> mainRepresentationsFileURI = optionalModelingProject.get().getMainRepresentationsFileURI(new SubProgressMonitor(monitor, 1), false, true);
-                    if (mainRepresentationsFileURI.some()) {
+                    java.util.Optional<URI> mainRepresentationsFileURI = optionalModelingProject.get().getMainRepresentationsFileURI(new SubProgressMonitor(monitor, 1), false, true);
+                    if (mainRepresentationsFileURI.isPresent()) {
                         // Open the session.
                         loadAndOpenRepresentationsFiles(Lists.newArrayList(mainRepresentationsFileURI.get()), true, true);
                     }

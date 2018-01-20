@@ -19,7 +19,7 @@ import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.sirius.business.api.color.AbstractColorUpdater;
 import org.eclipse.sirius.common.tools.api.interpreter.EvaluationException;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.table.business.api.query.DCellQuery;
 import org.eclipse.sirius.table.business.api.refresh.DTableSynchronizer;
 import org.eclipse.sirius.table.business.internal.refresh.DTableSynchronizerImpl;
@@ -105,8 +105,8 @@ public class DTableCellStylesTest extends TableTestCase {
             e.printStackTrace();
         }
         assertNotNull("We should have an isAbstract cell for the Class1 line.", cell);
-        Option<DTableElementStyle> optionalBackgroundStyleToApply = new DCellQuery(cell).getBackgroundStyleToApply();
-        assertTrue("We should have a currentStyle for the cell.", optionalBackgroundStyleToApply.some());
+        java.util.Optional<DTableElementStyle> optionalBackgroundStyleToApply = new DCellQuery(cell).getBackgroundStyleToApply();
+        assertTrue("We should have a currentStyle for the cell.", optionalBackgroundStyleToApply.isPresent());
         RGBValues color = optionalBackgroundStyleToApply.get().getBackgroundColor();
         assertTrue("We should have a red background color (the conditonal background color of the column mapping) for the cell",
                 AbstractColorUpdater.areEquals(VisualBindingManager.getDefault().getRGBValuesFor(SystemColors.RED_LITERAL), color));
@@ -127,7 +127,7 @@ public class DTableCellStylesTest extends TableTestCase {
         sync.refresh(new NullProgressMonitor());
 
         optionalBackgroundStyleToApply = new DCellQuery(cell).getBackgroundStyleToApply();
-        assertTrue("We should have a currentStyle for the cell.", optionalBackgroundStyleToApply.some());
+        assertTrue("We should have a currentStyle for the cell.", optionalBackgroundStyleToApply.isPresent());
         color = optionalBackgroundStyleToApply.get().getBackgroundColor();
         assertEquals("We should have white as default background color", RGBValues.create(255, 255, 255), color);
     }
@@ -176,8 +176,8 @@ public class DTableCellStylesTest extends TableTestCase {
         }
         assertNotNull("We should have an isActive cell for the Class1 line.", cellForClasse1);
         DCellQuery class1CellQuery = new DCellQuery(cellForClasse1);
-        Option<DTableElementStyle> optionalForegroundStyleToApply = class1CellQuery.getForegroundStyleToApply();
-        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        java.util.Optional<DTableElementStyle> optionalForegroundStyleToApply = class1CellQuery.getForegroundStyleToApply();
+        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
         RGBValues color = optionalForegroundStyleToApply.get().getForegroundColor();
         assertTrue("We should have a purple foreground color (the conditional foreground color of the line mapping) for the cell",
                 AbstractColorUpdater.areEquals(VisualBindingManager.getDefault().getRGBValuesFor(SystemColors.PURPLE_LITERAL), color));
@@ -204,7 +204,7 @@ public class DTableCellStylesTest extends TableTestCase {
         assertNotNull("We should have an isActive cell for the Class2 line.", cellForClasse2);
         DCellQuery class2CellQuery = new DCellQuery(cellForClasse2);
         optionalForegroundStyleToApply = class2CellQuery.getForegroundStyleToApply();
-        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
         color = optionalForegroundStyleToApply.get().getForegroundColor();
         assertTrue("We should have a dark_blue foreground color (the default foreground color of the line mapping) for the cell",
                 AbstractColorUpdater.areEquals(VisualBindingManager.getDefault().getRGBValuesFor(SystemColors.DARK_BLUE_LITERAL), color));
@@ -229,13 +229,13 @@ public class DTableCellStylesTest extends TableTestCase {
         sync.refresh(new NullProgressMonitor());
 
         optionalForegroundStyleToApply = class1CellQuery.getForegroundStyleToApply();
-        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
         color = optionalForegroundStyleToApply.get().getForegroundColor();
         assertTrue("We should have a purple foreground color (the conditional foreground color of the line mapping) for the cell and not " + color + ".",
                 AbstractColorUpdater.areEquals(VisualBindingManager.getDefault().getRGBValuesFor(SystemColors.PURPLE_LITERAL), color));
 
         optionalForegroundStyleToApply = class2CellQuery.getForegroundStyleToApply();
-        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
         color = optionalForegroundStyleToApply.get().getForegroundColor();
         assertTrue("We should have a red foreground color (the conditional foreground color of the column mapping) for the cell",
                 AbstractColorUpdater.areEquals(VisualBindingManager.getDefault().getRGBValuesFor(SystemColors.RED_LITERAL), color));
@@ -284,8 +284,8 @@ public class DTableCellStylesTest extends TableTestCase {
         }
         assertNotNull("We should have an isActive cell for the Class1 line.", cellForClasse1);
         DCellQuery class1CellQuery = new DCellQuery(cellForClasse1);
-        Option<DTableElementStyle> optionalForegroundStyleToApply = class1CellQuery.getForegroundStyleToApply();
-        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        java.util.Optional<DTableElementStyle> optionalForegroundStyleToApply = class1CellQuery.getForegroundStyleToApply();
+        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
         assertEquals("We should have a font size of 9 (the conditional foreground size of the line mapping).", 9, optionalForegroundStyleToApply.get().getLabelSize());
 
         // Get the line corresponding to the Class Class2
@@ -311,7 +311,7 @@ public class DTableCellStylesTest extends TableTestCase {
         assertNotNull("We should have an isActive cell for the Class2 line.", cellForClasse2);
         DCellQuery class2CellQuery = new DCellQuery(cellForClasse2);
         optionalForegroundStyleToApply = class2CellQuery.getForegroundStyleToApply();
-        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
         assertEquals("We should have a font size of 12 (the default foreground size of the line mapping).", 12, optionalForegroundStyleToApply.get().getLabelSize());
 
         /*
@@ -333,11 +333,11 @@ public class DTableCellStylesTest extends TableTestCase {
         sync.refresh(new NullProgressMonitor());
 
         optionalForegroundStyleToApply = class1CellQuery.getForegroundStyleToApply();
-        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
         assertEquals("We should have a font size of 9 (the conditional foreground size of the line mapping).", 9, optionalForegroundStyleToApply.get().getLabelSize());
 
         optionalForegroundStyleToApply = class2CellQuery.getForegroundStyleToApply();
-        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
         assertEquals("We should have a font size of 14 (the conditional foreground size of the column mapping).", 14, optionalForegroundStyleToApply.get().getLabelSize());
     }
 
@@ -385,8 +385,8 @@ public class DTableCellStylesTest extends TableTestCase {
         }
         assertNotNull("We should have an isActive cell for the Class1 line.", cellForClasse1);
         DCellQuery class1CellQuery = new DCellQuery(cellForClasse1);
-        Option<DTableElementStyle> optionalForegroundStyleToApply = class1CellQuery.getForegroundStyleToApply();
-        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        java.util.Optional<DTableElementStyle> optionalForegroundStyleToApply = class1CellQuery.getForegroundStyleToApply();
+        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
         assertNotNull("We should have a label format for the cell.", optionalForegroundStyleToApply.get().getLabelFormat());
         assertEquals("The label format should be normal (the conditional foreground label format of the line mapping).", Collections.emptyList(), optionalForegroundStyleToApply.get().getLabelFormat());
 
@@ -413,7 +413,7 @@ public class DTableCellStylesTest extends TableTestCase {
         assertNotNull("We should have an isActive cell for the Class2 line.", cellForClasse2);
         DCellQuery class2CellQuery = new DCellQuery(cellForClasse2);
         optionalForegroundStyleToApply = class2CellQuery.getForegroundStyleToApply();
-        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
         assertNotNull("We should have a label format for the cell.", optionalForegroundStyleToApply.get().getLabelFormat());
         assertEquals("The label format should be normal (the default foreground label format of the line mapping).", Collections.emptyList(), optionalForegroundStyleToApply.get().getLabelFormat());
 
@@ -436,12 +436,12 @@ public class DTableCellStylesTest extends TableTestCase {
         sync.refresh(new NullProgressMonitor());
 
         optionalForegroundStyleToApply = class1CellQuery.getForegroundStyleToApply();
-        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
         assertNotNull("We should have a label format for the cell.", optionalForegroundStyleToApply.get().getLabelFormat());
         assertEquals("The label format should be normal (the conditional foreground label format of the line mapping).", Collections.emptyList(), optionalForegroundStyleToApply.get().getLabelFormat());
 
         optionalForegroundStyleToApply = class2CellQuery.getForegroundStyleToApply();
-        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
         assertNotNull("We should have a label format for the cell.", optionalForegroundStyleToApply.get().getLabelFormat());
         List<FontFormat> fontFormat = new ArrayList<FontFormat>();
         fontFormat.add(FontFormat.ITALIC_LITERAL);

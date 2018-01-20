@@ -17,8 +17,8 @@ import java.util.LinkedHashSet;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.sirius.business.api.dialect.description.IInterpretedExpressionTargetSwitch;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.table.metamodel.table.description.BackgroundConditionalStyle;
 import org.eclipse.sirius.table.metamodel.table.description.BackgroundStyleDescription;
 import org.eclipse.sirius.table.metamodel.table.description.CellUpdater;
@@ -61,7 +61,7 @@ import com.google.common.collect.Iterables;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  * 
  */
-public class TableInterpretedTargetSwitch extends DescriptionSwitch<Option<Collection<String>>> {
+public class TableInterpretedTargetSwitch extends DescriptionSwitch<java.util.Optional<Collection<String>>> {
 
     /**
      * Constant used in switches on feature id to consider the case when the
@@ -97,13 +97,13 @@ public class TableInterpretedTargetSwitch extends DescriptionSwitch<Option<Colle
     }
 
     @Override
-    public Option<Collection<String>> doSwitch(EObject theEObject) {
-        Option<Collection<String>> doSwitch = super.doSwitch(theEObject);
+    public java.util.Optional<Collection<String>> doSwitch(EObject theEObject) {
+        java.util.Optional<Collection<String>> doSwitch = super.doSwitch(theEObject);
         if (doSwitch != null) {
             return doSwitch;
         }
         Collection<String> defaultResult = new LinkedHashSet<>();
-        return Options.newSome(defaultResult);
+        return java.util.Optional.of(defaultResult);
     }
 
     /*
@@ -131,15 +131,15 @@ public class TableInterpretedTargetSwitch extends DescriptionSwitch<Option<Colle
     }
 
     @Override
-    public Option<Collection<String>> caseTableDescription(TableDescription object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseTableDescription(TableDescription object) {
+        java.util.Optional<Collection<String>> result = null;
         Collection<String> target = new LinkedHashSet<>();
         switch (featureID) {
         case DescriptionPackage.TABLE_DESCRIPTION__PRECONDITION_EXPRESSION:
         case DescriptionPackage.TABLE_DESCRIPTION__TITLE_EXPRESSION:
         case DO_NOT_CONSIDER_FEATURE:
             target.add(object.getDomainClass());
-            result = Options.newSome(target);
+            result = java.util.Optional.of(target);
             break;
         default:
             break;
@@ -148,8 +148,8 @@ public class TableInterpretedTargetSwitch extends DescriptionSwitch<Option<Colle
     }
 
     @Override
-    public Option<Collection<String>> caseLineMapping(LineMapping object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseLineMapping(LineMapping object) {
+        java.util.Optional<Collection<String>> result = null;
         Collection<String> targets = new LinkedHashSet<>();
         switch (featureID) {
         case DescriptionPackage.LINE_MAPPING__SEMANTIC_CANDIDATES_EXPRESSION:
@@ -159,7 +159,7 @@ public class TableInterpretedTargetSwitch extends DescriptionSwitch<Option<Colle
         case DescriptionPackage.LINE_MAPPING__SEMANTIC_ELEMENTS:
         case DO_NOT_CONSIDER_FEATURE:
             targets.add(object.getDomainClass());
-            result = Options.newSome(targets);
+            result = java.util.Optional.of(targets);
             break;
         default:
             break;
@@ -168,8 +168,8 @@ public class TableInterpretedTargetSwitch extends DescriptionSwitch<Option<Colle
     }
 
     @Override
-    public Option<Collection<String>> caseElementColumnMapping(ElementColumnMapping object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseElementColumnMapping(ElementColumnMapping object) {
+        java.util.Optional<Collection<String>> result = null;
         Collection<String> targets = new LinkedHashSet<>();
         switch (featureID) {
         case DescriptionPackage.ELEMENT_COLUMN_MAPPING__SEMANTIC_CANDIDATES_EXPRESSION:
@@ -179,7 +179,7 @@ public class TableInterpretedTargetSwitch extends DescriptionSwitch<Option<Colle
         case DescriptionPackage.ELEMENT_COLUMN_MAPPING__SEMANTIC_ELEMENTS:
         case DO_NOT_CONSIDER_FEATURE:
             targets.add(object.getDomainClass());
-            result = Options.newSome(targets);
+            result = java.util.Optional.of(targets);
             break;
         default:
             break;
@@ -188,8 +188,8 @@ public class TableInterpretedTargetSwitch extends DescriptionSwitch<Option<Colle
     }
 
     @Override
-    public Option<Collection<String>> caseFeatureColumnMapping(FeatureColumnMapping object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseFeatureColumnMapping(FeatureColumnMapping object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (featureID) {
         case DescriptionPackage.FEATURE_COLUMN_MAPPING__CAN_EDIT:
         case DescriptionPackage.FEATURE_COLUMN_MAPPING__FEATURE_PARENT_EXPRESSION:
@@ -206,8 +206,8 @@ public class TableInterpretedTargetSwitch extends DescriptionSwitch<Option<Colle
     }
 
     @Override
-    public Option<Collection<String>> caseCellUpdater(CellUpdater object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseCellUpdater(CellUpdater object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (featureID) {
         case DescriptionPackage.CELL_UPDATER__CAN_EDIT:
         case DO_NOT_CONSIDER_FEATURE:
@@ -220,8 +220,8 @@ public class TableInterpretedTargetSwitch extends DescriptionSwitch<Option<Colle
     }
 
     @Override
-    public Option<Collection<String>> caseIntersectionMapping(IntersectionMapping object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseIntersectionMapping(IntersectionMapping object) {
+        java.util.Optional<Collection<String>> result = null;
         Collection<String> targets = new LinkedHashSet<>();
         if (object.isUseDomainClass()) {
             // for Domain based IntersectionMappings
@@ -237,7 +237,7 @@ public class TableInterpretedTargetSwitch extends DescriptionSwitch<Option<Colle
             case DescriptionPackage.INTERSECTION_MAPPING__LINE_FINDER_EXPRESSION:
             case DO_NOT_CONSIDER_FEATURE:
                 targets.add(object.getDomainClass());
-                result = Options.newSome(targets);
+                result = java.util.Optional.of(targets);
                 break;
             default:
                 break;
@@ -252,16 +252,16 @@ public class TableInterpretedTargetSwitch extends DescriptionSwitch<Option<Colle
             case DescriptionPackage.INTERSECTION_MAPPING__PRECONDITION_EXPRESSION:
             case DO_NOT_CONSIDER_FEATURE:
                 for (LineMapping lineMapping : object.getLineMapping()) {
-                    Option<Collection<String>> lineMappingTargets = globalSwitch.doSwitch(lineMapping, false);
-                    if (lineMappingTargets.some()) {
+                    java.util.Optional<Collection<String>> lineMappingTargets = globalSwitch.doSwitch(lineMapping, false);
+                    if (lineMappingTargets.isPresent()) {
                         targets.addAll(lineMappingTargets.get());
                     }
                 }
-                result = Options.newSome(targets);
+                result = java.util.Optional.of(targets);
                 break;
             case DescriptionPackage.INTERSECTION_MAPPING__SEMANTIC_CANDIDATES_EXPRESSION:
             case DescriptionPackage.INTERSECTION_MAPPING__LINE_FINDER_EXPRESSION:
-                result = Options.newNone();
+                result = java.util.Optional.empty();
                 break;
             default:
                 break;
@@ -271,68 +271,68 @@ public class TableInterpretedTargetSwitch extends DescriptionSwitch<Option<Colle
     }
 
     @Override
-    public Option<Collection<String>> caseCreateColumnTool(CreateColumnTool object) {
+    public java.util.Optional<Collection<String>> caseCreateColumnTool(CreateColumnTool object) {
         // getMapping() == eContainer()
         return globalSwitch.doSwitch(object.getMapping(), false);
     }
 
     @Override
-    public Option<Collection<String>> caseCreateCellTool(CreateCellTool object) {
+    public java.util.Optional<Collection<String>> caseCreateCellTool(CreateCellTool object) {
         // getMapping() == eContainer()
         return globalSwitch.doSwitch(object.getMapping(), false);
     }
 
     @Override
-    public Option<Collection<String>> caseCreateCrossColumnTool(CreateCrossColumnTool object) {
+    public java.util.Optional<Collection<String>> caseCreateCrossColumnTool(CreateCrossColumnTool object) {
         // getMapping() != eContainer()
         return globalSwitch.doSwitch(getFirstRelevantContainer(object), false);
     }
 
     @Override
-    public Option<Collection<String>> caseCreateLineTool(CreateLineTool object) {
+    public java.util.Optional<Collection<String>> caseCreateLineTool(CreateLineTool object) {
         // getMapping() != eContainer()
         return globalSwitch.doSwitch(getFirstRelevantContainer(object), false);
     }
 
     @Override
-    public Option<Collection<String>> caseDeleteColumnTool(DeleteColumnTool object) {
+    public java.util.Optional<Collection<String>> caseDeleteColumnTool(DeleteColumnTool object) {
         // getMapping() == eContainer()
         return globalSwitch.doSwitch(object.getMapping(), false);
     }
 
     @Override
-    public Option<Collection<String>> caseDeleteLineTool(DeleteLineTool object) {
+    public java.util.Optional<Collection<String>> caseDeleteLineTool(DeleteLineTool object) {
         // getMapping() == eContainer()
         return globalSwitch.doSwitch(object.getMapping(), false);
     }
 
     @Override
-    public Option<Collection<String>> caseForegroundConditionalStyle(ForegroundConditionalStyle object) {
+    public java.util.Optional<Collection<String>> caseForegroundConditionalStyle(ForegroundConditionalStyle object) {
         return globalSwitch.doSwitch(getFirstRelevantContainer(object), false);
     }
 
     @Override
-    public Option<Collection<String>> caseForegroundStyleDescription(ForegroundStyleDescription object) {
+    public java.util.Optional<Collection<String>> caseForegroundStyleDescription(ForegroundStyleDescription object) {
         return globalSwitch.doSwitch(getFirstRelevantContainer(object), false);
     }
 
     @Override
-    public Option<Collection<String>> caseBackgroundConditionalStyle(BackgroundConditionalStyle object) {
+    public java.util.Optional<Collection<String>> caseBackgroundConditionalStyle(BackgroundConditionalStyle object) {
         return globalSwitch.doSwitch(getFirstRelevantContainer(object), false);
     }
 
     @Override
-    public Option<Collection<String>> caseBackgroundStyleDescription(BackgroundStyleDescription object) {
+    public java.util.Optional<Collection<String>> caseBackgroundStyleDescription(BackgroundStyleDescription object) {
         return globalSwitch.doSwitch(getFirstRelevantContainer(object), false);
     }
 
     @Override
-    public Option<Collection<String>> caseTableCreationDescription(TableCreationDescription object) {
+    public java.util.Optional<Collection<String>> caseTableCreationDescription(TableCreationDescription object) {
         return globalSwitch.doSwitch(object.getTableDescription(), false);
     }
 
     @Override
-    public Option<Collection<String>> caseTableNavigationDescription(TableNavigationDescription object) {
+    public java.util.Optional<Collection<String>> caseTableNavigationDescription(TableNavigationDescription object) {
         return globalSwitch.doSwitch(object.getTableDescription(), false);
     }
 

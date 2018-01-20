@@ -88,8 +88,8 @@ import org.eclipse.sirius.diagram.ui.tools.internal.figure.ContainerWithTitleBlo
 import org.eclipse.sirius.diagram.ui.tools.internal.figure.RegionRoundedGradientRectangle;
 import org.eclipse.sirius.diagram.ui.tools.internal.util.EditPartQuery;
 import org.eclipse.sirius.diagram.ui.tools.internal.util.NotificationQuery;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.gmf.runtime.gef.ui.figures.SiriusDefaultSizeNodeFigure;
 import org.eclipse.sirius.viewpoint.DStylizable;
 import org.eclipse.sirius.viewpoint.description.style.LabelBorderStyleDescription;
@@ -417,8 +417,8 @@ public abstract class AbstractDiagramElementContainerEditPart extends AbstractBo
         NodeFigure result;
         DDiagramElement dde = resolveDiagramElement();
         Dimension defaultSize = getDefaultDimension(dde);
-        Option<LabelBorderStyleDescription> getLabelBorderStyle = getLabelBorderStyle(dde);
-        if (getLabelBorderStyle.some()) {
+        java.util.Optional<LabelBorderStyleDescription> getLabelBorderStyle = getLabelBorderStyle(dde);
+        if (getLabelBorderStyle.isPresent()) {
             result = new ContainerWithTitleBlockFigure(getMapMode().DPtoLP(defaultSize.width), getMapMode().DPtoLP(defaultSize.height), dde, getLabelBorderStyle.get());
         } else {
             result = new SiriusDefaultSizeNodeFigure(getMapMode().DPtoLP(defaultSize.width), getMapMode().DPtoLP(defaultSize.height));
@@ -427,11 +427,11 @@ public abstract class AbstractDiagramElementContainerEditPart extends AbstractBo
         return result;
     }
 
-    private Option<LabelBorderStyleDescription> getLabelBorderStyle(DStylizable viewNode) {
+    private java.util.Optional<LabelBorderStyleDescription> getLabelBorderStyle(DStylizable viewNode) {
         if (viewNode instanceof DDiagramElementContainer) {
             return new DDiagramElementContainerExperimentalQuery((DDiagramElementContainer) viewNode).getLabelBorderStyle();
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

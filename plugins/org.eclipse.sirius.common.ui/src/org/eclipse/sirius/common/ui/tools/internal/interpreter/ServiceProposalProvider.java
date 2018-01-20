@@ -33,7 +33,7 @@ import org.eclipse.sirius.common.tools.internal.interpreter.IService;
 import org.eclipse.sirius.common.tools.internal.interpreter.ServiceInterpreter;
 import org.eclipse.sirius.common.tools.internal.interpreter.VariableInterpreter;
 import org.eclipse.sirius.common.ui.Messages;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.collect.Lists;
 
@@ -124,8 +124,8 @@ public class ServiceProposalProvider implements IProposalProvider {
             serviceNamePrefix = serviceNamePrefix.substring(ServiceInterpreter.PREFIX.length());
 
             // Remove the receiver name (and the receiver separator) if any
-            Option<String> receiverVariableName = ServiceInterpreter.getReceiverVariableName(serviceNamePrefix);
-            if (receiverVariableName.some()) {
+            java.util.Optional<String> receiverVariableName = ServiceInterpreter.getReceiverVariableName(serviceNamePrefix);
+            if (receiverVariableName.isPresent()) {
                 serviceNamePrefix = serviceNamePrefix.substring(receiverVariableName.get().length() + 1);
             }
 
@@ -159,8 +159,8 @@ public class ServiceProposalProvider implements IProposalProvider {
             throw new IllegalArgumentException(Messages.ServiceProposalProvider_invalidContext);
         }
         List<ContentProposal> proposals = new ArrayList<ContentProposal>();
-        Option<String> receiverVariableName = ServiceInterpreter.getReceiverVariableName(writtenExpression);
-        if (!receiverVariableName.some()) {
+        java.util.Optional<String> receiverVariableName = ServiceInterpreter.getReceiverVariableName(writtenExpression);
+        if (!receiverVariableName.isPresent()) {
             // If there is no "." in the expression, we also add all
             // available variables by using the VariableProposalProvider
             VariableInterpreter variableInterpreter = (VariableInterpreter) CompoundInterpreter.INSTANCE.getInterpreterForExpression(VariableInterpreter.PREFIX);

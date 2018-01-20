@@ -26,7 +26,7 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.sirius.business.api.query.EClassesQuery;
 import org.eclipse.sirius.business.api.query.EStructuralFeaturesQuery;
 import org.eclipse.sirius.editor.properties.sections.common.AbstractComboPropertySection;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.emf.EClassQuery;
 import org.eclipse.sirius.viewpoint.description.DescriptionPackage;
 import org.eclipse.sirius.viewpoint.description.EReferenceCustomization;
@@ -127,7 +127,7 @@ public class EReferenceCustomizationValuePropertySection extends AbstractComboPr
         if (eObject instanceof EReferenceCustomization) {
             EReferenceCustomization eReferenceCustomization = (EReferenceCustomization) eObject;
             // Get the common type to all references that have the expected name
-            Option<EClass> commonType;
+            java.util.Optional<EClass> commonType;
             if (eReferenceCustomization.isApplyOnAll()) {
                 // We do not consider the appliedOn list but we compute them
                 // dynamically. All references with expected name in subclasses
@@ -155,7 +155,7 @@ public class EReferenceCustomizationValuePropertySection extends AbstractComboPr
                 commonType = new EClassesQuery(appliedOnEClass).getCommonTypeForReference(eReferenceCustomization.getReferenceName());
             }
             List<EObject> availableValues = new ArrayList<EObject>();
-            if (commonType.some()) {
+            if (commonType.isPresent()) {
                 // Get all EObject that have this common type as eType.
                 for (EObject value : Iterables.filter(values, EObject.class)) {
                     if (commonType.get().isSuperTypeOf(value.eClass())) {

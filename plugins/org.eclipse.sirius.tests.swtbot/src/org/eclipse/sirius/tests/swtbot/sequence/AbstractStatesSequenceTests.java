@@ -12,8 +12,8 @@ package org.eclipse.sirius.tests.swtbot.sequence;
 
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.sirius.diagram.sequence.business.internal.layout.LayoutConstants;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tests.unit.diagram.sequence.InteractionsConstants;
 import org.eclipse.swtbot.eclipse.gef.finder.widgets.SWTBotGefEditPart;
 import org.junit.Assert;
@@ -76,8 +76,8 @@ public abstract class AbstractStatesSequenceTests extends AbstractSequenceDiagra
      * {@inheritDoc}
      */
     @Override
-    protected Option<String> getDRepresentationName() {
-        return Options.newSome(REPRESENTATION_NAME);
+    protected java.util.Optional<String> getDRepresentationName() {
+        return java.util.Optional.of(REPRESENTATION_NAME);
     }
 
     /**
@@ -96,8 +96,8 @@ public abstract class AbstractStatesSequenceTests extends AbstractSequenceDiagra
         // Calculate the X position of the center of lifelines A and B
         int lifelineAPosition = getLifelineScreenX(LIFELINE_A);
         // Creation of an state
-        Option<SWTBotGefEditPart> newStateOption = createStateWithResult(lifelineAPosition, yScreenStateS1);
-        Assert.assertTrue(newStateOption.some());
+        java.util.Optional<SWTBotGefEditPart> newStateOption = createStateWithResult(lifelineAPosition, yScreenStateS1);
+        Assert.assertTrue(newStateOption.isPresent());
 
         stateS1Bot = newStateOption.get();
 
@@ -108,8 +108,8 @@ public abstract class AbstractStatesSequenceTests extends AbstractSequenceDiagra
 
         // Test Creation of a state on a state is not possible
         int yExecA1 = stateS1ScreenBounds.getCenter().y;
-        Option<SWTBotGefEditPart> noStateOption = createStateWithResult(lifelineAPosition, yExecA1);
-        Assert.assertFalse(noStateOption.some());
+        java.util.Optional<SWTBotGefEditPart> noStateOption = createStateWithResult(lifelineAPosition, yExecA1);
+        Assert.assertFalse(noStateOption.isPresent());
     }
 
     /**
@@ -124,8 +124,8 @@ public abstract class AbstractStatesSequenceTests extends AbstractSequenceDiagra
         int lifelineBPosition = getLifelineScreenX(LIFELINE_B);
 
         // Creation of an state on lifeline B
-        Option<SWTBotGefEditPart> newStateOption = createStateWithResult(lifelineBPosition, yScreenStateS1);
-        Assert.assertTrue(newStateOption.some());
+        java.util.Optional<SWTBotGefEditPart> newStateOption = createStateWithResult(lifelineBPosition, yScreenStateS1);
+        Assert.assertTrue(newStateOption.isPresent());
 
         stateS2Bot = newStateOption.get();
 
@@ -145,8 +145,8 @@ public abstract class AbstractStatesSequenceTests extends AbstractSequenceDiagra
         int lifelineAPosition = getLifelineScreenX(LIFELINE_A);
 
         // Creation of an state on lifeline B
-        Option<SWTBotGefEditPart> newStateOption = createStateWithResult(lifelineAPosition, yScreenStateS2);
-        Assert.assertTrue(newStateOption.some());
+        java.util.Optional<SWTBotGefEditPart> newStateOption = createStateWithResult(lifelineAPosition, yScreenStateS2);
+        Assert.assertTrue(newStateOption.isPresent());
 
         stateS2Bot = newStateOption.get();
 

@@ -28,7 +28,7 @@ import org.eclipse.sirius.diagram.IndirectlyCollapseFilter;
 import org.eclipse.sirius.diagram.business.api.query.EObjectQuery;
 import org.eclipse.sirius.diagram.sequence.ui.business.internal.migration.SequenceDiagramRepresentationsFileMigrationParticipant;
 import org.eclipse.sirius.diagram.ui.tools.internal.figure.ICollapseMode;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.osgi.framework.Version;
@@ -163,11 +163,11 @@ public class CollapseFilterSequenceMigrationTest extends AbstractSequenceSiriusD
         }
 
         AirDResouceQuery query = new AirDResouceQuery((AirdResource) session2.getSessionResource());
-        Option<DAnalysis> dAnalysis = query.getDAnalysis();
+        java.util.Optional<DAnalysis> dAnalysis = query.getDAnalysis();
 
         // Check that the version attribute has not been set by the migration,
         // it will be set during save.
-        assertTrue(dAnalysis.some());
+        assertTrue(dAnalysis.isPresent());
         String version = dAnalysis.get().getVersion();
         assertTrue("The migration should still be marked as needed for next load.", RepresentationsFileMigrationService.getInstance().isMigrationNeeded(Version.parseVersion(version)));
 

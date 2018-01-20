@@ -18,7 +18,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.ISequenceN
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.Lifeline;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.Message;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.Operand;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Predicate;
 
@@ -51,16 +51,16 @@ public class SameLifelinePredicate implements Predicate<ISequenceEvent> {
      */
     public boolean apply(ISequenceEvent input) {
         boolean result = false;
-        Option<Lifeline> inputLifeline = input.getLifeline();
-        if (inputLifeline.some()) {
+        java.util.Optional<Lifeline> inputLifeline = input.getLifeline();
+        if (inputLifeline.isPresent()) {
             result = inputLifeline.get().equals(owner);
         } else if (input instanceof Message) {
             Message message = (Message) input;
             ISequenceNode sourceElt = message.getSourceElement();
             ISequenceNode targetElt = message.getSourceElement();
-            Option<Lifeline> sourceLifeline = sourceElt.getLifeline();
-            Option<Lifeline> targetLifeline = targetElt.getLifeline();
-            result = sourceLifeline.some() && sourceLifeline.get().equals(owner) || targetLifeline.some() && targetLifeline.get().equals(owner);
+            java.util.Optional<Lifeline> sourceLifeline = sourceElt.getLifeline();
+            java.util.Optional<Lifeline> targetLifeline = targetElt.getLifeline();
+            result = sourceLifeline.isPresent() && sourceLifeline.get().equals(owner) || targetLifeline.isPresent() && targetLifeline.get().equals(owner);
         } else if (input instanceof Operand) {
             result = true;
         } else if (input instanceof AbstractFrame) {

@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.sirius.table.ui.tools.internal.commands;
 
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.table.business.api.helper.TableHelper;
 import org.eclipse.sirius.table.metamodel.table.DCell;
 import org.eclipse.sirius.table.metamodel.table.DColumn;
@@ -42,8 +42,8 @@ public class DColumnSorter extends DTableElementSorter<DColumn> {
      * {@inheritDoc}
      */
     protected String getSortLabel(final DColumn column) {
-        Option<DCell> optionalCell = TableHelper.getCell(dLine, column);
-        if (optionalCell.some()) {
+        java.util.Optional<DCell> optionalCell = TableHelper.getCell(dLine, column);
+        if (optionalCell.isPresent()) {
             return optionalCell.get().getLabel();
         } else {
             return ""; //$NON-NLS-1$

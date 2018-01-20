@@ -44,7 +44,7 @@ import org.eclipse.sirius.diagram.business.api.query.EObjectQuery;
 import org.eclipse.sirius.diagram.ui.part.SiriusDiagramEditor;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
 import org.eclipse.sirius.diagram.ui.tools.internal.commands.emf.EMFCommandFactoryUI;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
 import org.eclipse.sirius.ui.tools.internal.editor.MenuHelper;
 import org.eclipse.sirius.viewpoint.DRepresentation;
@@ -182,8 +182,8 @@ public class OpenMenuContribution implements IContributionItemProvider {
             }
 
             final IInterpreter interpreter = SiriusPlugin.getDefault().getInterpreterRegistry().getInterpreter(element.getTarget());
-            Option<DDiagram> diagram = new EObjectQuery(element).getParentDiagram();
-            if (diagram.some()) {
+            java.util.Optional<DDiagram> diagram = new EObjectQuery(element).getParentDiagram();
+            if (diagram.isPresent()) {
                 interpreter.setVariable(IInterpreterSiriusVariables.DIAGRAM, diagram.get());
             } else {
                 interpreter.setVariable(IInterpreterSiriusVariables.DIAGRAM, null);

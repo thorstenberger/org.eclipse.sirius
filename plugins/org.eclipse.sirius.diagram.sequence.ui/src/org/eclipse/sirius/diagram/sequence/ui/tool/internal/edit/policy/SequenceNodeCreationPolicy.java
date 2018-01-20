@@ -58,8 +58,8 @@ import org.eclipse.sirius.diagram.ui.graphical.edit.policies.NodeCreationEditPol
 import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
 import org.eclipse.sirius.diagram.ui.tools.api.layout.LayoutUtils;
 import org.eclipse.sirius.diagram.ui.tools.api.requests.DistributeRequest;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 import org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription;
 
@@ -79,14 +79,14 @@ public class SequenceNodeCreationPolicy extends NodeCreationEditPolicy {
      */
     @Override
     protected Command getCreateCommand(CreateRequest request) {
-        Option<SequenceDiagramEditPart> sdep = shouldRetargetToDiagram(request);
-        if (sdep.some()) {
+        java.util.Optional<SequenceDiagramEditPart> sdep = shouldRetargetToDiagram(request);
+        if (sdep.isPresent()) {
             return sdep.get().getCommand(request);
         }
         return super.getCreateCommand(request);
     }
 
-    private Option<SequenceDiagramEditPart> shouldRetargetToDiagram(CreateRequest request) {
+    private java.util.Optional<SequenceDiagramEditPart> shouldRetargetToDiagram(CreateRequest request) {
         if (REQ_CREATE.equals(request.getType()) && !(getHost() instanceof StateEditPart)) {
             AbstractToolDescription tool = getTool(request);
             if (tool instanceof InteractionUseCreationTool || tool instanceof CombinedFragmentCreationTool) {
@@ -101,11 +101,11 @@ public class SequenceNodeCreationPolicy extends NodeCreationEditPolicy {
                 if (sdep != null) {
                     Map<Object, Object> extData = request.getExtendedData();
                     extData.put(FrameCreationValidator.ORIGINAL_TARGET, getHost());
-                    return Options.newSome(sdep);
+                    return java.util.Optional.of(sdep);
                 }
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -116,8 +116,8 @@ public class SequenceNodeCreationPolicy extends NodeCreationEditPolicy {
     @Override
     public void showTargetFeedback(Request request) {
         if (request instanceof CreateRequest) {
-            Option<SequenceDiagramEditPart> sdep = shouldRetargetToDiagram((CreateRequest) request);
-            if (sdep.some() && sdep.get().getEditPolicy(EditPolicy.CONTAINER_ROLE) != null) {
+            java.util.Optional<SequenceDiagramEditPart> sdep = shouldRetargetToDiagram((CreateRequest) request);
+            if (sdep.isPresent() && sdep.get().getEditPolicy(EditPolicy.CONTAINER_ROLE) != null) {
                 sdep.get().getEditPolicy(EditPolicy.CONTAINER_ROLE).showTargetFeedback(request);
             }
         }
@@ -132,8 +132,8 @@ public class SequenceNodeCreationPolicy extends NodeCreationEditPolicy {
     @Override
     public void eraseTargetFeedback(Request request) {
         if (request instanceof CreateRequest) {
-            Option<SequenceDiagramEditPart> sdep = shouldRetargetToDiagram((CreateRequest) request);
-            if (sdep.some() && sdep.get().getEditPolicy(EditPolicy.CONTAINER_ROLE) != null) {
+            java.util.Optional<SequenceDiagramEditPart> sdep = shouldRetargetToDiagram((CreateRequest) request);
+            if (sdep.isPresent() && sdep.get().getEditPolicy(EditPolicy.CONTAINER_ROLE) != null) {
                 sdep.get().getEditPolicy(EditPolicy.CONTAINER_ROLE).eraseTargetFeedback(request);
             }
         }
@@ -178,8 +178,8 @@ public class SequenceNodeCreationPolicy extends NodeCreationEditPolicy {
     protected Command getCreateContainerInContainerCommand(CreateRequest request, ContainerCreationDescription tool, DDiagramElementContainer viewNodeContainer) {
         final Command result;
         if (isCreatingOperandInCombinedFragment(tool, viewNodeContainer)) {
-            Option<Operand> operand = getOperand(viewNodeContainer);
-            if (operand.some()) {
+            java.util.Optional<Operand> operand = getOperand(viewNodeContainer);
+            if (operand.isPresent()) {
                 SequenceDiagram sequenceDiagram = EditPartsHelper.getSequenceDiagram(getHost());
                 SequenceDDiagram diagram = sequenceDiagram.getSequenceDDiagram();
 
@@ -199,16 +199,16 @@ public class SequenceNodeCreationPolicy extends NodeCreationEditPolicy {
         return result;
     }
 
-    private Option<Operand> getOperand(DDiagramElementContainer viewNodeContainer) {
+    private java.util.Optional<Operand> getOperand(DDiagramElementContainer viewNodeContainer) {
         Collection<View> views = ISequenceElementAccessor.getViewsForSemanticElement((SequenceDDiagram) viewNodeContainer.getParentDiagram(), viewNodeContainer.getTarget());
         List<View> operandViews = Lists.newArrayList(Iterables.filter(views, Operand.notationPredicate()));
         for (View view : operandViews) {
-            Option<Operand> optOperand = ISequenceElementAccessor.getOperand(view);
-            if (optOperand.some()) {
+            java.util.Optional<Operand> optOperand = ISequenceElementAccessor.getOperand(view);
+            if (optOperand.isPresent()) {
                 return optOperand;
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     private boolean isCreatingOperandInCombinedFragment(ContainerCreationDescription tool, DDiagramElementContainer viewNodeContainer) {

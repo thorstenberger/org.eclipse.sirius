@@ -19,8 +19,8 @@ import org.eclipse.gmf.runtime.notation.IdentityAnchor;
 import org.eclipse.gmf.runtime.notation.Routing;
 import org.eclipse.sirius.diagram.DEdge;
 import org.eclipse.sirius.diagram.EdgeRouting;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * A class aggregating all the queries (read-only!) having a {@link Edge} as a
@@ -50,14 +50,14 @@ public class EdgeQuery {
      * @return the optional target identity anchor of the first brother of this
      *         edge
      */
-    public Option<IdentityAnchor> getTargetAnchorOfFirstBrotherWithSameTarget() {
+    public java.util.Optional<IdentityAnchor> getTargetAnchorOfFirstBrotherWithSameTarget() {
         for (Object brother : edge.getTarget().getTargetEdges()) {
             if (brother instanceof Edge && ((Edge) brother).getSource() != null && !((Edge) brother).getSource().equals(edge.getSource())) {
                 IdentityAnchor anchor = (IdentityAnchor) ((Edge) brother).getTargetAnchor();
-                return Options.newSome(anchor);
+                return java.util.Optional.of(anchor);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -68,14 +68,14 @@ public class EdgeQuery {
      * @return the optional source identity anchor of the first brother of this
      *         edge
      */
-    public Option<IdentityAnchor> getSourceAnchorOfFirstBrotherWithSameSource() {
+    public java.util.Optional<IdentityAnchor> getSourceAnchorOfFirstBrotherWithSameSource() {
         for (Object brother : edge.getSource().getSourceEdges()) {
             if (brother instanceof Edge && ((Edge) brother).getTarget() != null && !((Edge) brother).getTarget().equals(edge.getTarget())) {
                 IdentityAnchor anchor = (IdentityAnchor) ((Edge) brother).getSourceAnchor();
-                return Options.newSome(anchor);
+                return java.util.Optional.of(anchor);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

@@ -43,8 +43,8 @@ import org.eclipse.sirius.diagram.business.api.query.IEdgeMappingQuery;
 import org.eclipse.sirius.diagram.description.DiagramElementMapping;
 import org.eclipse.sirius.diagram.description.EdgeMapping;
 import org.eclipse.sirius.diagram.description.tool.DeleteElementDescription;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.tools.api.command.NoNullResourceCommand;
 import org.eclipse.sirius.tools.api.interpreter.InterpreterUtil;
@@ -175,7 +175,7 @@ public class DeletionCommandBuilder extends AbstractDiagramCommandBuilder {
                 if (tool != null) {
                     addDeleteDiagramElementFromTool(result);
                     addRefreshTask(diagramElement, result, tool);
-                    Option<DDiagram> parentDiagram = new EObjectQuery(diagramElement).getParentDiagram();
+                    java.util.Optional<DDiagram> parentDiagram = new EObjectQuery(diagramElement).getParentDiagram();
                     result.getTasks().add(new ElementsToSelectTask(tool, InterpreterUtil.getInterpreter(diagramElement), diagramElement.getTarget(), parentDiagram.get()));
                     cmd = new NoNullResourceCommand(result, diagramElement);
                 } else {
@@ -223,8 +223,8 @@ public class DeletionCommandBuilder extends AbstractDiagramCommandBuilder {
             }
         });
         if (diagramElement instanceof DEdge) {
-            Option<EdgeMapping> edgeMapping = new IEdgeMappingQuery(((DEdge) diagramElement).getActualMapping()).getEdgeMapping();
-            if (edgeMapping.some() && !edgeMapping.get().isUseDomainElement()) {
+            java.util.Optional<EdgeMapping> edgeMapping = new IEdgeMappingQuery(((DEdge) diagramElement).getActualMapping()).getEdgeMapping();
+            if (edgeMapping.isPresent() && !edgeMapping.get().isUseDomainElement()) {
                 // Add the delete task for relation edges only.
                 cmd.getTasks().add(new DeleteEObjectTask(diagramElement, modelAccessor));
             }
@@ -273,7 +273,7 @@ public class DeletionCommandBuilder extends AbstractDiagramCommandBuilder {
 
             addDiagramVariable(result, containerView, interpreter);
 
-            Option<DDiagram> parentDiagram = new EObjectQuery(containerView).getParentDiagram();
+            java.util.Optional<DDiagram> parentDiagram = new EObjectQuery(containerView).getParentDiagram();
             if (tool.getInitialOperation() != null && tool.getInitialOperation().getFirstModelOperations() != null) {
                 result.getTasks().add(taskHelper.buildTaskFromModelOperation(parentDiagram.get(), deletedSemanticElement, tool.getInitialOperation().getFirstModelOperations()));
             }
@@ -379,10 +379,10 @@ public class DeletionCommandBuilder extends AbstractDiagramCommandBuilder {
     }
 
     @Override
-    protected Option<DDiagram> getDDiagram() {
+    protected java.util.Optional<DDiagram> getDDiagram() {
         if (diagram == null && diagramElement != null) {
-            return Options.newSome(diagramElement.getParentDiagram());
+            return java.util.Optional.of(diagramElement.getParentDiagram());
         }
-        return Options.newSome(diagram);
+        return java.util.Optional.of(diagram);
     }
 }

@@ -24,8 +24,8 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.Lifeline;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.Message;
 import org.eclipse.sirius.diagram.sequence.business.internal.layout.LayoutConstants;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Preconditions;
 
@@ -57,9 +57,9 @@ public class SequenceMessageViewQuery {
      * @return <code>true</code> if this message is reflective.
      */
     public boolean isReflective() {
-        Option<Node> optSource = getSourceLifeline();
-        Option<Node> optTarget = getTargetLifeline();
-        return optSource.some() && optTarget.some() && optSource.get() == optTarget.get();
+        java.util.Optional<Node> optSource = getSourceLifeline();
+        java.util.Optional<Node> optTarget = getTargetLifeline();
+        return optSource.isPresent() && optTarget.isPresent() && optSource.get() == optTarget.get();
     }
 
     /**
@@ -67,14 +67,14 @@ public class SequenceMessageViewQuery {
      * 
      * @return the lifeline in the context of which this message is sent.
      */
-    public Option<Node> getSourceLifeline() {
-        Option<Node> result = Options.newNone();
+    public java.util.Optional<Node> getSourceLifeline() {
+        java.util.Optional<Node> result = java.util.Optional.empty();
         View source = edge.getSource();
-        Option<ISequenceElement> iSequenceElement = ISequenceElementAccessor.getISequenceElement(source);
-        if (iSequenceElement.some()) {
-            Option<Lifeline> lifeline = iSequenceElement.get().getLifeline();
-            if (lifeline.some()) {
-                result = Options.newSome(lifeline.get().getNotationNode());
+        java.util.Optional<ISequenceElement> iSequenceElement = ISequenceElementAccessor.getISequenceElement(source);
+        if (iSequenceElement.isPresent()) {
+            java.util.Optional<Lifeline> lifeline = iSequenceElement.get().getLifeline();
+            if (lifeline.isPresent()) {
+                result = java.util.Optional.of(lifeline.get().getNotationNode());
             }
         }
         return result;
@@ -85,14 +85,14 @@ public class SequenceMessageViewQuery {
      * 
      * @return the lifeline in the context of which this message is received.
      */
-    public Option<Node> getTargetLifeline() {
-        Option<Node> result = Options.newNone();
+    public java.util.Optional<Node> getTargetLifeline() {
+        java.util.Optional<Node> result = java.util.Optional.empty();
         View target = edge.getTarget();
-        Option<ISequenceElement> iSequenceElement = ISequenceElementAccessor.getISequenceElement(target);
-        if (iSequenceElement.some()) {
-            Option<Lifeline> lifeline = iSequenceElement.get().getLifeline();
-            if (lifeline.some()) {
-                result = Options.newSome(lifeline.get().getNotationNode());
+        java.util.Optional<ISequenceElement> iSequenceElement = ISequenceElementAccessor.getISequenceElement(target);
+        if (iSequenceElement.isPresent()) {
+            java.util.Optional<Lifeline> lifeline = iSequenceElement.get().getLifeline();
+            if (lifeline.isPresent()) {
+                result = java.util.Optional.of(lifeline.get().getNotationNode());
             }
         }
         return result;

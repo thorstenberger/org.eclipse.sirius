@@ -17,8 +17,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.sirius.common.tools.api.interpreter.TypeName;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.properties.CustomExpression;
 import org.eclipse.sirius.properties.CustomOperation;
 import org.eclipse.sirius.properties.DynamicMappingForDescription;
@@ -42,7 +42,7 @@ import org.eclipse.sirius.properties.util.PropertiesSwitch;
  *
  * @author pcdavid
  */
-public class DomainClassSwitch extends PropertiesSwitch<Option<Collection<String>>> {
+public class DomainClassSwitch extends PropertiesSwitch<java.util.Optional<Collection<String>>> {
     /**
      * Constant used in switches on feature id to consider the case when the feature must not be considered.
      */
@@ -69,14 +69,14 @@ public class DomainClassSwitch extends PropertiesSwitch<Option<Collection<String
     }
 
     @Override
-    public Option<Collection<String>> doSwitch(EObject theEObject) {
-        Option<Collection<String>> doSwitch = super.doSwitch(theEObject);
-        if (doSwitch != null && doSwitch.some() && doSwitch.get().size() > 0) {
+    public java.util.Optional<Collection<String>> doSwitch(EObject theEObject) {
+        java.util.Optional<Collection<String>> doSwitch = super.doSwitch(theEObject);
+        if (doSwitch != null && doSwitch.isPresent() && doSwitch.get().size() > 0) {
             return doSwitch;
         }
         Collection<String> defaultResult = new LinkedHashSet<>();
         defaultResult.add(TypeName.EOBJECT_TYPENAME.getCompleteName());
-        return Options.newSome(defaultResult);
+        return java.util.Optional.of(defaultResult);
     }
 
     /**
@@ -91,8 +91,8 @@ public class DomainClassSwitch extends PropertiesSwitch<Option<Collection<String
     }
 
     @Override
-    public Option<Collection<String>> casePageDescription(PageDescription page) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> casePageDescription(PageDescription page) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(page.eClass())) {
         case PropertiesPackage.PAGE_DESCRIPTION__SEMANTIC_CANDIDATE_EXPRESSION:
             /*
@@ -103,12 +103,12 @@ public class DomainClassSwitch extends PropertiesSwitch<Option<Collection<String
              */
             Collection<String> target = new LinkedHashSet<>();
             target.add(TypeName.EOBJECT_TYPENAME.getCompleteName());
-            result = Options.newSome(target);
+            result = java.util.Optional.of(target);
             break;
         case PropertiesPackage.PAGE_DESCRIPTION__LABEL_EXPRESSION:
         case PropertiesPackage.PAGE_DESCRIPTION__PRECONDITION_EXPRESSION:
         case DO_NOT_CONSIDER_FEATURE:
-            result = Options.newSome(VSMNavigation.getPageDomainClass(page));
+            result = java.util.Optional.of(VSMNavigation.getPageDomainClass(page));
             break;
         default:
             break;
@@ -117,8 +117,8 @@ public class DomainClassSwitch extends PropertiesSwitch<Option<Collection<String
     }
 
     @Override
-    public Option<Collection<String>> caseGroupDescription(GroupDescription group) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseGroupDescription(GroupDescription group) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(group.eClass())) {
         case PropertiesPackage.GROUP_DESCRIPTION__SEMANTIC_CANDIDATE_EXPRESSION:
             /*
@@ -129,12 +129,12 @@ public class DomainClassSwitch extends PropertiesSwitch<Option<Collection<String
             for (PageDescription page : VSMNavigation.findReferencingPages(group)) {
                 target.addAll(VSMNavigation.getPageDomainClass(page));
             }
-            result = Options.newSome(target);
+            result = java.util.Optional.of(target);
             break;
         case PropertiesPackage.GROUP_DESCRIPTION__LABEL_EXPRESSION:
         case PropertiesPackage.GROUP_DESCRIPTION__PRECONDITION_EXPRESSION:
         case DO_NOT_CONSIDER_FEATURE:
-            result = Options.newSome(VSMNavigation.getGroupDomainClass(group));
+            result = java.util.Optional.of(VSMNavigation.getGroupDomainClass(group));
             break;
         default:
             break;
@@ -143,57 +143,57 @@ public class DomainClassSwitch extends PropertiesSwitch<Option<Collection<String
     }
 
     @Override
-    public Option<Collection<String>> caseToolbarAction(ToolbarAction object) {
+    public java.util.Optional<Collection<String>> caseToolbarAction(ToolbarAction object) {
         return VSMNavigation.getDomainClassFromContainingGroup(object);
     }
 
     @Override
-    public Option<Collection<String>> caseWidgetDescription(WidgetDescription object) {
+    public java.util.Optional<Collection<String>> caseWidgetDescription(WidgetDescription object) {
         return VSMNavigation.getDomainClassFromContainingGroup(object);
     }
 
     @Override
-    public Option<Collection<String>> caseWidgetStyle(WidgetStyle object) {
+    public java.util.Optional<Collection<String>> caseWidgetStyle(WidgetStyle object) {
         return VSMNavigation.getDomainClassFromContainingGroup(object);
     }
 
     @Override
-    public Option<Collection<String>> caseWidgetConditionalStyle(WidgetConditionalStyle object) {
+    public java.util.Optional<Collection<String>> caseWidgetConditionalStyle(WidgetConditionalStyle object) {
         return VSMNavigation.getDomainClassFromContainingGroup(object);
     }
 
     @Override
-    public Option<Collection<String>> caseWidgetAction(WidgetAction object) {
+    public java.util.Optional<Collection<String>> caseWidgetAction(WidgetAction object) {
         return VSMNavigation.getDomainClassFromContainingGroup(object);
     }
 
     @Override
-    public Option<Collection<String>> caseGroupStyle(GroupStyle object) {
+    public java.util.Optional<Collection<String>> caseGroupStyle(GroupStyle object) {
         return VSMNavigation.getDomainClassFromContainingGroup(object);
     }
 
     @Override
-    public Option<Collection<String>> caseCustomExpression(CustomExpression object) {
+    public java.util.Optional<Collection<String>> caseCustomExpression(CustomExpression object) {
         return VSMNavigation.getDomainClassFromContainingGroup(object);
     }
 
     @Override
-    public Option<Collection<String>> caseCustomOperation(CustomOperation object) {
+    public java.util.Optional<Collection<String>> caseCustomOperation(CustomOperation object) {
         return VSMNavigation.getDomainClassFromContainingGroup(object);
     }
 
     @Override
-    public Option<Collection<String>> caseOperationDescription(OperationDescription object) {
+    public java.util.Optional<Collection<String>> caseOperationDescription(OperationDescription object) {
         return VSMNavigation.getDomainClassFromContainingGroup(object);
     }
 
     @Override
-    public Option<Collection<String>> caseDynamicMappingForDescription(DynamicMappingForDescription object) {
+    public java.util.Optional<Collection<String>> caseDynamicMappingForDescription(DynamicMappingForDescription object) {
         return VSMNavigation.getDomainClassFromContainingGroup(object);
     }
 
     @Override
-    public Option<Collection<String>> caseDynamicMappingIfDescription(DynamicMappingIfDescription object) {
+    public java.util.Optional<Collection<String>> caseDynamicMappingIfDescription(DynamicMappingIfDescription object) {
         return VSMNavigation.getDomainClassFromContainingGroup(object);
     }
 

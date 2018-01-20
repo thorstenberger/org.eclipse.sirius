@@ -21,7 +21,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.LostMessag
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.Message;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.SequenceDiagram;
 import org.eclipse.sirius.diagram.sequence.business.internal.query.ISequenceElementQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -164,8 +164,8 @@ public abstract class AbstractSequenceLayout<S, T> {
             public boolean apply(Lifeline input) {
                 boolean result = true;
                 // filter lifeline with endOfLife
-                Option<EndOfLife> endOfLife = input.getEndOfLife();
-                if (endOfLife.some()) {
+                java.util.Optional<EndOfLife> endOfLife = input.getEndOfLife();
+                if (endOfLife.isPresent()) {
                     result = !endOfLife.get().isExplicitelyDestroyed();
                 }
                 return result;
@@ -201,11 +201,11 @@ public abstract class AbstractSequenceLayout<S, T> {
      */
     public static boolean createdFromExternalChange(LostMessageEnd lostEnd) {
         boolean externalCreation = false;
-        Option<Message> message = lostEnd.getMessage();
+        java.util.Optional<Message> message = lostEnd.getMessage();
         ISequenceElementQuery query = new ISequenceElementQuery(lostEnd);
         if (query.hasAbsoluteBoundsFlag() && query.getFlaggedAbsoluteBounds().x == LayoutConstants.EXTERNAL_CHANGE_FLAG.x) {
             externalCreation = true;
-        } else if (message.some()) {
+        } else if (message.isPresent()) {
             query = new ISequenceElementQuery(message.get());
             externalCreation = query.hasAbsoluteBoundsFlag() && query.getFlaggedAbsoluteBounds().x == LayoutConstants.EXTERNAL_CHANGE_FLAG.x;
         }

@@ -21,8 +21,8 @@ import org.eclipse.sirius.diagram.ContainerStyle;
 import org.eclipse.sirius.diagram.FlatContainerStyle;
 import org.eclipse.sirius.diagram.WorkspaceImage;
 import org.eclipse.sirius.diagram.ui.tools.internal.figure.svg.SimpleImageTranscoder;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -128,8 +128,8 @@ public class SVGWorkspaceImageFigure extends SVGFigure implements IWorkspaceImag
 
     private boolean updateImageURI(String workspacePath) {
         if (workspacePath != null) {
-            Option<String> existingImageUri = SVGWorkspaceImageFigure.getImageUri(workspacePath, false);
-            if (existingImageUri.some()) {
+            java.util.Optional<String> existingImageUri = SVGWorkspaceImageFigure.getImageUri(workspacePath, false);
+            if (existingImageUri.isPresent()) {
                 setURI(existingImageUri.get());
             } else {
                 setURI(SVGFigure.IMAGE_NOT_FOUND_URI);
@@ -148,15 +148,15 @@ public class SVGWorkspaceImageFigure extends SVGFigure implements IWorkspaceImag
      *            true to avoid to check that the file exists and is readble.
      * @return an optional system uri.
      */
-    private static Option<String> getImageUri(String workspacePath, boolean force) {
+    private static java.util.Optional<String> getImageUri(String workspacePath, boolean force) {
         final File imageFile = FileProvider.getDefault().getFile(new Path(workspacePath));
         if (imageFile != null && (force || imageFile.exists() && imageFile.canRead())) {
-            return Options.newSome(imageFile.toURI().toString());
+            return java.util.Optional.of(imageFile.toURI().toString());
         }
-        Option<String> nonExistingFile = Options.newNone();
+        java.util.Optional<String> nonExistingFile = java.util.Optional.empty();
         if (force) {
             // Deleted file : retrieve the key.
-            nonExistingFile = Options.newSome(ResourcesPlugin.getWorkspace().getRoot().getLocationURI().toString() + workspacePath);
+            nonExistingFile = java.util.Optional.of(ResourcesPlugin.getWorkspace().getRoot().getLocationURI().toString() + workspacePath);
         }
 
         return nonExistingFile;
@@ -187,13 +187,13 @@ public class SVGWorkspaceImageFigure extends SVGFigure implements IWorkspaceImag
      * @return an option with the document uri used as key for the svg file if a
      *         corresponding element was removed.
      */
-    public static Option<String> removeFromCache(String workspacePath) {
-        Option<String> imageUri = SVGWorkspaceImageFigure.getImageUri(workspacePath, true);
-        if (imageUri.some()) {
+    public static java.util.Optional<String> removeFromCache(String workspacePath) {
+        java.util.Optional<String> imageUri = SVGWorkspaceImageFigure.getImageUri(workspacePath, true);
+        if (imageUri.isPresent()) {
             if (SVGFigure.doRemoveFromCache(imageUri.get())) {
                 return imageUri;
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 }

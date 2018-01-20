@@ -32,8 +32,8 @@ import org.eclipse.sirius.common.tools.api.util.EObjectCouple;
 import org.eclipse.sirius.common.tools.api.util.RefreshIdsHolder;
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.base.collect.GSetIntersection;
 import org.eclipse.sirius.ext.base.collect.MultipleCollection;
 import org.eclipse.sirius.ext.base.collect.SetIntersection;
@@ -280,9 +280,9 @@ public class DTableSynchronizerImpl implements DTableSynchronizer {
 
         for (final DColumn column : table.getColumns()) {
             final ColumnMapping mapping = column.getOriginMapping();
-            Option<DCell> optionalCell = TableHelper.getCell(line, column);
+            java.util.Optional<DCell> optionalCell = TableHelper.getCell(line, column);
             EObject target;
-            if (optionalCell.some()) {
+            if (optionalCell.isPresent()) {
                 target = optionalCell.get().getTarget();
             } else {
                 target = line.getTarget();
@@ -294,8 +294,8 @@ public class DTableSynchronizerImpl implements DTableSynchronizer {
          * Let's now create the new cells and update the kept ones.s
          */
         for (final DCellCandidate toCreate : status.getNewElements()) {
-            final Option<DCell> optionalCell = createCell(toCreate.getLine(), toCreate.getColumn(), toCreate.getSemantic(), toCreate.getMapping());
-            if (optionalCell.some()) {
+            final java.util.Optional<DCell> optionalCell = createCell(toCreate.getLine(), toCreate.getColumn(), toCreate.getSemantic(), toCreate.getMapping());
+            if (optionalCell.isPresent()) {
                 if (refresh(optionalCell.get())) {
                     this.sync.refreshSemanticElements(optionalCell.get());
                 }
@@ -350,7 +350,7 @@ public class DTableSynchronizerImpl implements DTableSynchronizer {
         return cellStillExists;
     }
 
-    private Option<DCell> createCell(final DLine line, final DColumn column, final EObject semantic, final ColumnMapping mapping) {
+    private java.util.Optional<DCell> createCell(final DLine line, final DColumn column, final EObject semantic, final ColumnMapping mapping) {
         DCell newCell = TableFactory.eINSTANCE.createDCell();
         newCell.setTarget(semantic);
         if (mapping instanceof FeatureColumnMapping) {
@@ -387,14 +387,14 @@ public class DTableSynchronizerImpl implements DTableSynchronizer {
                 newCell = null;
             }
         }
-        Option<DCell> result;
+        java.util.Optional<DCell> result;
         if (newCell == null) {
-            result = Options.newNone();
+            result = java.util.Optional.empty();
         } else {
             // Assign this cell to its line and column.
             newCell.setLine(line);
             newCell.setColumn(column);
-            result = Options.newSome(newCell);
+            result = java.util.Optional.of(newCell);
         }
         return result;
     }
@@ -795,8 +795,8 @@ public class DTableSynchronizerImpl implements DTableSynchronizer {
         // Let's now create the new cells, update the kept ones and remove the
         // old ones.
         for (final DCellCandidate toCreate : cellsToUpdate.getNewElements()) {
-            final Option<DCell> optionalCell = createCell(toCreate.getLine(), toCreate.getColumn(), toCreate.getSemantic(), toCreate.getMapping());
-            if (optionalCell.some()) {
+            final java.util.Optional<DCell> optionalCell = createCell(toCreate.getLine(), toCreate.getColumn(), toCreate.getSemantic(), toCreate.getMapping());
+            if (optionalCell.isPresent()) {
                 optionalCell.get().setIntersectionMapping(iMapping);
                 this.sync.refresh(optionalCell.get());
             }

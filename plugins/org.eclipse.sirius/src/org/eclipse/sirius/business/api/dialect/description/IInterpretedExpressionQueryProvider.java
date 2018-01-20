@@ -12,7 +12,7 @@ package org.eclipse.sirius.business.api.dialect.description;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * Instances can provide <code>IInterpretedExpressionQuery</code> specific to
@@ -37,5 +37,5 @@ public interface IInterpretedExpressionQueryProvider {
      *         (like the type to consider for Interpreted expressions).
      * @return
      */
-    Option<IInterpretedExpressionQuery> getExpressionQueryFor(EObject context, EStructuralFeature expressionAttribute);
+    java.util.Optional<IInterpretedExpressionQuery> getExpressionQueryFor(EObject context, EStructuralFeature expressionAttribute);
 }

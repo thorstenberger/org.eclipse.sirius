@@ -66,7 +66,7 @@ import org.eclipse.sirius.diagram.ui.tools.api.command.DoNothingCommand;
 import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
 import org.eclipse.sirius.diagram.ui.tools.api.requests.DistributeRequest;
 import org.eclipse.sirius.diagram.ui.tools.internal.edit.command.CommandFactory;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 import org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription;
 
@@ -183,9 +183,9 @@ public class SequenceContainerCreationPolicy extends ContainerCreationEditPolicy
         if (request instanceof CreateRequest && REQ_CREATE.equals(request.getType()) && this.getHost() instanceof SequenceDiagramEditPart) {
             SequenceDiagramEditPart sdep = (SequenceDiagramEditPart) getHost();
             CreateRequest createRequest = (CreateRequest) request;
-            Option<ISequenceElement> seqDiag = ISequenceElementAccessor.getISequenceElement((View) this.getHost().getModel());
+            java.util.Optional<ISequenceElement> seqDiag = ISequenceElementAccessor.getISequenceElement((View) this.getHost().getModel());
             AbstractToolDescription tool = getTool(createRequest);
-            if (seqDiag.some() && seqDiag.get() instanceof SequenceDiagram && (tool instanceof InteractionUseCreationTool || tool instanceof CombinedFragmentCreationTool)) {
+            if (seqDiag.isPresent() && seqDiag.get() instanceof SequenceDiagram && (tool instanceof InteractionUseCreationTool || tool instanceof CombinedFragmentCreationTool)) {
                 FrameCreationValidator validator = FrameCreationValidator.getOrCreateValidator((SequenceDiagram) seqDiag.get(), (ContainerCreationDescription) tool, new CreateRequestQuery(
                         createRequest, sdep));
                 if (validator != null) {

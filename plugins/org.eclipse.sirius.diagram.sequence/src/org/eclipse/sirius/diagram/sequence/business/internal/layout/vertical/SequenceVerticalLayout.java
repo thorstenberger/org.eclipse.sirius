@@ -57,8 +57,8 @@ import org.eclipse.sirius.diagram.sequence.ordering.EventEnd;
 import org.eclipse.sirius.diagram.sequence.ordering.SingleEventEnd;
 import org.eclipse.sirius.diagram.sequence.util.Range;
 import org.eclipse.sirius.diagram.ui.business.internal.query.DNodeQuery;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
@@ -148,26 +148,26 @@ public class SequenceVerticalLayout extends AbstractSequenceOrderingLayout<ISequ
      */
     private final Ordering<Lifeline> heightOrdering = Ordering.natural().onResultOf(instanceRoleHeight);
 
-    private final Function<ISequenceEvent, Option<Range>> oldRangeFunction = new Function<ISequenceEvent, Option<Range>>() {
+    private final Function<ISequenceEvent, java.util.Optional<Range>> oldRangeFunction = new Function<ISequenceEvent, java.util.Optional<Range>>() {
         @Override
-        public Option<Range> apply(ISequenceEvent from) {
+        public java.util.Optional<Range> apply(ISequenceEvent from) {
             Range range = oldLayoutData.get(from);
             if (range == null) {
                 range = Range.emptyRange();
             }
-            return Options.newSome(range);
+            return java.util.Optional.of(range);
         }
     };
 
-    private final Function<ISequenceEvent, Option<Range>> oldFlaggedRange = new Function<ISequenceEvent, Option<Range>>() {
+    private final Function<ISequenceEvent, java.util.Optional<Range>> oldFlaggedRange = new Function<ISequenceEvent, java.util.Optional<Range>>() {
         @Override
-        public Option<Range> apply(ISequenceEvent from) {
+        public java.util.Optional<Range> apply(ISequenceEvent from) {
             Rectangle rect = oldFlaggedLayoutData.get(from);
             Range result = null;
             if (rect != null) {
                 result = RangeHelper.verticalRange(rect);
             }
-            return Options.newSome(result);
+            return java.util.Optional.of(result);
         }
     };
 
@@ -482,8 +482,8 @@ public class SequenceVerticalLayout extends AbstractSequenceOrderingLayout<ISequ
     private void layoutLifelinesWithoutCreation(final Map<ISequenceEvent, Range> sequenceEventsToRange) {
         for (ISequenceEvent event : getLifeLinesWithoutCreation()) {
             Range oldRange = oldLayoutData.get(event);
-            Option<Lifeline> parentLifeline = event.getLifeline();
-            if (parentLifeline.some()) {
+            java.util.Optional<Lifeline> parentLifeline = event.getLifeline();
+            if (parentLifeline.isPresent()) {
                 InstanceRole instanceRole = parentLifeline.get().getInstanceRole();
                 if (instanceRole != null) {
                     int newLBound = getLifelineMinLowerBound(instanceRole);
@@ -585,13 +585,13 @@ public class SequenceVerticalLayout extends AbstractSequenceOrderingLayout<ISequ
                 SingleEventEnd see = EventEndHelper.getSingleEventEnd(end, ise.getSemanticTargetElement().get());
                 if (!see.isStart() && !(ise instanceof Message && !Iterables.isEmpty(Iterables.filter(iSequenceEventsToEventEnds.get(ise), CompoundEventEnd.class)))) {
                     int startLocation = getStartLocation(ise, alreadyComputedLocations);
-                    Option<Range> oldRange = oldRangeFunction.apply(ise);
+                    java.util.Optional<Range> oldRange = oldRangeFunction.apply(ise);
 
                     if (isFlagguedByRefreshExtension(end, Collections.singleton(ise))) {
                         oldRange = oldFlaggedRange.apply(ise);
                     }
 
-                    int width = oldRange.some() ? oldRange.get().width() : 0;
+                    int width = oldRange.isPresent() ? oldRange.get().width() : 0;
                     rangeStabilityPos = Math.max(rangeStabilityPos, startLocation + width);
                 }
             }

@@ -15,7 +15,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * JUnit assertions for testing {@link Option}.
@@ -23,22 +23,22 @@ import org.eclipse.sirius.ext.base.Option;
  * @author pierre-charles.david@obeo.fr
  */
 public class OptionAssert {
-    public static <T> void assertHasNoValue(Option<T> opt) {
+    public static <T> void assertHasNoValue(java.util.Optional<T> opt) {
         assertNotNull("Option object should not be null.", opt);
-        assertFalse("Option object should represent no value", opt.some());
+        assertFalse("Option object should represent no value", opt.isPresent());
     }
 
-    public static <T> void assertHasSomeValue(Option<T> opt) {
+    public static <T> void assertHasSomeValue(java.util.Optional<T> opt) {
         assertNotNull("Option object should not be null.", opt);
-        assertTrue("Option object should represent a value", opt.some());
+        assertTrue("Option object should represent a value", opt.isPresent());
     }
 
-    public static <T> void assertHasSomeNonNullValue(Option<T> opt) {
+    public static <T> void assertHasSomeNonNullValue(java.util.Optional<T> opt) {
         assertHasSomeNonNullValue(opt);
         assertNotNull(opt.get());
     }
 
-    public static <T> void assertHasExactValue(T expectedValue, Option<T> actualOption) {
+    public static <T> void assertHasExactValue(T expectedValue, java.util.Optional<T> actualOption) {
         assertHasSomeValue(actualOption);
         assertSame(expectedValue, actualOption.get());
     }

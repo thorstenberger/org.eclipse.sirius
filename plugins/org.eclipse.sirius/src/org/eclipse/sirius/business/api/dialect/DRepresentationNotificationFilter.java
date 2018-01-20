@@ -12,7 +12,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.NotificationFilter;
 import org.eclipse.sirius.business.api.query.EObjectQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.DRepresentation;
 
 /**
@@ -43,8 +43,8 @@ public class DRepresentationNotificationFilter extends NotificationFilter.Custom
             Object notifier = notification.getNotifier();
             if (notifier instanceof EObject) {
                 EObject eObject = (EObject) notifier;
-                Option<DRepresentation> dRepresentationOption = new EObjectQuery(eObject).getRepresentation();
-                matches = dRepresentationOption.some() && dRepresentationOption.get() == dRepresentation;
+                java.util.Optional<DRepresentation> dRepresentationOption = new EObjectQuery(eObject).getRepresentation();
+                matches = dRepresentationOption.isPresent() && dRepresentationOption.get() == dRepresentation;
             }
         }
         return matches;

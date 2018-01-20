@@ -25,8 +25,8 @@ import org.eclipse.sirius.diagram.sequence.description.tool.MessageCreationTool;
 import org.eclipse.sirius.diagram.sequence.description.tool.ReorderTool;
 import org.eclipse.sirius.diagram.sequence.description.tool.ToolPackage;
 import org.eclipse.sirius.diagram.sequence.description.tool.util.ToolSwitch;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
 import org.eclipse.sirius.viewpoint.description.RepresentationElementMapping;
 import org.eclipse.sirius.viewpoint.description.tool.AbstractToolDescription;
@@ -52,7 +52,7 @@ import com.google.common.collect.Iterables;
  * 
  * @author <a href="mailto:maxime.porhel@obeo.fr">Maxime Porhel</a>
  */
-public class SequenceToolInterpretedExpressionSwitch extends ToolSwitch<Option<Collection<String>>> {
+public class SequenceToolInterpretedExpressionSwitch extends ToolSwitch<java.util.Optional<Collection<String>>> {
 
     /**
      * Constant used in switches on feature id to consider the case when the
@@ -93,14 +93,14 @@ public class SequenceToolInterpretedExpressionSwitch extends ToolSwitch<Option<C
      * @see org.eclipse.sirius.viewpoint.description.tool.util.ToolSwitch#doSwitch(org.eclipse.emf.ecore.EObject)
      */
     @Override
-    public Option<Collection<String>> doSwitch(EObject theEObject) {
-        Option<Collection<String>> doSwitch = super.doSwitch(theEObject);
+    public java.util.Optional<Collection<String>> doSwitch(EObject theEObject) {
+        java.util.Optional<Collection<String>> doSwitch = super.doSwitch(theEObject);
         if (doSwitch != null) {
             return doSwitch;
         }
 
         Collection<String> targets = Collections.emptySet();
-        return Options.newSome(targets);
+        return java.util.Optional.of(targets);
     }
 
     /**
@@ -146,8 +146,8 @@ public class SequenceToolInterpretedExpressionSwitch extends ToolSwitch<Option<C
      * {@inheritDoc}
      */
     @Override
-    public Option<Collection<String>> caseMessageCreationTool(MessageCreationTool object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseMessageCreationTool(MessageCreationTool object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getMessageCreationTool())) {
         case ToolPackage.MESSAGE_CREATION_TOOL__CONNECTION_START_PRECONDITION:
         case ToolPackage.MESSAGE_CREATION_TOOL__PRECONDITION:
@@ -155,12 +155,12 @@ public class SequenceToolInterpretedExpressionSwitch extends ToolSwitch<Option<C
         case DO_NOT_CONSIDER_FEATURE:
             Collection<String> targets = new LinkedHashSet<>();
             for (RepresentationElementMapping correspondingMapping : Iterables.concat(object.getEdgeMappings(), object.getExtraSourceMappings())) {
-                Option<Collection<String>> targetsFromMapping = globalSwitch.doSwitch(correspondingMapping, false);
-                if (targetsFromMapping.some()) {
+                java.util.Optional<Collection<String>> targetsFromMapping = globalSwitch.doSwitch(correspondingMapping, false);
+                if (targetsFromMapping.isPresent()) {
                     targets.addAll(targetsFromMapping.get());
                 }
             }
-            result = Options.newSome(targets);
+            result = java.util.Optional.of(targets);
             break;
         default:
             break;
@@ -172,20 +172,20 @@ public class SequenceToolInterpretedExpressionSwitch extends ToolSwitch<Option<C
      * {@inheritDoc}
      */
     @Override
-    public Option<Collection<String>> caseReorderTool(ReorderTool object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseReorderTool(ReorderTool object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getReorderTool())) {
         case ToolPackage.REORDER_TOOL__PRECONDITION:
         case ToolPackage.REORDER_TOOL__ELEMENTS_TO_SELECT:
         case DO_NOT_CONSIDER_FEATURE:
             Collection<String> targets = new LinkedHashSet<>();
             for (EventMapping correspondingMapping : object.getMappings()) {
-                Option<Collection<String>> targetsFromMapping = globalSwitch.doSwitch(correspondingMapping, false);
-                if (targetsFromMapping.some()) {
+                java.util.Optional<Collection<String>> targetsFromMapping = globalSwitch.doSwitch(correspondingMapping, false);
+                if (targetsFromMapping.isPresent()) {
                     targets.addAll(targetsFromMapping.get());
                 }
             }
-            result = Options.newSome(targets);
+            result = java.util.Optional.of(targets);
             break;
         default:
             break;
@@ -197,20 +197,20 @@ public class SequenceToolInterpretedExpressionSwitch extends ToolSwitch<Option<C
      * {@inheritDoc}
      */
     @Override
-    public Option<Collection<String>> caseInstanceRoleReorderTool(InstanceRoleReorderTool object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseInstanceRoleReorderTool(InstanceRoleReorderTool object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getInstanceRoleReorderTool())) {
         case ToolPackage.INSTANCE_ROLE_REORDER_TOOL__PRECONDITION:
         case ToolPackage.INSTANCE_ROLE_REORDER_TOOL__ELEMENTS_TO_SELECT:
         case DO_NOT_CONSIDER_FEATURE:
             Collection<String> targets = new LinkedHashSet<>();
             for (InstanceRoleMapping correspondingMapping : object.getMappings()) {
-                Option<Collection<String>> targetsFromMapping = globalSwitch.doSwitch(correspondingMapping, false);
-                if (targetsFromMapping.some()) {
+                java.util.Optional<Collection<String>> targetsFromMapping = globalSwitch.doSwitch(correspondingMapping, false);
+                if (targetsFromMapping.isPresent()) {
                     targets.addAll(targetsFromMapping.get());
                 }
             }
-            result = Options.newSome(targets);
+            result = java.util.Optional.of(targets);
             break;
         default:
             break;

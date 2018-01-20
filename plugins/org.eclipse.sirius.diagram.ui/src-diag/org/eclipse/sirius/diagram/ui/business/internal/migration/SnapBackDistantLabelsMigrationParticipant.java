@@ -49,7 +49,7 @@ import org.eclipse.sirius.diagram.ui.internal.edit.parts.DEdgeEndNameEditPart;
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.DEdgeNameEditPart;
 import org.eclipse.sirius.diagram.ui.part.SiriusVisualIDRegistry;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DView;
 import org.osgi.framework.Version;
@@ -446,8 +446,8 @@ public class SnapBackDistantLabelsMigrationParticipant extends AbstractRepresent
      */
     private Collection<Edge> getEdges(DDiagram dDiagram) {
         DDiagramGraphicalQuery query = new DDiagramGraphicalQuery(dDiagram);
-        Option<Diagram> gmfDiagram = query.getAssociatedGMFDiagram();
-        if (gmfDiagram.some()) {
+        java.util.Optional<Diagram> gmfDiagram = query.getAssociatedGMFDiagram();
+        if (gmfDiagram.isPresent()) {
             return Lists.newArrayList(Iterables.filter(gmfDiagram.get().getEdges(), Edge.class));
         }
         return new ArrayList<>();
@@ -464,8 +464,8 @@ public class SnapBackDistantLabelsMigrationParticipant extends AbstractRepresent
      */
     private Collection<Node> getNodes(DDiagram dDiagram) {
         DDiagramGraphicalQuery query = new DDiagramGraphicalQuery(dDiagram);
-        Option<Diagram> gmfDiagram = query.getAssociatedGMFDiagram();
-        if (gmfDiagram.some()) {
+        java.util.Optional<Diagram> gmfDiagram = query.getAssociatedGMFDiagram();
+        if (gmfDiagram.isPresent()) {
             return Lists.newArrayList(Iterables.filter(gmfDiagram.get().getChildren(), Node.class));
         }
         return new ArrayList<>();

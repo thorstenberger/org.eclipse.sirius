@@ -48,8 +48,8 @@ import org.eclipse.sirius.diagram.business.internal.query.DNodeContainerExperime
 import org.eclipse.sirius.diagram.ui.edit.api.part.IAbstractDiagramNodeEditPart;
 import org.eclipse.sirius.diagram.ui.edit.api.part.IDiagramContainerEditPart;
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.AbstractDNodeContainerCompartmentEditPart;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * Customized version of the standard CompositeDirectedGraphLayout to improve
@@ -126,7 +126,7 @@ public class AutoSizeAndRegionAwareGraphLayout extends CompositeDirectedGraphLay
             g.nodes = nodes;
             g.edges = edges;
 
-            final boolean concernRegions = (parent == null && areRegions(nodes)) || (parent != null && getRegionContainer(parent).some());
+            final boolean concernRegions = (parent == null && areRegions(nodes)) || (parent != null && getRegionContainer(parent).isPresent());
             /*
              * Handle regions : deactivate the default behavior where all nodes
              * of a same row have the same vertical bounds
@@ -214,8 +214,8 @@ public class AutoSizeAndRegionAwareGraphLayout extends CompositeDirectedGraphLay
         if (parent != null) {
             rc = getRegionContainer(parent).get();
         } else {
-            Option<DDiagramElementContainer> region = getRegion(nodes.getNode(0));
-            rc = region.some() ? (DNodeContainer) region.get().eContainer() : null;
+            java.util.Optional<DDiagramElementContainer> region = getRegion(nodes.getNode(0));
+            rc = region.isPresent() ? (DNodeContainer) region.get().eContainer() : null;
         }
 
         return rc;
@@ -226,12 +226,12 @@ public class AutoSizeAndRegionAwareGraphLayout extends CompositeDirectedGraphLay
         boolean areRegions = false;
         for (int j = 0; j < nodes.size(); j++) {
             Node n = nodes.getNode(j);
-            areRegions = areRegions || getRegion(n).some();
+            areRegions = areRegions || getRegion(n).isPresent();
         }
         return areRegions;
     }
 
-    private Option<DNodeContainer> getRegionContainer(Node node) {
+    private java.util.Optional<DNodeContainer> getRegionContainer(Node node) {
         DNodeContainer dnc = null;
         if (node != null && (node.data instanceof IDiagramContainerEditPart || node.data instanceof AbstractDNodeContainerCompartmentEditPart)) {
             EObject element = ((IGraphicalEditPart) node.data).resolveSemanticElement();
@@ -241,19 +241,19 @@ public class AutoSizeAndRegionAwareGraphLayout extends CompositeDirectedGraphLay
         }
 
         if (dnc != null && new DNodeContainerExperimentalQuery(dnc).isRegionContainer()) {
-            return Options.newSome(dnc);
+            return java.util.Optional.of(dnc);
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
-    private Option<DDiagramElementContainer> getRegion(Node node) {
+    private java.util.Optional<DDiagramElementContainer> getRegion(Node node) {
         if (node.data instanceof IAbstractDiagramNodeEditPart) {
             DDiagramElement element = ((IAbstractDiagramNodeEditPart) node.data).resolveDiagramElement();
             if (element instanceof DDiagramElementContainer && new DDiagramElementContainerExperimentalQuery((DDiagramElementContainer) element).isRegion()) {
-                return Options.newSome((DDiagramElementContainer) element);
+                return java.util.Optional.of((DDiagramElementContainer) element);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

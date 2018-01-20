@@ -23,8 +23,8 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.provider.ViewpointItemProviderAdapterFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -121,8 +121,8 @@ public abstract class AbstractDebugView extends ViewPart implements ISelectionLi
      */
     @Override
     public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-        Option<Object> selected = getSelectedElement(selection);
-        if (selected.some()) {
+        java.util.Optional<Object> selected = getSelectedElement(selection);
+        if (selected.isPresent()) {
             this.selection = selected.get();
             this.info.setText(getTextFor(this.selection));
         }
@@ -131,12 +131,12 @@ public abstract class AbstractDebugView extends ViewPart implements ISelectionLi
     /**
      * Get the main object selected from the Eclipse ISelection.
      */
-    private Option<Object> getSelectedElement(ISelection selection) {
+    private java.util.Optional<Object> getSelectedElement(ISelection selection) {
         if (selection instanceof IStructuredSelection) {
             IStructuredSelection iss = (IStructuredSelection) selection;
-            return Options.newSome(iss.getFirstElement());
+            return java.util.Optional.of(iss.getFirstElement());
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

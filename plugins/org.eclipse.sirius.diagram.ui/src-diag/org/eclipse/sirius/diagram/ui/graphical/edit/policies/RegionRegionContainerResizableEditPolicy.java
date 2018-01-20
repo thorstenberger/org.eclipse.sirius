@@ -17,8 +17,8 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gmf.runtime.emf.commands.core.command.CompositeTransactionalCommand;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * A {@link AirResizableEditPolicy} able to handle containers which are both a
@@ -46,8 +46,8 @@ public class RegionRegionContainerResizableEditPolicy extends RegionResizableEdi
      * Let the region container policy create the adjust children command.
      */
     @Override
-    protected Option<ChangeBoundsRequest> getAdjustChildrenRequest(ChangeBoundsRequest request) {
-        return Options.newNone();
+    protected java.util.Optional<ChangeBoundsRequest> getAdjustChildrenRequest(ChangeBoundsRequest request) {
+        return java.util.Optional.empty();
     }
 
     @Override

@@ -23,7 +23,7 @@ import org.eclipse.sirius.diagram.ui.internal.edit.parts.DEdgeEndNameEditPart;
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.DEdgeNameEditPart;
 import org.eclipse.sirius.diagram.ui.tools.api.figure.SiriusWrapLabelWithAttachment;
 import org.eclipse.sirius.diagram.ui.tools.api.preferences.SiriusDiagramUiPreferencesKeys;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import org.eclipse.sirius.tests.support.api.SiriusDiagramTestCase;
 import org.eclipse.sirius.tests.support.api.TestsUtil;
@@ -181,8 +181,8 @@ public class AttachmentBetweenEdgeAndItsLabelsTest extends SiriusDiagramTestCase
         IFigure figure = labelEditPart.getFigure();
         assertTrue("The " + qualifiedName + " label should be a SiriusWrapLabelWithAttachment.", figure instanceof SiriusWrapLabelWithAttachment);
         // Get the attachment polyline through reflection
-        Option<Object> attachmentObject = ReflectionHelper.getFieldValueWithoutException(figure, "attachment");
-        assertTrue("Not possible to retreive attachment polyline of SiriusWrapLabelWithAttachment.", attachmentObject.some());
+        java.util.Optional<Object> attachmentObject = ReflectionHelper.getFieldValueWithoutException(figure, "attachment");
+        assertTrue("Not possible to retreive attachment polyline of SiriusWrapLabelWithAttachment.", attachmentObject.isPresent());
         return ((Polyline) attachmentObject.get()).isVisible();
     }
 }

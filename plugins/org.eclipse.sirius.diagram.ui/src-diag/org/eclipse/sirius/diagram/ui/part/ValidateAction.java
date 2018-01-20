@@ -58,7 +58,7 @@ import org.eclipse.sirius.diagram.ui.internal.providers.SiriusMarkerNavigationPr
 import org.eclipse.sirius.diagram.ui.internal.providers.SiriusValidationProvider;
 import org.eclipse.sirius.diagram.ui.tools.internal.marker.SiriusMarkerNavigationProviderSpec;
 import org.eclipse.sirius.diagram.ui.tools.internal.part.OffscreenEditPartFactory;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.emf.AllContents;
 import org.eclipse.sirius.tools.api.validation.constraint.RuleWrappingStatus;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
@@ -217,8 +217,8 @@ public class ValidateAction extends Action {
     private static IFile getFileToMark(DiagramEditPart diagramEditPart, View view) {
         Resource targetResource = view.eResource();
         if (diagramEditPart instanceof IDDiagramEditPart) {
-            Option<DDiagram> ddiagram = ((IDDiagramEditPart) diagramEditPart).resolveDDiagram();
-            Session session = ddiagram.some() && ddiagram.get() instanceof DSemanticDiagram ? SessionManager.INSTANCE.getSession(((DSemanticDiagram) ddiagram.get()).getTarget()) : null;
+            java.util.Optional<DDiagram> ddiagram = ((IDDiagramEditPart) diagramEditPart).resolveDDiagram();
+            Session session = ddiagram.isPresent() && ddiagram.get() instanceof DSemanticDiagram ? SessionManager.INSTANCE.getSession(((DSemanticDiagram) ddiagram.get()).getTarget()) : null;
             if (session != null) {
                 targetResource = session.getSessionResource();
             }

@@ -13,8 +13,8 @@ package org.eclipse.sirius.tree.business.internal.dialect.common.tree;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.synchronizer.AutomaticCreator;
 import org.eclipse.sirius.synchronizer.Mapping;
 import org.eclipse.sirius.synchronizer.SemanticPartition;
@@ -50,8 +50,8 @@ class RTreeMapping implements Mapping {
     }
 
     @Override
-    public Option<Mapping> getSuper() {
-        return Options.newNone();
+    public java.util.Optional<Mapping> getSuper() {
+        return java.util.Optional.empty();
     }
 
     @Override
@@ -74,8 +74,8 @@ class RTreeMapping implements Mapping {
     }
 
     @Override
-    public Option<AutomaticCreator> getCreator() {
-        return Options.newNone();
+    public java.util.Optional<AutomaticCreator> getCreator() {
+        return java.util.Optional.empty();
     }
 
 }

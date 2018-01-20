@@ -12,7 +12,7 @@ package org.eclipse.sirius.diagram.ui.edit.api.part;
 
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.sirius.diagram.DDiagram;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * The top level interface of diagram edit part.
@@ -26,5 +26,5 @@ public interface IDDiagramEditPart extends IGraphicalEditPart, ISiriusEditPart {
      * 
      * @return the diagram that is represented by this edit part.
      */
-    Option<DDiagram> resolveDDiagram();
+    java.util.Optional<DDiagram> resolveDDiagram();
 }

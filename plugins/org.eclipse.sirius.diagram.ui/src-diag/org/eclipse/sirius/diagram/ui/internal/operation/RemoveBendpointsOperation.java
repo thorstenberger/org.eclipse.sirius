@@ -37,7 +37,7 @@ import org.eclipse.sirius.diagram.ui.internal.edit.parts.AbstractDEdgeNameEditPa
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.locator.EdgeLabelQuery;
 import org.eclipse.sirius.diagram.ui.tools.internal.routers.RectilinearEdgeUtil;
 import org.eclipse.sirius.diagram.ui.tools.internal.util.GMFNotationUtilities;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 
 /**
@@ -118,8 +118,8 @@ public class RemoveBendpointsOperation extends AbstractModelChangeOperation<Void
             // we compute the new bendpoints by computing the intersection
             // points between the source and the target anchors.
             if (srcAbsoluteBounds != null && tgtAbsoluteBounds != null) {
-                Option<Point> srcConnectionBendpoint = GraphicalHelper.getIntersection(absoluteSrcAnchorCoordinates, absoluteTgtAnchorCoordinates, srcAbsoluteBounds, true);
-                Option<Point> tgtConnectionBendpoint = GraphicalHelper.getIntersection(absoluteSrcAnchorCoordinates, absoluteTgtAnchorCoordinates, tgtAbsoluteBounds, false);
+                java.util.Optional<Point> srcConnectionBendpoint = GraphicalHelper.getIntersection(absoluteSrcAnchorCoordinates, absoluteTgtAnchorCoordinates, srcAbsoluteBounds, true);
+                java.util.Optional<Point> tgtConnectionBendpoint = GraphicalHelper.getIntersection(absoluteSrcAnchorCoordinates, absoluteTgtAnchorCoordinates, tgtAbsoluteBounds, false);
 
                 Point srcPoint = srcConnectionBendpoint.get();
                 Point tgtPoint = tgtConnectionBendpoint.get();
@@ -133,7 +133,7 @@ public class RemoveBendpointsOperation extends AbstractModelChangeOperation<Void
                     pointList.addPoint(srcPoint);
                     pointList.addPoint(tgtPoint);
                 }
-                if (srcConnectionBendpoint.some() && tgtConnectionBendpoint.some() && originalNbPoint > pointList.size()) {
+                if (srcConnectionBendpoint.isPresent() && tgtConnectionBendpoint.isPresent() && originalNbPoint > pointList.size()) {
                     if (Routing.RECTILINEAR_LITERAL.equals(routingStyle)) {
                         // Set GMF Anchor on figure center
                         IdentityAnchor srcAnchor = NotationFactory.eINSTANCE.createIdentityAnchor();

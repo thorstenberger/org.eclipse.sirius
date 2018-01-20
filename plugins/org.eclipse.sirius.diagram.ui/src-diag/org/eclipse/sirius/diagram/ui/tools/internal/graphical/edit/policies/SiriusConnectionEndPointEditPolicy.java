@@ -37,7 +37,7 @@ import org.eclipse.sirius.diagram.ui.edit.api.part.AbstractDiagramEdgeEditPart;
 import org.eclipse.sirius.diagram.ui.internal.edit.policies.InitialPointsOfRequestDataManager;
 import org.eclipse.sirius.diagram.ui.provider.DiagramUIPlugin;
 import org.eclipse.sirius.diagram.ui.tools.internal.graphical.edit.handles.SiriusConnectionEndPointHandle;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.gmf.runtime.draw2d.ui.geometry.LineSegQuery;
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 
@@ -132,14 +132,14 @@ public class SiriusConnectionEndPointEditPolicy extends ConnectionEndpointEditPo
             saveOriginalConstraint();
 
             ConnectionQuery connectionQuery = new ConnectionQuery(getConnection());
-            Option<List<RelativeBendpoint>> optionalRelativeBendpointsContraint = connectionQuery.getTreeRelativeBendpointsConstraint();
-            if (optionalRelativeBendpointsContraint.some()) {
+            java.util.Optional<List<RelativeBendpoint>> optionalRelativeBendpointsContraint = connectionQuery.getTreeRelativeBendpointsConstraint();
+            if (optionalRelativeBendpointsContraint.isPresent()) {
                 for (RelativeBendpoint relativeBendpoint : optionalRelativeBendpointsContraint.get()) {
                     originalPoints.addPoint(relativeBendpoint.getLocation());
                 }
             } else {
-                Option<List<AbsoluteBendpoint>> optionalAsboluteBendpointsContraint = connectionQuery.getTreeAbsoluteBendpointsConstraint();
-                if (optionalAsboluteBendpointsContraint.some()) {
+                java.util.Optional<List<AbsoluteBendpoint>> optionalAsboluteBendpointsContraint = connectionQuery.getTreeAbsoluteBendpointsConstraint();
+                if (optionalAsboluteBendpointsContraint.isPresent()) {
                     for (AbsoluteBendpoint absoluteBendpoint : optionalAsboluteBendpointsContraint.get()) {
                         originalPoints.addPoint(absoluteBendpoint.getLocation().getCopy());
                     }
@@ -260,10 +260,10 @@ public class SiriusConnectionEndPointEditPolicy extends ConnectionEndpointEditPo
      */
     private void changeRoutingConstraint(PointList points, Point sourceRefPoint, Point targetRefPoint) {
         ConnectionQuery connectionQuery = new ConnectionQuery(getConnection());
-        Option<List<RelativeBendpoint>> optionalRelativeBendpointsContraint = connectionQuery.getTreeRelativeBendpointsConstraint();
-        Option<List<AbsoluteBendpoint>> optionalAsboluteBendpointsContraint = connectionQuery.getTreeAbsoluteBendpointsConstraint();
-        if (optionalRelativeBendpointsContraint.some() || optionalAsboluteBendpointsContraint.some()) {
-            if (optionalRelativeBendpointsContraint.some()) {
+        java.util.Optional<List<RelativeBendpoint>> optionalRelativeBendpointsContraint = connectionQuery.getTreeRelativeBendpointsConstraint();
+        java.util.Optional<List<AbsoluteBendpoint>> optionalAsboluteBendpointsContraint = connectionQuery.getTreeAbsoluteBendpointsConstraint();
+        if (optionalRelativeBendpointsContraint.isPresent() || optionalAsboluteBendpointsContraint.isPresent()) {
+            if (optionalRelativeBendpointsContraint.isPresent()) {
                 for (int i = 0; i < points.size(); i++) {
                     Dimension s = points.getPoint(i).getDifference(sourceRefPoint);
                     Dimension t = points.getPoint(i).getDifference(targetRefPoint);

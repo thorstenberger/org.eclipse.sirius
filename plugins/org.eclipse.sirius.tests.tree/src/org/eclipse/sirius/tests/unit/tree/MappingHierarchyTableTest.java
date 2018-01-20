@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.synchronizer.AutomaticCreator;
 import org.eclipse.sirius.synchronizer.Mapping;
 import org.eclipse.sirius.synchronizer.MappingHiearchy;
@@ -42,8 +42,8 @@ public class MappingHierarchyTableTest extends TestCase {
         final Mapping a = new MockMapping();
         Mapping b = new MockMapping() {
             @Override
-            public Option<Mapping> getSuper() {
-                return Options.newSome(a);
+            public java.util.Optional<Mapping> getSuper() {
+                return java.util.Optional.of(a);
             }
         };
         MappingHiearchy hierarchy = new MappingHiearchy(b);
@@ -77,8 +77,8 @@ public class MappingHierarchyTableTest extends TestCase {
         final Mapping a = new MockMapping();
         Mapping b = new MockMapping() {
             @Override
-            public Option<Mapping> getSuper() {
-                return Options.newSome(a);
+            public java.util.Optional<Mapping> getSuper() {
+                return java.util.Optional.of(a);
             }
         };
 
@@ -104,12 +104,12 @@ public class MappingHierarchyTableTest extends TestCase {
 
         Mapping superMap = null;
 
-        public Option<Mapping> getSuper() {
-            return Options.newSome(superMap);
+        public java.util.Optional<Mapping> getSuper() {
+            return java.util.Optional.of(superMap);
         }
 
-        public Option<AutomaticCreator> getCreator() {
-            return Options.newNone();
+        public java.util.Optional<AutomaticCreator> getCreator() {
+            return java.util.Optional.empty();
         }
 
         public SemanticPartition getSemanticPartition() {

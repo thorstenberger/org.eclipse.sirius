@@ -39,8 +39,8 @@ import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.common.tools.DslCommonPlugin;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tools.api.command.ICommandFactory;
 import org.eclipse.sirius.tools.api.profiler.SiriusTasksKey;
 import org.eclipse.sirius.tree.DTree;
@@ -245,8 +245,8 @@ public class DTreeViewerManager extends AbstractDTableViewerManager {
         // Step 1 : get the TreeViewerColumn corresponding to this Tree
         DslCommonPlugin.PROFILER.startWork(SiriusTasksKey.ADD_SWT_COLUMN_KEY);
 
-        Option<ViewerColumn> optionViewerColumn = getViewerColumn();
-        if (optionViewerColumn.some()) {
+        java.util.Optional<ViewerColumn> optionViewerColumn = getViewerColumn();
+        if (optionViewerColumn.isPresent()) {
             ViewerColumn treeColumn = optionViewerColumn.get();
 
             // Step 2 : set the Editing support
@@ -272,10 +272,10 @@ public class DTreeViewerManager extends AbstractDTableViewerManager {
     /**
      * Returns the viewer column associated to the treeViewer.
      * 
-     * @return the viewer column of the treeViewer, or Options.newNone() if to viewer column found.
+     * @return the viewer column of the treeViewer, or java.util.Optional.empty() if to viewer column found.
      */
-    private Option<ViewerColumn> getViewerColumn() {
-        Option<ViewerColumn> viewerColumn = Options.newNone();
+    private java.util.Optional<ViewerColumn> getViewerColumn() {
+        java.util.Optional<ViewerColumn> viewerColumn = java.util.Optional.empty();
 
         // We use reflection to access to the ColumnViewer.getViewerColumn(int)
         // method (package visibility)
@@ -286,7 +286,7 @@ public class DTreeViewerManager extends AbstractDTableViewerManager {
             method.setAccessible(true);
             Object invoke = method.invoke(treeViewer, 0);
             if (invoke instanceof ViewerColumn) {
-                viewerColumn = Options.newSome((ViewerColumn) invoke);
+                viewerColumn = java.util.Optional.of((ViewerColumn) invoke);
             }
         } catch (SecurityException e) {
             // Nothing to do, method will return Options.NONE

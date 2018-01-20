@@ -124,7 +124,7 @@ import org.eclipse.sirius.diagram.ui.part.SiriusVisualIDRegistry;
 import org.eclipse.sirius.diagram.ui.tools.internal.commands.ToggleFoldingStateCommand;
 import org.eclipse.sirius.diagram.ui.tools.internal.edit.command.CommandFactory;
 import org.eclipse.sirius.editor.tools.internal.presentation.ViewpoitnDependenciesSelectionDialog;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.emf.AllContents;
 import org.eclipse.sirius.tests.sample.component.Component;
 import org.eclipse.sirius.tests.sample.component.util.PayloadMarkerAdapter;
@@ -287,8 +287,8 @@ public class SiriusDebugView extends AbstractDebugView {
         absoluteBounds = GMFHelper.getAbsoluteBounds(node, false);
         sb.append("Bounds (GMF absolute - no insets): " + absoluteBounds + "\n");
 
-        Option<ISequenceElement> elt = ISequenceElementAccessor.getISequenceElement(part.getNotationView());
-        if (elt.some()) {
+        java.util.Optional<ISequenceElement> elt = ISequenceElementAccessor.getISequenceElement(part.getNotationView());
+        if (elt.isPresent()) {
             sb.append("Bounds (logical):              " + elt.get().getProperLogicalBounds()).append("\n");
         }
         Rectangle bounds = part.getFigure().getBounds().getCopy();
@@ -1007,8 +1007,8 @@ public class SiriusDebugView extends AbstractDebugView {
             @Override
             public void run() {
                 if (selection instanceof Viewpoint) {
-                    final Option<Set<URI>> sel = new ViewpoitnDependenciesSelectionDialog((Viewpoint) selection).selectReusedViewpoints(getSite().getShell());
-                    if (sel.some()) {
+                    final java.util.Optional<Set<URI>> sel = new ViewpoitnDependenciesSelectionDialog((Viewpoint) selection).selectReusedViewpoints(getSite().getShell());
+                    if (sel.isPresent()) {
                         ((Viewpoint) selection).getReuses().clear();
                         Iterables.addAll(((Viewpoint) selection).getReuses(), sel.get());
                     }

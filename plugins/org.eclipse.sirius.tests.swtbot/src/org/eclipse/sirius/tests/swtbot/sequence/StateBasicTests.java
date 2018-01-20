@@ -17,7 +17,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.layout.LayoutConsta
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.ExecutionEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.SequenceDiagramEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.StateEditPart;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.swtbot.sequence.condition.CheckNumberOfDescendants;
 import org.eclipse.sirius.tests.swtbot.sequence.condition.CheckResize;
 import org.eclipse.sirius.tests.swtbot.support.api.business.UIDiagramRepresentation.ZoomLevel;
@@ -415,7 +415,7 @@ public class StateBasicTests extends AbstractStatesSequenceTests {
         createExecutionWithResult(new Point(getLifelineScreenX(LIFELINE_A), 150)).get();
         Rectangle firstExecutionBoundsA = assertExecutionHasValidScreenBounds(LIFELINE_A, 0, new Rectangle(0, 150, 0, 30), false);
         // Create first state on lifeLine A
-        Option<SWTBotGefEditPart> state = createStateWithResult(new Point(getLifelineScreenX(LIFELINE_A), 250));
+        java.util.Optional<SWTBotGefEditPart> state = createStateWithResult(new Point(getLifelineScreenX(LIFELINE_A), 250));
         Rectangle stateBoundsA = assertStateHasValidScreenBounds((StateEditPart) state.get().part(), new Rectangle(0, 250, 0, 30), false);
         // Create second execution on lifeLine A
         createExecutionWithResult(new Point(getLifelineScreenX(LIFELINE_A), 350)).get();
@@ -480,7 +480,7 @@ public class StateBasicTests extends AbstractStatesSequenceTests {
         bot.waitUntil(cR);
 
         // Create a state on the execution
-        Option<SWTBotGefEditPart> state = createStateWithResult(new Point(getLifelineScreenX(LIFELINE_A), 250));
+        java.util.Optional<SWTBotGefEditPart> state = createStateWithResult(new Point(getLifelineScreenX(LIFELINE_A), 250));
         Rectangle stateBoundsA = assertStateHasValidScreenBounds((StateEditPart) state.get().part(), new Rectangle(0, 250, 0, 30), false);
 
         // Resize state close to the execution upper bound or close to m1
@@ -521,7 +521,7 @@ public class StateBasicTests extends AbstractStatesSequenceTests {
         createMessage(InteractionsConstants.READ_TOOL_ID, LIFELINE_A, 150, LIFELINE_B, 150);
         assertMessageVerticalPosition(FIRST_MESSAGE, 150);
         // Create first state on lifeLine A
-        Option<SWTBotGefEditPart> state = createStateWithResult(new Point(getLifelineScreenX(LIFELINE_A), 250));
+        java.util.Optional<SWTBotGefEditPart> state = createStateWithResult(new Point(getLifelineScreenX(LIFELINE_A), 250));
         Rectangle stateBoundsA = assertStateHasValidScreenBounds((StateEditPart) state.get().part(), new Rectangle(0, 250, 0, 30), false);
         // Create second message on lifeLine B
         createMessage(InteractionsConstants.READ_TOOL_ID, LIFELINE_B, 350, LIFELINE_A, 350);

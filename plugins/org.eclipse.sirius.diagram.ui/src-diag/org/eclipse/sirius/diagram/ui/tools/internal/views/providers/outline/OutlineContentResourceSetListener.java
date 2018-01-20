@@ -39,7 +39,7 @@ import org.eclipse.sirius.diagram.provider.DiagramItemProviderAdapterFactory;
 import org.eclipse.sirius.diagram.ui.business.api.provider.DEdgeLabelItemProvider;
 import org.eclipse.sirius.diagram.ui.business.api.provider.DNodeLabelItemProvider;
 import org.eclipse.sirius.diagram.ui.tools.internal.editor.DiagramOutlinePageListener;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.provider.ViewpointItemProviderAdapterFactory;
 import org.eclipse.swt.widgets.Display;
 
@@ -183,8 +183,8 @@ public class OutlineContentResourceSetListener extends DemultiplexingListener im
 
         switch (featureID) {
         case DiagramPackage.DDIAGRAM_ELEMENT__VISIBLE:
-            Option<DDiagram> parentDiagram = new EObjectQuery(diagramElement).getParentDiagram();
-            if (parentDiagram.some()) {
+            java.util.Optional<DDiagram> parentDiagram = new EObjectQuery(diagramElement).getParentDiagram();
+            if (parentDiagram.isPresent()) {
                 addToRefresh(parentDiagram.get());
             }
             break;
@@ -291,8 +291,8 @@ public class OutlineContentResourceSetListener extends DemultiplexingListener im
     }
 
     private void addOptionalParentDiagramRefresh(DDiagramElement element) {
-        Option<DDiagram> parentDiagram = new EObjectQuery(element).getParentDiagram();
-        if (parentDiagram.some()) {
+        java.util.Optional<DDiagram> parentDiagram = new EObjectQuery(element).getParentDiagram();
+        if (parentDiagram.isPresent()) {
             addToRefresh(parentDiagram.get());
         }
     }

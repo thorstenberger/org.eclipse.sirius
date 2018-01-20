@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 import org.eclipse.sirius.business.api.query.ViewpointQuery;
 import org.eclipse.sirius.description.contribution.Contribution;
 import org.eclipse.sirius.description.contribution.FeatureContribution;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.emf.AllContents;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
 
@@ -107,8 +107,8 @@ public class IncrementalModelContributor extends ModelContributor {
 
         viewpointUris = new HashMap<>();
         for (Viewpoint originalVP : Iterables.filter(currentCopier.keySet(), Viewpoint.class)) {
-            Option<URI> uri = new ViewpointQuery(originalVP).getViewpointURI();
-            if (uri.some()) {
+            java.util.Optional<URI> uri = new ViewpointQuery(originalVP).getViewpointURI();
+            if (uri.isPresent()) {
                 viewpointUris.put((Viewpoint) currentCopier.get(originalVP), uri.get().toString());
             }
         }

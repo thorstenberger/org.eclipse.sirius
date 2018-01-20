@@ -19,8 +19,8 @@ import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.sirius.business.api.query.DRepresentationQuery;
 import org.eclipse.sirius.business.api.session.ModelChangeTrigger;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.ViewpointPackage;
@@ -57,7 +57,7 @@ public class RepresentationNameSynchroListener implements ModelChangeTrigger {
     }
 
     @Override
-    public Option<Command> localChangesAboutToCommit(Collection<Notification> notifications) {
+    public java.util.Optional<Command> localChangesAboutToCommit(Collection<Notification> notifications) {
         CompoundCommand cmd = new CompoundCommand();
         for (Notification notification : notifications) {
             Object notifier = notification.getNotifier();
@@ -74,6 +74,6 @@ public class RepresentationNameSynchroListener implements ModelChangeTrigger {
                 }
             }
         }
-        return Options.newSome(cmd.unwrap());
+        return java.util.Optional.of(cmd.unwrap());
     }
 }

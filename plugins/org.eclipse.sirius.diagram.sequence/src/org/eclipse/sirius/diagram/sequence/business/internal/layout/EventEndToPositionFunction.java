@@ -24,7 +24,7 @@ import org.eclipse.sirius.diagram.sequence.ordering.CompoundEventEnd;
 import org.eclipse.sirius.diagram.sequence.ordering.EventEnd;
 import org.eclipse.sirius.diagram.sequence.ordering.SingleEventEnd;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -41,7 +41,7 @@ public class EventEndToPositionFunction implements Function<EventEnd, Integer> {
 
     private final Function<EventEnd, Collection<ISequenceEvent>> eventEndToSequenceEvents;
 
-    private final Function<ISequenceEvent, Option<Range>> ranges;
+    private final Function<ISequenceEvent, java.util.Optional<Range>> ranges;
 
     /**
      * Constructor.
@@ -51,7 +51,7 @@ public class EventEndToPositionFunction implements Function<EventEnd, Integer> {
      * @param ranges
      *            ranges of sequence events.
      */
-    public EventEndToPositionFunction(Function<EventEnd, Collection<ISequenceEvent>> eventEndToSequenceEvents, Function<ISequenceEvent, Option<Range>> ranges) {
+    public EventEndToPositionFunction(Function<EventEnd, Collection<ISequenceEvent>> eventEndToSequenceEvents, Function<ISequenceEvent, java.util.Optional<Range>> ranges) {
         this.eventEndToSequenceEvents = eventEndToSequenceEvents;
         this.ranges = ranges;
     }
@@ -123,9 +123,9 @@ public class EventEndToPositionFunction implements Function<EventEnd, Integer> {
      */
     protected Integer getOldPositionFromRange(SingleEventEnd see, ISequenceEvent ise) {
         Integer oldPosition = 0;
-        Option<Range> oldRange = ranges.apply(ise);
+        java.util.Optional<Range> oldRange = ranges.apply(ise);
 
-        if (ise != null && oldRange.some()) {
+        if (ise != null && oldRange.isPresent()) {
             if (see != null) {
                 oldPosition = see.isStart() ? oldRange.get().getLowerBound() : oldRange.get().getUpperBound();
             } else if (see == null && ise.isLogicallyInstantaneous()) {

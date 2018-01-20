@@ -17,8 +17,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
@@ -56,13 +56,13 @@ public class DRepresentationQuery {
      *            the data of the annotation
      * @return the annotation entry
      */
-    public Option<AnnotationEntry> getAnnotation(final String source, final EObject eObject) {
+    public java.util.Optional<AnnotationEntry> getAnnotation(final String source, final EObject eObject) {
         for (AnnotationEntry annotation : representation.getOwnedAnnotationEntries()) {
             if (source.equals(annotation.getSource()) && eObject.equals(annotation.getData())) {
-                return Options.newSome(annotation);
+                return java.util.Optional.of(annotation);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -91,12 +91,12 @@ public class DRepresentationQuery {
      *            the detail of the annotations
      * @return the annotation
      */
-    public Option<DAnnotation> getDAnnotation(final String source, String detail) {
+    public java.util.Optional<DAnnotation> getDAnnotation(final String source, String detail) {
         DAnnotation annotation = representation.getDAnnotation(source);
         if (annotation != null && annotation.getDetails().get(detail) != null) {
-            return Options.newSome(annotation);
+            return java.util.Optional.of(annotation);
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

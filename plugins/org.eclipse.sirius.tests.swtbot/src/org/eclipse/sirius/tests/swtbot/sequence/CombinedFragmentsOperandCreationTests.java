@@ -20,7 +20,7 @@ import org.eclipse.sirius.common.tools.api.util.ReflectionHelper;
 import org.eclipse.sirius.diagram.sequence.business.internal.layout.LayoutConstants;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.OperandEditPart;
 import org.eclipse.sirius.diagram.ui.tools.api.figure.OneLineMarginBorder;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.support.api.TestsUtil;
 import org.eclipse.sirius.tests.swtbot.support.api.condition.CheckEditPartMoved;
 import org.eclipse.sirius.tests.swtbot.support.api.condition.CheckEditPartResized;
@@ -57,10 +57,10 @@ public class CombinedFragmentsOperandCreationTests extends AbstractCombinedFragm
         }
         Point creationLocation = firstOperandOfFirstCombinedFragmentBounds.getCenter();
         ICondition condition = new OperationDoneCondition();
-        Option<SWTBotGefEditPart> newOperandOption = createCombinedFragmentOperandWithResult(creationLocation);
+        java.util.Optional<SWTBotGefEditPart> newOperandOption = createCombinedFragmentOperandWithResult(creationLocation);
         bot.waitUntil(condition);
 
-        Assert.assertTrue(newOperandOption.some());
+        Assert.assertTrue(newOperandOption.isPresent());
 
         SWTBotGefEditPart newOperandBot = newOperandOption.get();
         bot.sleep(500);
@@ -149,10 +149,10 @@ public class CombinedFragmentsOperandCreationTests extends AbstractCombinedFragm
     public void testCombinedFragmentOperandCreationWithSingleClickOnSecondOperands() {
         Point creationLocation = secondOperandOfFirstCombinedFragmentBounds.getCenter();
         CheckEditPartMoved checkMoved = new CheckEditPartMoved(secondCombinedFragmentBot);
-        Option<SWTBotGefEditPart> newOperandOption = createCombinedFragmentOperandWithResult(creationLocation);
+        java.util.Optional<SWTBotGefEditPart> newOperandOption = createCombinedFragmentOperandWithResult(creationLocation);
         bot.waitUntil(checkMoved);
 
-        Assert.assertTrue(newOperandOption.some());
+        Assert.assertTrue(newOperandOption.isPresent());
 
         SWTBotGefEditPart newOperandBot = newOperandOption.get();
         Rectangle newOperandBounds = editor.getBounds(newOperandBot);
@@ -226,10 +226,10 @@ public class CombinedFragmentsOperandCreationTests extends AbstractCombinedFragm
     public void testCombinedFragmentOperandCreationWithSingleClickOnBoundaryBetweenOperandsPossible() {
         Point creationLocation = secondOperandOfFirstCombinedFragmentBounds.getTop();
         CheckEditPartMoved checkMoved = new CheckEditPartMoved(secondCombinedFragmentBot);
-        Option<SWTBotGefEditPart> newOperandOption = createCombinedFragmentOperandWithResult(creationLocation);
+        java.util.Optional<SWTBotGefEditPart> newOperandOption = createCombinedFragmentOperandWithResult(creationLocation);
         bot.waitUntil(checkMoved);
 
-        Assert.assertTrue(newOperandOption.some());
+        Assert.assertTrue(newOperandOption.isPresent());
 
         SWTBotGefEditPart newOperandBot = newOperandOption.get();
         Rectangle newOperandBounds = editor.getBounds(newOperandBot);

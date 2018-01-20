@@ -32,8 +32,8 @@ import org.eclipse.sirius.diagram.sequence.business.internal.RangeHelper;
 import org.eclipse.sirius.diagram.sequence.business.internal.ordering.EventEndHelper;
 import org.eclipse.sirius.diagram.sequence.description.DescriptionPackage;
 import org.eclipse.sirius.diagram.sequence.ordering.EventEnd;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.emf.AllContents;
 
 import com.google.common.base.Function;
@@ -237,8 +237,8 @@ public class SequenceDiagram extends AbstractSequenceElement {
             allInstanceRoles = new ArrayList<>();
             for (View child : Iterables.filter(getNotationView().getChildren(), View.class)) {
                 if (InstanceRole.notationPredicate().apply(child)) {
-                    Option<InstanceRole> instanceRole = ISequenceElementAccessor.getInstanceRole(child);
-                    if (instanceRole.some()) {
+                    java.util.Optional<InstanceRole> instanceRole = ISequenceElementAccessor.getInstanceRole(child);
+                    if (instanceRole.isPresent()) {
                         allInstanceRoles.add(instanceRole.get());
                     }
                 }
@@ -304,8 +304,8 @@ public class SequenceDiagram extends AbstractSequenceElement {
             allObservationPoints = new ArrayList<>();
             for (View child : Iterables.filter(getNotationView().getChildren(), View.class)) {
                 if (ObservationPoint.notationPredicate().apply(child)) {
-                    Option<ObservationPoint> obsPoint = ISequenceElementAccessor.getObservationPoint(child);
-                    if (obsPoint.some()) {
+                    java.util.Optional<ObservationPoint> obsPoint = ISequenceElementAccessor.getObservationPoint(child);
+                    if (obsPoint.isPresent()) {
                         allObservationPoints.add(obsPoint.get());
                     }
                 }
@@ -336,8 +336,8 @@ public class SequenceDiagram extends AbstractSequenceElement {
             allLostMessageEnd = new ArrayList<>();
             for (View child : Iterables.filter(getNotationView().getChildren(), View.class)) {
                 if (LostMessageEnd.notationPredicate().apply(child)) {
-                    Option<LostMessageEnd> lostMessageEnd = ISequenceElementAccessor.getLostMessageEnd(child);
-                    if (lostMessageEnd.some()) {
+                    java.util.Optional<LostMessageEnd> lostMessageEnd = ISequenceElementAccessor.getLostMessageEnd(child);
+                    if (lostMessageEnd.isPresent()) {
                         allLostMessageEnd.add(lostMessageEnd.get());
                     }
                 }
@@ -372,8 +372,8 @@ public class SequenceDiagram extends AbstractSequenceElement {
             if (allMessages == null) {
                 allMessages = new ArrayList<>();
                 for (Edge edge : Iterables.filter(Iterables.filter(getNotationDiagram().getEdges(), Edge.class), Message.notationPredicate())) {
-                    Option<Message> message = ISequenceElementAccessor.getMessage(edge);
-                    assert message.some() : Messages.SequenceDiagram_InternalError;
+                    java.util.Optional<Message> message = ISequenceElementAccessor.getMessage(edge);
+                    assert message.isPresent() : Messages.SequenceDiagram_InternalError;
                     allMessages.add(message.get());
                 }
                 if (useCache) {
@@ -410,8 +410,8 @@ public class SequenceDiagram extends AbstractSequenceElement {
             if (allAbstractNodeEvents == null) {
                 allAbstractNodeEvents = new ArrayList<>();
                 for (Node node : Iterables.filter(Iterables.filter(AllContents.of(getNotationDiagram()), Node.class), AbstractNodeEvent.notationPredicate())) {
-                    Option<AbstractNodeEvent> exec = ISequenceElementAccessor.getAbstractNodeEvent(node);
-                    assert exec.some() : Messages.SequenceDiagram_InternalError;
+                    java.util.Optional<AbstractNodeEvent> exec = ISequenceElementAccessor.getAbstractNodeEvent(node);
+                    assert exec.isPresent() : Messages.SequenceDiagram_InternalError;
                     allAbstractNodeEvents.add(exec.get());
                 }
                 if (useCache) {
@@ -448,8 +448,8 @@ public class SequenceDiagram extends AbstractSequenceElement {
             if (allExecutions == null) {
                 allExecutions = new ArrayList<>();
                 for (Node node : Iterables.filter(Iterables.filter(AllContents.of(getNotationDiagram()), Node.class), Execution.notationPredicate())) {
-                    Option<Execution> exec = ISequenceElementAccessor.getExecution(node);
-                    assert exec.some() : Messages.SequenceDiagram_InternalError;
+                    java.util.Optional<Execution> exec = ISequenceElementAccessor.getExecution(node);
+                    assert exec.isPresent() : Messages.SequenceDiagram_InternalError;
                     allExecutions.add(exec.get());
                 }
                 if (useCache) {
@@ -486,8 +486,8 @@ public class SequenceDiagram extends AbstractSequenceElement {
             if (allStates == null) {
                 allStates = new ArrayList<>();
                 for (Node node : Iterables.filter(Iterables.filter(AllContents.of(getNotationDiagram()), Node.class), State.notationPredicate())) {
-                    Option<State> exec = ISequenceElementAccessor.getState(node);
-                    assert exec.some() : Messages.SequenceDiagram_InternalError;
+                    java.util.Optional<State> exec = ISequenceElementAccessor.getState(node);
+                    assert exec.isPresent() : Messages.SequenceDiagram_InternalError;
                     allStates.add(exec.get());
                 }
                 if (useCache) {
@@ -524,8 +524,8 @@ public class SequenceDiagram extends AbstractSequenceElement {
             if (allFrames == null) {
                 allFrames = new ArrayList<>();
                 for (Node node : Iterables.filter(Iterables.filter(getNotationDiagram().getChildren(), Node.class), AbstractFrame.notationPredicate())) {
-                    Option<ISequenceEvent> exec = ISequenceElementAccessor.getISequenceEvent(node);
-                    assert exec.some() : Messages.SequenceDiagram_InternalError;
+                    java.util.Optional<ISequenceEvent> exec = ISequenceElementAccessor.getISequenceEvent(node);
+                    assert exec.isPresent() : Messages.SequenceDiagram_InternalError;
                     if (exec.get() instanceof AbstractFrame) {
                         allFrames.add((AbstractFrame) exec.get());
                     }
@@ -564,8 +564,8 @@ public class SequenceDiagram extends AbstractSequenceElement {
             if (allInteractionUses == null) {
                 allInteractionUses = new ArrayList<>();
                 for (Node node : Iterables.filter(Iterables.filter(getNotationDiagram().getChildren(), Node.class), InteractionUse.notationPredicate())) {
-                    Option<InteractionUse> exec = ISequenceElementAccessor.getInteractionUse(node);
-                    assert exec.some() : Messages.SequenceDiagram_InternalError;
+                    java.util.Optional<InteractionUse> exec = ISequenceElementAccessor.getInteractionUse(node);
+                    assert exec.isPresent() : Messages.SequenceDiagram_InternalError;
                     allInteractionUses.add(exec.get());
                 }
                 if (useCache) {
@@ -602,8 +602,8 @@ public class SequenceDiagram extends AbstractSequenceElement {
             if (allCombinedFragments == null) {
                 allCombinedFragments = new ArrayList<>();
                 for (Node node : Iterables.filter(Iterables.filter(getNotationDiagram().getChildren(), Node.class), CombinedFragment.notationPredicate())) {
-                    Option<CombinedFragment> exec = ISequenceElementAccessor.getCombinedFragment(node);
-                    assert exec.some() : Messages.SequenceDiagram_InternalError;
+                    java.util.Optional<CombinedFragment> exec = ISequenceElementAccessor.getCombinedFragment(node);
+                    assert exec.isPresent() : Messages.SequenceDiagram_InternalError;
                     allCombinedFragments.add(exec.get());
                 }
                 if (useCache) {
@@ -640,8 +640,8 @@ public class SequenceDiagram extends AbstractSequenceElement {
             if (allOperands == null) {
                 allOperands = new ArrayList<>();
                 for (Node node : Iterables.filter(Iterables.filter(AllContents.of(getNotationDiagram()), Node.class), Operand.notationPredicate())) {
-                    Option<Operand> exec = ISequenceElementAccessor.getOperand(node);
-                    assert exec.some() : Messages.SequenceDiagram_InternalError;
+                    java.util.Optional<Operand> exec = ISequenceElementAccessor.getOperand(node);
+                    assert exec.isPresent() : Messages.SequenceDiagram_InternalError;
                     allOperands.add(exec.get());
                 }
                 if (useCache) {
@@ -673,7 +673,7 @@ public class SequenceDiagram extends AbstractSequenceElement {
         if (allEndOfLifes == null) {
             allEndOfLifes = new HashSet<EndOfLife>();
             for (Lifeline lifeline : getAllLifelines()) {
-                if (lifeline.getEndOfLife().some()) {
+                if (lifeline.getEndOfLife().isPresent()) {
                     allEndOfLifes.add(lifeline.getEndOfLife().get());
                 }
             }
@@ -721,8 +721,8 @@ public class SequenceDiagram extends AbstractSequenceElement {
         Function<View, ? extends ISequenceEvent> getISE = new Function<View, ISequenceEvent>() {
             @Override
             public ISequenceEvent apply(View from) {
-                Option<ISequenceEvent> ise = ISequenceElementAccessor.getISequenceEvent(from);
-                assert ise.some() : Messages.SequenceDiagram_InternalError;
+                java.util.Optional<ISequenceEvent> ise = ISequenceElementAccessor.getISequenceEvent(from);
+                assert ise.isPresent() : Messages.SequenceDiagram_InternalError;
                 return ise.get();
             }
         };
@@ -739,8 +739,8 @@ public class SequenceDiagram extends AbstractSequenceElement {
     public List<EventEnd> findEnds(ISequenceEvent event) {
         List<EventEnd> ends = new ArrayList<>();
         EObject seqDiag = getNotationDiagram().getElement();
-        Option<EObject> semanticEvent = event.getSemanticTargetElement();
-        if (seqDiag instanceof SequenceDDiagram && semanticEvent.some()) {
+        java.util.Optional<EObject> semanticEvent = event.getSemanticTargetElement();
+        if (seqDiag instanceof SequenceDDiagram && semanticEvent.isPresent()) {
             for (EventEnd ee : ((SequenceDDiagram) seqDiag).getGraphicalOrdering().getEventEnds()) {
                 if (EventEndHelper.getSemanticEvents(ee).contains(semanticEvent.get())) {
                     ends.add(ee);
@@ -756,8 +756,8 @@ public class SequenceDiagram extends AbstractSequenceElement {
      * {@inheritDoc}
      */
     @Override
-    public Option<Lifeline> getLifeline() {
-        return Options.newNone();
+    public java.util.Optional<Lifeline> getLifeline() {
+        return java.util.Optional.empty();
     }
 
     /**

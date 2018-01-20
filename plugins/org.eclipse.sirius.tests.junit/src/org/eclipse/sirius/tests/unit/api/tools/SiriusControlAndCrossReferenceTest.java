@@ -26,7 +26,7 @@ import org.eclipse.sirius.business.api.query.DRepresentationQuery;
 import org.eclipse.sirius.business.api.session.danalysis.DAnalysisSession;
 import org.eclipse.sirius.business.api.session.danalysis.SimpleAnalysisSelector;
 import org.eclipse.sirius.common.tools.api.util.ReflectionHelper;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import org.eclipse.sirius.tests.support.api.SiriusDiagramTestCase;
 import org.eclipse.sirius.tools.api.command.ui.NoUICallback;
@@ -91,8 +91,8 @@ public class SiriusControlAndCrossReferenceTest extends SiriusDiagramTestCase {
 
         // Check cross referencer installation on the new aird.
         ECrossReferenceAdapter semanticCrossReferencer = session.getSemanticCrossReferencer();
-        Option<Object> internalXReferencer = ReflectionHelper.getFieldValueWithoutException(semanticCrossReferencer, "adapter");
-        if (internalXReferencer.some()) {
+        java.util.Optional<Object> internalXReferencer = ReflectionHelper.getFieldValueWithoutException(semanticCrossReferencer, "adapter");
+        if (internalXReferencer.isPresent()) {
             // The lazy cross referencer has an internal cross referencer
             assertTrue("The semantic internal cross referencer should stay installed on the controlled package", packageToControl.eAdapters().contains(internalXReferencer.get()));
         } else {

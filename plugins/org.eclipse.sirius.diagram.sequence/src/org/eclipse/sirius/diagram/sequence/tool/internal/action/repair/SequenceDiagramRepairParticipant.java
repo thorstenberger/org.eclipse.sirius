@@ -39,7 +39,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.SequenceDi
 import org.eclipse.sirius.diagram.sequence.business.internal.layout.flag.SequenceDiagramAbsoluteBoundsFlagger;
 import org.eclipse.sirius.diagram.ui.business.api.view.SiriusGMFHelper;
 import org.eclipse.sirius.diagram.ui.business.internal.query.DNodeQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DView;
@@ -123,8 +123,8 @@ public class SequenceDiagramRepairParticipant implements IRepairParticipant {
         CompoundCommand cc = new CompoundCommand(Messages.SequenceDiagramRepairParticipant_repairCommandName);
         for (SequenceDDiagram seqDDiag : Iterables.filter(new DViewQuery(container).getLoadedRepresentations(), SequenceDDiagram.class)) {
             final Diagram gmfDiagram = SiriusGMFHelper.getGmfDiagram(seqDDiag);
-            Option<SequenceDiagram> iSequenceDiagram = ISequenceElementAccessor.getSequenceDiagram(gmfDiagram);
-            if (iSequenceDiagram.some()) {
+            java.util.Optional<SequenceDiagram> iSequenceDiagram = ISequenceElementAccessor.getSequenceDiagram(gmfDiagram);
+            if (iSequenceDiagram.isPresent()) {
                 cc.append(new SequenceInstanceRoleRepairCommand(iSequenceDiagram.get(), domain));
                 cc.append(new FlagSequenceEventsCommand(domain, iSequenceDiagram.get()));
             }

@@ -39,8 +39,8 @@ import org.eclipse.sirius.diagram.description.style.NodeStyleDescription;
 import org.eclipse.sirius.diagram.ui.business.api.query.EdgeQuery;
 import org.eclipse.sirius.diagram.ui.business.internal.query.DNodeQuery;
 import org.eclipse.sirius.diagram.ui.tools.internal.util.GMFNotationUtilities;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DView;
@@ -255,8 +255,8 @@ public class DiagramRepresentationsFileMigrationParticipantV650 {
         for (Entry<View, List<Edge>> entry : edgesSortPerCommonAnchor.entrySet()) {
             List<Edge> edgesForAnchor = entry.getValue();
             if (edgesForAnchor.size() > 1) {
-                Option<String> replacementId = getReplacementId(edgesForAnchor, sourceAnchor);
-                if (replacementId.some()) {
+                java.util.Optional<String> replacementId = getReplacementId(edgesForAnchor, sourceAnchor);
+                if (replacementId.isPresent()) {
                     for (Edge edge : edgesForAnchor) {
                         Anchor anchor = getAnchor(edge, sourceAnchor);
                         if (anchor instanceof IdentityAnchor) {
@@ -282,7 +282,7 @@ public class DiagramRepresentationsFileMigrationParticipantV650 {
      *            the target one.
      * @return an optional String, null is there is no replacement id.
      */
-    private Option<String> getReplacementId(List<Edge> edges, boolean sourceAnchor) {
+    private java.util.Optional<String> getReplacementId(List<Edge> edges, boolean sourceAnchor) {
         String id = null;
         // This boolean is set to true if all the branches of the tree
         // have the same id.
@@ -324,9 +324,9 @@ public class DiagramRepresentationsFileMigrationParticipantV650 {
             if (onlyOneIdInTheTree) {
                 defaultTerminalString = id;
             }
-            return Options.newSome(defaultTerminalString);
+            return java.util.Optional.of(defaultTerminalString);
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

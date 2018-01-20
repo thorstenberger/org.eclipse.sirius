@@ -50,7 +50,7 @@ import org.eclipse.sirius.diagram.ui.business.internal.operation.MoveViewOperati
 import org.eclipse.sirius.diagram.ui.graphical.edit.policies.AirResizableEditPolicy;
 import org.eclipse.sirius.diagram.ui.tools.api.command.DoNothingCommand;
 import org.eclipse.sirius.diagram.ui.tools.internal.edit.command.CommandFactory;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -199,12 +199,12 @@ public class InstanceRoleResizableEditPolicy extends AirResizableEditPolicy {
         SequenceDiagram diagram = irep.getInstanceRole().getDiagram();
         for (Message msg : diagram.getAllMessages()) {
             ISequenceNode sourceElement = msg.getSourceElement();
-            Option<Lifeline> sourceLifeline = sourceElement.getLifeline();
+            java.util.Optional<Lifeline> sourceLifeline = sourceElement.getLifeline();
             ISequenceNode targetElement = msg.getTargetElement();
-            Option<Lifeline> targetLifeline = targetElement.getLifeline();
-            if (sourceLifeline.some() && targetElement instanceof LostMessageEnd) {
+            java.util.Optional<Lifeline> targetLifeline = targetElement.getLifeline();
+            if (sourceLifeline.isPresent() && targetElement instanceof LostMessageEnd) {
                 lostNodes.put(sourceLifeline.get().getInstanceRole(), (LostMessageEnd) targetElement);
-            } else if (sourceElement instanceof LostMessageEnd && targetLifeline.some()) {
+            } else if (sourceElement instanceof LostMessageEnd && targetLifeline.isPresent()) {
                 lostNodes.put(targetLifeline.get().getInstanceRole(), (LostMessageEnd) sourceElement);
             }
         }

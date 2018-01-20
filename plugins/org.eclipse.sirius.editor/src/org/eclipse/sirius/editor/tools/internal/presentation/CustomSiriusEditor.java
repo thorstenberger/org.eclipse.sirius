@@ -71,7 +71,7 @@ import org.eclipse.sirius.editor.editorPlugin.SiriusEditor;
 import org.eclipse.sirius.editor.editorPlugin.SiriusEditorPlugin;
 import org.eclipse.sirius.editor.properties.validation.SiriusInterpreterErrorDecorator;
 import org.eclipse.sirius.editor.tools.internal.actions.ValidateAction;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ui.business.api.template.RepresentationTemplateEditManager;
 import org.eclipse.sirius.viewpoint.description.DAnnotation;
 import org.eclipse.sirius.viewpoint.description.Group;
@@ -411,14 +411,14 @@ public class CustomSiriusEditor extends SiriusEditor implements IEObjectNavigabl
             private Set<EObject> getRequiredViewpoints(final ViewpointRegistry registry, ResourceSet resourceSet) {
                 Set<EObject> viewpoints = new HashSet<>();
                 for (final URI uri : loader.getRequiredViewpoints()) {
-                    Option<URI> provider = registry.getProvider(uri);
-                    if (provider.some()) {
+                    java.util.Optional<URI> provider = registry.getProvider(uri);
+                    if (provider.isPresent()) {
                         Resource res = resourceSet.getResource(provider.get(), true);
                         viewpoints.add(Iterables.find(registry.getSiriusResourceHandler().collectViewpointDefinitions(res), new Predicate<Viewpoint>() {
                             @Override
                             public boolean apply(Viewpoint input) {
-                                Option<URI> inputURI = new ViewpointQuery(input).getViewpointURI();
-                                return inputURI.some() && inputURI.get().equals(uri);
+                                java.util.Optional<URI> inputURI = new ViewpointQuery(input).getViewpointURI();
+                                return inputURI.isPresent() && inputURI.get().equals(uri);
                             }
                         }));
                     }

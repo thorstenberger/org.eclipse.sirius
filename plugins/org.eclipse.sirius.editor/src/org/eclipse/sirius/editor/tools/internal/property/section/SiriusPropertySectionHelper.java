@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.sirius.business.api.query.EObjectQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.description.DescriptionPackage;
 import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
 import org.eclipse.sirius.viewpoint.description.RepresentationImportDescription;
@@ -45,8 +45,8 @@ public final class SiriusPropertySectionHelper {
         if (eObject.equals(representationDescription)) {
             return true;
         } else {
-            Option<EObject> desc = new EObjectQuery(eObject).getFirstAncestorOfType(DescriptionPackage.Literals.REPRESENTATION_DESCRIPTION);
-            return desc.some() && desc.get().equals(representationDescription);
+            java.util.Optional<EObject> desc = new EObjectQuery(eObject).getFirstAncestorOfType(DescriptionPackage.Literals.REPRESENTATION_DESCRIPTION);
+            return desc.isPresent() && desc.get().equals(representationDescription);
         }
     }
 

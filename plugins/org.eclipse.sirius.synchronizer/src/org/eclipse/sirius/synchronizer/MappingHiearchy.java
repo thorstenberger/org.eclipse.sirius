@@ -12,8 +12,8 @@ package org.eclipse.sirius.synchronizer;
 
 import java.util.Iterator;
 
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.collect.AbstractIterator;
 
@@ -51,15 +51,15 @@ public class MappingHiearchy {
 
     private static class HiearchyIterator extends AbstractIterator<Mapping> {
 
-        private Option<? extends Mapping> cur;
+        private java.util.Optional<? extends Mapping> cur;
 
         public HiearchyIterator(Mapping start) {
-            this.cur = Options.newSome(start);
+            this.cur = java.util.Optional.of(start);
         }
 
         @Override
         protected Mapping computeNext() {
-            if (cur.some()) {
+            if (cur.isPresent()) {
                 Mapping toReturn = cur.get();
                 cur = toReturn.getSuper();
                 return toReturn;

@@ -13,8 +13,8 @@ package org.eclipse.sirius.synchronizer;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -87,7 +87,7 @@ public class RefreshPlanner {
         Iterable<? extends Mapping> mappingsCreatingElements = Iterables.filter(childMappings, new Predicate<Mapping>() {
             @Override
             public boolean apply(Mapping input) {
-                return input.getCreator().some();
+                return input.getCreator().isPresent();
             }
         });
         Iterable<Collection<MappingHiearchy>> transformedHiearchy = Iterables.transform(mappingsCreatingElements, toHierarchy);
@@ -97,10 +97,10 @@ public class RefreshPlanner {
             Iterator<Mapping> it = nodeHiearch.fromMostSpecificToMostGeneral();
             while (it.hasNext()) {
                 Mapping cur = it.next();
-                if (cur.isEnabled() && cur.getCreator().some()) {
-                    Option<EvaluatedSemanticPartition> par = invalidator.hasFastResult(container.getDescriptor().getSourceElement(), cur.getSemanticPartition(), container);
-                    if (!par.some()) {
-                        par = Options.newSome(cur.getSemanticPartition().evaluate(container.getDescriptor().getSourceElement(), container));
+                if (cur.isEnabled() && cur.getCreator().isPresent()) {
+                    java.util.Optional<EvaluatedSemanticPartition> par = invalidator.hasFastResult(container.getDescriptor().getSourceElement(), cur.getSemanticPartition(), container);
+                    if (!par.isPresent()) {
+                        par = java.util.Optional.of(cur.getSemanticPartition().evaluate(container.getDescriptor().getSourceElement(), container));
                     }
                     Collection<? extends OutputDescriptor> allCandidateDescriptors = cur.getCreator().get().computeDescriptors(container, par.get().elements());
                     post.appendOutputDescritorsKeepingTheMostSpecific(allCandidateDescriptors);

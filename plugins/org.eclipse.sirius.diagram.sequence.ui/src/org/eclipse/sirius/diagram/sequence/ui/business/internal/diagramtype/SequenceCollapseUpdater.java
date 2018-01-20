@@ -23,8 +23,8 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.Lifeline;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.ObservationPoint;
 import org.eclipse.sirius.diagram.ui.business.api.helper.graphicalfilters.CollapseUpdater;
 import org.eclipse.sirius.diagram.ui.tools.internal.figure.ICollapseMode;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -53,7 +53,7 @@ public class SequenceCollapseUpdater extends CollapseUpdater {
     /**
      * {@inheritDoc}
      */
-    protected void synchronizeCollapseFiltersAndGMFBounds(DDiagramElement element, Option<Node> optionalNode, boolean add, Class<? extends CollapseFilter> kindOfFilter) {
+    protected void synchronizeCollapseFiltersAndGMFBounds(DDiagramElement element, java.util.Optional<Node> optionalNode, boolean add, Class<? extends CollapseFilter> kindOfFilter) {
 
         if (InstanceRole.viewpointElementPredicate().apply(element))
             return;
@@ -99,8 +99,8 @@ public class SequenceCollapseUpdater extends CollapseUpdater {
      *      DDiagramElement)
      */
     @Override
-    public Option<Bounds> getExpandedBounds(Node node, DDiagramElement element) {
-        Option<Bounds> optionalBounds;
+    public java.util.Optional<Bounds> getExpandedBounds(Node node, DDiagramElement element) {
+        java.util.Optional<Bounds> optionalBounds;
         if (!specificCollapsePredicate.apply(element)) {
             optionalBounds = super.getExpandedBounds(node, element);
         } else {
@@ -108,7 +108,7 @@ public class SequenceCollapseUpdater extends CollapseUpdater {
             if (filter != null) {
                 optionalBounds = getExpandedBounds(node, new Dimension(filter.getWidth(), filter.getHeight()));
             } else {
-                optionalBounds = Options.newNone();
+                optionalBounds = java.util.Optional.empty();
             }
         }
         return optionalBounds;
@@ -126,7 +126,7 @@ public class SequenceCollapseUpdater extends CollapseUpdater {
      *         current layout constraint of the <code>node</code> is not a
      *         Bounds.
      */
-    public Option<Bounds> getExpandedBounds(Node node, Dimension expandedSize) {
+    public java.util.Optional<Bounds> getExpandedBounds(Node node, Dimension expandedSize) {
         LayoutConstraint layoutConstraint = node.getLayoutConstraint();
         if (layoutConstraint instanceof Bounds) {
             Bounds bounds = (Bounds) layoutConstraint;
@@ -139,8 +139,8 @@ public class SequenceCollapseUpdater extends CollapseUpdater {
             newBounds.setY(newY);
             newBounds.setWidth(expandedSize.width);
             newBounds.setHeight(expandedSize.height);
-            return Options.newSome(newBounds);
+            return java.util.Optional.of(newBounds);
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 }

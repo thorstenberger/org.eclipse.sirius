@@ -13,7 +13,7 @@ package org.eclipse.sirius.business.internal.movida.registry;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.sirius.business.api.query.ViewpointURIQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Preconditions;
 /**
@@ -48,8 +48,8 @@ public final class ViewpointURIConverter extends ExtensibleURIConverterImpl {
     public URI normalize(URI uri) {
         if (ViewpointURIQuery.isValidViewpointURI(uri)) {
             ViewpointURIQuery q = new ViewpointURIQuery(uri);
-            Option<Entry> entry = registry.getEntry(q.getBaseURI());
-            if (entry.some()) {
+            java.util.Optional<Entry> entry = registry.getEntry(q.getBaseURI());
+            if (entry.isPresent()) {
                 return entry.get().getResource().getURI();
             }
         }

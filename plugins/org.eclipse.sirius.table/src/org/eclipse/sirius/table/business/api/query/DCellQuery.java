@@ -19,8 +19,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.exception.FeatureNotFoundException;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.table.metamodel.table.DCell;
 import org.eclipse.sirius.table.metamodel.table.DCellStyle;
 import org.eclipse.sirius.table.metamodel.table.DTableElementStyle;
@@ -75,7 +75,7 @@ public class DCellQuery {
      * @return an optional DTableElementStyle to use for the foreground of this
      *         cell (one of cell, line or column).
      */
-    public Option<DTableElementStyle> getForegroundStyleToApply() {
+    public java.util.Optional<DTableElementStyle> getForegroundStyleToApply() {
         DTableElementStyle styleToApply = null;
         DCellStyle currentCellStyle = cell.getCurrentStyle();
         boolean cellStyleWithDefaultValue = false;
@@ -153,21 +153,21 @@ public class DCellQuery {
         return getStyleToApply(styleToApply, cellStyleWithDefaultValue);
     }
 
-    private Option<DTableElementStyle> getStyleToApply(DTableElementStyle styleToApply, boolean cellStyleWithDefaultValue) {
-        Option<DTableElementStyle> result;
+    private java.util.Optional<DTableElementStyle> getStyleToApply(DTableElementStyle styleToApply, boolean cellStyleWithDefaultValue) {
+        java.util.Optional<DTableElementStyle> result;
         if (styleToApply == null) {
             if (cellStyleWithDefaultValue) {
                 // The default style of a Cell have only default value
                 // (attributes not set) but we send it anyway for the default of
                 // font size and font type (normal).
-                result = Options.newSome((DTableElementStyle) cell.getCurrentStyle());
+                result = java.util.Optional.of((DTableElementStyle) cell.getCurrentStyle());
             } else {
                 // This should happens if the style used only default value
                 // (unset value) so in this case we don't create a style.
-                result = Options.newSome(DEFAULT_STYLE);
+                result = java.util.Optional.of(DEFAULT_STYLE);
             }
         } else {
-            result = Options.newSome(styleToApply);
+            result = java.util.Optional.of(styleToApply);
         }
         return result;
     }
@@ -186,7 +186,7 @@ public class DCellQuery {
      * @return an optional DTableElementStyle to use for the foreground of this
      *         cell (one of cell, line or column).
      */
-    public Option<DTableElementStyle> getBackgroundStyleToApply() {
+    public java.util.Optional<DTableElementStyle> getBackgroundStyleToApply() {
         DTableElementStyle styleToApply = null;
         DCellStyle currentCellStyle = cell.getCurrentStyle();
         boolean cellStyleWithDefaultValue = false;

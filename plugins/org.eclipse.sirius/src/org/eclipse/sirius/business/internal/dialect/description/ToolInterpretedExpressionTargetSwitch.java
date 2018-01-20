@@ -21,8 +21,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.dialect.description.IInterpretedExpressionQuery;
 import org.eclipse.sirius.business.api.dialect.description.IInterpretedExpressionTargetSwitch;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.description.Extension;
 import org.eclipse.sirius.viewpoint.description.PasteTargetDescription;
 import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
@@ -68,7 +68,7 @@ import org.eclipse.sirius.viewpoint.description.validation.ValidationRule;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Collection<String>>> {
+public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<java.util.Optional<Collection<String>>> {
 
     /**
      * Constant used in switches on feature id to consider the case when the feature must not be considered.
@@ -102,18 +102,18 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> doSwitch(EObject theEObject) {
-        Option<Collection<String>> doSwitch = super.doSwitch(theEObject);
+    public java.util.Optional<Collection<String>> doSwitch(EObject theEObject) {
+        java.util.Optional<Collection<String>> doSwitch = super.doSwitch(theEObject);
         if (doSwitch != null) {
             return doSwitch;
         }
         Collection<String> targets = Collections.emptySet();
-        return Options.newSome(targets);
+        return java.util.Optional.of(targets);
     }
 
     @Override
-    protected Option<Collection<String>> doSwitch(EClass theEClass, EObject theEObject) {
-        Option<Collection<String>> result = null;
+    protected java.util.Optional<Collection<String>> doSwitch(EClass theEClass, EObject theEObject) {
+        java.util.Optional<Collection<String>> result = null;
 
         if (theEClass.eContainer() == modelPackage) {
             result = doSwitch(theEClass.getClassifierID(), theEObject);
@@ -182,15 +182,15 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> caseMappingBasedToolDescription(MappingBasedToolDescription tool) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseMappingBasedToolDescription(MappingBasedToolDescription tool) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getMappingBasedToolDescription())) {
         case ToolPackage.MAPPING_BASED_TOOL_DESCRIPTION__PRECONDITION:
         case ToolPackage.MAPPING_BASED_TOOL_DESCRIPTION__ELEMENTS_TO_SELECT:
         case DO_NOT_CONSIDER_FEATURE:
             // Default case for MappingBasedToolDescription, if subclasses or
             // dialects did not return a specific result.
-            result = Options.newNone();
+            result = java.util.Optional.empty();
             break;
         default:
             break;
@@ -199,15 +199,15 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> caseAbstractToolDescription(AbstractToolDescription tool) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseAbstractToolDescription(AbstractToolDescription tool) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getAbstractToolDescription())) {
         case ToolPackage.ABSTRACT_TOOL_DESCRIPTION__PRECONDITION:
         case ToolPackage.ABSTRACT_TOOL_DESCRIPTION__ELEMENTS_TO_SELECT:
         case DO_NOT_CONSIDER_FEATURE:
             // Default case for AbstractToolDescription, if subclasses or
             // dialects did not return a specific result.
-            result = Options.newNone();
+            result = java.util.Optional.empty();
             break;
         default:
             break;
@@ -216,13 +216,13 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> caseToolDescription(ToolDescription object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseToolDescription(ToolDescription object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getToolDescription())) {
         case ToolPackage.TOOL_DESCRIPTION__PRECONDITION:
         case ToolPackage.TOOL_DESCRIPTION__ELEMENTS_TO_SELECT:
         case DO_NOT_CONSIDER_FEATURE:
-            result = Options.newNone();
+            result = java.util.Optional.empty();
             break;
         default:
             break;
@@ -231,13 +231,13 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> caseOperationAction(OperationAction object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseOperationAction(OperationAction object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getOperationAction())) {
         case ToolPackage.OPERATION_ACTION__PRECONDITION:
         case ToolPackage.OPERATION_ACTION__ELEMENTS_TO_SELECT:
         case DO_NOT_CONSIDER_FEATURE:
-            result = Options.newNone();
+            result = java.util.Optional.empty();
             break;
         default:
             break;
@@ -246,20 +246,20 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> casePasteDescription(PasteDescription object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> casePasteDescription(PasteDescription object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getPasteDescription())) {
         case ToolPackage.PASTE_DESCRIPTION__PRECONDITION:
         case ToolPackage.PASTE_DESCRIPTION__ELEMENTS_TO_SELECT:
         case DO_NOT_CONSIDER_FEATURE:
             Collection<String> targets = new LinkedHashSet<>();
             for (PasteTargetDescription container : object.getContainers()) {
-                Option<Collection<String>> targetsFromMapping = globalSwitch.doSwitch(container, false);
-                if (targetsFromMapping.some()) {
+                java.util.Optional<Collection<String>> targetsFromMapping = globalSwitch.doSwitch(container, false);
+                if (targetsFromMapping.isPresent()) {
                     targets.addAll(targetsFromMapping.get());
                 }
             }
-            result = Options.newSome(targets);
+            result = java.util.Optional.of(targets);
             break;
         default:
             break;
@@ -268,8 +268,8 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> caseAcceleoVariable(AcceleoVariable object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseAcceleoVariable(AcceleoVariable object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getAcceleoVariable())) {
         case ToolPackage.ACCELEO_VARIABLE__COMPUTATION_EXPRESSION:
         case DO_NOT_CONSIDER_FEATURE:
@@ -282,8 +282,8 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> caseSelectModelElementVariable(SelectModelElementVariable object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseSelectModelElementVariable(SelectModelElementVariable object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getSelectModelElementVariable())) {
         case ToolPackage.SELECT_MODEL_ELEMENT_VARIABLE__CANDIDATES_EXPRESSION:
         case ToolPackage.SELECT_MODEL_ELEMENT_VARIABLE__CHILDREN_EXPRESSION:
@@ -298,8 +298,8 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> casePaneBasedSelectionWizardDescription(PaneBasedSelectionWizardDescription toolDescription) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> casePaneBasedSelectionWizardDescription(PaneBasedSelectionWizardDescription toolDescription) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getPaneBasedSelectionWizardDescription())) {
         case ToolPackage.PANE_BASED_SELECTION_WIZARD_DESCRIPTION__CANDIDATES_EXPRESSION:
         case ToolPackage.PANE_BASED_SELECTION_WIZARD_DESCRIPTION__CHILDREN_EXPRESSION:
@@ -308,7 +308,7 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
         case ToolPackage.PANE_BASED_SELECTION_WIZARD_DESCRIPTION__PRECONDITION:
         case ToolPackage.PANE_BASED_SELECTION_WIZARD_DESCRIPTION__ELEMENTS_TO_SELECT:
         case DO_NOT_CONSIDER_FEATURE:
-            result = Options.newNone();
+            result = java.util.Optional.empty();
             break;
         default:
             break;
@@ -317,8 +317,8 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> caseSelectionWizardDescription(SelectionWizardDescription toolDescription) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseSelectionWizardDescription(SelectionWizardDescription toolDescription) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getSelectionWizardDescription())) {
         case ToolPackage.SELECTION_WIZARD_DESCRIPTION__CANDIDATES_EXPRESSION:
         case ToolPackage.SELECTION_WIZARD_DESCRIPTION__CHILDREN_EXPRESSION:
@@ -326,7 +326,7 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
         case ToolPackage.SELECTION_WIZARD_DESCRIPTION__PRECONDITION:
         case ToolPackage.SELECTION_WIZARD_DESCRIPTION__ELEMENTS_TO_SELECT:
         case DO_NOT_CONSIDER_FEATURE:
-            result = Options.newNone();
+            result = java.util.Optional.empty();
             break;
         default:
             break;
@@ -335,13 +335,13 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> casePopupMenu(PopupMenu object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> casePopupMenu(PopupMenu object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getPopupMenu())) {
         case ToolPackage.POPUP_MENU__PRECONDITION:
         case ToolPackage.POPUP_MENU__ELEMENTS_TO_SELECT:
         case DO_NOT_CONSIDER_FEATURE:
-            result = Options.newNone();
+            result = java.util.Optional.empty();
             break;
         default:
             break;
@@ -350,13 +350,13 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> caseExternalJavaAction(ExternalJavaAction object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseExternalJavaAction(ExternalJavaAction object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getExternalJavaAction())) {
         case ToolPackage.EXTERNAL_JAVA_ACTION__PRECONDITION:
         case ToolPackage.EXTERNAL_JAVA_ACTION__ELEMENTS_TO_SELECT:
         case DO_NOT_CONSIDER_FEATURE:
-            result = Options.newNone();
+            result = java.util.Optional.empty();
             break;
         default:
             break;
@@ -365,13 +365,13 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> caseExternalJavaActionCall(ExternalJavaActionCall object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseExternalJavaActionCall(ExternalJavaActionCall object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getExternalJavaActionCall())) {
         case ToolPackage.EXTERNAL_JAVA_ACTION_CALL__PRECONDITION:
         case ToolPackage.EXTERNAL_JAVA_ACTION_CALL__ELEMENTS_TO_SELECT:
         case DO_NOT_CONSIDER_FEATURE:
-            result = Options.newNone();
+            result = java.util.Optional.empty();
             break;
         default:
             break;
@@ -380,12 +380,12 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> caseExternalJavaActionParameter(ExternalJavaActionParameter object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseExternalJavaActionParameter(ExternalJavaActionParameter object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(ToolPackage.eINSTANCE.getExternalJavaActionParameter())) {
         case ToolPackage.EXTERNAL_JAVA_ACTION_PARAMETER__VALUE:
         case DO_NOT_CONSIDER_FEATURE:
-            result = Options.newNone();
+            result = java.util.Optional.empty();
             break;
         default:
             break;
@@ -394,9 +394,9 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> caseRepresentationCreationDescription(RepresentationCreationDescription toolDescription) {
+    public java.util.Optional<Collection<String>> caseRepresentationCreationDescription(RepresentationCreationDescription toolDescription) {
         Collection<String> targets = new LinkedHashSet<>();
-        Option<Collection<String>> result = Options.newSome(targets);
+        java.util.Optional<Collection<String>> result = java.util.Optional.of(targets);
         switch (getFeatureId(ToolPackage.eINSTANCE.getRepresentationCreationDescription())) {
         case ToolPackage.REPRESENTATION_CREATION_DESCRIPTION__TITLE_EXPRESSION:
         case ToolPackage.REPRESENTATION_CREATION_DESCRIPTION__BROWSE_EXPRESSION:
@@ -405,12 +405,12 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
         case DO_NOT_CONSIDER_FEATURE:
             for (RepresentationElementMapping mapping : toolDescription.getMappings()) {
                 IInterpretedExpressionQuery interpretedExpressionQuery = DialectManager.INSTANCE.createInterpretedExpressionQuery(mapping, null);
-                Option<Collection<String>> mappingTypes = interpretedExpressionQuery.getTargetDomainClasses();
-                if (mappingTypes.some()) {
+                java.util.Optional<Collection<String>> mappingTypes = interpretedExpressionQuery.getTargetDomainClasses();
+                if (mappingTypes.isPresent()) {
                     targets.addAll(mappingTypes.get());
                 }
             }
-            result = Options.newSome(targets);
+            result = java.util.Optional.of(targets);
             break;
         default:
             break;
@@ -419,9 +419,9 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> caseRepresentationNavigationDescription(RepresentationNavigationDescription toolDescription) {
+    public java.util.Optional<Collection<String>> caseRepresentationNavigationDescription(RepresentationNavigationDescription toolDescription) {
         Collection<String> targets = new LinkedHashSet<>();
-        Option<Collection<String>> result = Options.newSome(targets);
+        java.util.Optional<Collection<String>> result = java.util.Optional.of(targets);
         switch (getFeatureId(ToolPackage.eINSTANCE.getRepresentationNavigationDescription())) {
         case ToolPackage.REPRESENTATION_NAVIGATION_DESCRIPTION__BROWSE_EXPRESSION:
         case ToolPackage.REPRESENTATION_NAVIGATION_DESCRIPTION__NAVIGATION_NAME_EXPRESSION:
@@ -430,12 +430,12 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
         case DO_NOT_CONSIDER_FEATURE:
             for (RepresentationElementMapping mapping : toolDescription.getMappings()) {
                 IInterpretedExpressionQuery interpretedExpressionQuery = DialectManager.INSTANCE.createInterpretedExpressionQuery(mapping, null);
-                Option<Collection<String>> mappingTypes = interpretedExpressionQuery.getTargetDomainClasses();
-                if (mappingTypes.some()) {
+                java.util.Optional<Collection<String>> mappingTypes = interpretedExpressionQuery.getTargetDomainClasses();
+                if (mappingTypes.isPresent()) {
                     targets.addAll(mappingTypes.get());
                 }
             }
-            result = Options.newSome(targets);
+            result = java.util.Optional.of(targets);
             break;
         default:
             break;
@@ -444,36 +444,36 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> caseModelOperation(ModelOperation object) {
+    public java.util.Optional<Collection<String>> caseModelOperation(ModelOperation object) {
         // Default behavior for model operations : returning the first context
         // changing parent Model operation or the containing Tool
         return globalSwitch.doSwitch(getFirstContextChangingContainer(object), false);
     }
 
     @Override
-    public Option<Collection<String>> caseCase(Case object) {
+    public java.util.Optional<Collection<String>> caseCase(Case object) {
         // Default behavior for cases : returning the first context
         // changing parent Model operation or the containing Tool
         return globalSwitch.doSwitch(getFirstContextChangingContainer(object), false);
     }
 
     @Override
-    public Option<Collection<String>> caseToolFilterDescription(ToolFilterDescription object) {
+    public java.util.Optional<Collection<String>> caseToolFilterDescription(ToolFilterDescription object) {
         // Default behavior for tool filters : returning the first context
         // changing parent Model operation or the containing Tool
         return globalSwitch.doSwitch(getFirstContextChangingContainer(object), false);
     }
 
     @Override
-    public Option<Collection<String>> caseChangeContext(ChangeContext object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseChangeContext(ChangeContext object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(object.eClass())) {
         case ToolPackage.CHANGE_CONTEXT__BROWSE_EXPRESSION:
             return globalSwitch.doSwitch(getFirstContextChangingContainer(object), false);
         case DO_NOT_CONSIDER_FEATURE:
             // Compile expression and ask for return type.
             // EObject other wise.
-            result = Options.newNone();
+            result = java.util.Optional.empty();
             break;
         default:
             break;
@@ -482,15 +482,15 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> caseFor(For object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseFor(For object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(object.eClass())) {
         case ToolPackage.FOR__EXPRESSION:
             return globalSwitch.doSwitch(getFirstContextChangingContainer(object), false);
         case DO_NOT_CONSIDER_FEATURE:
             // Compile expression and ask for return type.
             // EObject other wise.
-            result = Options.newNone();
+            result = java.util.Optional.empty();
             break;
         default:
             break;
@@ -499,12 +499,12 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> caseCreateInstance(CreateInstance object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseCreateInstance(CreateInstance object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(object.eClass())) {
         case DO_NOT_CONSIDER_FEATURE:
             Collection<String> target = Collections.singleton(object.getTypeName());
-            result = Options.newSome(target);
+            result = java.util.Optional.of(target);
             break;
         default:
             break;
@@ -513,12 +513,12 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> caseFeatureChangeListener(FeatureChangeListener object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseFeatureChangeListener(FeatureChangeListener object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(object.eClass())) {
         case DO_NOT_CONSIDER_FEATURE:
             Collection<String> target = Collections.singleton(object.getDomainClass());
-            result = Options.newSome(target);
+            result = java.util.Optional.of(target);
             break;
         default:
             break;
@@ -527,12 +527,12 @@ public class ToolInterpretedExpressionTargetSwitch extends ToolSwitch<Option<Col
     }
 
     @Override
-    public Option<Collection<String>> caseLet(Let object) {
-        Option<Collection<String>> result = null;
+    public java.util.Optional<Collection<String>> caseLet(Let object) {
+        java.util.Optional<Collection<String>> result = null;
         switch (getFeatureId(object.eClass())) {
         case DO_NOT_CONSIDER_FEATURE:
             Collection<String> target = Collections.singleton(object.getVariableName());
-            result = Options.newSome(target);
+            result = java.util.Optional.of(target);
             break;
         default:
             break;

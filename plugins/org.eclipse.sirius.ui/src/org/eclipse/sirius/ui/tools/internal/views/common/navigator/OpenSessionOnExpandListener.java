@@ -27,8 +27,8 @@ import org.eclipse.jface.viewers.TreeExpansionEvent;
 import org.eclipse.sirius.business.api.helper.SiriusUtil;
 import org.eclipse.sirius.business.api.modelingproject.AbstractRepresentationsFileJob;
 import org.eclipse.sirius.business.api.modelingproject.ModelingProject;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ui.tools.api.project.ModelingProjectManager;
 import org.eclipse.sirius.ui.tools.internal.views.common.modelingproject.InvalidModelingProjectMarkerUpdaterJob;
 import org.eclipse.sirius.ui.tools.internal.views.common.modelingproject.OpenRepresentationsFileJob;
@@ -53,16 +53,16 @@ public class OpenSessionOnExpandListener implements ITreeViewerListener {
         if (event.getElement() instanceof IProject) {
             IProject projectExpanded = (IProject) event.getElement();
 
-            Option<ModelingProject> optionalModelingProject = ModelingProject.asModelingProject(projectExpanded);
-            if (optionalModelingProject.some()) {
-                Option<URI> optionalMainSessionFileURI = Options.newNone();
+            java.util.Optional<ModelingProject> optionalModelingProject = ModelingProject.asModelingProject(projectExpanded);
+            if (optionalModelingProject.isPresent()) {
+                java.util.Optional<URI> optionalMainSessionFileURI = java.util.Optional.empty();
                 try {
                     optionalMainSessionFileURI = optionalModelingProject.get().getMainRepresentationsFileURI(new NullProgressMonitor(), false, true);
                 } catch (IllegalArgumentException e) {
                     Job invalidModelingProjectMarkerUpdaterJob = new InvalidModelingProjectMarkerUpdaterJob(optionalModelingProject.get().getProject(), e.getMessage());
                     invalidModelingProjectMarkerUpdaterJob.schedule();
                 }
-                if (optionalMainSessionFileURI.some()) {
+                if (optionalMainSessionFileURI.isPresent()) {
                     // Load the main representations file of this modeling
                     // project if it's not already loaded or during loading.
                     ModelingProjectManager.INSTANCE.loadAndOpenRepresentationsFile(optionalMainSessionFileURI.get());
@@ -74,8 +74,8 @@ public class OpenSessionOnExpandListener implements ITreeViewerListener {
     }
 
     private void reactToFileExpanded(IFile expandedFile, final TreeExpansionEvent event) {
-        Option<ModelingProject> optionalModelingProject = ModelingProject.asModelingProject(expandedFile.getProject());
-        if (optionalModelingProject.some() || SiriusUtil.SESSION_RESOURCE_EXTENSION.equals(expandedFile.getFileExtension())) {
+        java.util.Optional<ModelingProject> optionalModelingProject = ModelingProject.asModelingProject(expandedFile.getProject());
+        if (optionalModelingProject.isPresent() || SiriusUtil.SESSION_RESOURCE_EXTENSION.equals(expandedFile.getFileExtension())) {
             if (OpenRepresentationsFileJob.shouldWaitOtherJobs()) {
                 // We are loading session(s), wait loading is finished and
                 // re-expand the tree

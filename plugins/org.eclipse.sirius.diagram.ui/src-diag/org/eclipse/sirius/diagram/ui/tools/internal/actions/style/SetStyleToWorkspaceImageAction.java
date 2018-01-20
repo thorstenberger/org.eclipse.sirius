@@ -31,7 +31,7 @@ import org.eclipse.sirius.diagram.ui.provider.Messages;
 import org.eclipse.sirius.diagram.ui.tools.api.image.DiagramImagesPath;
 import org.eclipse.sirius.ecore.extender.business.api.permission.IPermissionAuthority;
 import org.eclipse.sirius.ecore.extender.business.api.permission.PermissionAuthorityRegistry;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.BasicLabelStyle;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.IWorkbenchPage;
@@ -90,8 +90,8 @@ public class SetStyleToWorkspaceImageAction extends Action {
                     IDiagramElementEditPart diagramElementEditPart = (IDiagramElementEditPart) selectedEditPart;
                     DDiagramElement dde = diagramElementEditPart.resolveDiagramElement();
                     DDiagramElementQuery ddeQuery = new DDiagramElementQuery(dde);
-                    Option<BasicLabelStyle> oldStyle = ddeQuery.getLabelStyle();
-                    if (oldStyle.some()) {
+                    java.util.Optional<BasicLabelStyle> oldStyle = ddeQuery.getLabelStyle();
+                    if (oldStyle.isPresent()) {
                         BasicLabelStyle basicLabelStyle = oldStyle.get();
                         styles.add(basicLabelStyle);
                     }

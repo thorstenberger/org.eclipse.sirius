@@ -15,8 +15,8 @@ import java.util.Iterator;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.sirius.business.api.session.Session;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Sets;
@@ -68,12 +68,12 @@ public class SessionTransientAttachment extends AdapterImpl {
      *            the instance to inspect.
      * @return an optional SessionTransientAttachment.
      */
-    public static Option<SessionTransientAttachment> getSessionTransientAttachement(Notifier eObj) {
+    public static java.util.Optional<SessionTransientAttachment> getSessionTransientAttachement(Notifier eObj) {
         Iterator<SessionTransientAttachment> it = Iterators.filter(Sets.newLinkedHashSet(eObj.eAdapters()).iterator(), SessionTransientAttachment.class);
         if (it.hasNext()) {
-            return Options.newSome(it.next());
+            return java.util.Optional.of(it.next());
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
 }

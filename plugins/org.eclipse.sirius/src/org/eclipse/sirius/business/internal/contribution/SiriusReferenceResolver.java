@@ -19,8 +19,8 @@ import org.eclipse.sirius.description.contribution.ComputedEObjectReference;
 import org.eclipse.sirius.description.contribution.DirectEObjectReference;
 import org.eclipse.sirius.description.contribution.EObjectReference;
 import org.eclipse.sirius.description.contribution.util.ContributionSwitch;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Preconditions;
 
@@ -51,7 +51,7 @@ public class SiriusReferenceResolver implements ReferenceResolver {
     /**
      * {@inheritDoc}
      */
-    public Option<EObject> resolve(EObjectReference ref, final Map<String, Object> context) {
+    public java.util.Optional<EObject> resolve(EObjectReference ref, final Map<String, Object> context) {
         Preconditions.checkNotNull(ref);
 
         ContributionSwitch<EObject> contributionSwitch = new ContributionSwitch<EObject>() {
@@ -67,7 +67,7 @@ public class SiriusReferenceResolver implements ReferenceResolver {
         };
         EObject result = contributionSwitch.doSwitch(ref);
 
-        return Options.fromNullable(result);
+        return java.util.Optional.ofNullable(result);
     }
 
     private EObject resolveDirectReference(DirectEObjectReference directRef) {

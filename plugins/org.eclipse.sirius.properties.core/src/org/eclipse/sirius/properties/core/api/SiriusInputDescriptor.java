@@ -16,7 +16,7 @@ import java.util.Set;
 
 import org.eclipse.eef.core.api.InputDescriptor;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.properties.core.internal.SiriusContext;
 
 /**
@@ -47,8 +47,8 @@ public class SiriusInputDescriptor implements InputDescriptor {
 
     @Override
     public EObject getSemanticElement() {
-        Option<EObject> obj = context.getMainSemanticElement();
-        if (obj.some()) {
+        java.util.Optional<EObject> obj = context.getMainSemanticElement();
+        if (obj.isPresent()) {
             return obj.get();
         } else {
             return null;
@@ -64,8 +64,8 @@ public class SiriusInputDescriptor implements InputDescriptor {
     public Set<EObject> getAllSemanticElements() {
         Set<EObject> result = new LinkedHashSet<>();
         result.add(getSemanticElement());
-        Option<List<EObject>> additional = context.getAdditionalSemanticElements();
-        if (additional.some()) {
+        java.util.Optional<List<EObject>> additional = context.getAdditionalSemanticElements();
+        if (additional.isPresent()) {
             result.addAll(additional.get());
         }
         return result;

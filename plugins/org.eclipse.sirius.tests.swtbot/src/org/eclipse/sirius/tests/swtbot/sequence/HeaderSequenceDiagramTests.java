@@ -20,7 +20,7 @@ import org.eclipse.sirius.diagram.business.api.diagramtype.HeaderData;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.InstanceRoleEditPart;
 import org.eclipse.sirius.diagram.ui.tools.internal.editor.DDiagramEditorImpl;
 import org.eclipse.sirius.diagram.ui.tools.internal.editor.header.DiagramHeaderComposite;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.swtbot.support.api.business.UIDiagramRepresentation.ZoomLevel;
 import org.eclipse.sirius.tests.swtbot.support.api.business.UIResource;
 import org.eclipse.sirius.tests.swtbot.support.api.condition.CheckEditPartMoved;
@@ -70,8 +70,8 @@ public class HeaderSequenceDiagramTests extends AbstractDefaultModelSequenceTest
 
             sessionAirdResource = new UIResource(designerProject, FILE_DIR, getSessionModel());
             localSession = designerPerspective.openSessionFromFile(sessionAirdResource, true);
-            Option<String> dRepresentationName = getDRepresentationName();
-            if (dRepresentationName.some()) {
+            java.util.Optional<String> dRepresentationName = getDRepresentationName();
+            if (dRepresentationName.isPresent()) {
                 editor = (SWTBotSiriusDiagramEditor) openRepresentation(localSession.getOpenedSession(), getRepresentationId(), dRepresentationName.get(), DDiagram.class);
             }
         }

@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.synchronizer.internal.Messages;
 
 import com.google.common.collect.Iterables;
@@ -58,14 +58,14 @@ public class ModelToModelSynchronizer {
             Collection<OutputDescriptor> descriptorsToCreate = plan.getDescriptorsToCreate();
             Collection<CreatedOutput> descriptorsToRefresh = plan.getDescriptorsToRefresh();
             // Refresh children only if needed
-            Option<? extends ChildCreationSupport> childSupport = container.getChildSupport();
+            java.util.Optional<? extends ChildCreationSupport> childSupport = container.getChildSupport();
             if (container.synchronizeChildren(plan) || fullRefresh) {
                 int nbSteps = 1 + plan.getDescriptorToUpdateMapping().size() + descriptorsToRefresh.size();
-                if (childSupport.some()) {
+                if (childSupport.isPresent()) {
                     nbSteps += descriptorsToCreate.size() * 2 + descriptorsToDelete.size() + descriptorsToRefresh.size();
                 }
                 monitor.beginTask(Messages.ModelToModelSynchronizer_synchronizationTask, nbSteps);
-                if (childSupport.some()) {
+                if (childSupport.isPresent()) {
                     ChildCreationSupport containerChildSupport = childSupport.get();
                     for (CreatedOutput outDesc : descriptorsToDelete) {
                         containerChildSupport.deleteChild(outDesc);
@@ -116,7 +116,7 @@ public class ModelToModelSynchronizer {
                 }
             } else {
                 monitor.beginTask(Messages.ModelToModelSynchronizer_synchronizationTask, 1);
-                if (childSupport.some()) {
+                if (childSupport.isPresent()) {
                     EObject createdElement = container.getCreatedElement();
                     if (createdElement != null && descriptorsToRefresh.isEmpty() && !descriptorsToCreate.isEmpty()) {
                         // Create only one children not refreshed to have

@@ -22,7 +22,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.Operand;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.SequenceDiagram;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.State;
 import org.eclipse.sirius.diagram.sequence.business.internal.query.SequenceDiagramQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -87,8 +87,8 @@ public class DefaultMessageCreationValidator extends AbstractMessageCreationVali
      * @return true if sequenceEvent is a {@link ISequenceEvent} of
      *         lifelineTarget
      */
-    protected boolean isSequenceEventOfLifeline(ISequenceEvent sequenceEvent, Option<Lifeline> lifelineTarget) {
-        Option<Lifeline> lifeline = sequenceEvent.getLifeline();
+    protected boolean isSequenceEventOfLifeline(ISequenceEvent sequenceEvent, java.util.Optional<Lifeline> lifelineTarget) {
+        java.util.Optional<Lifeline> lifeline = sequenceEvent.getLifeline();
         if (sequenceEvent instanceof Message) {
             lifeline = ((Message) sequenceEvent).getSourceElement().getLifeline();
         }
@@ -107,7 +107,7 @@ public class DefaultMessageCreationValidator extends AbstractMessageCreationVali
      * @return true if sequenceEvent is a {@link Message} targeting (directly or
      *         indirectly) lifelineTarget
      */
-    protected boolean isMessageTargeting(ISequenceEvent sequenceEvent, Option<Lifeline> lifelineTarget) {
+    protected boolean isMessageTargeting(ISequenceEvent sequenceEvent, java.util.Optional<Lifeline> lifelineTarget) {
         boolean result = false;
         if (sequenceEvent instanceof Message) {
             Message message = (Message) sequenceEvent;
@@ -126,7 +126,7 @@ public class DefaultMessageCreationValidator extends AbstractMessageCreationVali
     private boolean validateNotCreatingMessageInDifferentOperands() {
         boolean result = true;
 
-        Option<Operand> sourceParentOperand = null;
+        java.util.Optional<Operand> sourceParentOperand = null;
         if (sequenceElementSource instanceof Lifeline) {
             sourceParentOperand = ((Lifeline) sequenceElementSource).getParentOperand(secondClickLocation.y);
         } else if (sequenceElementSource instanceof AbstractNodeEvent) {
@@ -137,7 +137,7 @@ public class DefaultMessageCreationValidator extends AbstractMessageCreationVali
             sourceParentOperand = ((InstanceRole) sequenceElementSource).getLifeline().get().getParentOperand(secondClickLocation.y);
         }
 
-        Option<Operand> targetParentOperand = null;
+        java.util.Optional<Operand> targetParentOperand = null;
         if (sequenceElementTarget instanceof Lifeline) {
             targetParentOperand = ((Lifeline) sequenceElementTarget).getParentOperand(secondClickLocation.y);
         } else if (sequenceElementTarget instanceof AbstractNodeEvent) {
@@ -162,9 +162,9 @@ public class DefaultMessageCreationValidator extends AbstractMessageCreationVali
      */
     private boolean validateNotCreatingMessageOnState() {
         boolean result = true;
-        Option<Lifeline> lifelineOption = sequenceElementTarget.getLifeline();
+        java.util.Optional<Lifeline> lifelineOption = sequenceElementTarget.getLifeline();
 
-        if (!lifelineOption.some()) {
+        if (!lifelineOption.isPresent()) {
             result = false;
         } else {
             Lifeline lifeline = lifelineOption.get();
@@ -185,7 +185,7 @@ public class DefaultMessageCreationValidator extends AbstractMessageCreationVali
      *         interaction use.
      */
     private boolean validateNotCreatingMessageInInteractionUse() {
-        Option<Lifeline> lifeline = sequenceElementTarget.getLifeline();
+        java.util.Optional<Lifeline> lifeline = sequenceElementTarget.getLifeline();
 
         Predicate<InteractionUse> interactionUseOnRealTargetLocation = new Predicate<InteractionUse>() {
             // Filters interaction use at the vertical position of the
@@ -195,7 +195,7 @@ public class DefaultMessageCreationValidator extends AbstractMessageCreationVali
             }
         };
 
-        return lifeline.some() && !Iterables.any(lifeline.get().getAllCoveringInteractionUses(), interactionUseOnRealTargetLocation);
+        return lifeline.isPresent() && !Iterables.any(lifeline.get().getAllCoveringInteractionUses(), interactionUseOnRealTargetLocation);
     }
 
     /**

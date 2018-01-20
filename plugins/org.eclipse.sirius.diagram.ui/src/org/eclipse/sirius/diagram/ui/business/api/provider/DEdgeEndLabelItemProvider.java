@@ -64,7 +64,7 @@ public class DEdgeEndLabelItemProvider extends AbstractDDiagramElementLabelItemP
         boolean isRelevant = false;
         if (edge != null) {
             DEdgeQuery candidateEdgeQuery = new DEdgeQuery(edge);
-            isRelevant = candidateEdgeQuery.getEndLabelStyle().some() && candidateEdgeQuery.hasNonEmptyEndNameDefinition();
+            isRelevant = candidateEdgeQuery.getEndLabelStyle().isPresent() && candidateEdgeQuery.hasNonEmptyEndNameDefinition();
         }
         return isRelevant;
     }

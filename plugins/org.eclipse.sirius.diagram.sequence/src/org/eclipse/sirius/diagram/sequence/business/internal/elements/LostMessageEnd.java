@@ -22,8 +22,8 @@ import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.EdgeTarget;
 import org.eclipse.sirius.diagram.sequence.Messages;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -110,25 +110,25 @@ public class LostMessageEnd extends AbstractSequenceNode {
      * 
      * @return the message which references this lost end.
      */
-    public Option<Message> getMessage() {
+    public java.util.Optional<Message> getMessage() {
         Message msg = null;
         Node node = getNotationNode();
         Iterable<Edge> srcEdges = Iterables.filter(node.getSourceEdges(), Edge.class);
         Iterable<Edge> tgtEdges = Iterables.filter(node.getTargetEdges(), Edge.class);
         for (Edge edge : Iterables.concat(srcEdges, tgtEdges)) {
-            Option<Message> message = ISequenceElementAccessor.getMessage(edge);
-            if (message.some()) {
+            java.util.Optional<Message> message = ISequenceElementAccessor.getMessage(edge);
+            if (message.isPresent()) {
                 msg = message.get();
                 break;
             }
         }
 
-        return Options.newSome(msg);
+        return java.util.Optional.of(msg);
     }
 
     @Override
-    public Option<Lifeline> getLifeline() {
-        return Options.newNone();
+    public java.util.Optional<Lifeline> getLifeline() {
+        return java.util.Optional.empty();
     }
 
     @Override

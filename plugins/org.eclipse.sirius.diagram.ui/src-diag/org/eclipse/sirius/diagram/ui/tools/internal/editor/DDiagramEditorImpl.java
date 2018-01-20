@@ -177,7 +177,7 @@ import org.eclipse.sirius.ecore.extender.business.api.permission.IAuthorityListe
 import org.eclipse.sirius.ecore.extender.business.api.permission.IPermissionAuthority;
 import org.eclipse.sirius.ecore.extender.business.api.permission.LockStatus;
 import org.eclipse.sirius.ecore.extender.business.api.permission.PermissionAuthorityRegistry;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.command.EditingDomainUndoContext;
 import org.eclipse.sirius.tools.api.interpreter.InterpreterRegistry;
 import org.eclipse.sirius.tools.api.permission.DRepresentationPermissionStatusListener;
@@ -925,8 +925,8 @@ public class DDiagramEditorImpl extends SiriusDiagramEditor implements DDiagramE
                                 DDiagramElementQuery query = new DDiagramElementQuery((DDiagramElement) selectedObject);
                                 result = query.canHideLabel() && !query.isLabelHidden();
                             } else if (selectedObject instanceof AbstractDDiagramElementLabelItemProvider) {
-                                Option<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) selectedObject).getDiagramElementTarget();
-                                if (optionTarget.some()) {
+                                java.util.Optional<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) selectedObject).getDiagramElementTarget();
+                                if (optionTarget.isPresent()) {
                                     DDiagramElementQuery query = new DDiagramElementQuery(optionTarget.get());
                                     result = query.canHideLabel() && !query.isLabelHidden();
                                 }
@@ -967,8 +967,8 @@ public class DDiagramEditorImpl extends SiriusDiagramEditor implements DDiagramE
                                 DDiagramElementQuery query = new DDiagramElementQuery((DDiagramElement) selectedObject);
                                 result = query.isLabelHidden();
                             } else if (selectedObject instanceof AbstractDDiagramElementLabelItemProvider) {
-                                Option<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) selectedObject).getDiagramElementTarget();
-                                if (optionTarget.some()) {
+                                java.util.Optional<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) selectedObject).getDiagramElementTarget();
+                                if (optionTarget.isPresent()) {
                                     DDiagramElementQuery query = new DDiagramElementQuery(optionTarget.get());
                                     result = query.isLabelHidden();
                                 }
@@ -1086,8 +1086,8 @@ public class DDiagramEditorImpl extends SiriusDiagramEditor implements DDiagramE
                         }
                     } else {
                         if (object instanceof AbstractDDiagramElementLabelItemProvider) {
-                            Option<DDiagramElement> diagramElementTarget = ((AbstractDDiagramElementLabelItemProvider) object).getDiagramElementTarget();
-                            if (diagramElementTarget.some()) {
+                            java.util.Optional<DDiagramElement> diagramElementTarget = ((AbstractDDiagramElementLabelItemProvider) object).getDiagramElementTarget();
+                            if (diagramElementTarget.isPresent()) {
                                 String elementID = EMFCoreUtil.getProxyID(diagramElementTarget.get());
                                 final List<IGraphicalEditPart> concernedEditParts = viewer.findEditPartsForElement(elementID, IGraphicalEditPart.class);
                                 result.addAll(Sets.newHashSet(Iterables.filter(concernedEditParts, AbstractDiagramNameEditPart.class)));

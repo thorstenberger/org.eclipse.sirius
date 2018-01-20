@@ -41,8 +41,8 @@ import org.eclipse.sirius.diagram.ui.internal.edit.parts.DNodeListNameEditPart;
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.NotationViewIDs;
 import org.eclipse.sirius.diagram.ui.part.SiriusVisualIDRegistry;
 import org.eclipse.sirius.diagram.ui.provider.DiagramUIPlugin;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.DStylizable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.FontData;
@@ -278,16 +278,16 @@ public class ViewQuery {
      * 
      * @return An optional {@link View}
      */
-    public Option<View> getAncestor(int... visualID) {
-        Option<View> result = Options.newNone();
+    public java.util.Optional<View> getAncestor(int... visualID) {
+        java.util.Optional<View> result = java.util.Optional.empty();
         int type = SiriusVisualIDRegistry.getVisualID(view.getType());
         for (int i = 0; i < visualID.length; i++) {
             if (type == visualID[i]) {
-                result = Options.newSome(view);
+                result = java.util.Optional.of(view);
                 break;
             }
         }
-        if (!result.some() && view.eContainer() instanceof View) {
+        if (!result.isPresent() && view.eContainer() instanceof View) {
             result = new ViewQuery((View) view.eContainer()).getAncestor(visualID);
         }
         return result;

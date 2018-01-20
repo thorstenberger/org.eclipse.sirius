@@ -138,8 +138,8 @@ public class MessageExtensionTest extends AbstractDefaultModelSequenceTests {
         ISequenceEvent iSequenceEvent = extendedMessagePart.getISequenceEvent();
         assertTrue("The current edge should be identified as a Message.", iSequenceEvent instanceof Message);
 
-        assertTrue("The current edge should be identified as a Message.", ISequenceElementAccessor.getISequenceElement(edge).some());
-        assertTrue("The current edge should be identified as a Message.", ISequenceElementAccessor.getMessage(edge).some());
+        assertTrue("The current edge should be identified as a Message.", ISequenceElementAccessor.getISequenceElement(edge).isPresent());
+        assertTrue("The current edge should be identified as a Message.", ISequenceElementAccessor.getMessage(edge).isPresent());
         assertSame("The corresponding Message should be unique.", iSequenceEvent, ISequenceElementAccessor.getMessage(edge).get());
 
         assertTrue("The current edge should be identified as a Message.", Message.viewpointElementPredicate().apply(dEdge));

@@ -17,8 +17,8 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.editparts.ViewportAutoexposeHelper;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * A {@link SiriusScroller} that make the scroll bigger if the cursor is
@@ -120,8 +120,8 @@ public class SiriusScroller extends ViewportAutoexposeHelper {
     public boolean step(Point where) {
         Viewport port = findViewport(owner);
 
-        Option<Point> loc = calculateScroll(port, where);
-        if (loc.some()) {
+        java.util.Optional<Point> loc = calculateScroll(port, where);
+        if (loc.isPresent()) {
             port.setViewLocation(loc.get());
         }
         return true;
@@ -139,9 +139,9 @@ public class SiriusScroller extends ViewportAutoexposeHelper {
      *            the cursor location
      * @return the scroll according to the cursor location and the editor bounds
      */
-    public Option<Point> calculateScroll(Viewport port, Point where) {
+    public java.util.Optional<Point> calculateScroll(Viewport port, Point where) {
 
-        Option<Point> result = Options.newNone();
+        java.util.Optional<Point> result = java.util.Optional.empty();
         int multiplicator = 1;
 
         // Step 1 : checking that the point is valid for scroll
@@ -177,7 +177,7 @@ public class SiriusScroller extends ViewportAutoexposeHelper {
             Point loc = port.getViewLocation();
 
             loc = updateLocationAccordingToPosition(scrollOffset, region, loc);
-            result = Options.newSome(loc);
+            result = java.util.Optional.of(loc);
         }
         return result;
     }

@@ -32,7 +32,7 @@ import org.eclipse.sirius.diagram.ui.business.internal.view.EdgeLabelLayoutData;
 import org.eclipse.sirius.diagram.ui.business.internal.view.EdgeLayoutData;
 import org.eclipse.sirius.diagram.ui.business.internal.view.LayoutData;
 import org.eclipse.sirius.diagram.ui.business.internal.view.SiriusLayoutDataManagerImpl;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * Manage the AbstractLayoutData during node creation or drag'n'drop. LayoutData
@@ -266,7 +266,7 @@ public interface SiriusLayoutDataManager {
      * 
      * @return the first data if it exists.
      */
-    Option<AbstractLayoutData> getData();
+    java.util.Optional<AbstractLayoutData> getData();
 
     /**
      * Get the list of created views with center layout.

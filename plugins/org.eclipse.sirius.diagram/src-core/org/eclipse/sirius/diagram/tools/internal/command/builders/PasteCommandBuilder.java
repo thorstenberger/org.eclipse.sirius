@@ -27,8 +27,8 @@ import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.Messages;
 import org.eclipse.sirius.diagram.business.api.query.EObjectQuery;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.tools.api.interpreter.InterpreterUtil;
 import org.eclipse.sirius.tools.internal.command.builders.ElementsToSelectTask;
@@ -176,7 +176,7 @@ public class PasteCommandBuilder extends AbstractDiagramCommandBuilder {
             variables.put(tool.getCopiedView(), droppedDiagramElement);
 
             result.getTasks().add(new InitInterpreterVariablesTask(variables, interpreter, uiCallback));
-            Option<DRepresentation> representation = new EObjectQuery(pasteTarget).getRepresentation();
+            java.util.Optional<DRepresentation> representation = new EObjectQuery(pasteTarget).getRepresentation();
             if (tool.getInitialOperation() != null && tool.getInitialOperation().getFirstModelOperations() != null) {
                 result.getTasks().add(taskHelper.buildTaskFromModelOperation(representation.get(), semanticPasteTarget, tool.getInitialOperation().getFirstModelOperations()));
             }
@@ -198,13 +198,13 @@ public class PasteCommandBuilder extends AbstractDiagramCommandBuilder {
      * {@inheritDoc}
      */
     @Override
-    protected Option<DDiagram> getDDiagram() {
+    protected java.util.Optional<DDiagram> getDDiagram() {
         DDiagram diagram = null;
         if (pasteTarget instanceof DDiagram) {
             diagram = (DDiagram) pasteTarget;
         } else {
             diagram = ((DDiagramElement) pasteTarget).getParentDiagram();
         }
-        return Options.newSome(diagram);
+        return java.util.Optional.of(diagram);
     }
 }

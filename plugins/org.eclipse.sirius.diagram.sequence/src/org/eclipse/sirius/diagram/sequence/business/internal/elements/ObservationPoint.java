@@ -21,8 +21,8 @@ import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.sequence.Messages;
 import org.eclipse.sirius.diagram.sequence.description.DescriptionPackage;
 import org.eclipse.sirius.diagram.sequence.ordering.EventEnd;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -89,8 +89,8 @@ public class ObservationPoint extends AbstractSequenceNode {
     }
 
     @Override
-    public Option<Lifeline> getLifeline() {
-        return Options.newNone();
+    public java.util.Optional<Lifeline> getLifeline() {
+        return java.util.Optional.empty();
     }
 
     @Override
@@ -110,16 +110,16 @@ public class ObservationPoint extends AbstractSequenceNode {
      * 
      * @return the observed EventEnd if valid.
      */
-    public Option<EventEnd> getObservedEventEnd() {
-        Option<EObject> semanticTargetElement = getSemanticTargetElement();
-        if (semanticTargetElement.some()) {
+    public java.util.Optional<EventEnd> getObservedEventEnd() {
+        java.util.Optional<EObject> semanticTargetElement = getSemanticTargetElement();
+        if (semanticTargetElement.isPresent()) {
             for (EventEnd eventEnd : getDiagram().getSequenceDDiagram().getSemanticOrdering().getEventEnds()) {
                 if (eventEnd.getSemanticEnd() == semanticTargetElement.get()) {
-                    return Options.newSome(eventEnd);
+                    return java.util.Optional.of(eventEnd);
                 }
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

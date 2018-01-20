@@ -25,7 +25,7 @@ import org.eclipse.sirius.diagram.ui.business.internal.migration.DiagramRepresen
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.DNodeContainerViewNodeContainerCompartment2EditPart;
 import org.eclipse.sirius.diagram.ui.internal.edit.parts.DNodeContainerViewNodeContainerCompartmentEditPart;
 import org.eclipse.sirius.diagram.ui.part.SiriusVisualIDRegistry;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import org.eclipse.sirius.tests.support.api.SiriusDiagramTestCase;
 import org.eclipse.sirius.viewpoint.DRepresentation;
@@ -90,8 +90,8 @@ public class MigrationCompartmentWithLayoutConstraintsTest extends SiriusDiagram
             for (DRepresentation representation : new DViewQuery(view).getLoadedRepresentations()) {
                 if (representation instanceof DDiagram) {
                     DDiagramGraphicalQuery query = new DDiagramGraphicalQuery((DDiagram) representation);
-                    Option<Diagram> option = query.getAssociatedGMFDiagram();
-                    if (option.some()) {
+                    java.util.Optional<Diagram> option = query.getAssociatedGMFDiagram();
+                    if (option.isPresent()) {
                         diagrams.add(option.get());
                     }
                 }

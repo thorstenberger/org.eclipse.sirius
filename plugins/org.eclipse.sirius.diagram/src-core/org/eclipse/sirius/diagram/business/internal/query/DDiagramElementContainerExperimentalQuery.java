@@ -15,8 +15,8 @@ import org.eclipse.sirius.diagram.DDiagramElementContainer;
 import org.eclipse.sirius.diagram.DNodeContainer;
 import org.eclipse.sirius.diagram.FlatContainerStyle;
 import org.eclipse.sirius.diagram.description.style.FlatContainerStyleDescription;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.description.style.LabelBorderStyleDescription;
 import org.eclipse.sirius.viewpoint.description.style.StyleDescription;
 
@@ -96,14 +96,14 @@ public class DDiagramElementContainerExperimentalQuery {
      * 
      * @return an {@link Option} with the found label border style if it exists.
      */
-    public Option<LabelBorderStyleDescription> getLabelBorderStyle() {
+    public java.util.Optional<LabelBorderStyleDescription> getLabelBorderStyle() {
         if (container.getStyle() instanceof FlatContainerStyle) {
             StyleDescription description = container.getStyle().getDescription();
             if (description instanceof FlatContainerStyleDescription) {
                 FlatContainerStyleDescription fcsd = (FlatContainerStyleDescription) description;
-                return Options.newSome(fcsd.getLabelBorderStyle());
+                return java.util.Optional.of(fcsd.getLabelBorderStyle());
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 }

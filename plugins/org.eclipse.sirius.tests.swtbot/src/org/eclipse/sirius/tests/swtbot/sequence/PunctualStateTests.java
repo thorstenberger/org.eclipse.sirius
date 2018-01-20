@@ -17,8 +17,8 @@ import org.eclipse.sirius.diagram.sequence.business.internal.layout.LayoutConsta
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.CombinedFragmentEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.ExecutionEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.StateEditPart;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tests.swtbot.sequence.condition.CheckNumberOfDescendants;
 import org.eclipse.sirius.tests.swtbot.support.api.business.UIDiagramRepresentation.ZoomLevel;
 import org.eclipse.sirius.tests.swtbot.support.api.condition.CheckEditPartMoved;
@@ -68,8 +68,8 @@ public class PunctualStateTests extends AbstractDefaultModelSequenceTests {
      * {@inheritDoc}
      */
     @Override
-    protected Option<String> getDRepresentationName() {
-        return Options.newSome(REPRESENTATION_NAME);
+    protected java.util.Optional<String> getDRepresentationName() {
+        return java.util.Optional.of(REPRESENTATION_NAME);
     }
 
     /**
@@ -114,8 +114,8 @@ public class PunctualStateTests extends AbstractDefaultModelSequenceTests {
         // Calculate the X position of the center of lifelines A and B
         int lifelineAPosition = getLifelineScreenX(LIFELINE_A);
         // Creation of an state
-        Option<SWTBotGefEditPart> newStateOption = createPunctualStateWithResult(lifelineAPosition, yScreenStateS1);
-        Assert.assertTrue(newStateOption.some());
+        java.util.Optional<SWTBotGefEditPart> newStateOption = createPunctualStateWithResult(lifelineAPosition, yScreenStateS1);
+        Assert.assertTrue(newStateOption.isPresent());
 
         stateS1Bot = newStateOption.get();
 
@@ -126,8 +126,8 @@ public class PunctualStateTests extends AbstractDefaultModelSequenceTests {
 
         // Test Creation of a state on a state is not possible
         int yExecA1 = stateS1ScreenBounds.getCenter().y;
-        Option<SWTBotGefEditPart> noStateOption = createPunctualStateWithResult(lifelineAPosition, yExecA1);
-        Assert.assertFalse(noStateOption.some());
+        java.util.Optional<SWTBotGefEditPart> noStateOption = createPunctualStateWithResult(lifelineAPosition, yExecA1);
+        Assert.assertFalse(noStateOption.isPresent());
     }
 
     /**
@@ -142,8 +142,8 @@ public class PunctualStateTests extends AbstractDefaultModelSequenceTests {
         int lifelineBPosition = getLifelineScreenX(LIFELINE_B);
 
         // Creation of an state on lifeline B
-        Option<SWTBotGefEditPart> newStateOption = createPunctualStateWithResult(lifelineBPosition, yScreenStateS1);
-        Assert.assertTrue(newStateOption.some());
+        java.util.Optional<SWTBotGefEditPart> newStateOption = createPunctualStateWithResult(lifelineBPosition, yScreenStateS1);
+        Assert.assertTrue(newStateOption.isPresent());
 
         stateS2Bot = newStateOption.get();
 
@@ -163,8 +163,8 @@ public class PunctualStateTests extends AbstractDefaultModelSequenceTests {
         int lifelineAPosition = getLifelineScreenX(LIFELINE_A);
 
         // Creation of an state on lifeline B
-        Option<SWTBotGefEditPart> newStateOption = createPunctualStateWithResult(lifelineAPosition, yScreenStateS2);
-        Assert.assertTrue(newStateOption.some());
+        java.util.Optional<SWTBotGefEditPart> newStateOption = createPunctualStateWithResult(lifelineAPosition, yScreenStateS2);
+        Assert.assertTrue(newStateOption.isPresent());
 
         stateS2Bot = newStateOption.get();
 
@@ -358,8 +358,8 @@ public class PunctualStateTests extends AbstractDefaultModelSequenceTests {
         assertEquals(newCFBounds, editor.getBounds(newCFBot));
         assertEquals(stateS1ScreenBounds, editor.getBounds(stateS1Bot));
 
-        Option<SWTBotGefEditPart> newStateOption = createPunctualStateWithResult(newCFBounds.getCenter().x, newCFBounds.y + LayoutConstants.COMBINED_FRAGMENT_TITLE_HEIGHT / 2);
-        assertFalse(newStateOption.some());
+        java.util.Optional<SWTBotGefEditPart> newStateOption = createPunctualStateWithResult(newCFBounds.getCenter().x, newCFBounds.y + LayoutConstants.COMBINED_FRAGMENT_TITLE_HEIGHT / 2);
+        assertFalse(newStateOption.isPresent());
 
         validateOrdering(4);
     }

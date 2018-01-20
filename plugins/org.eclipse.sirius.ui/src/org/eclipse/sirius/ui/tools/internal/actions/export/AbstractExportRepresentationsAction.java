@@ -32,7 +32,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.sirius.business.api.query.URIQuery;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ui.tools.api.actions.export.ExportAction;
 import org.eclipse.sirius.ui.tools.api.dialogs.AbstractExportRepresentationsAsImagesDialog;
 import org.eclipse.sirius.ui.tools.api.dialogs.ExportOneRepresentationAsImageDialog;
@@ -164,8 +164,8 @@ public abstract class AbstractExportRepresentationsAction extends Action {
     protected IPath getExportPath(DRepresentationDescriptor repDescriptor, Session session) {
         URI representationResourceURI = repDescriptor.getRepresentation().eResource().getURI();
         URIQuery uriQuery = new URIQuery(representationResourceURI);
-        Option<IResource> iResourceOption = uriQuery.getCorrespondingResource();
-        if (iResourceOption.some()) {
+        java.util.Optional<IResource> iResourceOption = uriQuery.getCorrespondingResource();
+        if (iResourceOption.isPresent()) {
             return iResourceOption.get().getParent().getLocation();
         }
 
@@ -173,7 +173,7 @@ public abstract class AbstractExportRepresentationsAction extends Action {
         URI mainSessionResourceURI = session.getSessionResource().getURI();
         uriQuery = new URIQuery(mainSessionResourceURI);
         iResourceOption = uriQuery.getCorrespondingResource();
-        if (iResourceOption.some()) {
+        if (iResourceOption.isPresent()) {
             exportPath = iResourceOption.get().getParent().getLocation();
         } else if (uriQuery.isInMemoryURI()) {
             String opaquePart = mainSessionResourceURI.opaquePart();

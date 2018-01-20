@@ -36,7 +36,7 @@ import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.business.internal.modelingproject.marker.ModelingMarker;
 import org.eclipse.sirius.common.tools.api.util.MarkerUtil;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ui.business.api.session.IEditingSession;
 import org.eclipse.sirius.ui.business.api.session.SessionHelper;
 import org.eclipse.sirius.ui.business.api.session.SessionUIManager;
@@ -204,13 +204,13 @@ public class OpenRepresentationsFileJob extends AbstractRepresentationsFileJob {
                 message = MessageFormat.format(Messages.OpenRepresentationsFileJob_loadingProblem_representationFile, representationsFileURI.toPlatformString(true), errorDetail);
             }
 
-            Option<IMarker> optionalMarker = MarkerUtil.addMarkerFor(project, message, IMarker.SEVERITY_ERROR, ModelingMarker.MARKER_TYPE);
-            if (optionalMarker.some() && exception instanceof Diagnostic) {
+            java.util.Optional<IMarker> optionalMarker = MarkerUtil.addMarkerFor(project, message, IMarker.SEVERITY_ERROR, ModelingMarker.MARKER_TYPE);
+            if (optionalMarker.isPresent() && exception instanceof Diagnostic) {
                 MarkerUtil.setAttribute(optionalMarker.get(), IMarker.LOCATION, ((Diagnostic) exception).getLocation());
             }
             // Set this project in invalid state
-            Option<ModelingProject> optionalModelingProject = ModelingProject.asModelingProject(project);
-            if (optionalModelingProject.some()) {
+            java.util.Optional<ModelingProject> optionalModelingProject = ModelingProject.asModelingProject(project);
+            if (optionalModelingProject.isPresent()) {
                 optionalModelingProject.get().setValid(false);
             }
         }

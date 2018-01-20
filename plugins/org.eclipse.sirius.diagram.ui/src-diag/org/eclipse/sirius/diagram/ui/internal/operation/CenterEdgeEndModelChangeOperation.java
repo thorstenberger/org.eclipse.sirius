@@ -55,8 +55,8 @@ import org.eclipse.sirius.diagram.ui.internal.edit.parts.DEdgeEditPart;
 import org.eclipse.sirius.diagram.ui.internal.refresh.GMFHelper;
 import org.eclipse.sirius.diagram.ui.tools.internal.routers.RectilinearEdgeUtil;
 import org.eclipse.sirius.diagram.ui.tools.internal.util.GMFNotationUtilities;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 import org.eclipse.ui.IEditorPart;
 
@@ -204,10 +204,10 @@ public class CenterEdgeEndModelChangeOperation extends AbstractModelChangeOperat
 
                 // We get the edge source and target nodes absolute bounds to
                 // compute absolute anchors coordinates
-                Option<Rectangle> sourceBounds = getAbsoluteSourceBounds(edgeSourceView);
-                Option<Rectangle> targetBounds = getAbsoluteTargetBounds(edgeTargetView);
+                java.util.Optional<Rectangle> sourceBounds = getAbsoluteSourceBounds(edgeSourceView);
+                java.util.Optional<Rectangle> targetBounds = getAbsoluteTargetBounds(edgeTargetView);
 
-                if (sourceBounds.some() && targetBounds.some()) {
+                if (sourceBounds.isPresent() && targetBounds.isPresent()) {
 
                     // Calculate the existing anchors absolute location
                     retrieveAndSetExistingAnchorsAbsoluteLocation(sourceBounds.get(), targetBounds.get());
@@ -246,7 +246,7 @@ public class CenterEdgeEndModelChangeOperation extends AbstractModelChangeOperat
      *            true if it represents the edge source, false otherwise.
      * @return the absolute bounds.
      */
-    private Option<Rectangle> getAbsoluteBounds(View gmfView, boolean isSource) {
+    private java.util.Optional<Rectangle> getAbsoluteBounds(View gmfView, boolean isSource) {
         if (connectionEditPart != null) {
             EditPart editPart = null;
             if (isSource) {
@@ -255,24 +255,24 @@ public class CenterEdgeEndModelChangeOperation extends AbstractModelChangeOperat
                 editPart = connectionEditPart.getTarget();
             }
             if (editPart instanceof GraphicalEditPart) {
-                return Options.newSome(GraphicalHelper.getAbsoluteBoundsIn100Percent((GraphicalEditPart) editPart));
+                return java.util.Optional.of(GraphicalHelper.getAbsoluteBoundsIn100Percent((GraphicalEditPart) editPart));
             }
         }
         return GMFHelper.getAbsoluteBounds(gmfView, true);
     }
 
-    private Option<Rectangle> getAbsoluteSourceBounds(View edgeSourceView) {
-        Option<Rectangle> option = getAbsoluteBounds(edgeSourceView, true);
-        if (sourceFigureSize != null && option.some()) {
+    private java.util.Optional<Rectangle> getAbsoluteSourceBounds(View edgeSourceView) {
+        java.util.Optional<Rectangle> option = getAbsoluteBounds(edgeSourceView, true);
+        if (sourceFigureSize != null && option.isPresent()) {
             Rectangle rectangle = option.get();
             rectangle.setSize(sourceFigureSize);
         }
         return option;
     }
 
-    private Option<Rectangle> getAbsoluteTargetBounds(View edgeTargetView) {
-        Option<Rectangle> option = getAbsoluteBounds(edgeTargetView, false);
-        if (targetFigureSize != null && option.some()) {
+    private java.util.Optional<Rectangle> getAbsoluteTargetBounds(View edgeTargetView) {
+        java.util.Optional<Rectangle> option = getAbsoluteBounds(edgeTargetView, false);
+        if (targetFigureSize != null && option.isPresent()) {
             Rectangle rectangle = option.get();
             rectangle.setSize(targetFigureSize);
         }
@@ -310,8 +310,8 @@ public class CenterEdgeEndModelChangeOperation extends AbstractModelChangeOperat
         else if (existingPointList.size() < 2) {
             existingPointList = new PointList(new int[] { 0, 0, 0, 0 });
         }
-        Option<Point> sourceConnectionPoint = Options.newNone();
-        Option<Point> targetConnectionPoint = Options.newNone();
+        java.util.Optional<Point> sourceConnectionPoint = java.util.Optional.empty();
+        java.util.Optional<Point> targetConnectionPoint = java.util.Optional.empty();
 
         if (center == CenteringStyle.BOTH || center == CenteringStyle.SOURCE) {
             sourceConnectionPoint = GraphicalHelper.getIntersection(sourceLineOrigin, sourceLineTerminus, sourceBounds, false);
@@ -320,14 +320,14 @@ public class CenterEdgeEndModelChangeOperation extends AbstractModelChangeOperat
             targetConnectionPoint = GraphicalHelper.getIntersection(targetLineOrigin, targetLineTerminus, targetBounds, false);
         }
 
-        if (sourceConnectionPoint.some() || targetConnectionPoint.some()) {
+        if (sourceConnectionPoint.isPresent() || targetConnectionPoint.isPresent()) {
 
-            if (sourceConnectionPoint.some()) {
+            if (sourceConnectionPoint.isPresent()) {
                 existingPointList.setPoint(sourceConnectionPoint.get(), 0);
                 centerSourceAnchor();
             }
 
-            if (targetConnectionPoint.some()) {
+            if (targetConnectionPoint.isPresent()) {
                 existingPointList.setPoint(targetConnectionPoint.get(), existingPointList.size() - 1);
                 centerTargetAnchor();
             }
@@ -389,9 +389,9 @@ public class CenterEdgeEndModelChangeOperation extends AbstractModelChangeOperat
     }
 
     private void computePointListByIntersections(PointList rectilinear, Rectangle sourceBounds, Rectangle targetBounds) {
-        Option<Point> sourceConnectionPoint = GraphicalHelper.getIntersection(existingSourceAnchorAbsoluteLocation, existingTargetAnchorAbsoluteLocation, sourceBounds, false);
-        Option<Point> targetConnectionPoint = GraphicalHelper.getIntersection(existingSourceAnchorAbsoluteLocation, existingTargetAnchorAbsoluteLocation, targetBounds, false);
-        if (sourceConnectionPoint.some() && targetConnectionPoint.some()) {
+        java.util.Optional<Point> sourceConnectionPoint = GraphicalHelper.getIntersection(existingSourceAnchorAbsoluteLocation, existingTargetAnchorAbsoluteLocation, sourceBounds, false);
+        java.util.Optional<Point> targetConnectionPoint = GraphicalHelper.getIntersection(existingSourceAnchorAbsoluteLocation, existingTargetAnchorAbsoluteLocation, targetBounds, false);
+        if (sourceConnectionPoint.isPresent() && targetConnectionPoint.isPresent()) {
             rectilinear.removeAllPoints();
             rectilinear.addPoint(sourceConnectionPoint.get());
             rectilinear.addPoint(targetConnectionPoint.get());
@@ -430,8 +430,8 @@ public class CenterEdgeEndModelChangeOperation extends AbstractModelChangeOperat
 
         PointList pointList = new PointList();
 
-        Option<PointList> option = getAbsolutePointListFromConnection();
-        if (option.some()) {
+        java.util.Optional<PointList> option = getAbsolutePointListFromConnection();
+        if (option.isPresent()) {
             pointList = option.get();
         } else {
             List<RelativeBendpoint> relativeBendpoints = bendpoints.getPoints();
@@ -544,10 +544,10 @@ public class CenterEdgeEndModelChangeOperation extends AbstractModelChangeOperat
                 (a1.preciseY() + gmfRelativeBendpoint.getSourceY()) * (1.0 - weight) + weight * (a2.preciseY() + gmfRelativeBendpoint.getTargetY()));
     }
 
-    private Option<PointList> getAbsolutePointListFromConnection() {
-        Option<PointList> pointList = Options.newNone();
+    private java.util.Optional<PointList> getAbsolutePointListFromConnection() {
+        java.util.Optional<PointList> pointList = java.util.Optional.empty();
         if (connection != null) {
-            pointList = Options.newSome(connection.getPoints().getCopy());
+            pointList = java.util.Optional.of(connection.getPoints().getCopy());
         }
 
         return pointList;
@@ -561,7 +561,7 @@ public class CenterEdgeEndModelChangeOperation extends AbstractModelChangeOperat
         if (connection != null || !useFigure) {
             return;
         }
-        Option<GraphicalEditPart> option = Options.newNone();
+        java.util.Optional<GraphicalEditPart> option = java.util.Optional.empty();
         final IEditorPart editorPart = EclipseUIUtil.getActiveEditor();
         if (editorPart instanceof DiagramEditor) {
             option = GMFHelper.getGraphicalEditPart(edge, (DiagramEditor) editorPart);
@@ -577,14 +577,14 @@ public class CenterEdgeEndModelChangeOperation extends AbstractModelChangeOperat
                 if (object instanceof DiagramEditor) {
                     option = GMFHelper.getGraphicalEditPart(edge, (DiagramEditor) object);
                 }
-                if (option.some()) {
+                if (option.isPresent()) {
                     break;
                 }
             }
 
         }
 
-        if (option.some()) {
+        if (option.isPresent()) {
             GraphicalEditPart editPart = option.get();
             if (editPart instanceof DEdgeEditPart) {
                 connectionEditPart = (DEdgeEditPart) editPart;

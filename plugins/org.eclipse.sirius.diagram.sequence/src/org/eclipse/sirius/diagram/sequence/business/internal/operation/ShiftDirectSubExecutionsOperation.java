@@ -19,7 +19,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.ISequenceE
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.ISequenceEvent;
 import org.eclipse.sirius.diagram.sequence.util.Range;
 import org.eclipse.sirius.diagram.ui.business.internal.operation.AbstractModelChangeOperation;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
@@ -57,8 +57,8 @@ public class ShiftDirectSubExecutionsOperation extends AbstractModelChangeOperat
     public Void execute() {
 
         for (View view : Iterables.filter(Iterables.filter(parent.getNotationView().getChildren(), View.class), AbstractNodeEvent.notationPredicate())) {
-            Option<AbstractNodeEvent> execution = ISequenceElementAccessor.getAbstractNodeEvent(view);
-            if (execution.some()) {
+            java.util.Optional<AbstractNodeEvent> execution = ISequenceElementAccessor.getAbstractNodeEvent(view);
+            if (execution.isPresent()) {
                 AbstractNodeEvent ise = execution.get();
                 Range rg = ise.getVerticalRange();
                 Range nrg = new Range(rg.getLowerBound() + deltaY, rg.getUpperBound() + deltaY);

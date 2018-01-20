@@ -28,7 +28,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.util.RangeSetter;
 import org.eclipse.sirius.diagram.sequence.description.DescriptionPackage;
 import org.eclipse.sirius.diagram.sequence.ordering.EventEnd;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -111,8 +111,8 @@ public class State extends AbstractNodeEvent {
         EObject viewContainer = this.view.eContainer();
         if (viewContainer instanceof View) {
             View parentView = (View) viewContainer;
-            Option<ISequenceEvent> parentElement = ISequenceElementAccessor.getISequenceEvent(parentView);
-            if (parentElement.some()) {
+            java.util.Optional<ISequenceEvent> parentElement = ISequenceElementAccessor.getISequenceEvent(parentView);
+            if (parentElement.isPresent()) {
                 return parentElement.get();
             }
         }
@@ -137,7 +137,7 @@ public class State extends AbstractNodeEvent {
     }
 
     @Override
-    public Option<Operand> getParentOperand() {
+    public java.util.Optional<Operand> getParentOperand() {
         return new ParentOperandFinder(this).getParentOperand();
     }
 
@@ -168,7 +168,7 @@ public class State extends AbstractNodeEvent {
     }
 
     @Override
-    public Option<Lifeline> getLifeline() {
+    public java.util.Optional<Lifeline> getLifeline() {
         return getParentLifeline();
     }
 

@@ -81,8 +81,8 @@ import org.eclipse.sirius.diagram.ui.tools.api.preferences.SiriusDiagramUiPrefer
 import org.eclipse.sirius.diagram.ui.tools.internal.preferences.SiriusDiagramUiInternalPreferencesKeys;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
 import org.eclipse.sirius.ecore.extender.tool.api.ModelUtils;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tests.support.internal.helper.CrossReferenceAdapterDetector;
 import org.eclipse.sirius.tools.api.command.ICommandFactory;
 import org.eclipse.sirius.tools.api.command.semantic.AddSemanticResourceCommand;
@@ -1934,13 +1934,13 @@ public abstract class SiriusTestCase extends TestCase {
      * @return the first {@link Viewpoint} found in the registry with the specified name, if any. The instance returned
      *         is the one from the {@link Viewpoint} registry's editing domain.
      */
-    protected Option<Viewpoint> findViewpoint(String name) {
+    protected java.util.Optional<Viewpoint> findViewpoint(String name) {
         for (Viewpoint vp : ViewpointRegistry.getInstance().getViewpoints()) {
             if (vp.getName().equals(name)) {
-                return Options.newSome(vp);
+                return java.util.Optional.of(vp);
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

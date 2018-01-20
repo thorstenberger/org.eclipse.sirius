@@ -14,7 +14,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmf.runtime.notation.View;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 
 import com.google.common.base.Function;
@@ -70,7 +70,7 @@ public interface ISequenceElement extends Adapter {
      * 
      * @return the semantic object that this element represents.
      */
-    Option<EObject> getSemanticTargetElement();
+    java.util.Optional<EObject> getSemanticTargetElement();
 
     /**
      * Returns the sequence diagram this element is part of.
@@ -85,7 +85,7 @@ public interface ISequenceElement extends Adapter {
      * 
      * @return the lifeline of the current node.
      */
-    Option<Lifeline> getLifeline();
+    java.util.Optional<Lifeline> getLifeline();
 
     /**
      * Returns the logical bounds of this element itself, excluding any attached

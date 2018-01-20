@@ -23,7 +23,7 @@ import org.eclipse.sirius.diagram.business.api.helper.filter.FilterService;
 import org.eclipse.sirius.diagram.business.api.query.CompositeFilterDescriptionQuery;
 import org.eclipse.sirius.diagram.business.api.query.DDiagramElementQuery;
 import org.eclipse.sirius.diagram.description.filter.CompositeFilterDescription;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -81,8 +81,8 @@ public class CompositeFilterApplicationBuilder {
 
         Iterable<CompositeFilterDescription> appliedHideFilters = Iterables.filter(appliedFilters, new IsHideFilter());
 
-        Option<AppliedCompositeFilters> appliedCompositeFilters = elementQuery.getAppliedCompositeFilters();
-        if (appliedCompositeFilters.some()) {
+        java.util.Optional<AppliedCompositeFilters> appliedCompositeFilters = elementQuery.getAppliedCompositeFilters();
+        if (appliedCompositeFilters.isPresent()) {
             updateFilterApplication(element, appliedCompositeFilters.get(), Lists.newArrayList(appliedHideFilters));
         } else if (!Iterables.isEmpty(appliedHideFilters)) {
             createFilterApplication(element, Lists.newArrayList(appliedHideFilters));

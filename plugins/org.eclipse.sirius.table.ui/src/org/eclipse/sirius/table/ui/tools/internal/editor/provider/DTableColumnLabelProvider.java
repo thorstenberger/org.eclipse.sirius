@@ -23,8 +23,8 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.table.business.api.helper.TableHelper;
 import org.eclipse.sirius.table.business.api.query.DCellQuery;
 import org.eclipse.sirius.table.metamodel.table.DCell;
@@ -88,14 +88,14 @@ public class DTableColumnLabelProvider extends ColumnLabelProvider implements IS
     public Color getBackground(final Object element) {
         Color result = null;
         if (column != null) {
-            Option<DCell> optionalCell = getDCell(element);
-            Option<DTableElementStyle> styleToApply = null;
-            if (optionalCell.some()) {
+            java.util.Optional<DCell> optionalCell = getDCell(element);
+            java.util.Optional<DTableElementStyle> styleToApply = null;
+            if (optionalCell.isPresent()) {
                 styleToApply = new DCellQuery(optionalCell.get()).getBackgroundStyleToApply();
             } else if (element instanceof DLine) {
                 styleToApply = TableHelper.getBackgroundStyleToApply((DLine) element, column);
             }
-            if (styleToApply != null && styleToApply.some()) {
+            if (styleToApply != null && styleToApply.isPresent()) {
                 final RGBValues rgb = styleToApply.get().getBackgroundColor();
                 if (rgb != null) {
                     result = VisualBindingManager.getDefault().getColorFromRGBValues(rgb);
@@ -113,14 +113,14 @@ public class DTableColumnLabelProvider extends ColumnLabelProvider implements IS
     @Override
     public Font getFont(final Object element) {
         if (column != null) {
-            Option<DCell> optionalCell = getDCell(element);
-            Option<DTableElementStyle> styleToApply = null;
-            if (optionalCell.some()) {
+            java.util.Optional<DCell> optionalCell = getDCell(element);
+            java.util.Optional<DTableElementStyle> styleToApply = null;
+            if (optionalCell.isPresent()) {
                 styleToApply = new DCellQuery(optionalCell.get()).getForegroundStyleToApply();
             } else if (element instanceof DLine) {
                 styleToApply = TableHelper.getForegroundStyleToApply((DLine) element, column);
             }
-            if (styleToApply != null && styleToApply.some()) {
+            if (styleToApply != null && styleToApply.isPresent()) {
                 final int size = styleToApply.get().getLabelSize();
                 List<FontFormat> labelFormat = new ArrayList<FontFormat>();
                 if (styleToApply.get().getLabelFormat() != null) {
@@ -142,14 +142,14 @@ public class DTableColumnLabelProvider extends ColumnLabelProvider implements IS
     @Override
     public Color getForeground(final Object element) {
         if (column != null) {
-            Option<DCell> optionalCell = getDCell(element);
-            Option<DTableElementStyle> styleToApply = null;
-            if (optionalCell.some()) {
+            java.util.Optional<DCell> optionalCell = getDCell(element);
+            java.util.Optional<DTableElementStyle> styleToApply = null;
+            if (optionalCell.isPresent()) {
                 styleToApply = new DCellQuery(optionalCell.get()).getForegroundStyleToApply();
             } else if (element instanceof DLine) {
                 styleToApply = TableHelper.getForegroundStyleToApply((DLine) element, column);
             }
-            if (styleToApply != null && styleToApply.some()) {
+            if (styleToApply != null && styleToApply.isPresent()) {
                 final RGBValues rgb = styleToApply.get().getForegroundColor();
                 if (rgb != null) {
                     return VisualBindingManager.getDefault().getColorFromRGBValues(rgb);
@@ -179,8 +179,8 @@ public class DTableColumnLabelProvider extends ColumnLabelProvider implements IS
             // We do not display the check box for multi-valued feature.
             boolean isNotMany = feature != null && !feature.isMany();
             if (isNotMany && eClassifier instanceof EDataType && ("Boolean".equals(((EDataType) eClassifier).getName()) || "EBoolean".equals(((EDataType) eClassifier).getName()))) { //$NON-NLS-1$ //$NON-NLS-2$
-                Option<DCell> optionalCell = TableHelper.getCell(line, column);
-                if (optionalCell.some()) {
+                java.util.Optional<DCell> optionalCell = TableHelper.getCell(line, column);
+                if (optionalCell.isPresent()) {
                     return getImage(Boolean.parseBoolean(optionalCell.get().getLabel()));
                 }
             }
@@ -196,8 +196,8 @@ public class DTableColumnLabelProvider extends ColumnLabelProvider implements IS
     @Override
     public String getText(final Object element) {
         String result = StringUtil.EMPTY_STRING;
-        Option<DCell> optionalCell = getDCell(element);
-        if (optionalCell.some()) {
+        java.util.Optional<DCell> optionalCell = getDCell(element);
+        if (optionalCell.isPresent()) {
             result = optionalCell.get().getLabel();
         }
         return result;
@@ -210,13 +210,13 @@ public class DTableColumnLabelProvider extends ColumnLabelProvider implements IS
      *            the DLine or DCell in which to look.
      * @return an optional cell
      */
-    protected Option<DCell> getDCell(final Object element) {
-        Option<DCell> optionalCell = Options.newNone();
+    protected java.util.Optional<DCell> getDCell(final Object element) {
+        java.util.Optional<DCell> optionalCell = java.util.Optional.empty();
         if (element instanceof DLine) {
             final DLine line = (DLine) element;
             optionalCell = TableHelper.getCell(line, column);
         } else if (element instanceof DCell) {
-            optionalCell = Options.newSome((DCell) element);
+            optionalCell = java.util.Optional.of((DCell) element);
         }
         return optionalCell;
     }
@@ -256,14 +256,14 @@ public class DTableColumnLabelProvider extends ColumnLabelProvider implements IS
 
     private boolean getStrikeout(Object element) {
         if (column != null) {
-            Option<DCell> optionalCell = getDCell(element);
-            Option<DTableElementStyle> styleToApply = null;
-            if (optionalCell.some()) {
+            java.util.Optional<DCell> optionalCell = getDCell(element);
+            java.util.Optional<DTableElementStyle> styleToApply = null;
+            if (optionalCell.isPresent()) {
                 styleToApply = new DCellQuery(optionalCell.get()).getForegroundStyleToApply();
             } else if (element instanceof DLine) {
                 styleToApply = TableHelper.getForegroundStyleToApply((DLine) element, column);
             }
-            if (styleToApply != null && styleToApply.some()) {
+            if (styleToApply != null && styleToApply.isPresent()) {
                 List<FontFormat> labelFormat = styleToApply.get().getLabelFormat();
                 if (labelFormat != null) {
                     return labelFormat.contains(FontFormat.STRIKE_THROUGH_LITERAL);
@@ -275,14 +275,14 @@ public class DTableColumnLabelProvider extends ColumnLabelProvider implements IS
 
     private boolean getUnderline(Object element) {
         if (column != null) {
-            Option<DCell> optionalCell = getDCell(element);
-            Option<DTableElementStyle> styleToApply = null;
-            if (optionalCell.some()) {
+            java.util.Optional<DCell> optionalCell = getDCell(element);
+            java.util.Optional<DTableElementStyle> styleToApply = null;
+            if (optionalCell.isPresent()) {
                 styleToApply = new DCellQuery(optionalCell.get()).getForegroundStyleToApply();
             } else if (element instanceof DLine) {
                 styleToApply = TableHelper.getForegroundStyleToApply((DLine) element, column);
             }
-            if (styleToApply != null && styleToApply.some()) {
+            if (styleToApply != null && styleToApply.isPresent()) {
                 List<FontFormat> labelFormat = styleToApply.get().getLabelFormat();
                 if (labelFormat != null) {
                     return labelFormat.contains(FontFormat.UNDERLINE_LITERAL);

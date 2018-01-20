@@ -29,7 +29,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.Operand;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.State;
 import org.eclipse.sirius.diagram.sequence.ordering.EventEnd;
 import org.eclipse.sirius.diagram.tools.internal.command.builders.GenericToolCommandBuilder;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.viewpoint.description.tool.ToolDescription;
 
@@ -93,7 +93,7 @@ public class SequenceGenericToolCommandBuilder extends GenericToolCommandBuilder
 
     @Override
     protected DCommand createEnclosingCommand() {
-        Option<DDiagram> parentDiagram = new EObjectQuery(containerView).getParentDiagram();
+        java.util.Optional<DDiagram> parentDiagram = new EObjectQuery(containerView).getParentDiagram();
         Predicate<DDiagramElement> viewpointElementPredicate = Predicates.or(Message.viewpointElementPredicate(), Execution.viewpointElementPredicate(), State.viewpointElementPredicate(),
                 CombinedFragment.viewpointElementPredicate(), Operand.viewpointElementPredicate(), InteractionUse.viewpointElementPredicate());
         SequenceCreatedEventsFlaggingSiriusCommand cmd = new SequenceCreatedEventsFlaggingSiriusCommand(editingDomain, getEnclosingCommandLabel(), parentDiagram.get(), viewpointElementPredicate);

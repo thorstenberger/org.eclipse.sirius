@@ -24,7 +24,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.Observatio
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.SequenceDiagram;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.State;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import org.eclipse.sirius.tests.unit.diagram.sequence.AbstractSequenceSiriusDiagramTests;
 import org.eclipse.sirius.tests.unit.diagram.sequence.InteractionsConstants;
@@ -82,60 +82,60 @@ public class SequenceDiagramElementsNavigationTests extends AbstractSequenceSiri
     }
 
     public void test_navigation_diagram_to_lifelines() {
-        Option<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(BASIC_MESSAGES_DIAGRAM, REPRESENTATION_TYPE);
+        java.util.Optional<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(BASIC_MESSAGES_DIAGRAM, REPRESENTATION_TYPE);
         List<Lifeline> lifelines = sequenceDiagram.get().getAllLifelines();
         Assert.assertEquals(4, lifelines.size());
         for (String name : Arrays.asList("a", "b", "c", "d")) {
-            Assert.assertTrue(getLifelineByName(lifelines, name).some());
+            Assert.assertTrue(getLifelineByName(lifelines, name).isPresent());
         }
     }
 
     public void test_find_all_messages_on_diagram() {
-        Option<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(BASIC_MESSAGES_DIAGRAM, REPRESENTATION_TYPE);
+        java.util.Optional<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(BASIC_MESSAGES_DIAGRAM, REPRESENTATION_TYPE);
         Set<Message> messages = sequenceDiagram.get().getAllMessages();
         Assert.assertNotNull(messages);
         Assert.assertEquals(7, messages.size());
         for (String name : Arrays.asList("m1", "m2", "m3", "m_create4", "m5", "m_destroy6", "m7")) {
-            Assert.assertTrue(getMessageByName(messages, name).some());
+            Assert.assertTrue(getMessageByName(messages, name).isPresent());
         }
     }
 
     public void test_find_all_executions_on_diagram() {
-        Option<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(BASIC_EXECUTIONS_DIAGRAM, REPRESENTATION_TYPE);
+        java.util.Optional<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(BASIC_EXECUTIONS_DIAGRAM, REPRESENTATION_TYPE);
         Set<Execution> executions = sequenceDiagram.get().getAllExecutions();
         Assert.assertNotNull(executions);
         Assert.assertEquals(11, executions.size());
         for (int i = 1; i <= 11; i++) {
-            Assert.assertTrue(getExecutionByName(executions, "e" + i).some());
+            Assert.assertTrue(getExecutionByName(executions, "e" + i).isPresent());
         }
     }
 
     public void test_find_all_states_on_diagram() {
-        Option<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(BASIC_EXECUTIONS_DIAGRAM, REPRESENTATION_TYPE);
+        java.util.Optional<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(BASIC_EXECUTIONS_DIAGRAM, REPRESENTATION_TYPE);
         Set<State> states = sequenceDiagram.get().getAllStates();
         Assert.assertNotNull(states);
         Assert.assertEquals(2, states.size());
     }
 
     public void test_find_all_lost_messages_end_on_diagram() {
-        Option<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(LOST_MESSAGE_END_DIAGRAM, REPRESENTATION_TYPE);
+        java.util.Optional<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(LOST_MESSAGE_END_DIAGRAM, REPRESENTATION_TYPE);
         Collection<LostMessageEnd> lme = sequenceDiagram.get().getAllLostMessageEnds();
         Assert.assertNotNull(lme);
         Assert.assertEquals(10, lme.size());
     }
 
     public void test_find_all_observation_point_on_diagram() {
-        Option<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(OBSERVATION_DIAGRAM, REPRESENTATION_TYPE);
+        java.util.Optional<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(OBSERVATION_DIAGRAM, REPRESENTATION_TYPE);
         Collection<ObservationPoint> obsPoints = sequenceDiagram.get().getAllObservationPoints();
         Assert.assertNotNull(obsPoints);
         Assert.assertEquals(22, obsPoints.size());
     }
 
     public void test_non_reflective_synchronous_message() throws Exception {
-        Option<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(COMPLEX_DIAGRAM, REPRESENTATION_TYPE);
-        Assert.assertTrue(sequenceDiagram.some());
-        Option<Execution> e1 = getExecutionByName(sequenceDiagram.get(), "e1");
-        Assert.assertTrue(e1.some());
+        java.util.Optional<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(COMPLEX_DIAGRAM, REPRESENTATION_TYPE);
+        Assert.assertTrue(sequenceDiagram.isPresent());
+        java.util.Optional<Execution> e1 = getExecutionByName(sequenceDiagram.get(), "e1");
+        Assert.assertTrue(e1.isPresent());
         // Test bounds and range
         // Assert.assertEquals(new Rectangle(270, 130, 20, 310),
         // e1.get().getProperLogicalBounds());
@@ -145,9 +145,9 @@ public class SequenceDiagramElementsNavigationTests extends AbstractSequenceSiri
         Assert.assertFalse(e1.get().isReflective());
         // Test linked messages
         Assert.assertEquals(2, e1.get().getLinkedMessages().size());
-        Assert.assertTrue(e1.get().getStartMessage().some());
+        Assert.assertTrue(e1.get().getStartMessage().isPresent());
         Assert.assertEquals(getMessageByName(sequenceDiagram.get(), "m1").get(), e1.get().getStartMessage().get());
-        Assert.assertTrue(e1.get().getEndMessage().some());
+        Assert.assertTrue(e1.get().getEndMessage().isPresent());
         Assert.assertEquals(getMessageByName(sequenceDiagram.get(), "m_return2").get(), e1.get().getEndMessage().get());
         Assert.assertFalse(e1.get().startsWithReflectiveMessage());
         Assert.assertFalse(e1.get().endsWithReflectiveMessage());
@@ -162,10 +162,10 @@ public class SequenceDiagramElementsNavigationTests extends AbstractSequenceSiri
     }
 
     public void _test_reflective_synchronous_message() {
-        Option<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(COMPLEX_DIAGRAM, REPRESENTATION_TYPE);
-        Assert.assertTrue(sequenceDiagram.some());
-        Option<Execution> e8 = getExecutionByName(sequenceDiagram.get(), "e8");
-        Assert.assertTrue(e8.some());
+        java.util.Optional<SequenceDiagram> sequenceDiagram = openSequenceDiagramOfType(COMPLEX_DIAGRAM, REPRESENTATION_TYPE);
+        Assert.assertTrue(sequenceDiagram.isPresent());
+        java.util.Optional<Execution> e8 = getExecutionByName(sequenceDiagram.get(), "e8");
+        Assert.assertTrue(e8.isPresent());
         // Test bounds and range
         // Assert.assertEquals(new Rectangle(455, 580, 20, 90),
         // e8.get().getProperLogicalBounds());
@@ -176,9 +176,9 @@ public class SequenceDiagramElementsNavigationTests extends AbstractSequenceSiri
         Assert.assertTrue(e8.get().isReflective());
         // Test linked messages
         Assert.assertEquals(2, e8.get().getLinkedMessages().size());
-        Assert.assertTrue(e8.get().getStartMessage().some());
+        Assert.assertTrue(e8.get().getStartMessage().isPresent());
         Assert.assertEquals(getMessageByName(sequenceDiagram.get(), "m16").get(), e8.get().getStartMessage().get());
-        Assert.assertTrue(e8.get().getEndMessage().some());
+        Assert.assertTrue(e8.get().getEndMessage().isPresent());
         Assert.assertEquals(getMessageByName(sequenceDiagram.get(), "m_return17").get(), e8.get().getEndMessage().get());
         Assert.assertTrue(e8.get().startsWithReflectiveMessage());
         Assert.assertTrue(e8.get().endsWithReflectiveMessage());

@@ -69,8 +69,8 @@ import org.eclipse.sirius.diagram.description.tool.DoubleClickDescription;
 import org.eclipse.sirius.diagram.description.tool.EdgeCreationDescription;
 import org.eclipse.sirius.diagram.description.tool.NodeCreationDescription;
 import org.eclipse.sirius.diagram.description.tool.ReconnectEdgeDescription;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tools.api.interpreter.context.SiriusInterpreterContextFactory;
 import org.eclipse.sirius.viewpoint.description.ConditionalStyleDescription;
 import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
@@ -383,7 +383,7 @@ public class DiagramInterpretedExpressionQuery extends AbstractInterpretedExpres
 
             if (toolContext instanceof OperationAction) {
                 OperationAction tool = (OperationAction) toolContext;
-                if (new EObjectQuery(tool).getFirstAncestorOfType(DescriptionPackage.Literals.DIAGRAM_DESCRIPTION).some()) {
+                if (new EObjectQuery(tool).getFirstAncestorOfType(DescriptionPackage.Literals.DIAGRAM_DESCRIPTION).isPresent()) {
                     availableVariables.put(IInterpreterSiriusVariables.DIAGRAM, VariableType.fromString(DIAGRAM_D_SEMANTIC_DIAGRAM));
                 }
                 availableVariables.put("views", VariableType.fromString("viewpoint.DSemanticDecorator")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -688,9 +688,9 @@ public class DiagramInterpretedExpressionQuery extends AbstractInterpretedExpres
          * @see org.eclipse.sirius.business.api.dialect.description.IInterpretedExpressionTargetSwitch#doSwitch(org.eclipse.emf.ecore.EObject)
          */
         @Override
-        public Option<Collection<String>> doSwitch(EObject target, boolean considerFeature) {
+        public java.util.Optional<Collection<String>> doSwitch(EObject target, boolean considerFeature) {
             Collection<String> targetTypes = new LinkedHashSet<>();
-            Option<Collection<String>> expressionTarget = Options.newSome(targetTypes);
+            java.util.Optional<Collection<String>> expressionTarget = java.util.Optional.of(targetTypes);
             if (target != null) {
                 // Step 1: trying to apply any contributed switch that matches
                 // the given target's EPackage
@@ -703,35 +703,35 @@ public class DiagramInterpretedExpressionQuery extends AbstractInterpretedExpres
                     }
                 }
                 // If no result has been found
-                if (expressionTarget.some() && expressionTarget.get().isEmpty()) {
+                if (expressionTarget.isPresent() && expressionTarget.get().isEmpty()) {
                     // Step 2: apply the Diagram description specific switch
                     diagramDescriptionSwitch.setConsiderFeature(considerFeature);
                     expressionTarget = diagramDescriptionSwitch.doSwitch(target);
                 }
 
                 // If no result has been found
-                if (expressionTarget.some() && expressionTarget.get().isEmpty()) {
+                if (expressionTarget.isPresent() && expressionTarget.get().isEmpty()) {
                     // Step 3: apply the Diagram style specific switch
                     diagramStyleSwitch.setConsiderFeature(considerFeature);
                     expressionTarget = diagramStyleSwitch.doSwitch(target);
                 }
 
                 // If no result has been found
-                if (expressionTarget.some() && expressionTarget.get().isEmpty()) {
+                if (expressionTarget.isPresent() && expressionTarget.get().isEmpty()) {
                     // Step 4: apply the Diagram tool specific switch
                     diagramToolSwitch.setConsiderFeature(considerFeature);
                     expressionTarget = diagramToolSwitch.doSwitch(target);
                 }
 
                 // If no result has been found
-                if (expressionTarget.some() && expressionTarget.get().isEmpty()) {
+                if (expressionTarget.isPresent() && expressionTarget.get().isEmpty()) {
                     // Step 5: apply the Diagram filter specific switch
                     diagramFilterSwitch.setConsiderFeature(considerFeature);
                     expressionTarget = diagramFilterSwitch.doSwitch(target);
                 }
 
                 // If no result has been found
-                if (expressionTarget.some() && expressionTarget.get().isEmpty()) {
+                if (expressionTarget.isPresent() && expressionTarget.get().isEmpty()) {
                     // Step 7 : we use the default switch
                     expressionTarget = defaultSwitch.doSwitch(target, considerFeature);
                 }

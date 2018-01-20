@@ -49,8 +49,8 @@ import org.eclipse.sirius.business.internal.movida.registry.monitoring.Viewpoint
 import org.eclipse.sirius.business.internal.movida.registry.monitoring.ViewpointResourceMonitor;
 import org.eclipse.sirius.business.internal.movida.registry.monitoring.WorkspaceMonitor;
 import org.eclipse.sirius.common.tools.api.util.EclipseUtil;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.base.relations.Relation;
 import org.eclipse.sirius.viewpoint.SiriusPlugin;
 import org.eclipse.sirius.viewpoint.description.Component;
@@ -318,12 +318,12 @@ public class ViewpointRegistry extends org.eclipse.sirius.business.api.component
      * @return the registry entry currently representing the specified logical
      *         Sirius.
      */
-    Option<Entry> getEntry(URI viewpointURI) {
+    java.util.Optional<Entry> getEntry(URI viewpointURI) {
         Preconditions.checkNotNull(viewpointURI);
         Preconditions.checkArgument(ViewpointURIQuery.isValidViewpointURI(viewpointURI));
         synchronized (this) {
             Entry entry = entries.get(viewpointURI);
-            return Options.fromNullable(entry);
+            return java.util.Optional.ofNullable(entry);
         }
     }
 
@@ -335,8 +335,8 @@ public class ViewpointRegistry extends org.eclipse.sirius.business.api.component
      *            the concrete URI of the potential VSM resource.
      */
     private void resourceAdded(URI uri) {
-        Option<Resource> vsm = load(uri);
-        if (vsm.some()) {
+        java.util.Optional<Resource> vsm = load(uri);
+        if (vsm.isPresent()) {
             MaskingChange change = maskingPolicy.resourceLoaded(vsm.get());
             updateEntries(change);
             updateResourcesStatus(change);
@@ -351,8 +351,8 @@ public class ViewpointRegistry extends org.eclipse.sirius.business.api.component
      *            the concrete URI of the VSM resource which was removed.
      */
     private void resourceRemoved(URI uri) {
-        Option<Resource> res = findResource(uri);
-        if (res.some()) {
+        java.util.Optional<Resource> res = findResource(uri);
+        if (res.isPresent()) {
             MaskingChange change = maskingPolicy.aboutToUnload(res.get());
             updateEntries(change);
             updateResourcesStatus(change);
@@ -400,7 +400,7 @@ public class ViewpointRegistry extends org.eclipse.sirius.business.api.component
         }
     }
 
-    private Option<Resource> findResource(final URI uri) {
+    private java.util.Optional<Resource> findResource(final URI uri) {
         try {
             Resource match = Iterables.find(resourceSet.getResources(), new Predicate<Resource>() {
                 @Override
@@ -408,9 +408,9 @@ public class ViewpointRegistry extends org.eclipse.sirius.business.api.component
                     return input.getURI().equals(uri);
                 }
             });
-            return match != null ? Options.newSome(match) : Options.<Resource> newNone();
+            return match != null ? java.util.Optional.of(match) : java.util.Optional.empty();
         } catch (NoSuchElementException nsee) {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
     }
 
@@ -420,24 +420,24 @@ public class ViewpointRegistry extends org.eclipse.sirius.business.api.component
      * other resources. The resource is loaded only if it can be done without
      * errors.
      */
-    private Option<Resource> load(URI uri) {
+    private java.util.Optional<Resource> load(URI uri) {
         Preconditions.checkNotNull(uri);
         Preconditions.checkArgument(uri.isPlatform(), "Unsupported URI scheme: " + uri); //$NON-NLS-1$
 
-        final Option<Resource> result;
+        final java.util.Optional<Resource> result;
         Resource vsm;
         try {
             vsm = resourceSet.getResource(uri, true);
             if (vsm == null) {
                 warning(MessageFormat.format("Unable to load the VSM at {0}", uri), null); //$NON-NLS-1$
-                result = Options.newNone();
+                result = java.util.Optional.empty();
             } else if (!vsm.getErrors().isEmpty()) {
                 warning(MessageFormat.format("Errors occured while trying to load the VSM at {0}", uri), null); //$NON-NLS-1$
                 vsm.unload();
                 resourceSet.getResources().remove(vsm);
-                result = Options.newNone();
+                result = java.util.Optional.empty();
             } else {
-                result = Options.newSome(vsm);
+                result = java.util.Optional.of(vsm);
             }
             return result;
         } catch (final WrappedException e) {
@@ -447,7 +447,7 @@ public class ViewpointRegistry extends org.eclipse.sirius.business.api.component
             /* CHECKSTYLE:ON */
             SiriusPlugin.getDefault().warning(UNABLE_TO_LOAD_THIS_FILE + uri, e);
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     private void ensureLoaded(Resource unmasked) {
@@ -601,12 +601,12 @@ public class ViewpointRegistry extends org.eclipse.sirius.business.api.component
      * 
      * @return the concrete URI of the resource which provides the Sirius.
      */
-    public Option<URI> getProvider(URI logicalURI) {
-        Option<Entry> entry = getEntry(logicalURI);
-        if (entry.some()) {
-            return Options.newSome(entry.get().getResource().getURI());
+    public java.util.Optional<URI> getProvider(URI logicalURI) {
+        java.util.Optional<Entry> entry = getEntry(logicalURI);
+        if (entry.isPresent()) {
+            return java.util.Optional.of(entry.get().getResource().getURI());
         } else {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
     }
 

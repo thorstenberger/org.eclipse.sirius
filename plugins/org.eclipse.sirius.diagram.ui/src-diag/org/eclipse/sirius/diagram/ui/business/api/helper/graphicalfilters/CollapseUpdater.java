@@ -32,8 +32,8 @@ import org.eclipse.sirius.diagram.business.api.diagramtype.IDiagramTypeDescripto
 import org.eclipse.sirius.diagram.business.api.query.DDiagramElementQuery;
 import org.eclipse.sirius.diagram.business.api.query.EObjectQuery;
 import org.eclipse.sirius.diagram.ui.business.api.query.NodeQuery;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
@@ -68,8 +68,8 @@ public class CollapseUpdater implements ICollapseUpdater {
         // DiagramDescriptionProvider handling this type of diagram and getting
         // a specific ICollapseUpdater
         for (final IDiagramTypeDescriptor diagramTypeDescriptor : DiagramTypeDescriptorRegistry.getInstance().getAllDiagramTypeDescriptors()) {
-            Option<? extends ICollapseUpdater> optionalCollapseUpdater = diagramTypeDescriptor.getDiagramDescriptionProvider().getCollapseUpdater(diagram);
-            if (optionalCollapseUpdater.some()) {
+            java.util.Optional<? extends ICollapseUpdater> optionalCollapseUpdater = diagramTypeDescriptor.getDiagramDescriptionProvider().getCollapseUpdater(diagram);
+            if (optionalCollapseUpdater.isPresent()) {
                 collapseUpdater = optionalCollapseUpdater.get();
             }
         }
@@ -93,11 +93,11 @@ public class CollapseUpdater implements ICollapseUpdater {
         Iterable<Node> nodes = Iterables.filter(eObjectQuery.getInverseReferences(NotationPackage.eINSTANCE.getView_Element()), Node.class);
         if (nodes.iterator().hasNext()) {
             Node node = nodes.iterator().next();
-            synchronizeCollapseFiltersAndGMFBounds(element, Options.newSome(node), add, kindOfFilter);
+            synchronizeCollapseFiltersAndGMFBounds(element, java.util.Optional.of(node), add, kindOfFilter);
         } else {
             // this case can happens in repair context where DDIagramElement
             // have not corresponding GMF Node yet.
-            synchronizeCollapseFiltersAndGMFBounds(element, Options.<Node> newNone(), add, kindOfFilter);
+            synchronizeCollapseFiltersAndGMFBounds(element, java.util.Optional.empty(), add, kindOfFilter);
         }
     }
 
@@ -119,7 +119,7 @@ public class CollapseUpdater implements ICollapseUpdater {
      *            the kind of filter to add or remove ( {@link CollapseFilter}
      *            or {@link IndirectlyCollapseFilter}
      */
-    protected void synchronizeCollapseFiltersAndGMFBounds(DDiagramElement element, Option<Node> optionalNode, boolean add, Class<? extends CollapseFilter> kindOfFilter) {
+    protected void synchronizeCollapseFiltersAndGMFBounds(DDiagramElement element, java.util.Optional<Node> optionalNode, boolean add, Class<? extends CollapseFilter> kindOfFilter) {
         if (add) {
             addNewGraphicalFilter(element, optionalNode, kindOfFilter);
         } else {
@@ -141,7 +141,7 @@ public class CollapseUpdater implements ICollapseUpdater {
      *            the kind of filter to add or remove ( {@link CollapseFilter}
      *            or {@link IndirectlyCollapseFilter}
      */
-    protected void addNewGraphicalFilter(DDiagramElement element, Option<Node> optionalNode, Class<? extends CollapseFilter> kindOfFilter) {
+    protected void addNewGraphicalFilter(DDiagramElement element, java.util.Optional<Node> optionalNode, Class<? extends CollapseFilter> kindOfFilter) {
         DDiagramElementQuery query = new DDiagramElementQuery(element);
         // Store if the element is directly or indirectly collapsed before
         // application.
@@ -177,8 +177,8 @@ public class CollapseUpdater implements ICollapseUpdater {
      *            indicates if the node is known has already collapsed and do
      *            not require to have its layout constraint collapsed again.
      */
-    public void storeInFilterAndCollapseBounds(DDiagramElement element, Option<Node> optionalNode, boolean isAlreayCollapsed) {
-        if (optionalNode.some()) {
+    public void storeInFilterAndCollapseBounds(DDiagramElement element, java.util.Optional<Node> optionalNode, boolean isAlreayCollapsed) {
+        if (optionalNode.isPresent()) {
             saveBoundsInFilter(optionalNode.get(), element);
 
             NodeQuery nodeQuery = new NodeQuery(optionalNode.get());
@@ -206,15 +206,15 @@ public class CollapseUpdater implements ICollapseUpdater {
      *            the kind of filter to add or remove ( {@link CollapseFilter}
      *            or {@link IndirectlyCollapseFilter}
      */
-    protected void removeGraphicalFilter(DDiagramElement element, Option<Node> optionalNode, Class<? extends CollapseFilter> kindOfFilter) {
+    protected void removeGraphicalFilter(DDiagramElement element, java.util.Optional<Node> optionalNode, Class<? extends CollapseFilter> kindOfFilter) {
         // Compute the expanded Bounds that will be used at the end if the node
         // is no more collapsed. This expanded bounds is computed now because
         // after removing all graphical filters is too late.
-        Option<Bounds> optionalExpandedBounds;
-        if (optionalNode.some()) {
+        java.util.Optional<Bounds> optionalExpandedBounds;
+        if (optionalNode.isPresent()) {
             optionalExpandedBounds = getExpandedBounds(optionalNode.get(), element);
         } else {
-            optionalExpandedBounds = Options.newNone();
+            optionalExpandedBounds = java.util.Optional.empty();
 
         }
         if (kindOfFilter.equals(CollapseFilter.class)) {
@@ -231,12 +231,12 @@ public class CollapseUpdater implements ICollapseUpdater {
             }
         }
 
-        if (optionalNode.some()) {
+        if (optionalNode.isPresent()) {
             NodeQuery nodeQuery = new NodeQuery(optionalNode.get());
             // if the node have no more collapse filter after having remove the
             // last one, we expand it (if it's a bordered node only)
             if (!nodeQuery.isCollapsed() && nodeQuery.isBorderedNode()) {
-                if (optionalExpandedBounds.some()) {
+                if (optionalExpandedBounds.isPresent()) {
                     optionalNode.get().setLayoutConstraint(optionalExpandedBounds.get());
                 }
             }
@@ -254,9 +254,9 @@ public class CollapseUpdater implements ICollapseUpdater {
      */
     public void collapseBounds(Node node, DDiagramElement element) {
         // Get the collapsed bounds
-        Option<Bounds> option = new NodeQuery(node).getCollapsedBounds();
+        java.util.Optional<Bounds> option = new NodeQuery(node).getCollapsedBounds();
 
-        if (option.some()) {
+        if (option.isPresent()) {
             node.setLayoutConstraint(option.get());
         }
     }
@@ -276,7 +276,7 @@ public class CollapseUpdater implements ICollapseUpdater {
      *         current layout constraint of the <code>node</code> is not a
      *         Bounds.
      */
-    public Option<Bounds> getExpandedBounds(Node node, DDiagramElement element) {
+    public java.util.Optional<Bounds> getExpandedBounds(Node node, DDiagramElement element) {
         return new NodeQuery(node).getExtendedBounds();
     }
 

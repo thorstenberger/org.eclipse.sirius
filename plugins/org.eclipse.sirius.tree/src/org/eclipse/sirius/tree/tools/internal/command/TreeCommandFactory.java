@@ -39,7 +39,7 @@ import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterSiriusVariabl
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
 import org.eclipse.sirius.ecore.extender.business.api.permission.IPermissionAuthority;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tools.api.command.AbstractCommandFactory;
 import org.eclipse.sirius.tools.api.command.DCommand;
 import org.eclipse.sirius.tools.api.command.InvalidPermissionCommand;
@@ -141,7 +141,7 @@ public class TreeCommandFactory extends AbstractCommandFactory implements ITreeC
                         if (deleteTool != null) {
                             addDeleteTreeElementFromTool(result, element, deleteTool);
                             addRefreshTask(parentTree, result, deleteTool);
-                            Option<DRepresentation> dRepresentation = new EObjectQuery(element).getRepresentation();
+                            java.util.Optional<DRepresentation> dRepresentation = new EObjectQuery(element).getRepresentation();
                             result.getTasks().add(new ElementsToSelectTask(deleteTool, InterpreterUtil.getInterpreter(element), element, dRepresentation.get()));
 
                             cmd = new NoNullResourceCommand(result, element);
@@ -278,7 +278,7 @@ public class TreeCommandFactory extends AbstractCommandFactory implements ITreeC
             if (commandTaskHelper.checkPrecondition(semanticCurrentElement, tool)) {
                 SiriusCommand createLineCommand = buildCommandFromModelOfTool(semanticCurrentElement, tool, lineContainer);
                 addRefreshTask(lineContainer, createLineCommand, tool);
-                Option<DRepresentation> dRepresentation = new EObjectQuery(lineContainer).getRepresentation();
+                java.util.Optional<DRepresentation> dRepresentation = new EObjectQuery(lineContainer).getRepresentation();
                 createLineCommand.getTasks().add(new ElementsToSelectTask(tool, InterpreterUtil.getInterpreter(lineContainer), semanticCurrentElement, dRepresentation.get()));
 
                 result = createLineCommand;
@@ -410,7 +410,7 @@ public class TreeCommandFactory extends AbstractCommandFactory implements ITreeC
         if (dropDec != null) {
             addRefreshTask(dropDec, result, dropTool);
         }
-        Option<DRepresentation> dRepresentation = new EObjectQuery(dropTarget).getRepresentation();
+        java.util.Optional<DRepresentation> dRepresentation = new EObjectQuery(dropTarget).getRepresentation();
         result.getTasks().add(new ElementsToSelectTask(dropTool, InterpreterUtil.getInterpreter(dropTarget), dropTarget.getTarget(), dRepresentation.get()));
 
         return result;
@@ -446,7 +446,7 @@ public class TreeCommandFactory extends AbstractCommandFactory implements ITreeC
 
         // Step 3 : adding task to refresh
         addRefreshTask(targetTree, result, null);
-        Option<DRepresentation> dRepresentation = new EObjectQuery(selectedItem).getRepresentation();
+        java.util.Optional<DRepresentation> dRepresentation = new EObjectQuery(selectedItem).getRepresentation();
         result.getTasks().add(new ElementsToSelectTask(operationAction, InterpreterUtil.getInterpreter(selectedItem.getTarget()), selectedItem.getTarget(), dRepresentation.get()));
 
         return result.chain(new RecordingCommand(domain) {
@@ -470,7 +470,7 @@ public class TreeCommandFactory extends AbstractCommandFactory implements ITreeC
         // Step 2 : creating a command for refreshing the representation
         final SiriusCommand dCommand = new SiriusCommand(this.domain, selectedItem.getName());
         addRefreshTask(selectedItem, dCommand, javaActionItem);
-        Option<DRepresentation> dRepresentation = new EObjectQuery(selectedItem).getRepresentation();
+        java.util.Optional<DRepresentation> dRepresentation = new EObjectQuery(selectedItem).getRepresentation();
         dCommand.getTasks().add(new ElementsToSelectTask(javaActionItem, InterpreterUtil.getInterpreter(selectedItem.getTarget()), selectedItem.getTarget(), dRepresentation.get()));
 
         compoundCommand.append(dCommand);

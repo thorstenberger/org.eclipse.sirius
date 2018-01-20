@@ -37,8 +37,8 @@ import org.eclipse.sirius.diagram.sequence.ordering.EventEnd;
 import org.eclipse.sirius.diagram.sequence.ordering.EventEndsOrdering;
 import org.eclipse.sirius.diagram.sequence.ordering.SingleEventEnd;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
@@ -211,11 +211,11 @@ public class Message extends AbstractSequenceElement implements ISequenceEvent {
     }
 
     @Override
-    public Option<Lifeline> getLifeline() {
+    public java.util.Optional<Lifeline> getLifeline() {
         if (isReflective()) {
             return getSourceLifeline();
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -225,9 +225,9 @@ public class Message extends AbstractSequenceElement implements ISequenceEvent {
      * @return <code>true</code> if this message is reflective.
      */
     public boolean isReflective() {
-        Option<Lifeline> sourceLifeline = getSourceLifeline();
-        Option<Lifeline> targetLifeline = getTargetLifeline();
-        return sourceLifeline.some() && targetLifeline.some() && sourceLifeline.get() == targetLifeline.get();
+        java.util.Optional<Lifeline> sourceLifeline = getSourceLifeline();
+        java.util.Optional<Lifeline> targetLifeline = getTargetLifeline();
+        return sourceLifeline.isPresent() && targetLifeline.isPresent() && sourceLifeline.get() == targetLifeline.get();
     }
 
     /**
@@ -235,12 +235,12 @@ public class Message extends AbstractSequenceElement implements ISequenceEvent {
      * 
      * @return the lifeline in the context of which this message is sent.
      */
-    public Option<Lifeline> getSourceLifeline() {
+    public java.util.Optional<Lifeline> getSourceLifeline() {
         ISequenceNode sourceElement = getSourceElement();
         if (sourceElement != null) {
             return sourceElement.getLifeline();
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -248,12 +248,12 @@ public class Message extends AbstractSequenceElement implements ISequenceEvent {
      * 
      * @return the lifeline in the context of which this message is received.
      */
-    public Option<Lifeline> getTargetLifeline() {
+    public java.util.Optional<Lifeline> getTargetLifeline() {
         ISequenceNode targetElement = getTargetElement();
         if (targetElement != null) {
             return targetElement.getLifeline();
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -270,8 +270,8 @@ public class Message extends AbstractSequenceElement implements ISequenceEvent {
      *         target lifeline is <code>local</code> it the source lifeline, and
      *         the source lifeline otherwise.
      */
-    public Option<Lifeline> getRemoteLifeline(Lifeline local) {
-        Option<Lifeline> sourceLifeline = getSourceLifeline();
+    public java.util.Optional<Lifeline> getRemoteLifeline(Lifeline local) {
+        java.util.Optional<Lifeline> sourceLifeline = getSourceLifeline();
         if (local == sourceLifeline.get()) {
             return getTargetLifeline();
         } else {
@@ -385,27 +385,27 @@ public class Message extends AbstractSequenceElement implements ISequenceEvent {
     }
 
     @Override
-    public Option<Operand> getParentOperand() {
-        Option<Lifeline> sourceLifeline = getSourceLifeline();
-        Option<Operand> sourceParentOperand = Options.newNone();
+    public java.util.Optional<Operand> getParentOperand() {
+        java.util.Optional<Lifeline> sourceLifeline = getSourceLifeline();
+        java.util.Optional<Operand> sourceParentOperand = java.util.Optional.empty();
         Range verticalRange = getVerticalRange();
-        if (sourceLifeline.some()) {
+        if (sourceLifeline.isPresent()) {
             sourceParentOperand = sourceLifeline.get().getParentOperand(verticalRange);
         }
 
-        Option<Lifeline> targetLifeline = getTargetLifeline();
-        Option<Operand> targetParentOperand = Options.newNone();
-        if (targetLifeline.some()) {
+        java.util.Optional<Lifeline> targetLifeline = getTargetLifeline();
+        java.util.Optional<Operand> targetParentOperand = java.util.Optional.empty();
+        if (targetLifeline.isPresent()) {
             targetParentOperand = targetLifeline.get().getParentOperand(verticalRange);
         }
 
-        boolean noOperand = !sourceParentOperand.some() && !targetParentOperand.some();
-        boolean lostEnd = sourceLifeline.some() && !targetLifeline.some() || !sourceLifeline.some() && targetLifeline.some();
+        boolean noOperand = !sourceParentOperand.isPresent() && !targetParentOperand.isPresent();
+        boolean lostEnd = sourceLifeline.isPresent() && !targetLifeline.isPresent() || !sourceLifeline.isPresent() && targetLifeline.isPresent();
         boolean sameOperand = lostEnd || noOperand || sourceParentOperand.get().equals(targetParentOperand.get());
         Preconditions.checkArgument(noOperand || sameOperand, Messages.Message_invalidOperand);
 
-        Option<Operand> parentOperand = sourceParentOperand;
-        if (!parentOperand.some()) {
+        java.util.Optional<Operand> parentOperand = sourceParentOperand;
+        if (!parentOperand.isPresent()) {
             parentOperand = targetParentOperand;
         }
 
@@ -514,11 +514,11 @@ public class Message extends AbstractSequenceElement implements ISequenceEvent {
         for (ISequenceEvent pertub : interEvents) {
             if (pertub instanceof Message) {
                 Message msg = (Message) pertub;
-                Option<Lifeline> sourceLifeline = msg.getSourceLifeline();
-                Option<Lifeline> targetLifeline = msg.getTargetLifeline();
-                if (targetLifeline.some() && targetLifeline.get().equals(lifeline)) {
+                java.util.Optional<Lifeline> sourceLifeline = msg.getSourceLifeline();
+                java.util.Optional<Lifeline> targetLifeline = msg.getTargetLifeline();
+                if (targetLifeline.isPresent() && targetLifeline.get().equals(lifeline)) {
                     englobedEvents.add(pertub);
-                } else if (sourceLifeline.some() && sourceLifeline.get().equals(lifeline)) {
+                } else if (sourceLifeline.isPresent() && sourceLifeline.get().equals(lifeline)) {
                     englobedEvents.add(pertub);
                 }
             } else if (pertub instanceof CombinedFragment) {
@@ -528,8 +528,8 @@ public class Message extends AbstractSequenceElement implements ISequenceEvent {
                     englobedEvents.add(pertub);
                 }
             } else {
-                Option<Lifeline> pLif = pertub.getLifeline();
-                if (pLif.some() && pLif.get().equals(lifeline)) {
+                java.util.Optional<Lifeline> pLif = pertub.getLifeline();
+                if (pLif.isPresent() && pLif.get().equals(lifeline)) {
                     englobedEvents.add(pertub);
                 }
             }

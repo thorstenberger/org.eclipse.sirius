@@ -11,8 +11,8 @@
 package org.eclipse.sirius.synchronizer;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * This class is responsible to hook the evaluation of a semantic partition if
@@ -23,8 +23,8 @@ import org.eclipse.sirius.ext.base.Options;
  */
 public class SemanticPartitionInvalidator {
 
-    public Option<EvaluatedSemanticPartition> hasFastResult(EObject sourceElement, SemanticPartition semanticPartition, CreatedOutput parentElement) {
-        return Options.newNone();
+    public java.util.Optional<EvaluatedSemanticPartition> hasFastResult(EObject sourceElement, SemanticPartition semanticPartition, CreatedOutput parentElement) {
+        return java.util.Optional.empty();
     }
 
 }

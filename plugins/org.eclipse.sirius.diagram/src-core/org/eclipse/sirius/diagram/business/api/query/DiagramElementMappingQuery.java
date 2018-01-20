@@ -38,8 +38,8 @@ import org.eclipse.sirius.diagram.description.EdgeMappingImport;
 import org.eclipse.sirius.diagram.description.NodeMappingImport;
 import org.eclipse.sirius.diagram.description.tool.ContainerDropDescription;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.base.collect.MultipleCollection;
 import org.eclipse.sirius.viewpoint.DMappingBased;
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
@@ -375,14 +375,14 @@ public class DiagramElementMappingQuery {
      * 
      * @return the domain class
      */
-    public Option<String> getDomainClass() {
+    public java.util.Optional<String> getDomainClass() {
         String domainType = null;
         if (mapping instanceof AbstractNodeMapping) {
             domainType = ((AbstractNodeMapping) mapping).getDomainClass();
         } else if (mapping instanceof EdgeMapping && ((EdgeMapping) mapping).isUseDomainElement()) {
             domainType = ((EdgeMapping) mapping).getDomainClass();
         }
-        return Options.newSome(domainType);
+        return java.util.Optional.of(domainType);
     }
 
     /**
@@ -513,10 +513,10 @@ public class DiagramElementMappingQuery {
      * @return candidates
      */
     public Collection<EObject> getAllCandidates(Session session, ModelAccessor modelAccessor) {
-        Option<String> domainClass = getDomainClass();
+        java.util.Optional<String> domainClass = getDomainClass();
         if (semantics == null) {
             semantics = new ArrayList<EObject>();
-            if (domainClass.some()) {
+            if (domainClass.isPresent()) {
                 for (final Resource resource : session.getSemanticResources()) {
                     for (EObject root : resource.getContents()) {
                         semantics.addAll(modelAccessor.eAllContents(root, domainClass.get()));

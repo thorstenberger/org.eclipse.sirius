@@ -25,8 +25,8 @@ import org.eclipse.sirius.diagram.description.filter.FilterPackage;
 import org.eclipse.sirius.diagram.description.filter.MappingFilter;
 import org.eclipse.sirius.diagram.description.filter.VariableFilter;
 import org.eclipse.sirius.diagram.description.filter.util.FilterSwitch;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * A switch that will return the Target Types associated to a given element
@@ -48,7 +48,7 @@ import org.eclipse.sirius.ext.base.Options;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class FilterInterpretedExpressionTargetSwitch extends FilterSwitch<Option<Collection<String>>> {
+public class FilterInterpretedExpressionTargetSwitch extends FilterSwitch<java.util.Optional<Collection<String>>> {
 
     /**
      * Constant used in switches on feature id to consider the case when the
@@ -90,13 +90,13 @@ public class FilterInterpretedExpressionTargetSwitch extends FilterSwitch<Option
      * @see org.eclipse.sirius.viewpoint.description.tool.util.ToolSwitch#doSwitch(org.eclipse.emf.ecore.EObject)
      */
     @Override
-    public Option<Collection<String>> doSwitch(EObject theEObject) {
-        Option<Collection<String>> doSwitch = super.doSwitch(theEObject);
+    public java.util.Optional<Collection<String>> doSwitch(EObject theEObject) {
+        java.util.Optional<Collection<String>> doSwitch = super.doSwitch(theEObject);
         if (doSwitch != null) {
             return doSwitch;
         }
         Collection<String> targets = new LinkedHashSet<>();
-        return Options.newSome(targets);
+        return java.util.Optional.of(targets);
     }
 
     /**
@@ -106,7 +106,7 @@ public class FilterInterpretedExpressionTargetSwitch extends FilterSwitch<Option
      * @see org.eclipse.sirius.viewpoint.description.filter.util.FilterSwitch#caseMappingFilter(org.eclipse.sirius.viewpoint.description.filter.MappingFilter)
      */
     @Override
-    public Option<Collection<String>> caseMappingFilter(MappingFilter object) {
+    public java.util.Optional<Collection<String>> caseMappingFilter(MappingFilter object) {
         Collection<String> targetTypes = new LinkedHashSet<>();
         for (DiagramElementMapping mapping : object.getMappings()) {
             if (feature == FilterPackage.Literals.MAPPING_FILTER__VIEW_CONDITION_EXPRESSION) {
@@ -122,14 +122,14 @@ public class FilterInterpretedExpressionTargetSwitch extends FilterSwitch<Option
                     }
                 }
             } else {
-                Option<Collection<String>> targetTypesForMapping = globalSwitch.doSwitch(mapping, false);
-                if (targetTypesForMapping.some()) {
+                java.util.Optional<Collection<String>> targetTypesForMapping = globalSwitch.doSwitch(mapping, false);
+                if (targetTypesForMapping.isPresent()) {
                     targetTypes.addAll(targetTypesForMapping.get());
                 }
             }
 
         }
-        return Options.newSome(targetTypes);
+        return java.util.Optional.of(targetTypes);
     }
 
     /**
@@ -139,9 +139,9 @@ public class FilterInterpretedExpressionTargetSwitch extends FilterSwitch<Option
      * @see org.eclipse.sirius.viewpoint.description.filter.util.FilterSwitch#caseVariableFilter(org.eclipse.sirius.viewpoint.description.filter.VariableFilter)
      */
     @Override
-    public Option<Collection<String>> caseVariableFilter(VariableFilter object) {
+    public java.util.Optional<Collection<String>> caseVariableFilter(VariableFilter object) {
         // A VariableFilter has no context, and yet it should be evaluated
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

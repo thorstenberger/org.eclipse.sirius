@@ -37,7 +37,7 @@ import org.eclipse.sirius.diagram.business.api.query.DDiagramElementQuery;
 import org.eclipse.sirius.diagram.business.api.query.DDiagramQuery;
 import org.eclipse.sirius.diagram.description.ContainerMapping;
 import org.eclipse.sirius.diagram.description.DiagramDescription;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.support.api.TestsUtil;
 import org.eclipse.sirius.ui.business.api.session.IEditingSession;
 import org.eclipse.sirius.ui.business.api.session.SessionUIManager;
@@ -500,8 +500,8 @@ public class DiagramSynchronizerTest extends AbstractSynchronizerTest {
 
         DEdge pathEdge = null;
         for (DEdge edge : diagram.getEdges()) {
-            Option<String> mappingName = new DDiagramElementQuery(edge).getMappingName();
-            if (mappingName.some() && "Browsing Path".equals(mappingName.get())) {
+            java.util.Optional<String> mappingName = new DDiagramElementQuery(edge).getMappingName();
+            if (mappingName.isPresent() && "Browsing Path".equals(mappingName.get())) {
                 pathEdge = edge;
             }
         }
@@ -533,8 +533,8 @@ public class DiagramSynchronizerTest extends AbstractSynchronizerTest {
 
         DEdge pathEdge = null;
         for (DEdge edge : (Iterable<DEdge>) diagram.getEdges()) {
-            Option<String> mappingName = new DDiagramElementQuery(edge).getMappingName();
-            if (mappingName.some() && "Browsing Path".equals(mappingName.get())) {
+            java.util.Optional<String> mappingName = new DDiagramElementQuery(edge).getMappingName();
+            if (mappingName.isPresent() && "Browsing Path".equals(mappingName.get())) {
                 pathEdge = edge;
             }
         }

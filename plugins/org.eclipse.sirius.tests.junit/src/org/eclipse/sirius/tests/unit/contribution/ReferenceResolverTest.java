@@ -26,7 +26,7 @@ import org.eclipse.sirius.description.contribution.ComputedEObjectReference;
 import org.eclipse.sirius.description.contribution.ContributionFactory;
 import org.eclipse.sirius.description.contribution.DirectEObjectReference;
 import org.eclipse.sirius.description.contribution.EObjectReference;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -59,7 +59,7 @@ public class ReferenceResolverTest {
     @Test
     public void direct_reference_with_null_value_resolves_to_empty_option() {
         EObjectReference ref = factory.createDirectEObjectReference();
-        Option<EObject> result = resolver.resolve(ref, NO_CONTEXT);
+        java.util.Optional<EObject> result = resolver.resolve(ref, NO_CONTEXT);
         assertHasNoValue(result);
     }
 
@@ -68,14 +68,14 @@ public class ReferenceResolverTest {
         EObject value = EcoreFactory.eINSTANCE.createEObject();
         DirectEObjectReference ref = factory.createDirectEObjectReference();
         ref.setValue(value);
-        Option<EObject> result = resolver.resolve(ref, NO_CONTEXT);
+        java.util.Optional<EObject> result = resolver.resolve(ref, NO_CONTEXT);
         assertHasExactValue(value, result);
     }
     
     @Test
     public void computed_reference_with_no_expression_resolves_to_empty_option() {
         ComputedEObjectReference ref = factory.createComputedEObjectReference();
-        Option<EObject> result = resolver.resolve(ref, NO_CONTEXT);
+        java.util.Optional<EObject> result = resolver.resolve(ref, NO_CONTEXT);
         assertHasNoValue(result);
     }
     
@@ -83,7 +83,7 @@ public class ReferenceResolverTest {
     public void computed_reference_with_invalid_expression_resolves_to_empty_option() {
         ComputedEObjectReference ref = factory.createComputedEObjectReference();
         ref.setValueExpression("not a valid expression");
-        Option<EObject> result = resolver.resolve(ref, NO_CONTEXT);
+        java.util.Optional<EObject> result = resolver.resolve(ref, NO_CONTEXT);
         assertHasNoValue(result);
     }
     
@@ -91,7 +91,7 @@ public class ReferenceResolverTest {
     public void computed_reference_with_valid_expression_but_not_context_resolves_to_empty_option() {
         ComputedEObjectReference ref = factory.createComputedEObjectReference();
         ref.setValueExpression("aql:self");
-        Option<EObject> result = resolver.resolve(ref, NO_CONTEXT);
+        java.util.Optional<EObject> result = resolver.resolve(ref, NO_CONTEXT);
         assertHasNoValue(result);
     }
     
@@ -102,7 +102,7 @@ public class ReferenceResolverTest {
         ref.setValueExpression("aql:self");
         Map<String, Object> context = new HashMap<>();
         context.put("self", self);
-        Option<EObject> result = resolver.resolve(ref, context);
+        java.util.Optional<EObject> result = resolver.resolve(ref, context);
         assertHasExactValue(self, result);
     }
 }

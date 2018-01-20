@@ -66,7 +66,7 @@ public class MappingHiearchyTable {
     private Collection<? extends Mapping> getLeaves(Collection<? extends Mapping> mappings) {
         Set<Mapping> hasChildren = new LinkedHashSet<>();
         for (Mapping mapping : mappings) {
-            if (mapping.getSuper().some()) {
+            if (mapping.getSuper().isPresent()) {
                 hasChildren.add(mapping.getSuper().get());
             }
         }

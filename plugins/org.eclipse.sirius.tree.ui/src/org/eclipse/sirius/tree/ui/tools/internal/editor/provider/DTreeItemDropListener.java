@@ -37,8 +37,8 @@ import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterSiriusVariabl
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
 import org.eclipse.sirius.ecore.extender.business.api.permission.IPermissionAuthority;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tree.DTree;
 import org.eclipse.sirius.tree.DTreeItem;
 import org.eclipse.sirius.tree.DTreeItemContainer;
@@ -281,8 +281,8 @@ public class DTreeItemDropListener extends ViewerDropAdapter implements DropTarg
                         if (dSem.eContainer() instanceof DSemanticDecorator) {
                             oldContainer = ((DSemanticDecorator) dSem.eContainer()).getTarget();
                         }
-                        Option<TreeItemContainerDropTool> dropTool = getBestDropDescription(dSem.getTarget(), oldContainer, TreeDragSource.TREE, dSem);
-                        if (dropTool.some()) {
+                        java.util.Optional<TreeItemContainerDropTool> dropTool = getBestDropDescription(dSem.getTarget(), oldContainer, TreeDragSource.TREE, dSem);
+                        if (dropTool.isPresent()) {
                             semanticDroppedData.put(dSem.getTarget(), dropTool.get());
                         } else {
                             valid = false;
@@ -298,9 +298,9 @@ public class DTreeItemDropListener extends ViewerDropAdapter implements DropTarg
                     for (EObject droppedElement : Lists.newArrayList(semanticDroppedData.keySet())) {
                         valid = valid && canEditEObject(droppedElement);
 
-                        Option<TreeItemContainerDropTool> dropTool = getBestDropDescription(droppedElement, null, TreeDragSource.PROJECT_EXPLORER, null);
+                        java.util.Optional<TreeItemContainerDropTool> dropTool = getBestDropDescription(droppedElement, null, TreeDragSource.PROJECT_EXPLORER, null);
 
-                        if (dropTool.some()) {
+                        if (dropTool.isPresent()) {
                             semanticDroppedData.put(droppedElement, dropTool.get());
                         } else {
                             valid = false;
@@ -442,7 +442,7 @@ public class DTreeItemDropListener extends ViewerDropAdapter implements DropTarg
      *            The graphical dropped element (Optional).
      * @return he best drop description
      */
-    private Option<TreeItemContainerDropTool> getBestDropDescription(final EObject droppedElement, final EObject oldContainer, final TreeDragSource dragSource,
+    private java.util.Optional<TreeItemContainerDropTool> getBestDropDescription(final EObject droppedElement, final EObject oldContainer, final TreeDragSource dragSource,
             final DSemanticDecorator droppedSemanticDecorator) {
 
         final IInterpreter interpreter = SiriusPlugin.getDefault().getInterpreterRegistry().getInterpreter(droppedElement);
@@ -484,7 +484,7 @@ public class DTreeItemDropListener extends ViewerDropAdapter implements DropTarg
             interpreter.unSetVariable(IInterpreterSiriusVariables.VIEW);
         }
 
-        return Options.newSome(bestDropDescription);
+        return java.util.Optional.of(bestDropDescription);
     }
 
     private boolean checkPrecondition(TreeItemContainerDropTool dropTool, RuntimeLoggerInterpreter safeInterpreter, EObject droppedElement) {

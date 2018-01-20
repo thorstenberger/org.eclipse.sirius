@@ -45,7 +45,7 @@ import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
 import org.eclipse.sirius.diagram.ui.tools.api.figure.FigureQuery;
 import org.eclipse.sirius.diagram.ui.tools.api.graphical.edit.styles.IContainerLabelOffsets;
 import org.eclipse.sirius.diagram.ui.tools.api.layout.LayoutUtils;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import org.eclipse.sirius.tests.support.api.EclipseTestsSupportHelper;
 import org.eclipse.sirius.tests.support.api.SiriusDiagramTestCase;
@@ -212,8 +212,8 @@ public class BorderMarginTest extends SiriusDiagramTestCase {
 
             String borderSizeString = dde.getName().substring(29, dde.getName().length() - 1);
             sb.append(" ." + dde.eClass().getName() + " " + dde.getName());
-            Option<IFigure> labelFigure = new FigureQuery(part.getFigure()).getLabelFigure();
-            if (labelFigure.some()) {
+            java.util.Optional<IFigure> labelFigure = new FigureQuery(part.getFigure()).getLabelFigure();
+            if (labelFigure.isPresent()) {
                 Dimension labelFigureSize = labelFigure.get().getBounds().getSize();
                 int borderSize = Integer.valueOf(borderSizeString);
                 int expectedWidth = labelFigureSize.width + 2 + (borderSize * 2);

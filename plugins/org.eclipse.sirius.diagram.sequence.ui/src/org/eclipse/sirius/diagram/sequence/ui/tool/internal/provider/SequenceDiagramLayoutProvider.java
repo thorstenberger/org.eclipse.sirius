@@ -52,7 +52,7 @@ public class SequenceDiagramLayoutProvider implements LayoutProvider {
         View notationView = container.getNotationView();
         if (notationView != null) {
             Diagram diagram = notationView.getDiagram();
-            return ISequenceElementAccessor.getSequenceDiagram(diagram).some();
+            return ISequenceElementAccessor.getSequenceDiagram(diagram).isPresent();
         }
         return false;
     }

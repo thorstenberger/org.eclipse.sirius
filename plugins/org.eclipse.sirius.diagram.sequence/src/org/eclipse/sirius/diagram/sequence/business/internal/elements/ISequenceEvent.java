@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -159,7 +159,7 @@ public interface ISequenceEvent extends ISequenceElement {
      * 
      * @return the deepest Operand container if existing.
      */
-    Option<Operand> getParentOperand();
+    java.util.Optional<Operand> getParentOperand();
 
     /**
      * Elements whcih should move with current events.

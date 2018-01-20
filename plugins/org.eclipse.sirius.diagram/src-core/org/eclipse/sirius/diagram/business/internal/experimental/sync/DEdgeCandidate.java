@@ -20,7 +20,7 @@ import org.eclipse.sirius.diagram.business.internal.metamodel.description.operat
 import org.eclipse.sirius.diagram.description.EdgeMapping;
 import org.eclipse.sirius.diagram.description.EdgeMappingImport;
 import org.eclipse.sirius.diagram.description.IEdgeMapping;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.base.cache.KeyCache;
 
 /**
@@ -101,9 +101,9 @@ public class DEdgeCandidate {
      * @return <code>true</code> if it is invalid. <code>false</code> otherwise.
      */
     public boolean isInvalid() {
-        Option<DDiagram> sourceDiagram = new EObjectQuery(sourceView).getParentDiagram();
-        Option<DDiagram> targetDiagram = new EObjectQuery(targetView).getParentDiagram();
-        return !sourceDiagram.some() || !targetDiagram.some();
+        java.util.Optional<DDiagram> sourceDiagram = new EObjectQuery(sourceView).getParentDiagram();
+        java.util.Optional<DDiagram> targetDiagram = new EObjectQuery(targetView).getParentDiagram();
+        return !sourceDiagram.isPresent() || !targetDiagram.isPresent();
     }
 
     /**

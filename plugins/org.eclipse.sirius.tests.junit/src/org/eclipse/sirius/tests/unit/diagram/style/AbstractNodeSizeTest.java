@@ -27,8 +27,8 @@ import org.eclipse.sirius.diagram.DNode;
 import org.eclipse.sirius.diagram.DNodeContainer;
 import org.eclipse.sirius.diagram.DiagramPackage;
 import org.eclipse.sirius.diagram.ui.tools.api.layout.LayoutUtils;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import org.eclipse.sirius.tests.support.api.SiriusDiagramTestCase;
 import org.eclipse.sirius.tests.support.api.TestsUtil;
@@ -97,7 +97,7 @@ public abstract class AbstractNodeSizeTest extends SiriusDiagramTestCase {
     public void testNode1Size() throws Exception {
         DiagramElementType nodeType = new DiagramElementType(false, false);
         DiagramElementType containerType = null;
-        doTest(Options.newSome(nodeType), Options.newSome(containerType));
+        doTest(java.util.Optional.of(nodeType), java.util.Optional.of(containerType));
     }
 
     /**
@@ -109,7 +109,7 @@ public abstract class AbstractNodeSizeTest extends SiriusDiagramTestCase {
     public void testNode2Size() throws Exception {
         DiagramElementType nodeType = new DiagramElementType(false, true);
         DiagramElementType containerType = new DiagramElementType(false, false);
-        doTest(Options.newSome(nodeType), Options.newSome(containerType));
+        doTest(java.util.Optional.of(nodeType), java.util.Optional.of(containerType));
     }
 
     /**
@@ -121,7 +121,7 @@ public abstract class AbstractNodeSizeTest extends SiriusDiagramTestCase {
     public void testNode2ContainedSize() throws Exception {
         DiagramElementType nodeType = new DiagramElementType(false, true);
         DiagramElementType containerType = new DiagramElementType(true, false);
-        doTest(Options.newSome(nodeType), Options.newSome(containerType));
+        doTest(java.util.Optional.of(nodeType), java.util.Optional.of(containerType));
     }
 
     /**
@@ -133,7 +133,7 @@ public abstract class AbstractNodeSizeTest extends SiriusDiagramTestCase {
     public void testNode3Size() throws Exception {
         DiagramElementType nodeType = new DiagramElementType(true, false);
         DiagramElementType containerType = new DiagramElementType(false, false, true);
-        doTest(Options.newSome(nodeType), Options.newSome(containerType));
+        doTest(java.util.Optional.of(nodeType), java.util.Optional.of(containerType));
     }
 
     /**
@@ -145,7 +145,7 @@ public abstract class AbstractNodeSizeTest extends SiriusDiagramTestCase {
     public void testNode4Size() throws Exception {
         DiagramElementType nodeType = new DiagramElementType(false, true);
         DiagramElementType containerType = new DiagramElementType(false, false, true);
-        doTest(Options.newSome(nodeType), Options.newSome(containerType));
+        doTest(java.util.Optional.of(nodeType), java.util.Optional.of(containerType));
     }
 
     /**
@@ -157,10 +157,10 @@ public abstract class AbstractNodeSizeTest extends SiriusDiagramTestCase {
     public void testNode4RecSize() throws Exception {
         DiagramElementType nodeType = new DiagramElementType(false, true);
         DiagramElementType parentType = new DiagramElementType(false, true);
-        doTest(Options.newSome(nodeType), Options.newSome(parentType));
+        doTest(java.util.Optional.of(nodeType), java.util.Optional.of(parentType));
     }
 
-    private void doTest(Option<DiagramElementType> nodeType, Option<DiagramElementType> parentType) throws Exception {
+    private void doTest(java.util.Optional<DiagramElementType> nodeType, java.util.Optional<DiagramElementType> parentType) throws Exception {
         String labelEnd = "_new EClass 1";
         doTest("Square" + labelEnd, nodeType, parentType);
         doTest("Lozenge" + labelEnd, nodeType, parentType);
@@ -183,7 +183,7 @@ public abstract class AbstractNodeSizeTest extends SiriusDiagramTestCase {
      * 
      * @throws Exception
      */
-    private void doTest(String label, Option<DiagramElementType> nodeType, Option<DiagramElementType> parentType) throws Exception {
+    private void doTest(String label, java.util.Optional<DiagramElementType> nodeType, java.util.Optional<DiagramElementType> parentType) throws Exception {
 
         List<DDiagramElement> diagramElementsFromLabel = getDiagramElementsFromLabel(diagram, label);
 
@@ -262,16 +262,16 @@ public abstract class AbstractNodeSizeTest extends SiriusDiagramTestCase {
 
     private class NodeFilter implements Predicate<DNode> {
 
-        private Option<DiagramElementType> nodeType;
+        private java.util.Optional<DiagramElementType> nodeType;
 
-        public NodeFilter(Option<DiagramElementType> nodeType) {
+        public NodeFilter(java.util.Optional<DiagramElementType> nodeType) {
             Preconditions.checkNotNull(nodeType);
             this.nodeType = nodeType;
         }
 
         public boolean apply(DNode input) {
             boolean expectedType = false;
-            if (nodeType.some()) {
+            if (nodeType.isPresent()) {
                 if (nodeType.get().isBordered()) {
                     expectedType = DiagramPackage.eINSTANCE.getAbstractDNode_OwnedBorderedNodes().equals(input.eContainingFeature());
                 } else if (nodeType.get().isContained()) {
@@ -286,9 +286,9 @@ public abstract class AbstractNodeSizeTest extends SiriusDiagramTestCase {
 
     private class ParentFilter implements Predicate<DNode> {
 
-        private Option<DiagramElementType> parentType;
+        private java.util.Optional<DiagramElementType> parentType;
 
-        public ParentFilter(Option<DiagramElementType> parentType) {
+        public ParentFilter(java.util.Optional<DiagramElementType> parentType) {
             Preconditions.checkNotNull(parentType);
             this.parentType = parentType;
         }
@@ -296,7 +296,7 @@ public abstract class AbstractNodeSizeTest extends SiriusDiagramTestCase {
         public boolean apply(DNode input) {
             boolean expectedParentType = false;
             EObject parent = input.eContainer();
-            if (!parentType.some()) {
+            if (!parentType.isPresent()) {
                 expectedParentType = input.getParentDiagram().equals(parent);
             } else {
                 expectedParentType = parentType.get().isContainer() ? parent instanceof DNodeContainer : parent instanceof DNode;

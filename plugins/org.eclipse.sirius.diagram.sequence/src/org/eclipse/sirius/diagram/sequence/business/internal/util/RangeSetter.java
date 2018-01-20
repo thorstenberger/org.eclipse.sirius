@@ -36,7 +36,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.State;
 import org.eclipse.sirius.diagram.sequence.business.internal.query.SequenceMessageViewQuery;
 import org.eclipse.sirius.diagram.sequence.business.internal.query.SequenceNodeQuery;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.collect.Iterables;
 
@@ -166,8 +166,8 @@ public final class RangeSetter {
         int size = range.width();
         RangeSetter.setVerticalRange(self.getNotationNode(), deltaY, size);
 
-        Option<EndOfLife> eol = self.getEndOfLife();
-        if (eol.some()) {
+        java.util.Optional<EndOfLife> eol = self.getEndOfLife();
+        if (eol.isPresent()) {
             EndOfLife endOfLife = eol.get();
             Rectangle eolBounds = endOfLife.getBounds();
             Range eolRange = new Range(range.getUpperBound(), range.getUpperBound() + eolBounds.height);

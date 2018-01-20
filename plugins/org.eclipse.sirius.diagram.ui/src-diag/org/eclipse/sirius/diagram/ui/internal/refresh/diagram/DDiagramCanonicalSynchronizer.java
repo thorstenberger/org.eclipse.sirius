@@ -64,7 +64,7 @@ import org.eclipse.sirius.diagram.ui.internal.refresh.AbstractCanonicalSynchroni
 import org.eclipse.sirius.diagram.ui.part.SiriusDiagramUpdater;
 import org.eclipse.sirius.diagram.ui.part.SiriusLinkDescriptor;
 import org.eclipse.sirius.diagram.ui.part.SiriusVisualIDRegistry;
-import org.eclipse.sirius.ext.base.Options;
+
 import org.eclipse.sirius.viewpoint.description.AnnotationEntry;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
@@ -512,7 +512,7 @@ public class DDiagramCanonicalSynchronizer extends AbstractCanonicalSynchronizer
                     CollapseFilter filter = (CollapseFilter) Iterables.getFirst(Iterables.filter(dde.getGraphicalFilters(), Predicates.instanceOf(CollapseFilter.class)), null);
 
                     if (filter != null && filter.getWidth() == 0 && filter.getHeight() == 0) {
-                        ((CollapseUpdater) cu).storeInFilterAndCollapseBounds(dde, Options.newSome(node), false);
+                        ((CollapseUpdater) cu).storeInFilterAndCollapseBounds(dde, java.util.Optional.of(node), false);
                     }
                 }
             }

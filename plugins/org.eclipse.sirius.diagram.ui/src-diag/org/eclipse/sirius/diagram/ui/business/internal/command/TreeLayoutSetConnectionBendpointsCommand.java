@@ -27,7 +27,7 @@ import org.eclipse.gmf.runtime.notation.RelativeBendpoints;
 import org.eclipse.gmf.runtime.notation.datatype.RelativeBendpoint;
 import org.eclipse.sirius.diagram.ui.graphical.edit.policies.SetConnectionBendpointsAndLabelCommmand;
 import org.eclipse.sirius.diagram.ui.tools.internal.util.GMFNotationUtilities;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * A specific SetConnectionBendpointsCommand to change all GMF edges of this
@@ -129,14 +129,14 @@ public class TreeLayoutSetConnectionBendpointsCommand extends SetConnectionBendp
                 Point sourceRefPoint = getSourceRefPoint();
                 if (deltaXTarget != 0) {
                     // Move targetAnchor according to delta
-                    Option<? extends Point> optionalTargetRefPoint = GMFNotationUtilities.setTargetAnchor(edge, deltaXTarget);
-                    if (optionalTargetRefPoint.some()) {
+                    java.util.Optional<? extends Point> optionalTargetRefPoint = GMFNotationUtilities.setTargetAnchor(edge, deltaXTarget);
+                    if (optionalTargetRefPoint.isPresent()) {
                         targetRefPoint = optionalTargetRefPoint.get();
                     }
                 } else if (deltaXSource != 0) {
                     // Move sourceAnchor according to delta
-                    Option<PrecisionPoint> optionalSourceRefPoint = GMFNotationUtilities.setSourceAnchor(edge, deltaXTarget);
-                    if (optionalSourceRefPoint.some()) {
+                    java.util.Optional<PrecisionPoint> optionalSourceRefPoint = GMFNotationUtilities.setSourceAnchor(edge, deltaXTarget);
+                    if (optionalSourceRefPoint.isPresent()) {
                         sourceRefPoint = optionalSourceRefPoint.get();
                     }
                 }
@@ -148,12 +148,12 @@ public class TreeLayoutSetConnectionBendpointsCommand extends SetConnectionBendp
             } else {
                 Point sourceRefPoint = getSourceRefPoint();
                 Point targetRefPoint = getTargetRefPoint();
-                Option<Point> optionalSourceRefPoint = GMFNotationUtilities.setSourceAnchor(edge, getNewPointList());
-                Option<Point> optionalTargetRefPoint = GMFNotationUtilities.setTargetAnchor(edge, getNewPointList());
-                if (optionalSourceRefPoint.some()) {
+                java.util.Optional<Point> optionalSourceRefPoint = GMFNotationUtilities.setSourceAnchor(edge, getNewPointList());
+                java.util.Optional<Point> optionalTargetRefPoint = GMFNotationUtilities.setTargetAnchor(edge, getNewPointList());
+                if (optionalSourceRefPoint.isPresent()) {
                     sourceRefPoint = optionalSourceRefPoint.get();
                 }
-                if (optionalTargetRefPoint.some()) {
+                if (optionalTargetRefPoint.isPresent()) {
                     targetRefPoint = optionalTargetRefPoint.get();
                 }
                 GMFNotationUtilities.setGMFBendpoints(edge, getNewPointList(), sourceRefPoint, targetRefPoint);

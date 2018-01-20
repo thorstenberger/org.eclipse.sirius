@@ -27,7 +27,7 @@ import org.eclipse.sirius.diagram.ui.provider.DiagramUIPlugin;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
 import org.eclipse.sirius.diagram.ui.tools.api.figure.SVGWorkspaceImageFigure;
 import org.eclipse.sirius.diagram.ui.tools.api.figure.WorkspaceImageFigure;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * Remove images from cache when required.
@@ -122,8 +122,8 @@ public class WorkspaceImageChangeDetector implements IResourceDeltaVisitor {
         String resourceExtension = resource.getFileExtension();
         if (WorkspaceImageFigure.isSvgImage(resourceExtension)) {
             String svgUri = resource.getFullPath().toString();
-            Option<String> removed = SVGWorkspaceImageFigure.removeFromCache(svgUri);
-            if (removed.some()) {
+            java.util.Optional<String> removed = SVGWorkspaceImageFigure.removeFromCache(svgUri);
+            if (removed.isPresent()) {
                 cacheUpdated = true;
             }
         } else {

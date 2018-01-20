@@ -18,8 +18,8 @@ import java.util.List;
 import org.eclipse.sirius.common.tools.api.util.EqualityHelper;
 import org.eclipse.sirius.diagram.description.DiagramElementMapping;
 import org.eclipse.sirius.diagram.description.Layer;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * A mapping node is wrapper to a mapping with references to its importer and
@@ -165,11 +165,11 @@ public class MappingTableEntry {
      * @return an optional {@link MappingTableEntry} instance which import this
      *         mapping
      */
-    public Option<MappingTableEntry> getImporter() {
+    public java.util.Optional<MappingTableEntry> getImporter() {
         if (mappingImporters == null || mappingImporters.isEmpty()) {
-            return Options.newNone();
+            return java.util.Optional.empty();
         }
-        return Options.newSome(this.mappingImporters.get(0));
+        return java.util.Optional.of(this.mappingImporters.get(0));
     }
 
     /**

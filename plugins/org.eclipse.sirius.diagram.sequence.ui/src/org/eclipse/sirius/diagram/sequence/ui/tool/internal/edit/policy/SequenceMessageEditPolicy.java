@@ -79,8 +79,8 @@ import org.eclipse.sirius.diagram.sequence.ui.tool.internal.figure.HorizontalGui
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.util.EditPartsHelper;
 import org.eclipse.sirius.diagram.sequence.util.Range;
 import org.eclipse.sirius.diagram.ui.tools.internal.edit.command.CommandFactory;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 import org.eclipse.swt.graphics.Color;
 
@@ -194,8 +194,8 @@ public class SequenceMessageEditPolicy extends ConnectionBendpointEditPolicy {
 
                 Point reqLoc = br.getLocation().getCopy();
                 GraphicalHelper.screen2logical(reqLoc, (IGraphicalEditPart) getHost());
-                Option<Range> finalRange = computeFinalRange(br, thisEvent, reqLoc);
-                if (finalRange.some()) {
+                java.util.Optional<Range> finalRange = computeFinalRange(br, thisEvent, reqLoc);
+                if (finalRange.isPresent()) {
                     Collection<Integer> invalidPositions = checkGlobalPositions(iSequenceEvent, finalRange);
                     for (Integer conflict : invalidPositions) {
                         bounds = getFeedbackLayer().getBounds().getCopy();
@@ -380,14 +380,14 @@ public class SequenceMessageEditPolicy extends ConnectionBendpointEditPolicy {
         Point location = request.getLocation().getCopy();
         GraphicalHelper.screen2logical(location, (IGraphicalEditPart) getHost());
 
-        Option<Range> finalRange = computeFinalRange(request, thisEvent, location);
+        java.util.Optional<Range> finalRange = computeFinalRange(request, thisEvent, location);
 
-        if (finalRange.some()) {
+        if (finalRange.isPresent()) {
             smrc = createReconnectionCommandOnBendpointMove(request, thisEvent, location, finalRange.get());
         }
 
         List<EventEnd> ends = EventEndHelper.findEndsFromSemanticOrdering(thisEvent.getISequenceEvent());
-        invalidCommand = invalidCommand || !baseCommand.canExecute() || !finalRange.some();
+        invalidCommand = invalidCommand || !baseCommand.canExecute() || !finalRange.isPresent();
         invalidCommand = invalidCommand || org.eclipse.gef.RequestConstants.REQ_MOVE_BENDPOINT.equals(request.getType());
         invalidCommand = invalidCommand || !validateMessageParentOperand(finalRange);
         invalidCommand = invalidCommand || !checkGlobalPositions(thisEvent.getISequenceEvent(), finalRange).isEmpty();
@@ -437,12 +437,12 @@ public class SequenceMessageEditPolicy extends ConnectionBendpointEditPolicy {
         return result;
     }
 
-    private Collection<Integer> checkGlobalPositions(final ISequenceEvent thisEvent, final Option<Range> finalRange) {
+    private Collection<Integer> checkGlobalPositions(final ISequenceEvent thisEvent, final java.util.Optional<Range> finalRange) {
         Function<ISequenceEvent, Range> futureRangeFunction = new Function<ISequenceEvent, Range>() {
             @Override
             public Range apply(ISequenceEvent from) {
                 Range verticalRange = from.getVerticalRange();
-                if (thisEvent.equals(from) && finalRange.some()) {
+                if (thisEvent.equals(from) && finalRange.isPresent()) {
                     verticalRange = finalRange.get();
                 }
                 return verticalRange;
@@ -465,8 +465,8 @@ public class SequenceMessageEditPolicy extends ConnectionBendpointEditPolicy {
     private void setOperations(boolean source, Message message, Range finalRange, SetMessageRangeOperation smrc, boolean reflectiveMessage) {
         Range messageEndRange = source ? new Range(finalRange.getLowerBound(), finalRange.getLowerBound()) : new Range(finalRange.getUpperBound(), finalRange.getUpperBound());
         ISequenceNode currentEnd = source ? message.getSourceElement() : message.getTargetElement();
-        Option<Lifeline> endLifeline = currentEnd.getLifeline();
-        if (endLifeline.some() && currentEnd instanceof ISequenceEvent) {
+        java.util.Optional<Lifeline> endLifeline = currentEnd.getLifeline();
+        if (endLifeline.isPresent() && currentEnd instanceof ISequenceEvent) {
             ISequenceEvent finalEnd;
             Range finalEndRange;
 
@@ -535,7 +535,7 @@ public class SequenceMessageEditPolicy extends ConnectionBendpointEditPolicy {
 
     }
 
-    private Option<Range> computeFinalRange(BendpointRequest request, SequenceMessageEditPart smep, Point location) {
+    private java.util.Optional<Range> computeFinalRange(BendpointRequest request, SequenceMessageEditPart smep, Point location) {
         Range finalRange = null;
         if (!new ISequenceEventQuery(smep.getISequenceEvent()).isReflectiveMessage()) {
             finalRange = new Range(location.y, location.y);
@@ -559,7 +559,7 @@ public class SequenceMessageEditPolicy extends ConnectionBendpointEditPolicy {
                 break;
             }
         }
-        return Options.newSome(finalRange);
+        return java.util.Optional.of(finalRange);
     }
 
     private Range safeComputeMessageToSelfFinalRangeFromBottom(int firstPointVerticalPosition, Point newBottomLocation) {
@@ -792,17 +792,17 @@ public class SequenceMessageEditPolicy extends ConnectionBendpointEditPolicy {
         return sourceRangeLimit;
     }
 
-    private boolean validateMessageParentOperand(Option<Range> finalRange) {
+    private boolean validateMessageParentOperand(java.util.Optional<Range> finalRange) {
         boolean valid = true;
 
         SequenceMessageEditPart thisEvent = (SequenceMessageEditPart) getHost();
         Message message = (Message) thisEvent.getISequenceEvent();
-        Option<Lifeline> sourceLifeline = message.getSourceLifeline();
-        Option<Lifeline> targetLifeline = message.getTargetLifeline();
+        java.util.Optional<Lifeline> sourceLifeline = message.getSourceLifeline();
+        java.util.Optional<Lifeline> targetLifeline = message.getTargetLifeline();
 
-        if (finalRange.some() && sourceLifeline.some() && targetLifeline.some()) {
-            Option<Operand> sourceFinalOperand = Options.newNone();
-            Option<Operand> targetFinalOperand = Options.newNone();
+        if (finalRange.isPresent() && sourceLifeline.isPresent() && targetLifeline.isPresent()) {
+            java.util.Optional<Operand> sourceFinalOperand = java.util.Optional.empty();
+            java.util.Optional<Operand> targetFinalOperand = java.util.Optional.empty();
 
             if (sourceLifeline.get().equals(targetLifeline.get())) {
                 int lBound = finalRange.get().getLowerBound();

@@ -32,7 +32,7 @@ import org.eclipse.sirius.diagram.business.internal.metamodel.helper.LayerHelper
 import org.eclipse.sirius.diagram.description.AdditionalLayer;
 import org.eclipse.sirius.diagram.description.DescriptionPackage;
 import org.eclipse.sirius.diagram.description.Layer;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ui.tools.internal.util.EMFCoreUtil;
 import org.eclipse.sirius.viewpoint.description.IdentifiedElement;
 
@@ -108,8 +108,8 @@ public class AdditionalLayerItemProvider extends LayerItemProvider implements II
     @Override
     public Object getImage(Object object) {
         if (object instanceof EObject) {
-            Option<URL> optionImageURL = EMFCoreUtil.getImage((EObject) object);
-            if (optionImageURL.some()) {
+            java.util.Optional<URL> optionImageURL = EMFCoreUtil.getImage((EObject) object);
+            if (optionImageURL.isPresent()) {
                 return optionImageURL.get();
             }
         }

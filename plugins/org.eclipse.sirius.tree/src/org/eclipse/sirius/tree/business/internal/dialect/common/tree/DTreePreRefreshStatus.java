@@ -15,8 +15,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.synchronizer.CreatedOutput;
 import org.eclipse.sirius.synchronizer.Mapping;
 import org.eclipse.sirius.synchronizer.PreRefreshStatus;
@@ -33,7 +33,7 @@ class DTreePreRefreshStatus implements PreRefreshStatus {
 
     private TreeMappingProvider provider;
 
-    private Option<List<CreatedOutput>> computedOutputs;
+    private java.util.Optional<List<CreatedOutput>> computedOutputs;
 
     private GlobalContext ctx;
 
@@ -47,13 +47,13 @@ class DTreePreRefreshStatus implements PreRefreshStatus {
      */
     DTreePreRefreshStatus(GlobalContext ctx, TreeMappingProvider provider) {
         this.provider = provider;
-        computedOutputs = Options.newNone();
+        computedOutputs = java.util.Optional.empty();
         this.ctx = ctx;
     }
 
     @Override
     public Iterable<CreatedOutput> getExistingOutputs() {
-        if (computedOutputs.some()) {
+        if (computedOutputs.isPresent()) {
             return computedOutputs.get();
         }
         return new ArrayList<>();
@@ -75,6 +75,6 @@ class DTreePreRefreshStatus implements PreRefreshStatus {
             result.add(newOuput);
             i++;
         }
-        computedOutputs = Options.newSome(result);
+        computedOutputs = java.util.Optional.of(result);
     }
 }

@@ -25,7 +25,7 @@ import org.eclipse.sirius.common.tools.internal.interpreter.FeatureInterpreter;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ExtenderConstants;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
 import org.eclipse.sirius.ecore.extender.business.internal.accessor.ecore.EcoreIntrinsicExtender;
-import org.eclipse.sirius.ext.base.Options;
+
 import org.eclipse.sirius.tree.business.internal.dialect.common.viewpoint.GlobalContext;
 import org.eclipse.sirius.tree.business.internal.dialect.common.viewpoint.MappingBasedPartition;
 import org.junit.Assert;
@@ -53,7 +53,7 @@ public class MappingBasedPartitionTests {
 
     @Test
     public void orderIsKept() {
-        MappingBasedPartition partition = new MappingBasedPartition(ctx, "EObject", Options.newSome("feature:eClassifiers"), Options.<EObject> newNone());
+        MappingBasedPartition partition = new MappingBasedPartition(ctx, "EObject", java.util.Optional.of("feature:eClassifiers"), java.util.Optional.empty());
         EPackage semanticModel = (EPackage) EcoreUtil.copy(EcorePackage.eINSTANCE);
 
         Iterator<EObject> itTree = partition.evaluate(semanticModel, null).elements();
@@ -70,7 +70,7 @@ public class MappingBasedPartitionTests {
 
     @Test
     public void orderIsKeptWithTypeFiltering() {
-        MappingBasedPartition partition = new MappingBasedPartition(ctx, "EClass", Options.newSome("feature:eClassifiers"), Options.<EObject> newNone());
+        MappingBasedPartition partition = new MappingBasedPartition(ctx, "EClass", java.util.Optional.of("feature:eClassifiers"), java.util.Optional.empty());
         EPackage semanticModel = (EPackage) EcoreUtil.copy(EcorePackage.eINSTANCE);
 
         Iterator<EObject> itTree = partition.evaluate(semanticModel, null).elements();

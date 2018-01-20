@@ -25,7 +25,7 @@ import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.ui.business.api.query.DDiagramGraphicalQuery;
 import org.eclipse.sirius.diagram.ui.business.api.query.ViewQuery;
 import org.eclipse.sirius.diagram.ui.business.internal.migration.DiagramRepresentationsFileMigrationParticipantV680;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import org.eclipse.sirius.tests.support.api.SiriusDiagramTestCase;
 import org.eclipse.sirius.viewpoint.DRepresentation;
@@ -80,8 +80,8 @@ public class MigrationEdgeLabelLocationToBoundsTest extends SiriusDiagramTestCas
             for (DRepresentation representation : new DViewQuery(view).getLoadedRepresentations()) {
                 if (representation instanceof DDiagram) {
                     DDiagramGraphicalQuery query = new DDiagramGraphicalQuery((DDiagram) representation);
-                    Option<Diagram> option = query.getAssociatedGMFDiagram();
-                    if (option.some()) {
+                    java.util.Optional<Diagram> option = query.getAssociatedGMFDiagram();
+                    if (option.isPresent()) {
                         diagrams.add(option.get());
                     }
                 }

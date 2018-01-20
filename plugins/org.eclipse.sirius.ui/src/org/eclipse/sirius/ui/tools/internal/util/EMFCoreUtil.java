@@ -25,8 +25,8 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * Utility methods related to EMF.
@@ -124,7 +124,7 @@ public final class EMFCoreUtil {
      *            The object.
      * @return The object's iamge.
      */
-    public static Option<URL> getImage(final EObject eObject) {
+    public static java.util.Optional<URL> getImage(final EObject eObject) {
         final String imagePath = EMFCoreUtil.getImagePath(eObject);
         if (imagePath != null && !StringUtil.isEmpty(imagePath)) {
             URI uri = URI.createURI(imagePath, true);
@@ -134,14 +134,14 @@ public final class EMFCoreUtil {
                 IFile file = workspace.getRoot().getFile(path);
                 if (file.isAccessible()) {
                     try {
-                        return Options.newSome(file.getRawLocationURI().toURL());
+                        return java.util.Optional.of(file.getRawLocationURI().toURL());
                     } catch (MalformedURLException e) {
                         // e.printStackTrace();
                     }
                 }
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     private static String getImagePath(final EObject eObject) {

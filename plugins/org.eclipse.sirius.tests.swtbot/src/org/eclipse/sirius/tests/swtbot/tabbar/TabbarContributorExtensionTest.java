@@ -28,7 +28,7 @@ import org.eclipse.sirius.diagram.ui.edit.api.part.IDDiagramEditPart;
 import org.eclipse.sirius.diagram.ui.tools.internal.editor.DDiagramEditorImpl;
 import org.eclipse.sirius.diagram.ui.tools.internal.editor.tabbar.ExtensionPointTabbarContributorProvider;
 import org.eclipse.sirius.diagram.ui.tools.internal.editor.tabbar.Tabbar;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.swtbot.Activator;
 import org.eclipse.sirius.tests.swtbot.support.api.AbstractSiriusSwtBotGefTestCase;
 import org.eclipse.sirius.tests.swtbot.support.api.business.UIResource;
@@ -121,7 +121,7 @@ public class TabbarContributorExtensionTest extends AbstractSiriusSwtBotGefTestC
     private int getTabbarItemsCount() {
         DDiagramEditorImpl edit = (DDiagramEditorImpl) editor.getReference().getEditor(false);
         Tabbar tabbar = edit.getTabbar();
-        Option<Object> toolbarOption = ReflectionHelper.getFieldValueWithoutException(tabbar, "toolBar");
+        java.util.Optional<Object> toolbarOption = ReflectionHelper.getFieldValueWithoutException(tabbar, "toolBar");
         final ToolBar toolBar = (ToolBar) toolbarOption.get();
 
         RunnableWithResult<Integer> result = new RunnableWithResult<Integer>() {

@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.emf.edit.EditingDomainServices;
 import org.eclipse.sirius.properties.core.api.preferences.SiriusPropertiesCorePreferences;
 import org.eclipse.sirius.properties.impl.EditSupportImpl;
@@ -136,8 +136,8 @@ public class EditSupportSpec extends EditSupportImpl {
         EObject target = getTargetEObject();
         final String result;
         if (target != null) {
-            Option<EObject> mainSemanticElement = context.getMainSemanticElement();
-            if (mainSemanticElement.some() && mainSemanticElement.get().equals(target)) {
+            java.util.Optional<EObject> mainSemanticElement = context.getMainSemanticElement();
+            if (mainSemanticElement.isPresent() && mainSemanticElement.get().equals(target)) {
                 result = Messages.SiriusToolServices_MainTabLabel;
             } else {
                 result = this.editServices.getLabelProviderText(target);

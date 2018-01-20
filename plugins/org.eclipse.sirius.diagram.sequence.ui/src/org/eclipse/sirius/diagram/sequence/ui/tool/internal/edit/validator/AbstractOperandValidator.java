@@ -18,8 +18,8 @@ import org.eclipse.sirius.diagram.sequence.business.internal.elements.Operand;
 import org.eclipse.sirius.diagram.sequence.business.internal.layout.LayoutConstants;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.util.RequestQuery;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * This class is responsible to check whether a request on an operand should be
@@ -44,7 +44,7 @@ public abstract class AbstractOperandValidator {
     /**
      * Sibling Operand that will have the opposite resize.
      */
-    protected Option<Operand> siblingOperandOption = Options.newNone();
+    protected java.util.Optional<Operand> siblingOperandOption = java.util.Optional.empty();
 
     private Range initialOperandRange;
 
@@ -110,7 +110,7 @@ public abstract class AbstractOperandValidator {
         } else {
             // The current operand new range is valid, we can check the sibling
             // operand
-            if (siblingOperandOption.some()) {
+            if (siblingOperandOption.isPresent()) {
                 Operand siblingOperand = siblingOperandOption.get();
                 initialSiblingOperandRange = siblingOperand.getVerticalRange();
                 Rectangle siblingOperandNewBounds = getInverseResizedBounds(new Rectangle(0, initialSiblingOperandRange.getLowerBound(), 0, initialSiblingOperandRange.width()));
@@ -129,7 +129,7 @@ public abstract class AbstractOperandValidator {
 
     private boolean checkContainedISequenceEvent() {
         boolean result = finalOperandRange.includes(currentOperand.getOccupiedRange().grown(LayoutConstants.EXECUTION_CHILDREN_MARGIN));
-        if (siblingOperandOption.some()) {
+        if (siblingOperandOption.isPresent()) {
             result = result && finalSiblingOperandRange.includes(siblingOperandOption.get().getOccupiedRange().grown(LayoutConstants.EXECUTION_CHILDREN_MARGIN));
         }
         return result;

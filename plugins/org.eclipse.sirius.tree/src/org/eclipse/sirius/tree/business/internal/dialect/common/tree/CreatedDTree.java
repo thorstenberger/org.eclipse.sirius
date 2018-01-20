@@ -13,8 +13,8 @@ package org.eclipse.sirius.tree.business.internal.dialect.common.tree;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.synchronizer.ChildCreationSupport;
 import org.eclipse.sirius.synchronizer.Mapping;
 import org.eclipse.sirius.synchronizer.OutputDescriptor;
@@ -88,8 +88,8 @@ class CreatedDTree extends AbstractCreatedDTreeItemContainer {
     }
 
     @Override
-    public Option<? extends ChildCreationSupport> getChildSupport() {
-        return Options.newSome(new TreeItemContainerChildSupport(getGlobalContext(), dnode));
+    public java.util.Optional<? extends ChildCreationSupport> getChildSupport() {
+        return java.util.Optional.of(new TreeItemContainerChildSupport(getGlobalContext(), dnode));
     }
 
     /**

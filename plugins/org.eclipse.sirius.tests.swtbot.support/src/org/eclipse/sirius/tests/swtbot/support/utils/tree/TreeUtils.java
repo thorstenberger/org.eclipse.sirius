@@ -17,7 +17,7 @@ import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.table.business.api.query.DCellQuery;
 import org.eclipse.sirius.table.metamodel.table.DCell;
 import org.eclipse.sirius.table.metamodel.table.DColumn;
@@ -288,8 +288,8 @@ public final class TreeUtils {
      *            the {@link DCell}
      */
     public static void checkTreeItemBackgroundColor(SWTBotEditor swtBotTableEditor, DCell dCell) {
-        Option<DTableElementStyle> optionalBackgroundStyleToApply = new DCellQuery(dCell).getBackgroundStyleToApply();
-        Assert.assertTrue("We should have a background style for the cell.", optionalBackgroundStyleToApply.some());
+        java.util.Optional<DTableElementStyle> optionalBackgroundStyleToApply = new DCellQuery(dCell).getBackgroundStyleToApply();
+        Assert.assertTrue("We should have a background style for the cell.", optionalBackgroundStyleToApply.isPresent());
         RGBValues backgroundColor = optionalBackgroundStyleToApply.get().getBackgroundColor();
         TreeItem treeItem = TreeUtils.getTreeItem(swtBotTableEditor, dCell.getLine());
         int dCellIndex = new DCellQuery(dCell).getColumnIndex();
@@ -365,8 +365,8 @@ public final class TreeUtils {
      *            the {@link DCell}
      */
     public static void checkTreeItemLabelSize(SWTBotEditor swtBotTableEditor, DCell dCell) {
-        Option<DTableElementStyle> optionalForegroundStyleToApply = new DCellQuery(dCell).getForegroundStyleToApply();
-        Assert.assertTrue("We should have a foreground Style for the cell.", optionalForegroundStyleToApply.some());
+        java.util.Optional<DTableElementStyle> optionalForegroundStyleToApply = new DCellQuery(dCell).getForegroundStyleToApply();
+        Assert.assertTrue("We should have a foreground Style for the cell.", optionalForegroundStyleToApply.isPresent());
         int labelSize = optionalForegroundStyleToApply.get().getLabelSize();
         checkTreeItemLabelSize(swtBotTableEditor, dCell, labelSize);
     }
@@ -418,8 +418,8 @@ public final class TreeUtils {
      *            the {@link DCell}
      */
     public static void checkTreeItemLabelFormat(SWTBotEditor swtBotTableEditor, DCell dCell) {
-        Option<DTableElementStyle> optionalForegroundStyleToApply = new DCellQuery(dCell).getForegroundStyleToApply();
-        Assert.assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        java.util.Optional<DTableElementStyle> optionalForegroundStyleToApply = new DCellQuery(dCell).getForegroundStyleToApply();
+        Assert.assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
         List<FontFormat> fontFormat = optionalForegroundStyleToApply.get().getLabelFormat();
         TreeItem treeItem = TreeUtils.getTreeItem(swtBotTableEditor, dCell.getLine());
         int dCellIndex = new DCellQuery(dCell).getColumnIndex();
@@ -480,8 +480,8 @@ public final class TreeUtils {
      *            the {@link DCell}
      */
     public static void checkTreeItemLabelColor(SWTBotEditor swtBotTableEditor, DCell dCell) {
-        Option<DTableElementStyle> optionalForegroundStyleToApply = new DCellQuery(dCell).getForegroundStyleToApply();
-        Assert.assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.some());
+        java.util.Optional<DTableElementStyle> optionalForegroundStyleToApply = new DCellQuery(dCell).getForegroundStyleToApply();
+        Assert.assertTrue("We should have a currentStyle for the cell.", optionalForegroundStyleToApply.isPresent());
         RGBValues foregroundColor = optionalForegroundStyleToApply.get().getForegroundColor();
         TreeItem treeItem = TreeUtils.getTreeItem(swtBotTableEditor, dCell.getLine());
         int dCellIndex = new DCellQuery(dCell).getColumnIndex();

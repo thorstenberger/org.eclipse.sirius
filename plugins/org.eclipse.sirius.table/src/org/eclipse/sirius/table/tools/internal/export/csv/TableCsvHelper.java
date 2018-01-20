@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.sirius.common.tools.api.util.StringUtil;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.table.business.api.helper.TableHelper;
 import org.eclipse.sirius.table.metamodel.table.DCell;
 import org.eclipse.sirius.table.metamodel.table.DColumn;
@@ -110,8 +110,8 @@ public final class TableCsvHelper {
             for (DColumn column : TableHelper.getTable(line).getColumns()) {
                 // If column is hidden, element of column not add to CSV export
                 if (column.isVisible()) {
-                    Option<DCell> optionalCell = TableHelper.getCell(line, column);
-                    if (optionalCell.some()) {
+                    java.util.Optional<DCell> optionalCell = TableHelper.getCell(line, column);
+                    if (optionalCell.isPresent()) {
                         lineCellValues.add(filler.getContent(optionalCell.get()));
                     } else {
                         lineCellValues.add(StringUtil.EMPTY_STRING);

@@ -40,8 +40,8 @@ import org.eclipse.sirius.diagram.EdgeStyle;
 import org.eclipse.sirius.diagram.ui.business.api.view.SiriusGMFHelper;
 import org.eclipse.sirius.diagram.ui.business.internal.operation.AbstractModelChangeOperation;
 import org.eclipse.sirius.diagram.ui.internal.operation.CenterEdgeEndModelChangeOperation;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.Style;
 import org.eclipse.sirius.viewpoint.ViewpointPackage;
 
@@ -127,7 +127,7 @@ public class EdgeLayoutUpdaterModelChangeTrigger implements ModelChangeTrigger {
     }
 
     @Override
-    public Option<Command> localChangesAboutToCommit(Collection<Notification> notifications) {
+    public java.util.Optional<Command> localChangesAboutToCommit(Collection<Notification> notifications) {
         Command command = null;
 
         // this collection contains gmf edges for which we already created a
@@ -141,8 +141,8 @@ public class EdgeLayoutUpdaterModelChangeTrigger implements ModelChangeTrigger {
             // RefreshEdgeLayoutNotificationFilter.REFRESH_FEATURES list and for
             // which the source or the target has not been moved
             if (isRefreshEdgeLayoutNeededForNotification(notification, notifications)) {
-                Option<Edge> optionalGmfEdge = getCorrespondingEdge(notification);
-                if (optionalGmfEdge.some() && edgesWithCreatedCommand.add(optionalGmfEdge.get())) {
+                java.util.Optional<Edge> optionalGmfEdge = getCorrespondingEdge(notification);
+                if (optionalGmfEdge.isPresent() && edgesWithCreatedCommand.add(optionalGmfEdge.get())) {
                     // if there are several notifications, we do not try to
                     // retrieve draw2D informations since they could be out of
                     // date.
@@ -156,7 +156,7 @@ public class EdgeLayoutUpdaterModelChangeTrigger implements ModelChangeTrigger {
             command = new EdgeLayoutUpdaterCommand(domain, operations);
         }
 
-        return Options.newSome(command);
+        return java.util.Optional.of(command);
     }
 
     private static final class EdgeLayoutUpdaterCommand extends RecordingCommand {
@@ -223,8 +223,8 @@ public class EdgeLayoutUpdaterModelChangeTrigger implements ModelChangeTrigger {
                     if (currentNotification == notification) {
                         considerAsConsequence = true;
                     } else {
-                        Option<Edge> optionalEdge = getCorrespondingEdge(currentNotification);
-                        if (optionalEdge.some()) {
+                        java.util.Optional<Edge> optionalEdge = getCorrespondingEdge(currentNotification);
+                        if (optionalEdge.isPresent()) {
                             considerAsConsequence = optionalEdge.get().equals(gmfEdge) && CONSEQUENCE_FEATURES.contains(currentNotification.getFeature());
                         }
                     }
@@ -248,8 +248,8 @@ public class EdgeLayoutUpdaterModelChangeTrigger implements ModelChangeTrigger {
      */
     private boolean isRefreshEdgeLayoutNeededForNotification(final Notification notification, Collection<Notification> notifications) {
         if (REFRESH_FEATURES.contains(notification.getFeature())) {
-            Option<Edge> optionalEdge = getCorrespondingEdge(notification);
-            if (optionalEdge.some()) {
+            java.util.Optional<Edge> optionalEdge = getCorrespondingEdge(notification);
+            if (optionalEdge.isPresent()) {
                 final Edge referenceEdge = optionalEdge.get();
                 // Analyze other notifications to detect if the source or the
                 // target of the concerned edges has been moved. In this case we
@@ -262,8 +262,8 @@ public class EdgeLayoutUpdaterModelChangeTrigger implements ModelChangeTrigger {
                         if (currentNotification == notification) {
                             apply = true;
                         } else {
-                            Option<? extends View> optionalView = getCorrespondingView(currentNotification);
-                            if (optionalView.some() && optionalView.get() == referenceEdge.getSource() || optionalView.get() == referenceEdge.getTarget()) {
+                            java.util.Optional<? extends View> optionalView = getCorrespondingView(currentNotification);
+                            if (optionalView.isPresent() && optionalView.get() == referenceEdge.getSource() || optionalView.get() == referenceEdge.getTarget()) {
                                 // The notification concerns the source or the
                                 // target of the edge, return true only if the
                                 // notification does not concern a move or a
@@ -288,9 +288,9 @@ public class EdgeLayoutUpdaterModelChangeTrigger implements ModelChangeTrigger {
      *            The {@link Notification} to analyze
      * @return an optional {@link View}
      */
-    private Option<? extends View> getCorrespondingView(Notification notification) {
-        Option<? extends View> result = getCorrespondingNode(notification);
-        if (!result.some()) {
+    private java.util.Optional<? extends View> getCorrespondingView(Notification notification) {
+        java.util.Optional<? extends View> result = getCorrespondingNode(notification);
+        if (!result.isPresent()) {
             result = getCorrespondingEdge(notification);
         }
         return result;
@@ -303,7 +303,7 @@ public class EdgeLayoutUpdaterModelChangeTrigger implements ModelChangeTrigger {
      *            The {@link Notification} to analyze
      * @return an optional {@link Edge}
      */
-    private Option<Edge> getCorrespondingEdge(Notification notification) {
+    private java.util.Optional<Edge> getCorrespondingEdge(Notification notification) {
         Edge gmfEdge = null;
         Object notifier = notification.getNotifier();
         if (notifier instanceof Edge) {
@@ -326,9 +326,9 @@ public class EdgeLayoutUpdaterModelChangeTrigger implements ModelChangeTrigger {
             gmfEdge = (Edge) ((RelativeBendpoints) notifier).eContainer();
         }
         if (gmfEdge == null) {
-            return Options.newNone();
+            return java.util.Optional.empty();
         } else {
-            return Options.newSome(gmfEdge);
+            return java.util.Optional.of(gmfEdge);
         }
     }
 
@@ -339,7 +339,7 @@ public class EdgeLayoutUpdaterModelChangeTrigger implements ModelChangeTrigger {
      *            The {@link Notification} to analyze
      * @return an optional {@link Node}
      */
-    private Option<Node> getCorrespondingNode(Notification notification) {
+    private java.util.Optional<Node> getCorrespondingNode(Notification notification) {
         Node gmfNode = null;
         Object notifier = notification.getNotifier();
         if (notifier instanceof DNode) {
@@ -356,9 +356,9 @@ public class EdgeLayoutUpdaterModelChangeTrigger implements ModelChangeTrigger {
             }
         }
         if (gmfNode == null) {
-            return Options.newNone();
+            return java.util.Optional.empty();
         } else {
-            return Options.newSome(gmfNode);
+            return java.util.Optional.of(gmfNode);
         }
     }
 }

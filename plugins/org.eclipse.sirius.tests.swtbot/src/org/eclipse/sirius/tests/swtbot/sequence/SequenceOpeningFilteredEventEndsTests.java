@@ -21,8 +21,8 @@ import org.eclipse.sirius.business.api.session.SessionStatus;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.ISequenceEvent;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.ISequenceEventEditPart;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.part.LifelineEditPart;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.sample.interactions.Interaction;
 import org.eclipse.sirius.tests.swtbot.Activator;
 import org.eclipse.sirius.ui.business.api.preferences.SiriusUIPreferencesKeys;
@@ -82,8 +82,8 @@ public class SequenceOpeningFilteredEventEndsTests extends AbstractSequenceDiagr
      * {@inheritDoc}
      */
     @Override
-    protected Option<String> getDRepresentationName() {
-        return Options.newSome(REPRESENTATION_NAME);
+    protected java.util.Optional<String> getDRepresentationName() {
+        return java.util.Optional.of(REPRESENTATION_NAME);
     }
 
     /**
@@ -131,8 +131,8 @@ public class SequenceOpeningFilteredEventEndsTests extends AbstractSequenceDiagr
         ISequenceEvent lifelineB = ((ISequenceEventEditPart) lifelineBBot.part()).getISequenceEvent();
         assertTrue(lifelineB.getSubEvents().isEmpty());
 
-        Option<EObject> interactionOption = lifelineB.getDiagram().getSemanticTargetElement();
-        assertTrue(interactionOption.some());
+        java.util.Optional<EObject> interactionOption = lifelineB.getDiagram().getSemanticTargetElement();
+        assertTrue(interactionOption.isPresent());
 
         Interaction interaction = (Interaction) interactionOption.get();
         assertEquals(1, interaction.getExecutions().size());

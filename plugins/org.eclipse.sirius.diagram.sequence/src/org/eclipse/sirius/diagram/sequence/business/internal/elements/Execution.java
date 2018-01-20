@@ -37,8 +37,8 @@ import org.eclipse.sirius.diagram.sequence.ordering.CompoundEventEnd;
 import org.eclipse.sirius.diagram.sequence.ordering.EventEnd;
 import org.eclipse.sirius.diagram.sequence.ordering.SingleEventEnd;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -115,13 +115,13 @@ public class Execution extends AbstractNodeEvent {
     public List<Message> getLinkedMessages() {
         List<Message> linkedMessages = new ArrayList<>();
 
-        Option<Message> startMessage = getStartMessage();
-        if (startMessage.some()) {
+        java.util.Optional<Message> startMessage = getStartMessage();
+        if (startMessage.isPresent()) {
             linkedMessages.add(startMessage.get());
         }
 
-        Option<Message> targetMessage = getEndMessage();
-        if (targetMessage.some()) {
+        java.util.Optional<Message> targetMessage = getEndMessage();
+        if (targetMessage.isPresent()) {
             linkedMessages.add(targetMessage.get());
         }
 
@@ -134,11 +134,11 @@ public class Execution extends AbstractNodeEvent {
      * 
      * @return the message linked to the start of this execution, if any.
      */
-    public Option<Message> getStartMessage() {
+    public java.util.Optional<Message> getStartMessage() {
         return getCompoundMessage(true);
     }
 
-    private Option<Message> getCompoundMessage(boolean start) {
+    private java.util.Optional<Message> getCompoundMessage(boolean start) {
         Node node = getNotationNode();
         Set<Edge> edges = new HashSet<>();
         Iterables.addAll(edges, Iterables.filter(node.getSourceEdges(), Edge.class));
@@ -146,8 +146,8 @@ public class Execution extends AbstractNodeEvent {
 
         List<EventEnd> ends = EventEndHelper.findEndsFromSemanticOrdering(this);
         for (Edge edge : edges) {
-            Option<Message> message = ISequenceElementAccessor.getMessage(edge);
-            if (message.some()) {
+            java.util.Optional<Message> message = ISequenceElementAccessor.getMessage(edge);
+            if (message.isPresent()) {
                 List<EventEnd> messageEnds = EventEndHelper.findEndsFromSemanticOrdering(message.get());
                 Iterables.retainAll(messageEnds, ends);
                 if (!messageEnds.isEmpty()) {
@@ -158,7 +158,7 @@ public class Execution extends AbstractNodeEvent {
                 }
             }
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -167,7 +167,7 @@ public class Execution extends AbstractNodeEvent {
      * 
      * @return the message linked to the end of this execution, if any.
      */
-    public Option<Message> getEndMessage() {
+    public java.util.Optional<Message> getEndMessage() {
         return getCompoundMessage(false);
     }
 
@@ -178,8 +178,8 @@ public class Execution extends AbstractNodeEvent {
      *         linked to its start.
      */
     public boolean startsWithReflectiveMessage() {
-        Option<Message> startMessage = getStartMessage();
-        if (startMessage.some()) {
+        java.util.Optional<Message> startMessage = getStartMessage();
+        if (startMessage.isPresent()) {
             return startMessage.get().isReflective();
         } else {
             return false;
@@ -193,8 +193,8 @@ public class Execution extends AbstractNodeEvent {
      *         linked to its end.
      */
     public boolean endsWithReflectiveMessage() {
-        Option<Message> finishMessage = getEndMessage();
-        if (finishMessage.some()) {
+        java.util.Optional<Message> finishMessage = getEndMessage();
+        if (finishMessage.isPresent()) {
             return finishMessage.get().isReflective();
         } else {
             return false;
@@ -209,9 +209,9 @@ public class Execution extends AbstractNodeEvent {
      * @return if the execution is reflective
      */
     public boolean isReflective() {
-        Option<Message> startMessage = getStartMessage();
-        Option<Message> endMessage = getEndMessage();
-        return startMessage.some() && startMessage.get().isReflective() && (!endMessage.some() || endMessage.get().isReflective());
+        java.util.Optional<Message> startMessage = getStartMessage();
+        java.util.Optional<Message> endMessage = getEndMessage();
+        return startMessage.isPresent() && startMessage.get().isReflective() && (!endMessage.isPresent() || endMessage.get().isReflective());
     }
 
     @Override
@@ -231,8 +231,8 @@ public class Execution extends AbstractNodeEvent {
         EObject viewContainer = this.view.eContainer();
         if (viewContainer instanceof View) {
             View parentView = (View) viewContainer;
-            Option<ISequenceEvent> parentElement = ISequenceElementAccessor.getISequenceEvent(parentView);
-            if (parentElement.some()) {
+            java.util.Optional<ISequenceEvent> parentElement = ISequenceElementAccessor.getISequenceEvent(parentView);
+            if (parentElement.isPresent()) {
                 return parentElement.get();
             }
         }
@@ -248,7 +248,7 @@ public class Execution extends AbstractNodeEvent {
      * @see ISequenceEvent#getParentOperand()
      */
     @Override
-    public Option<Operand> getParentOperand(final int verticalPosition) {
+    public java.util.Optional<Operand> getParentOperand(final int verticalPosition) {
         return new ParentOperandFinder(this).getParentOperand(new Range(verticalPosition, verticalPosition));
     }
 
@@ -261,7 +261,7 @@ public class Execution extends AbstractNodeEvent {
      * @see ISequenceEvent#getParentOperand()
      */
     @Override
-    public Option<Operand> getParentOperand(final Range range) {
+    public java.util.Optional<Operand> getParentOperand(final Range range) {
         return new ParentOperandFinder(this).getParentOperand(range);
     }
 
@@ -271,7 +271,7 @@ public class Execution extends AbstractNodeEvent {
      * @return the deepest Operand container if existing
      */
     @Override
-    public Option<Operand> getParentOperand() {
+    public java.util.Optional<Operand> getParentOperand() {
         return new ParentOperandFinder(this).getParentOperand();
     }
 
@@ -336,7 +336,7 @@ public class Execution extends AbstractNodeEvent {
     }
 
     @Override
-    public Option<Lifeline> getLifeline() {
+    public java.util.Optional<Lifeline> getLifeline() {
         return getParentLifeline();
     }
 

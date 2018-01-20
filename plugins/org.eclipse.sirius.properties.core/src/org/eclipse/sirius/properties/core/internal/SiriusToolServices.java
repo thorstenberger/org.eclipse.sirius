@@ -23,7 +23,7 @@ import org.eclipse.sirius.business.api.helper.task.TaskHelper;
 import org.eclipse.sirius.business.api.query.EObjectQuery;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.properties.EditSupport;
 import org.eclipse.sirius.properties.ViewExtensionDescription;
 import org.eclipse.sirius.properties.core.api.SiriusInputDescriptor;
@@ -178,8 +178,8 @@ public class SiriusToolServices {
      * @return the Sirius session associated to a given context.
      */
     public Session session(SiriusContext ctx) {
-        Option<Session> s = ctx.getSession();
-        if (s.some()) {
+        java.util.Optional<Session> s = ctx.getSession();
+        if (s.isPresent()) {
             return s.get();
         } else {
             return null;
@@ -195,8 +195,8 @@ public class SiriusToolServices {
      * @return the Sirius representation associated to a given context.
      */
     public DRepresentation representation(SiriusContext ctx) {
-        Option<DRepresentation> r = ctx.getDRepresentation();
-        if (r.some()) {
+        java.util.Optional<DRepresentation> r = ctx.getDRepresentation();
+        if (r.isPresent()) {
             return r.get();
         } else {
             return null;
@@ -224,8 +224,8 @@ public class SiriusToolServices {
      * @return the main semantic element associated to a given context.
      */
     public EObject mainSemanticElement(SiriusContext ctx) {
-        Option<EObject> target = ctx.getMainSemanticElement();
-        if (target.some()) {
+        java.util.Optional<EObject> target = ctx.getMainSemanticElement();
+        if (target.isPresent()) {
             return target.get();
         } else {
             return null;
@@ -241,8 +241,8 @@ public class SiriusToolServices {
      * @return all the semantic elements associated to a given context.
      */
     public List<EObject> allSemanticElements(SiriusContext ctx) {
-        Option<List<EObject>> elements = ctx.getAdditionalSemanticElements();
-        if (elements.some()) {
+        java.util.Optional<List<EObject>> elements = ctx.getAdditionalSemanticElements();
+        if (elements.isPresent()) {
             return elements.get();
         } else {
             return null;

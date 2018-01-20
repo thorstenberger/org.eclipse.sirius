@@ -14,8 +14,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * A class aggregating all the queries (read-only!) having a URI as a starting
@@ -55,7 +55,7 @@ public class URIQuery {
      * 
      * @return the IResource located at the given URI, null if no resource found
      */
-    public Option<IResource> getCorrespondingResource() {
+    public java.util.Optional<IResource> getCorrespondingResource() {
         IResource res = null;
         if (uri.isPlatformPlugin()) {
             String pluginResourceString = uri.toString();
@@ -73,9 +73,9 @@ public class URIQuery {
             }
         }
         if (res == null) {
-            return Options.newNone();
+            return java.util.Optional.empty();
         } else {
-            return Options.newSome(res);
+            return java.util.Optional.of(res);
         }
     }
 

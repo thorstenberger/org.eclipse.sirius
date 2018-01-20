@@ -31,7 +31,7 @@ import org.eclipse.sirius.business.api.query.DRepresentationQuery;
 import org.eclipse.sirius.business.api.query.IFileQuery;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionStatus;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ui.business.api.preferences.SiriusUIPreferencesKeys;
 import org.eclipse.sirius.ui.business.api.session.IEditingSession;
 import org.eclipse.sirius.ui.business.api.session.SessionUIManager;
@@ -205,8 +205,8 @@ public class SiriusCommonLabelProvider extends ColumnLabelProvider implements IC
         String text = null;
         if (element instanceof IProject) {
             IProject project = (IProject) element;
-            Option<ModelingProject> modelingProject = ModelingProject.asModelingProject(project);
-            if (modelingProject.some() && SiriusCommonLabelProvider.shoudlShowSessionDirtyStatus(modelingProject.get().getSession())) {
+            java.util.Optional<ModelingProject> modelingProject = ModelingProject.asModelingProject(project);
+            if (modelingProject.isPresent() && SiriusCommonLabelProvider.shoudlShowSessionDirtyStatus(modelingProject.get().getSession())) {
                 text = SiriusCommonLabelProvider.DIRTY + project.getName();
             }
         } else if (element instanceof IFile) {

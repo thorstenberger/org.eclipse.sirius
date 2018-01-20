@@ -44,7 +44,7 @@ import org.eclipse.sirius.diagram.ui.tools.api.format.FormatDataHelper;
 import org.eclipse.sirius.diagram.ui.tools.api.format.FormatDataKey;
 import org.eclipse.sirius.diagram.ui.tools.internal.format.semantic.SemanticEdgeFormatDataKey;
 import org.eclipse.sirius.diagram.ui.tools.internal.format.semantic.SemanticNodeFormatDataKey;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.draw2d.figure.FigureUtilities;
 import org.eclipse.sirius.viewpoint.DStylizable;
 
@@ -102,8 +102,8 @@ public class FormatDataHelperImpl implements FormatDataHelper {
             LayoutConstraint formatConstraint = node.getLayoutConstraint();
             if (formatConstraint instanceof Bounds) {
                 NodeQuery nodeQuery = new NodeQuery(node);
-                Option<Bounds> option = nodeQuery.getExtendedBounds();
-                if (option.some()) {
+                java.util.Optional<Bounds> option = nodeQuery.getExtendedBounds();
+                if (option.isPresent()) {
                     Bounds unCollapseBounds = option.get();
                     int deltaX = ((Bounds) formatConstraint).getX() - unCollapseBounds.getX();
                     int deltaY = ((Bounds) formatConstraint).getY() - unCollapseBounds.getY();

@@ -13,7 +13,7 @@ package org.eclipse.sirius.diagram.business.internal.repair.resource.session.dia
 import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.DSemanticDiagram;
 import org.eclipse.sirius.diagram.business.api.query.DDiagramElementQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.sirius.viewpoint.description.RepresentationElementMapping;
 
@@ -95,8 +95,8 @@ public class LostElementDataWithMapping extends AbstractLostElementDataWithTarge
         boolean result;
         if (semanticDecorator instanceof DDiagramElement) {
             final DDiagramElement diagramElement = (DDiagramElement) semanticDecorator;
-            final Option<? extends RepresentationElementMapping> extractedMapping = new DDiagramElementQuery(diagramElement).getMapping();
-            result = extractedMapping != null && extractedMapping.some();
+            final java.util.Optional<? extends RepresentationElementMapping> extractedMapping = new DDiagramElementQuery(diagramElement).getMapping();
+            result = extractedMapping != null && extractedMapping.isPresent();
             result = result && doIsSimilarTo(diagramElement, extractedMapping.get());
         } else {
             // this object doesn't manage DDiagram. See LostDiagramData class

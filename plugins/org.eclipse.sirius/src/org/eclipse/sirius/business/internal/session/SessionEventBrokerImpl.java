@@ -28,7 +28,7 @@ import org.eclipse.emf.transaction.RollbackException;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.sirius.business.api.session.ModelChangeTrigger;
 import org.eclipse.sirius.business.api.session.SessionEventBroker;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -202,8 +202,8 @@ public class SessionEventBrokerImpl extends ResourceSetListenerImpl implements S
             for (ModelChangeTrigger key : sortedKeys) {
                 Collection<Notification> notif = listenersToNotify.get(key);
                 if (notif != null && !notif.isEmpty()) {
-                    Option<Command> triggerCmdOption = key.localChangesAboutToCommit(notif);
-                    if (triggerCmdOption.some() && triggerCmdOption.get().canExecute()) {
+                    java.util.Optional<Command> triggerCmdOption = key.localChangesAboutToCommit(notif);
+                    if (triggerCmdOption.isPresent() && triggerCmdOption.get().canExecute()) {
                         compoundCommand.append(triggerCmdOption.get());
                     }
                 }

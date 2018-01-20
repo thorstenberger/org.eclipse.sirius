@@ -28,8 +28,8 @@ import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterContext;
 import org.eclipse.sirius.common.tools.api.interpreter.IInterpreterProvider;
 import org.eclipse.sirius.common.tools.api.interpreter.JavaExtensionsManager;
 import org.eclipse.sirius.common.tools.api.interpreter.ValidationResult;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -101,13 +101,13 @@ public class ServiceInterpreter extends VariableInterpreter implements org.eclip
      *            The expression after the {@link ServiceInterpreter#PREFIX}.
      * @return the receiver variable name if any, none Option otherwise.
      */
-    public static Option<String> getReceiverVariableName(String expression) {
+    public static java.util.Optional<String> getReceiverVariableName(String expression) {
         int indexOfServiceName = expression.indexOf(RECEIVER_SEPARATOR);
         if (indexOfServiceName != -1) {
             String receiverVariableName = expression.substring(0, indexOfServiceName);
-            return Options.newSome(receiverVariableName);
+            return java.util.Optional.of(receiverVariableName);
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     @Override
@@ -126,10 +126,10 @@ public class ServiceInterpreter extends VariableInterpreter implements org.eclip
         Object evaluation = null;
         if (target != null && expression != null && expression.startsWith(PREFIX)) {
             String serviceCall = expression.substring(PREFIX.length()).trim();
-            Option<String> receiverVariableName = getReceiverVariableName(serviceCall);
+            java.util.Optional<String> receiverVariableName = getReceiverVariableName(serviceCall);
             EObject receiver = target;
             String serviceName = serviceCall;
-            if (receiverVariableName.some()) {
+            if (receiverVariableName.isPresent()) {
                 serviceCall = serviceCall.substring(receiverVariableName.get().length() + 1);
                 Object objectReceiver = evaluateVariable(target, receiverVariableName.get().trim());
                 if (objectReceiver instanceof EObject) {

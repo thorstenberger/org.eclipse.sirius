@@ -43,7 +43,7 @@ import org.eclipse.sirius.diagram.ui.business.api.provider.AbstractDDiagramEleme
 import org.eclipse.sirius.diagram.ui.business.api.provider.DEdgeLabelItemProvider;
 import org.eclipse.sirius.diagram.ui.business.api.provider.DNodeLabelItemProvider;
 import org.eclipse.sirius.diagram.ui.tools.internal.editor.DiagramOutlinePageListener;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.viewpoint.provider.ViewpointItemProviderAdapterFactory;
 
 /**
@@ -97,8 +97,8 @@ public class OutlineContentProvider implements ITreeContentProvider, DiagramOutl
                     result.add(dde);
                 }
             } else if (element instanceof AbstractDDiagramElementLabelItemProvider) {
-                Option<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) element).getDiagramElementTarget();
-                if (optionTarget.some() && !isFiltered(mappingManager, optionTarget.get())) {
+                java.util.Optional<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) element).getDiagramElementTarget();
+                if (optionTarget.isPresent() && !isFiltered(mappingManager, optionTarget.get())) {
                     result.add(element);
                 }
             }

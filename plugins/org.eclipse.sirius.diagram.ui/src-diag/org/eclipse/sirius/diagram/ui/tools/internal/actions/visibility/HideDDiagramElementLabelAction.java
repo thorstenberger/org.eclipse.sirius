@@ -40,7 +40,7 @@ import org.eclipse.sirius.diagram.ui.provider.DiagramUIPlugin;
 import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
 import org.eclipse.sirius.diagram.ui.tools.api.image.DiagramImagesPath;
 import org.eclipse.sirius.diagram.ui.tools.internal.editor.DiagramOutlinePage;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
@@ -65,8 +65,8 @@ public class HideDDiagramElementLabelAction extends Action implements IObjectAct
             } else if (input instanceof DDiagramElement) {
                 result = HideDDiagramElementLabelAction.isEnabled((DDiagramElement) input);
             } else if (input instanceof AbstractDDiagramElementLabelItemProvider) {
-                Option<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) input).getDiagramElementTarget();
-                if (optionTarget.some()) {
+                java.util.Optional<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) input).getDiagramElementTarget();
+                if (optionTarget.isPresent()) {
                     result = HideDDiagramElementLabelAction.isEnabled(optionTarget.get());
                 }
             }
@@ -180,8 +180,8 @@ public class HideDDiagramElementLabelAction extends Action implements IObjectAct
                 if (obj instanceof EObject) {
                     eObjectSelection.add((EObject) obj);
                 } else if (obj instanceof AbstractDDiagramElementLabelItemProvider) {
-                    Option<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) obj).getDiagramElementTarget();
-                    if (optionTarget.some()) {
+                    java.util.Optional<DDiagramElement> optionTarget = ((AbstractDDiagramElementLabelItemProvider) obj).getDiagramElementTarget();
+                    if (optionTarget.isPresent()) {
                         eObjectSelection.add(optionTarget.get());
                     }
                 }

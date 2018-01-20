@@ -24,8 +24,8 @@ import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.common.tools.api.util.EqualityHelper;
 import org.eclipse.sirius.common.tools.api.util.MessageTranslator;
 import org.eclipse.sirius.common.ui.tools.api.view.common.item.ItemDecorator;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.ui.tools.api.views.common.item.ViewpointItem;
 import org.eclipse.sirius.viewpoint.description.RepresentationDescription;
 import org.eclipse.sirius.viewpoint.description.Viewpoint;
@@ -149,8 +149,8 @@ public class ViewpointItemImpl implements ViewpointItem, Comparable<ViewpointIte
     }
 
     @Override
-    public Option<Session> getSession() {
-        return Options.newSome(session);
+    public java.util.Optional<Session> getSession() {
+        return java.util.Optional.of(session);
     }
 
     @Override

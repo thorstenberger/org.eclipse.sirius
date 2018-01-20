@@ -24,7 +24,7 @@ import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.sirius.common.tools.api.find.AbstractFindLabelEngine;
 import org.eclipse.sirius.diagram.ui.tools.api.figure.AirStyleDefaultSizeNodeFigure;
 import org.eclipse.sirius.diagram.ui.tools.api.figure.FigureQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
@@ -113,8 +113,8 @@ public class BasicFindLabelEngine extends AbstractFindLabelEngine {
     }
 
     private String getText(final IFigure figure) {
-        Option<String> result = new FigureQuery(figure).getText();
-        if (result.some()) {
+        java.util.Optional<String> result = new FigureQuery(figure).getText();
+        if (result.isPresent()) {
             return result.get();
         }
         return null;

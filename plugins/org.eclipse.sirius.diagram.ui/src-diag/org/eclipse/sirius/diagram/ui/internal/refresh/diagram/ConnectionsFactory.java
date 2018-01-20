@@ -55,7 +55,7 @@ import org.eclipse.sirius.diagram.ui.provider.DiagramUIPlugin;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
 import org.eclipse.sirius.diagram.ui.tools.internal.routers.RectilinearEdgeUtil;
 import org.eclipse.sirius.diagram.ui.tools.internal.util.GMFNotationUtilities;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ext.gmf.runtime.editparts.GraphicalHelper;
 
 /**
@@ -227,7 +227,7 @@ public class ConnectionsFactory {
                         getAttributesForSourceOrTargetMove(egdeLayoutData, edge, source, target);
                     }
                 } else {
-                    Option<Rectangle> optionalSourceBounds = GMFHelper.getAbsoluteBounds(source);
+                    java.util.Optional<Rectangle> optionalSourceBounds = GMFHelper.getAbsoluteBounds(source);
                     LayoutData sourceLayoutData = null;
                     if (sourceEdgeTarget instanceof AbstractDNode) {
                         AbstractDNode sourceDNode = (AbstractDNode) sourceEdgeTarget;
@@ -235,14 +235,14 @@ public class ConnectionsFactory {
                     }
                     Point firstClick = getFirstClick(sourceLayoutData, optionalSourceBounds);
 
-                    if (optionalSourceBounds.some()) {
+                    if (optionalSourceBounds.isPresent()) {
                         PrecisionPoint sourceRelativeLocation = BaseSlidableAnchor.getAnchorRelativeLocation(firstClick, optionalSourceBounds.get());
                         sourceTerminal = GMFNotationUtilities.getTerminalString(sourceRelativeLocation.preciseX(), sourceRelativeLocation.preciseY());
                     } else {
                         sourceTerminal = GMFNotationUtilities.getTerminalString(0.5d, 0.5d);
                     }
 
-                    Option<Rectangle> optionaltargetBounds = GMFHelper.getAbsoluteBounds(target);
+                    java.util.Optional<Rectangle> optionaltargetBounds = GMFHelper.getAbsoluteBounds(target);
                     LayoutData targetLayoutData = null;
                     if (targetEdgeTarget instanceof AbstractDNode) {
                         AbstractDNode targetDNode = (AbstractDNode) targetEdgeTarget;
@@ -250,7 +250,7 @@ public class ConnectionsFactory {
                     }
                     Point secondClick = getSecondClick(targetLayoutData, optionaltargetBounds);
 
-                    if (optionaltargetBounds.some()) {
+                    if (optionaltargetBounds.isPresent()) {
                         PrecisionPoint targetRelativeLocation = BaseSlidableAnchor.getAnchorRelativeLocation(secondClick, optionaltargetBounds.get());
                         targetTerminal = GMFNotationUtilities.getTerminalString(targetRelativeLocation.preciseX(), targetRelativeLocation.preciseY());
                     } else {
@@ -266,10 +266,10 @@ public class ConnectionsFactory {
                     SlidableAnchor targetAnchor = new SlidableAnchor(target, targetRelativeReference);
                     targetRefPoint = targetAnchor.getLocation(targetAnchor.getReferencePoint());
 
-                    Option<Point> srcConnectionBendpoint = GraphicalHelper.getIntersection(sourceRefPoint, targetRefPoint, optionalSourceBounds.get(), true);
-                    Option<Point> tgtConnectionBendpoint = GraphicalHelper.getIntersection(sourceRefPoint, targetRefPoint, optionaltargetBounds.get(), false);
+                    java.util.Optional<Point> srcConnectionBendpoint = GraphicalHelper.getIntersection(sourceRefPoint, targetRefPoint, optionalSourceBounds.get(), true);
+                    java.util.Optional<Point> tgtConnectionBendpoint = GraphicalHelper.getIntersection(sourceRefPoint, targetRefPoint, optionaltargetBounds.get(), false);
 
-                    if (srcConnectionBendpoint.some() && tgtConnectionBendpoint.some()) {
+                    if (srcConnectionBendpoint.isPresent() && tgtConnectionBendpoint.isPresent()) {
                         pointList.addPoint(srcConnectionBendpoint.get());
                         pointList.addPoint(tgtConnectionBendpoint.get());
                         EdgeQuery edgeQuery = new EdgeQuery(edge);
@@ -330,11 +330,11 @@ public class ConnectionsFactory {
 
                 // Compute connection bendpoints
                 Rectangle optionalSourceBounds = GraphicalHelper.getAbsoluteBoundsIn100Percent(srceEditPart);
-                Option<Point> srcConnectionBendpoint = GraphicalHelper.getIntersection(sourceRefPoint, targetRefPoint, optionalSourceBounds, true);
+                java.util.Optional<Point> srcConnectionBendpoint = GraphicalHelper.getIntersection(sourceRefPoint, targetRefPoint, optionalSourceBounds, true);
                 Rectangle optionaltargetBounds = GraphicalHelper.getAbsoluteBoundsIn100Percent(tgtEditPart);
-                Option<Point> tgtConnectionBendpoint = GraphicalHelper.getIntersection(sourceRefPoint, targetRefPoint, optionaltargetBounds, false);
+                java.util.Optional<Point> tgtConnectionBendpoint = GraphicalHelper.getIntersection(sourceRefPoint, targetRefPoint, optionaltargetBounds, false);
 
-                if (srcConnectionBendpoint.some() && tgtConnectionBendpoint.some()) {
+                if (srcConnectionBendpoint.isPresent() && tgtConnectionBendpoint.isPresent()) {
                     EdgeQuery edgeQuery = new EdgeQuery(edge);
                     Routing routingStyle = edgeQuery.getRoutingStyle();
                     // Compute anchor logical coordinates
@@ -418,10 +418,10 @@ public class ConnectionsFactory {
         }
     }
 
-    private Point getFirstClick(LayoutData sourceLayoutData, Option<Rectangle> optionalSourceBounds) {
+    private Point getFirstClick(LayoutData sourceLayoutData, java.util.Optional<Rectangle> optionalSourceBounds) {
         Point firstClick = new Point(0, 0);
         if (sourceLayoutData == null) {
-            if (optionalSourceBounds.some()) {
+            if (optionalSourceBounds.isPresent()) {
                 firstClick = optionalSourceBounds.get().getCenter();
             }
         } else {
@@ -431,10 +431,10 @@ public class ConnectionsFactory {
         return firstClick;
     }
 
-    private Point getSecondClick(LayoutData targetLayoutData, Option<Rectangle> optionaltargetBounds) {
+    private Point getSecondClick(LayoutData targetLayoutData, java.util.Optional<Rectangle> optionaltargetBounds) {
         Point secondClick = new Point(0, 0);
         if (targetLayoutData == null) {
-            if (optionaltargetBounds.some()) {
+            if (optionaltargetBounds.isPresent()) {
                 secondClick = optionaltargetBounds.get().getCenter();
             }
         } else {
@@ -449,8 +449,8 @@ public class ConnectionsFactory {
         // Set connection anchors :
         if (edgeQuery.isEdgeOnTreeOnSourceSide()) {
             // Use sourceTerminal of other edges
-            Option<IdentityAnchor> optionalSourceIdentityAnchorOfBrother = edgeQuery.getSourceAnchorOfFirstBrotherWithSameSource();
-            if (optionalSourceIdentityAnchorOfBrother.some()) {
+            java.util.Optional<IdentityAnchor> optionalSourceIdentityAnchorOfBrother = edgeQuery.getSourceAnchorOfFirstBrotherWithSameSource();
+            if (optionalSourceIdentityAnchorOfBrother.isPresent()) {
                 sourceTerminal = optionalSourceIdentityAnchorOfBrother.get().getId();
             }
         }
@@ -467,8 +467,8 @@ public class ConnectionsFactory {
             }
         }
         if (edgeQuery.isEdgeOnTreeOnTargetSide()) {
-            Option<IdentityAnchor> optionalTargetIdentityAnchorOfBrother = edgeQuery.getTargetAnchorOfFirstBrotherWithSameTarget();
-            if (optionalTargetIdentityAnchorOfBrother.some()) {
+            java.util.Optional<IdentityAnchor> optionalTargetIdentityAnchorOfBrother = edgeQuery.getTargetAnchorOfFirstBrotherWithSameTarget();
+            if (optionalTargetIdentityAnchorOfBrother.isPresent()) {
                 // Use targetTerminal of other edges
                 targetTerminal = optionalTargetIdentityAnchorOfBrother.get().getId();
             }

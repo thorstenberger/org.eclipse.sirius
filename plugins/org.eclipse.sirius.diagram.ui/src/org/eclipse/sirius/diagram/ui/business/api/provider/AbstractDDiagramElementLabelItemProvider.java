@@ -25,8 +25,8 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.ui.provider.DiagramUIPlugin;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * A custom ItemProvider to add the label of DDiagramElement. This ItemProvider
@@ -170,10 +170,10 @@ public abstract class AbstractDDiagramElementLabelItemProvider extends ItemProvi
      *
      * @return An option of DDiagramElement.
      */
-    public Option<DDiagramElement> getDiagramElementTarget() {
+    public java.util.Optional<DDiagramElement> getDiagramElementTarget() {
         if (getTarget() instanceof DDiagramElement) {
-            return Options.newSome((DDiagramElement) getTarget());
+            return java.util.Optional.of((DDiagramElement) getTarget());
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 }

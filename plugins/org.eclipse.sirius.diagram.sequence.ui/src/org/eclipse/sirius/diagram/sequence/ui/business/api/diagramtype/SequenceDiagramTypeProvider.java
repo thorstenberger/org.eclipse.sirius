@@ -68,8 +68,8 @@ import org.eclipse.sirius.diagram.sequence.ui.Messages;
 import org.eclipse.sirius.diagram.sequence.ui.business.internal.diagramtype.SequenceCollapseUpdater;
 import org.eclipse.sirius.diagram.sequence.ui.business.internal.diagramtype.SequenceToolInterpretedExpressionSwitch;
 import org.eclipse.sirius.diagram.ui.business.api.query.DDiagramGraphicalQuery;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.viewpoint.DSemanticDecorator;
 import org.eclipse.sirius.viewpoint.description.AbstractVariable;
 
@@ -334,8 +334,8 @@ public class SequenceDiagramTypeProvider implements IDiagramDescriptionProvider 
             Diagram gmfDiagram = getGmfDiagram(diagram);
 
             if (gmfDiagram != null) {
-                Option<SequenceDiagram> optionalSequenceDiagram = ISequenceElementAccessor.getSequenceDiagram(gmfDiagram);
-                if (optionalSequenceDiagram.some()) {
+                java.util.Optional<SequenceDiagram> optionalSequenceDiagram = ISequenceElementAccessor.getSequenceDiagram(gmfDiagram);
+                if (optionalSequenceDiagram.isPresent()) {
                     Collection<InstanceRole> instanceRoles = optionalSequenceDiagram.get().getSortedInstanceRole();
                     for (InstanceRole instanceRole : instanceRoles) {
                         result.add(new InstanceRoleQuery(instanceRole).getHeaderData());
@@ -350,8 +350,8 @@ public class SequenceDiagramTypeProvider implements IDiagramDescriptionProvider 
     private Diagram getGmfDiagram(DDiagram diagram) {
         Diagram gmfDiagram = null;
         SequenceDDiagram sequenceDDiagram = (SequenceDDiagram) diagram;
-        Option<Diagram> optionDiagram = new DDiagramGraphicalQuery(sequenceDDiagram).getAssociatedGMFDiagram();
-        if (optionDiagram.some()) {
+        java.util.Optional<Diagram> optionDiagram = new DDiagramGraphicalQuery(sequenceDDiagram).getAssociatedGMFDiagram();
+        if (optionDiagram.isPresent()) {
             gmfDiagram = optionDiagram.get();
         } else {
             Resource eResource = diagram.eResource();
@@ -396,23 +396,23 @@ public class SequenceDiagramTypeProvider implements IDiagramDescriptionProvider 
          * @see org.eclipse.sirius.business.api.dialect.description.IInterpretedExpressionTargetSwitch#doSwitch(org.eclipse.emf.ecore.EObject)
          */
         @Override
-        public Option<Collection<String>> doSwitch(EObject target, boolean considerFeature) {
+        public java.util.Optional<Collection<String>> doSwitch(EObject target, boolean considerFeature) {
             Collection<String> targetTypes = new LinkedHashSet<>();
-            Option<Collection<String>> expressionTarget = Options.newSome(targetTypes);
+            java.util.Optional<Collection<String>> expressionTarget = java.util.Optional.of(targetTypes);
             if (target != null) {
                 // Step 1 : apply the sequence diagram specific switch
                 sequenceSwitch.setConsiderFeature(considerFeature);
                 expressionTarget = sequenceSwitch.doSwitch(target);
 
                 // If no result has been found
-                if (expressionTarget.some() && expressionTarget.get().isEmpty()) {
+                if (expressionTarget.isPresent() && expressionTarget.get().isEmpty()) {
                     // Step 2 : apply the sequence tool specific switch
                     toolSwitch.setConsiderFeature(considerFeature);
                     expressionTarget = toolSwitch.doSwitch(target);
                 }
 
                 // If no result has been found
-                if (expressionTarget.some() && expressionTarget.get().isEmpty()) {
+                if (expressionTarget.isPresent() && expressionTarget.get().isEmpty()) {
                     // Step 3 : we use the default switch
                     expressionTarget = defaultSwitch.doSwitch(target, considerFeature);
                 }
@@ -434,11 +434,11 @@ public class SequenceDiagramTypeProvider implements IDiagramDescriptionProvider 
      *      #getCollapseUpdater(DDiagram)
      */
     @Override
-    public Option<? extends ICollapseUpdater> getCollapseUpdater(DDiagram diagram) {
+    public java.util.Optional<? extends ICollapseUpdater> getCollapseUpdater(DDiagram diagram) {
         if (diagram != null && diagram.getDescription() != null && handles(diagram.getDescription().eClass().getEPackage())) {
-            return Options.newSome(new SequenceCollapseUpdater());
+            return java.util.Optional.of(new SequenceCollapseUpdater());
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

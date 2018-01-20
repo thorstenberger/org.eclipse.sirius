@@ -22,7 +22,7 @@ import org.eclipse.sirius.diagram.DNode;
 import org.eclipse.sirius.diagram.business.api.query.EObjectQuery;
 import org.eclipse.sirius.diagram.description.NodeMapping;
 import org.eclipse.sirius.diagram.description.NodeMappingImport;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import org.eclipse.sirius.tests.support.api.EclipseTestsSupportHelper;
 import org.eclipse.sirius.tests.support.api.SiriusDiagramTestCase;
@@ -110,8 +110,8 @@ public class DiagramCustomizationTest extends SiriusDiagramTestCase {
     }
 
     private void assertSiriusOrigin(Viewpoint expectedOrigin, EObject element) {
-        Option<EObject> vp = new EObjectQuery(element).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getViewpoint());
-        if (vp.some() && vp.get() instanceof Viewpoint) {
+        java.util.Optional<EObject> vp = new EObjectQuery(element).getFirstAncestorOfType(DescriptionPackage.eINSTANCE.getViewpoint());
+        if (vp.isPresent() && vp.get() instanceof Viewpoint) {
             Viewpoint actualSirius = (Viewpoint) vp.get();
             Viewpoint expectedInstanceInSession = SiriusResourceHelper.getCorrespondingViewpoint(session, expectedOrigin);
             assertSame(MessageFormat.format("The element {0} does not come from the expected Sirius definition ({1}).", element, expectedOrigin.getName()), expectedInstanceInSession,

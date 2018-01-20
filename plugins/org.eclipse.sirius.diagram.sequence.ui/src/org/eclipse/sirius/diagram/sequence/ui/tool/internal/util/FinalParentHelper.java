@@ -28,7 +28,7 @@ import org.eclipse.sirius.diagram.sequence.business.internal.ordering.EventEndHe
 import org.eclipse.sirius.diagram.sequence.business.internal.query.ISequenceEventQuery;
 import org.eclipse.sirius.diagram.sequence.business.internal.util.EventFinder;
 import org.eclipse.sirius.diagram.sequence.util.Range;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -82,9 +82,9 @@ public class FinalParentHelper {
      */
     private boolean isInvalidInteractionInsideOperand(Range fullFinalRange) {
         boolean result = false;
-        Option<Operand> parentOperand = self.getParentOperand();
+        java.util.Optional<Operand> parentOperand = self.getParentOperand();
         if (request.isResize()) {
-            result = parentOperand.some() && !parentOperand.get().getVerticalRange().includes(fullFinalRange);
+            result = parentOperand.isPresent() && !parentOperand.get().getVerticalRange().includes(fullFinalRange);
         }
         return result;
     }
@@ -125,13 +125,13 @@ public class FinalParentHelper {
         if (self instanceof Execution) {
             Execution execution = (Execution) self;
 
-            Option<Message> startMessage = execution.getStartMessage();
-            if (startMessage.some() && !startMessage.get().surroundsEventOnSameLifeline()) {
+            java.util.Optional<Message> startMessage = execution.getStartMessage();
+            if (startMessage.isPresent() && !startMessage.get().surroundsEventOnSameLifeline()) {
                 int startY = fullFinalRange.getLowerBound() - startMessage.get().getVerticalRange().width();
                 fullFinalRange = new Range(startY, fullFinalRange.getUpperBound());
             }
-            Option<Message> endMessage = execution.getEndMessage();
-            if (endMessage.some() && !endMessage.get().surroundsEventOnSameLifeline()) {
+            java.util.Optional<Message> endMessage = execution.getEndMessage();
+            if (endMessage.isPresent() && !endMessage.get().surroundsEventOnSameLifeline()) {
                 int finishY = fullFinalRange.getUpperBound() + endMessage.get().getVerticalRange().width();
                 fullFinalRange = new Range(fullFinalRange.getLowerBound(), finishY);
             }
@@ -155,18 +155,18 @@ public class FinalParentHelper {
         final Collection<ISequenceEvent> linkedSiblings = FinalParentHelper.computeLinkedSiblings(request);
         Iterable<ISequenceEvent> finalSiblings = EventEndHelper.getIndependantEvents(self, finalParent.getSubEvents());
 
-        final Option<Lifeline> selfLifeline = self.getLifeline();
+        final java.util.Optional<Lifeline> selfLifeline = self.getLifeline();
         Predicate<ISequenceEvent> sameLifeline = new Predicate<ISequenceEvent>() {
             @Override
             public boolean apply(ISequenceEvent input) {
-                Option<Lifeline> inputLifeline = input.getLifeline();
-                boolean same = !inputLifeline.some() || (selfLifeline.some() && inputLifeline.get() == selfLifeline.get());
+                java.util.Optional<Lifeline> inputLifeline = input.getLifeline();
+                boolean same = !inputLifeline.isPresent() || (selfLifeline.isPresent() && inputLifeline.get() == selfLifeline.get());
 
                 if (input instanceof Message) {
-                    Option<Lifeline> sourceLifeline = ((Message) input).getSourceLifeline();
-                    same = same || !sourceLifeline.some() || (selfLifeline.some() && sourceLifeline.get() == selfLifeline.get());
-                    Option<Lifeline> tgtLifeline = ((Message) input).getTargetLifeline();
-                    same = same || !tgtLifeline.some() || (selfLifeline.some() && tgtLifeline.get() == selfLifeline.get());
+                    java.util.Optional<Lifeline> sourceLifeline = ((Message) input).getSourceLifeline();
+                    same = same || !sourceLifeline.isPresent() || (selfLifeline.isPresent() && sourceLifeline.get() == selfLifeline.get());
+                    java.util.Optional<Lifeline> tgtLifeline = ((Message) input).getTargetLifeline();
+                    same = same || !tgtLifeline.isPresent() || (selfLifeline.isPresent() && tgtLifeline.get() == selfLifeline.get());
                 }
 
                 return same;
@@ -193,7 +193,7 @@ public class FinalParentHelper {
                         Iterable<Execution> compoundEvents = Iterables.filter(EventEndHelper.getCompoundEvents(input), Execution.class);
                         if (!Iterables.isEmpty(compoundEvents)) {
                             Execution remoteExec = compoundEvents.iterator().next();
-                            if (remoteExec != null && remoteExec.getEndMessage().some() && !fullFinalRange.includes(remoteExec.getExtendedVerticalRange())) {
+                            if (remoteExec != null && remoteExec.getEndMessage().isPresent() && !fullFinalRange.includes(remoteExec.getExtendedVerticalRange())) {
                                 includedInput = false;
                                 remoteErrors.add(remoteExec);
                             }
@@ -210,7 +210,7 @@ public class FinalParentHelper {
         Predicate<ISequenceEvent> notParentCombinedFragment = new Predicate<ISequenceEvent>() {
             @Override
             public boolean apply(ISequenceEvent input) {
-                if (input instanceof CombinedFragment && self.getLifeline().some()) {
+                if (input instanceof CombinedFragment && self.getLifeline().isPresent()) {
                     CombinedFragment combinedFragment = (CombinedFragment) input;
                     return !(combinedFragment.computeCoveredLifelines().contains(self.getLifeline().get()) && combinedFragment.getVerticalRange().includes(fullFinalRange));
                 }
@@ -289,8 +289,8 @@ public class FinalParentHelper {
 
         ISequenceEvent finalRemoteParent = null;
         if (remoteParent != null) {
-            Option<Lifeline> remoteLifeline = remoteParent.getLifeline();
-            if (remoteLifeline.some()) {
+            java.util.Optional<Lifeline> remoteLifeline = remoteParent.getLifeline();
+            if (remoteLifeline.isPresent()) {
                 EventFinder remoteFinder = new EventFinder(remoteLifeline.get());
                 remoteFinder.setEventsToIgnore(Predicates.in(Lists.newArrayList(allMovedElements)));
                 finalRemoteParent = remoteFinder.findMostSpecificEvent(finalMessageRange);

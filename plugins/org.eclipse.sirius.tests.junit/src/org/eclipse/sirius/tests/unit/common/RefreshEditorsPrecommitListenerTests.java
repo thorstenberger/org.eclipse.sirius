@@ -33,7 +33,7 @@ import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.sirius.business.api.preferences.SiriusPreferencesKeys;
 import org.eclipse.sirius.diagram.DNodeList;
 import org.eclipse.sirius.diagram.DiagramPackage;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import org.eclipse.sirius.tools.api.command.ui.RefreshFilter;
 import org.eclipse.sirius.tools.api.command.ui.RefreshFilterManager;
@@ -105,8 +105,8 @@ public class RefreshEditorsPrecommitListenerTests extends TestCase {
 
         // 2. Checks that the RefreshEditorsPrecommitListener doesn't refresh
         // the representation
-        Option<Command> refreshPrecommitCmd = refreshEditorsPrecommitListener.localChangesAboutToCommit(event.getNotifications());
-        assertFalse("On a DRepresentationElement change notification the RefreshPrecommitListener shouldn't do refresh", refreshPrecommitCmd.some());
+        java.util.Optional<Command> refreshPrecommitCmd = refreshEditorsPrecommitListener.localChangesAboutToCommit(event.getNotifications());
+        assertFalse("On a DRepresentationElement change notification the RefreshPrecommitListener shouldn't do refresh", refreshPrecommitCmd.isPresent());
     }
 
     /**
@@ -122,8 +122,8 @@ public class RefreshEditorsPrecommitListenerTests extends TestCase {
 
         // 2. Checks that the RefreshEditorsPrecommitListener doesn't refresh
         // the representation
-        Option<Command> refreshPrecommitCmd = refreshEditorsPrecommitListener.localChangesAboutToCommit(event.getNotifications());
-        assertFalse("On a DRepresentationElement change notification the RefreshPrecommitListener shouldn't do refresh", refreshPrecommitCmd.some());
+        java.util.Optional<Command> refreshPrecommitCmd = refreshEditorsPrecommitListener.localChangesAboutToCommit(event.getNotifications());
+        assertFalse("On a DRepresentationElement change notification the RefreshPrecommitListener shouldn't do refresh", refreshPrecommitCmd.isPresent());
     }
 
     /**
@@ -140,8 +140,8 @@ public class RefreshEditorsPrecommitListenerTests extends TestCase {
 
         // 2. Checks that the RefreshEditorsPrecommitListener refresh
         // the representation
-        Option<Command> refreshPrecommitCmd = refreshEditorsPrecommitListener.localChangesAboutToCommit(event.getNotifications());
-        assertTrue("On a semantic change notification the RefreshPrecommitListener should do refresh", refreshPrecommitCmd.some());
+        java.util.Optional<Command> refreshPrecommitCmd = refreshEditorsPrecommitListener.localChangesAboutToCommit(event.getNotifications());
+        assertTrue("On a semantic change notification the RefreshPrecommitListener should do refresh", refreshPrecommitCmd.isPresent());
     }
 
     private <T extends EObject> T getFirstElement(Resource sessionResource, Class<T> type) {

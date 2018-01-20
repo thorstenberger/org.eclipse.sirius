@@ -28,8 +28,8 @@ import org.eclipse.gmf.runtime.notation.datatype.RelativeBendpoint;
 import org.eclipse.sirius.diagram.ui.business.api.query.EdgeQuery;
 import org.eclipse.sirius.diagram.ui.internal.refresh.GMFHelper;
 import org.eclipse.sirius.diagram.ui.provider.Messages;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 /**
  * Utilities for GMF notation model modifications.
@@ -62,7 +62,7 @@ public final class GMFNotationUtilities {
      *         corresponding to the new source anchor. This Option can be null
      *         if the anchor is not changed.
      */
-    public static Option<Point> setSourceAnchor(Edge edge, PointList newPoints) {
+    public static java.util.Optional<Point> setSourceAnchor(Edge edge, PointList newPoints) {
         Point referencePointOfChangedAnchor = null;
         if (edge.getSource() instanceof Node) {
             // Get the source bounds
@@ -96,9 +96,9 @@ public final class GMFNotationUtilities {
             throw new UnsupportedOperationException(Messages.GMFNotationUtilities_edgeOnEdgeNotManaged);
         }
         if (referencePointOfChangedAnchor == null) {
-            return Options.newNone();
+            return java.util.Optional.empty();
         } else {
-            return Options.newSome(referencePointOfChangedAnchor);
+            return java.util.Optional.of(referencePointOfChangedAnchor);
         }
     }
 
@@ -115,7 +115,7 @@ public final class GMFNotationUtilities {
      *         corresponding to the new target anchor. This Option can be null
      *         if the anchor is not changed.
      */
-    public static Option<Point> setTargetAnchor(Edge edge, PointList newPoints) {
+    public static java.util.Optional<Point> setTargetAnchor(Edge edge, PointList newPoints) {
         Point referencePointOfChangedAnchor = null;
         if (edge.getTarget() instanceof Node) {
             // Get the target bounds
@@ -148,9 +148,9 @@ public final class GMFNotationUtilities {
             throw new UnsupportedOperationException(Messages.GMFNotationUtilities_edgeOnEdgeNotManaged);
         }
         if (referencePointOfChangedAnchor == null) {
-            return Options.newNone();
+            return java.util.Optional.empty();
         } else {
-            return Options.newSome(referencePointOfChangedAnchor);
+            return java.util.Optional.of(referencePointOfChangedAnchor);
         }
     }
 
@@ -222,7 +222,7 @@ public final class GMFNotationUtilities {
      *         corresponding to the new source. This Option can be null if the
      *         anchor is not changed.
      */
-    public static Option<PrecisionPoint> setSourceAnchor(Edge edge, int deltaX) {
+    public static java.util.Optional<PrecisionPoint> setSourceAnchor(Edge edge, int deltaX) {
         // Compute new x anchor of source point after horizontal source
         // segment movement
         if (edge.getSource() instanceof Node) {
@@ -239,13 +239,13 @@ public final class GMFNotationUtilities {
                 double newXAnchorPercentage = (xNewPosition - sourceFigure.x) / (sourceFigure.width);
                 // Change x id anchor
                 setIdentityAnchorId(anchor, newXAnchorPercentage, relativeReferencePoint.preciseY());
-                return Options.newSome(new PrecisionPoint(sourceFigure.getLocation().x + sourceFigure.width * newXAnchorPercentage, sourceFigure.getLocation().y + sourceFigure.height
+                return java.util.Optional.of(new PrecisionPoint(sourceFigure.getLocation().x + sourceFigure.width * newXAnchorPercentage, sourceFigure.getLocation().y + sourceFigure.height
                         * relativeReferencePoint.preciseY()));
             }
         } else {
             throw new UnsupportedOperationException(Messages.GMFNotationUtilities_edgeOnEdgeNotManaged);
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**
@@ -261,7 +261,7 @@ public final class GMFNotationUtilities {
      *         corresponding to the new target anchor. This Option can be null
      *         if the anchor is not changed.
      */
-    public static Option<PrecisionPoint> setTargetAnchor(Edge edge, int deltaX) {
+    public static java.util.Optional<PrecisionPoint> setTargetAnchor(Edge edge, int deltaX) {
         // Compute new x anchor of target point after horizontal target
         // segment movement
         if (edge.getTarget() instanceof Node) {
@@ -278,13 +278,13 @@ public final class GMFNotationUtilities {
                 double newXAnchorPercentage = (xNewPosition - targetFigure.x) / (targetFigure.width);
                 // Change x id anchor
                 setIdentityAnchorId(anchor, newXAnchorPercentage, relativeReferencePoint.preciseY());
-                return Options.newSome(new PrecisionPoint(targetFigure.getLocation().x + targetFigure.width * newXAnchorPercentage, targetFigure.getLocation().y + targetFigure.height
+                return java.util.Optional.of(new PrecisionPoint(targetFigure.getLocation().x + targetFigure.width * newXAnchorPercentage, targetFigure.getLocation().y + targetFigure.height
                         * relativeReferencePoint.preciseY()));
             }
         } else {
             throw new UnsupportedOperationException(Messages.GMFNotationUtilities_edgeOnEdgeNotManaged);
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     /**

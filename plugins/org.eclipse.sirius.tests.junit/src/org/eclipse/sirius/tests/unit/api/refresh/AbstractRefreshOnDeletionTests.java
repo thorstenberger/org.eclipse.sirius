@@ -31,7 +31,7 @@ import org.eclipse.sirius.diagram.DDiagram;
 import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.business.api.query.EObjectQuery;
 import org.eclipse.sirius.diagram.ui.tools.api.editor.DDiagramEditor;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.table.metamodel.table.DLine;
 import org.eclipse.sirius.table.metamodel.table.DTable;
 import org.eclipse.sirius.table.tools.api.command.ITableCommandFactory;
@@ -205,8 +205,8 @@ public abstract class AbstractRefreshOnDeletionTests extends SiriusDiagramTestCa
                 if (notifier instanceof EObject) {
                     EObject eObject = (EObject) notifier;
                     EObjectQuery eObjectQuery = new EObjectQuery(eObject);
-                    Option<DRepresentation> dRepresentationOption = eObjectQuery.getRepresentation();
-                    if (dRepresentationOption.some()) {
+                    java.util.Optional<DRepresentation> dRepresentationOption = eObjectQuery.getRepresentation();
+                    if (dRepresentationOption.isPresent()) {
                         changedDRepresentations.add(dRepresentationOption.get());
                     }
                 }

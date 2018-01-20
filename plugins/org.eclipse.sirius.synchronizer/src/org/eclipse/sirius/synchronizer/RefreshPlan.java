@@ -15,8 +15,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -78,8 +78,8 @@ public class RefreshPlan {
     public void appendOutputDescritorsKeepingTheMostSpecific(Collection<? extends OutputDescriptor> computeDescriptors) {
 
         for (OutputDescriptor newDescriptor : computeDescriptors) {
-            Option<CreatedOutput> wasHere = getDescriptorAlreadyHereWeWantToKeep(newDescriptor);
-            if (wasHere.some()) {
+            java.util.Optional<CreatedOutput> wasHere = getDescriptorAlreadyHereWeWantToKeep(newDescriptor);
+            if (wasHere.isPresent()) {
                 if (wasHere.get().getDescriptor().getIndex() != newDescriptor.getIndex()) {
                     shouldBeReordered(wasHere.get(), newDescriptor.getIndex());
                 }
@@ -116,8 +116,8 @@ public class RefreshPlan {
 
     private void shouldBeRefreshed(CreatedOutput outputDescriptor) {
         Signature signature = signatureProvider.getSignature(outputDescriptor.getDescriptor());
-        Option<CreatedOutput> element = getDescriptorAlreadyHereWeWantToKeep(outputDescriptor.getDescriptor());
-        if (element.some()) {
+        java.util.Optional<CreatedOutput> element = getDescriptorAlreadyHereWeWantToKeep(outputDescriptor.getDescriptor());
+        if (element.isPresent()) {
             outputToRemove.remove(signature, element.get());
             if (!outputToRefresh.containsKey(signature)) {
                 outputToRefresh.put(signature, element.get());
@@ -129,12 +129,12 @@ public class RefreshPlan {
         newDescriptor.setNewIndex(nextIndex);
     }
 
-    private Option<CreatedOutput> getDescriptorAlreadyHereWeWantToKeep(OutputDescriptor newDescriptor) {
+    private java.util.Optional<CreatedOutput> getDescriptorAlreadyHereWeWantToKeep(OutputDescriptor newDescriptor) {
         Collection<CreatedOutput> toRemove = outputToRemove.get(signatureProvider.getSignature(newDescriptor));
         if (toRemove.size() > 0) {
-            return Options.newSome(toRemove.iterator().next());
+            return java.util.Optional.of(toRemove.iterator().next());
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     public Collection<CreatedOutput> getDescriptorsToDelete() {

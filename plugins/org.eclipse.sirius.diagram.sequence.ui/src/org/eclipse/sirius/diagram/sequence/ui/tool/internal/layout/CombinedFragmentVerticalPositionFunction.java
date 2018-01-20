@@ -13,7 +13,7 @@ package org.eclipse.sirius.diagram.sequence.ui.tool.internal.layout;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.CombinedFragment;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.ISequenceElementAccessor;
-import org.eclipse.sirius.ext.base.Option;
+
 
 import com.google.common.base.Function;
 
@@ -50,8 +50,8 @@ public class CombinedFragmentVerticalPositionFunction implements Function<IGraph
      *         <code>INVALID_POSITION</code>.
      */
     public Integer apply(IGraphicalEditPart graphicalEditPart) {
-        Option<CombinedFragment> combinedFragment = ISequenceElementAccessor.getCombinedFragment(graphicalEditPart.getNotationView());
-        if (combinedFragment.some()) {
+        java.util.Optional<CombinedFragment> combinedFragment = ISequenceElementAccessor.getCombinedFragment(graphicalEditPart.getNotationView());
+        if (combinedFragment.isPresent()) {
             return combinedFragment.get().getVerticalRange().getLowerBound();
         } else {
             return INVALID_POSITION;

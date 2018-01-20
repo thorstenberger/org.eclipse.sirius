@@ -55,8 +55,8 @@ import org.eclipse.sirius.diagram.sequence.ui.tool.internal.edit.validator.ISECo
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.util.RequestQuery;
 import org.eclipse.sirius.diagram.sequence.util.Range;
 import org.eclipse.sirius.diagram.ui.tools.internal.edit.command.CommandFactory;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 
 import com.google.common.collect.Iterables;
 
@@ -132,8 +132,8 @@ public class CombinedFragmentResizableEditPolicy extends AbstractFrameResizableE
     private CompositeTransactionalCommand getRezizeCustomCommand(CombinedFragmentEditPart self, ChangeBoundsRequest request) {
         CompositeTransactionalCommand ctc = new CompositeTransactionalCommand(self.getEditingDomain(), Messages.CombinedFragmentResizableEditPolicy_resizeCompositeCommand);
         ctc.add(CombinedFragmentResizableEditPolicy.getResizeBorderItemTCommand(self, request));
-        Option<CombinedFragment> combinedFragmentOption = ISequenceElementAccessor.getCombinedFragment(self.getNotationView());
-        if (combinedFragmentOption.some() && !combinedFragmentOption.get().getOperands().isEmpty()) {
+        java.util.Optional<CombinedFragment> combinedFragmentOption = ISequenceElementAccessor.getCombinedFragment(self.getNotationView());
+        if (combinedFragmentOption.isPresent() && !combinedFragmentOption.get().getOperands().isEmpty()) {
             // if (!validateResize(request, combinedFragmentOption.get())) {
             // // FIXME this validation should be removed because done in the
             // // validator now.
@@ -176,33 +176,33 @@ public class CombinedFragmentResizableEditPolicy extends AbstractFrameResizableE
     private void addResizeOperandsFromNorthCommand(CompositeTransactionalCommand ctc, ChangeBoundsRequest request) {
         // we need to process the same resize to the first operand
         OperandEditPart firstOperandEditPart = getFirstOperandEditPart();
-        Option<Operand> firstOperand = ISequenceElementAccessor.getOperand(firstOperandEditPart.getNotationView());
+        java.util.Optional<Operand> firstOperand = ISequenceElementAccessor.getOperand(firstOperandEditPart.getNotationView());
         int position = 0;
 
         OperandEditPart followingOperandEditPart = getFollowingOperandEditPart(position);
-        Option<Operand> followingOperand = followingOperandEditPart != null ? ISequenceElementAccessor.getOperand(followingOperandEditPart.getNotationView()) : Options.<Operand> newNone();
+        java.util.Optional<Operand> followingOperand = followingOperandEditPart != null ? ISequenceElementAccessor.getOperand(followingOperandEditPart.getNotationView()) : java.util.Optional.empty();
 
         position++;
 
         Point newLocation = null;
         Dimension newDimension = null;
-        if (firstOperand.some()) {
+        if (firstOperand.isPresent()) {
             Range verticalRange = firstOperand.get().getVerticalRange();
             newLocation = new Point(0, LayoutConstants.COMBINED_FRAGMENT_TITLE_HEIGHT);
             newDimension = new Dimension(firstOperand.get().getBounds().width, verticalRange.width() + request.getSizeDelta().height);
             ctc.add(createOperandSetBoundsCommand(firstOperandEditPart, newLocation, newDimension));
         }
 
-        if (followingOperandEditPart != null && followingOperand.some()) {
+        if (followingOperandEditPart != null && followingOperand.isPresent()) {
 
             // recurse
-            while (followingOperandEditPart != null && followingOperand.some()) {
+            while (followingOperandEditPart != null && followingOperand.isPresent()) {
                 Range verticalRange = followingOperand.get().getVerticalRange();
                 newLocation = new Point(0, newLocation.y + newDimension.height);
                 newDimension = new Dimension(followingOperand.get().getBounds().width, verticalRange.width());
                 ctc.add(createOperandSetBoundsCommand(followingOperandEditPart, newLocation, newDimension));
                 followingOperandEditPart = getFollowingOperandEditPart(position);
-                followingOperand = followingOperandEditPart != null ? ISequenceElementAccessor.getOperand(followingOperandEditPart.getNotationView()) : Options.<Operand> newNone();
+                followingOperand = followingOperandEditPart != null ? ISequenceElementAccessor.getOperand(followingOperandEditPart.getNotationView()) : java.util.Optional.empty();
                 position++;
             }
 
@@ -222,11 +222,11 @@ public class CombinedFragmentResizableEditPolicy extends AbstractFrameResizableE
         // we need to process the same resize to the first operand if it is
         // single
         OperandEditPart firstOperandEditPart = getFirstOperandEditPart();
-        Option<Operand> firstOperand = ISequenceElementAccessor.getOperand(firstOperandEditPart.getNotationView());
+        java.util.Optional<Operand> firstOperand = ISequenceElementAccessor.getOperand(firstOperandEditPart.getNotationView());
         int position = 0;
 
         OperandEditPart followingOperandEditPart = getFollowingOperandEditPart(position);
-        Option<Operand> followingOperand = followingOperandEditPart != null ? ISequenceElementAccessor.getOperand(followingOperandEditPart.getNotationView()) : Options.<Operand> newNone();
+        java.util.Optional<Operand> followingOperand = followingOperandEditPart != null ? ISequenceElementAccessor.getOperand(followingOperandEditPart.getNotationView()) : java.util.Optional.empty();
 
         position++;
 
@@ -234,7 +234,7 @@ public class CombinedFragmentResizableEditPolicy extends AbstractFrameResizableE
 
         Point newLocation = null;
         Dimension newDimension = null;
-        if (firstOperand.some()) {
+        if (firstOperand.isPresent()) {
             Range verticalRange = firstOperand.get().getVerticalRange();
             newLocation = new Point(0, LayoutConstants.COMBINED_FRAGMENT_TITLE_HEIGHT);
             if (firstOperandEditPart == lastOperandEditPart) {
@@ -245,16 +245,16 @@ public class CombinedFragmentResizableEditPolicy extends AbstractFrameResizableE
             ctc.add(createOperandSetBoundsCommand(firstOperandEditPart, newLocation, newDimension));
         }
 
-        if (followingOperandEditPart != null && followingOperand.some()) {
+        if (followingOperandEditPart != null && followingOperand.isPresent()) {
             Range verticalRange = followingOperand.get().getVerticalRange();
 
             // recurse
-            while (followingOperandEditPart != null && followingOperand.some() && followingOperandEditPart != lastOperandEditPart) {
+            while (followingOperandEditPart != null && followingOperand.isPresent() && followingOperandEditPart != lastOperandEditPart) {
                 newLocation = new Point(0, newLocation.y + newDimension.height);
                 newDimension = new Dimension(followingOperand.get().getBounds().width, verticalRange.width());
                 ctc.add(createOperandSetBoundsCommand(followingOperandEditPart, newLocation, newDimension));
                 followingOperandEditPart = getFollowingOperandEditPart(position);
-                followingOperand = followingOperandEditPart != null ? ISequenceElementAccessor.getOperand(followingOperandEditPart.getNotationView()) : Options.<Operand> newNone();
+                followingOperand = followingOperandEditPart != null ? ISequenceElementAccessor.getOperand(followingOperandEditPart.getNotationView()) : java.util.Optional.empty();
                 verticalRange = followingOperand.get().getVerticalRange();
                 position++;
             }
@@ -277,8 +277,8 @@ public class CombinedFragmentResizableEditPolicy extends AbstractFrameResizableE
         CombinedFragmentCompartmentEditPart combinedFragmentCompartmentEditPart = Iterables.getOnlyElement(Iterables.filter(getHost().getChildren(), CombinedFragmentCompartmentEditPart.class));
         Iterable<OperandEditPart> operandEditPartList = Iterables.filter(combinedFragmentCompartmentEditPart.getChildren(), OperandEditPart.class);
         for (OperandEditPart operandEditPart : operandEditPartList) {
-            Option<Operand> operandOption = ISequenceElementAccessor.getOperand(operandEditPart.getNotationView());
-            if (operandOption.some()) {
+            java.util.Optional<Operand> operandOption = ISequenceElementAccessor.getOperand(operandEditPart.getNotationView());
+            if (operandOption.isPresent()) {
                 Operand operand = operandOption.get();
                 int operandIndex = operand.getIndex();
                 if (operandIndex == currentOperandIndex + 1) {
@@ -297,8 +297,8 @@ public class CombinedFragmentResizableEditPolicy extends AbstractFrameResizableE
     private OperandEditPart getFirstOperandEditPart() {
         CombinedFragmentCompartmentEditPart combinedFragmentCompartmentEditPart = Iterables.getOnlyElement(Iterables.filter(getHost().getChildren(), CombinedFragmentCompartmentEditPart.class));
         for (OperandEditPart operandEditPart : Iterables.filter(combinedFragmentCompartmentEditPart.getChildren(), OperandEditPart.class)) {
-            Option<Operand> operandOption = ISequenceElementAccessor.getOperand(operandEditPart.getNotationView());
-            if (operandOption.some()) {
+            java.util.Optional<Operand> operandOption = ISequenceElementAccessor.getOperand(operandEditPart.getNotationView());
+            if (operandOption.isPresent()) {
                 Operand operand = operandOption.get();
                 int operandIndex = operand.getIndex();
                 if (operandIndex == 0) {
@@ -319,8 +319,8 @@ public class CombinedFragmentResizableEditPolicy extends AbstractFrameResizableE
         Iterable<OperandEditPart> operandEditPartList = Iterables.filter(combinedFragmentCompartmentEditPart.getChildren(), OperandEditPart.class);
         int childrenOperandEditPartNumber = Iterables.size(operandEditPartList);
         for (OperandEditPart operandEditPart : operandEditPartList) {
-            Option<Operand> operandOption = ISequenceElementAccessor.getOperand(operandEditPart.getNotationView());
-            if (operandOption.some()) {
+            java.util.Optional<Operand> operandOption = ISequenceElementAccessor.getOperand(operandEditPart.getNotationView());
+            if (operandOption.isPresent()) {
                 Operand operand = operandOption.get();
                 int operandIndex = operand.getIndex();
                 if (operandIndex == childrenOperandEditPartNumber - 1) {

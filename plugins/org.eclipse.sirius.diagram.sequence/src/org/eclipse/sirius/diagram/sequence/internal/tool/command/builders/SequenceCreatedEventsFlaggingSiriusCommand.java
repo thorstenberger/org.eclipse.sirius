@@ -34,8 +34,8 @@ import org.eclipse.sirius.diagram.business.api.refresh.CanonicalSynchronizerFact
 import org.eclipse.sirius.diagram.sequence.Messages;
 import org.eclipse.sirius.diagram.sequence.business.internal.elements.LostMessageEnd;
 import org.eclipse.sirius.diagram.sequence.business.internal.layout.LayoutConstants;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tools.api.command.SiriusCommand;
 import org.eclipse.sirius.tools.api.ui.PostRefreshCommandFactory;
 import org.eclipse.sirius.tools.api.ui.RefreshEditorsPrecommitListener;
@@ -140,7 +140,7 @@ public class SequenceCreatedEventsFlaggingSiriusCommand extends SiriusCommand {
 
         if (parentDiagram != null && shouldFlag != null) {
             for (DDiagramElement dde : Iterables.filter(parentDiagram.getDiagramElements(), shouldFlag)) {
-                Option<DDiagramElement> flagged = Options.newNone();
+                java.util.Optional<DDiagramElement> flagged = java.util.Optional.empty();
                 if (dde.getTarget() != null) {
                     if (mainSemantics.contains(dde.getTarget())) {
                         flagged = safeAddCreationFlag(dde, LayoutConstants.TOOL_CREATION_FLAG);
@@ -148,7 +148,7 @@ public class SequenceCreatedEventsFlaggingSiriusCommand extends SiriusCommand {
                         flagged = safeAddCreationFlag(dde, LayoutConstants.TOOL_CREATION_FLAG_FROM_SEMANTIC);
                     }
                 }
-                if (flagged.some()) {
+                if (flagged.isPresent()) {
                     flags.add(flagged.get());
                 }
             }
@@ -157,7 +157,7 @@ public class SequenceCreatedEventsFlaggingSiriusCommand extends SiriusCommand {
         return flags;
     }
 
-    private Option<DDiagramElement> safeAddCreationFlag(DDiagramElement dde, Rectangle toolCreationFlag) {
+    private java.util.Optional<DDiagramElement> safeAddCreationFlag(DDiagramElement dde, Rectangle toolCreationFlag) {
         if (Iterables.isEmpty(Iterables.filter(dde.getGraphicalFilters(), AbsoluteBoundsFilter.class))) {
             AbsoluteBoundsFilter flag = getFlag(toolCreationFlag);
 
@@ -166,9 +166,9 @@ public class SequenceCreatedEventsFlaggingSiriusCommand extends SiriusCommand {
             }
 
             dde.getGraphicalFilters().add(flag);
-            return Options.newSome(dde);
+            return java.util.Optional.of(dde);
         }
-        return Options.newNone();
+        return java.util.Optional.empty();
     }
 
     private AbsoluteBoundsFilter getFlag(Rectangle toolCreationFlag) {

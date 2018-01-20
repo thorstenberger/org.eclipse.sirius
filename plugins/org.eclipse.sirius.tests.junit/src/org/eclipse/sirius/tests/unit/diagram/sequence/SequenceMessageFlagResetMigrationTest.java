@@ -25,7 +25,7 @@ import org.eclipse.sirius.diagram.DEdge;
 import org.eclipse.sirius.diagram.DiagramPackage;
 import org.eclipse.sirius.diagram.sequence.SequenceDDiagram;
 import org.eclipse.sirius.diagram.sequence.ui.business.internal.migration.SequenceDiagramRepresentationsFileMigrationParticipant;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.tests.SiriusTestsPlugin;
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.osgi.framework.Version;
@@ -119,8 +119,8 @@ public class SequenceMessageFlagResetMigrationTest extends AbstractSequenceSiriu
 
         // The data contains 6 messages (sync call, return, creation,
         // destruction, simple message).
-        Option<SequenceDDiagram> seqDiag = getSequenceDDiagramOfType(REPRESENTATION_NAME, REPRESENTATION_TYPE);
-        assertTrue("Sequence diagram " + REPRESENTATION_NAME + " not found in " + getPath() + getSessionModel(), seqDiag.some());
+        java.util.Optional<SequenceDDiagram> seqDiag = getSequenceDDiagramOfType(REPRESENTATION_NAME, REPRESENTATION_TYPE);
+        assertTrue("Sequence diagram " + REPRESENTATION_NAME + " not found in " + getPath() + getSessionModel(), seqDiag.isPresent());
         List<DEdge> edges = seqDiag.get().getEdges();
         assertEquals("The diagram should contain 6 edges.", 6, edges.size());
         for (DEdge edge : edges) {
@@ -159,11 +159,11 @@ public class SequenceMessageFlagResetMigrationTest extends AbstractSequenceSiriu
         }
 
         AirDResouceQuery query = new AirDResouceQuery((AirdResource) session2.getSessionResource());
-        Option<DAnalysis> dAnalysis = query.getDAnalysis();
+        java.util.Optional<DAnalysis> dAnalysis = query.getDAnalysis();
 
         // Check that the version attribute has not been set by the migration,
         // it will be set during save.
-        assertTrue(dAnalysis.some());
+        assertTrue(dAnalysis.isPresent());
         String version = dAnalysis.get().getVersion();
         assertTrue("The migration should still be marked as needed for next load.", RepresentationsFileMigrationService.getInstance().isMigrationNeeded(Version.parseVersion(version)));
 

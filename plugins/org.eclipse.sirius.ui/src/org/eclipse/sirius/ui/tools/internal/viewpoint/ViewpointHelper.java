@@ -42,7 +42,7 @@ import org.eclipse.sirius.business.api.query.ViewpointQuery;
 import org.eclipse.sirius.business.api.query.ViewpointURIQuery;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.common.tools.api.util.EqualityHelper;
-import org.eclipse.sirius.ext.base.Option;
+
 import org.eclipse.sirius.ui.business.api.viewpoint.ViewpointSelection;
 import org.eclipse.sirius.ui.business.internal.commands.ChangeViewpointSelectionCommand;
 import org.eclipse.sirius.ui.business.internal.viewpoint.ViewpointSelectionCallbackWithConfimationAndDependenciesHandling;
@@ -71,9 +71,9 @@ public final class ViewpointHelper {
      * {@link ViewpointURIQuery#VIEWPOINT_URI_SCHEME}.
      */
     private static Function<? super Viewpoint, ? extends String> getURIFromViewpointFunction = vp -> {
-        Option<URI> uri = new ViewpointQuery(vp).getViewpointURI();
+        java.util.Optional<URI> uri = new ViewpointQuery(vp).getViewpointURI();
         String result = null;
-        if (uri.some()) {
+        if (uri.isPresent()) {
             result = uri.get().toString();
         }
         return result;
@@ -184,9 +184,9 @@ public final class ViewpointHelper {
     public static Set<Viewpoint> getAdditionalViewpointsToDeactivate(Viewpoint viewpoint, Session session) {
         Set<Viewpoint> viewpointsWithDependency = new HashSet<>();
         Set<String> viewpointURISet = new HashSet<>();
-        Option<URI> uri = new ViewpointQuery(viewpoint).getViewpointURI();
+        java.util.Optional<URI> uri = new ViewpointQuery(viewpoint).getViewpointURI();
         String viewpointURIString = null;
-        if (uri.some()) {
+        if (uri.isPresent()) {
             viewpointURIString = uri.get().toString();
         }
         viewpointURISet.add(viewpointURIString);

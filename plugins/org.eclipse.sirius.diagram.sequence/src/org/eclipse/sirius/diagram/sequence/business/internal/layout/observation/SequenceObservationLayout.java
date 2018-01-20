@@ -33,7 +33,7 @@ import org.eclipse.sirius.diagram.sequence.ordering.CompoundEventEnd;
 import org.eclipse.sirius.diagram.sequence.ordering.EventEnd;
 import org.eclipse.sirius.diagram.sequence.ordering.SingleEventEnd;
 import org.eclipse.sirius.diagram.ui.business.internal.query.DNodeQuery;
-import org.eclipse.sirius.ext.base.Option;
+
 
 /**
  * Computes the appropriate graphical locations of observation points on a
@@ -60,9 +60,9 @@ public class SequenceObservationLayout extends AbstractSequenceLayout<Observatio
     @Override
     protected void init(boolean pack) {
         for (ObservationPoint point : sequenceDiagram.getAllObservationPoints()) {
-            Option<EventEnd> observedEventEnd = point.getObservedEventEnd();
+            java.util.Optional<EventEnd> observedEventEnd = point.getObservedEventEnd();
 
-            if (observedEventEnd.some()) {
+            if (observedEventEnd.isPresent()) {
                 endToObservationPoint.put(observedEventEnd.get(), point);
             }
         }

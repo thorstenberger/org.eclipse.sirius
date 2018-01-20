@@ -13,8 +13,8 @@ package org.eclipse.sirius.tests.swtbot.sequence;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.sirius.diagram.sequence.ui.tool.internal.layout.LayoutEditPartConstants;
-import org.eclipse.sirius.ext.base.Option;
-import org.eclipse.sirius.ext.base.Options;
+
+
 import org.eclipse.sirius.tests.swtbot.support.api.condition.CheckSelectedCondition;
 import org.eclipse.sirius.tests.unit.diagram.sequence.InteractionsConstants;
 
@@ -58,8 +58,8 @@ public class ExecutionMessageReconnectionTests extends AbstractDefaultModelSeque
         return InteractionsConstants.SEQUENCE_DIAGRAM_REPRESENTATION_ID;
     }
 
-    protected Option<String> getDRepresentationName() {
-        return Options.newSome(REPRESENTATION_ID);
+    protected java.util.Optional<String> getDRepresentationName() {
+        return java.util.Optional.of(REPRESENTATION_ID);
     }
 
     private Rectangle boundsE1;
