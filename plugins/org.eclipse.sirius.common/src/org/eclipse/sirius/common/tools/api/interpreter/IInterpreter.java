@@ -33,6 +33,28 @@ public interface IInterpreter {
     String FILES = "files"; //$NON-NLS-1$
 
     /**
+     * Get the prefix.
+     * 
+     * @return the prefix if there is one or <code>null</code> if none.
+     */
+    String getPrefix();
+
+    /**
+     * Get the variable prefix for this interpreter.
+     * 
+     * @return the prefix if there is one or <code>null</code> if none
+     */
+    String getVariablePrefix();
+
+    /**
+     * This will be called when the session is closed. Clients should dispose of
+     * all data that is no longer needed
+     */
+    void dispose();
+
+    // Static validation
+
+    /**
      * Returns <code>true</code> if this interpreter is able to evaluate the
      * given expression.
      * 
@@ -71,6 +93,27 @@ public interface IInterpreter {
      *         successful.
      */
     Collection<IInterpreterStatus> validateExpression(IInterpreterContext context, String expression);
+    
+    // Expression evaluation
+
+    /**
+     * Wrapper method to evaluate an expression and return the result and its
+     * diagnostic. This method should have the same behavior as the method
+     * {@link IInterpreter#evaluate(EObject, String)} but with a result
+     * containing a diagnostic too.
+     * 
+     * @param target
+     *            the EObject instance to evaluate on.
+     * @param expression
+     *            the expression to evaluate.
+     * @return an object with the evaluation result.
+     * @throws EvaluationException
+     *             if the evaluation was not successful.
+     */
+    default IEvaluationResult evaluateExpression(EObject target, String expression) throws EvaluationException {
+        final Object result = this.evaluate(target, expression);
+        return EvaluationResult.withValue(result);
+    }
 
     /**
      * Evaluates the given expression on the given context and returns the
@@ -155,29 +198,8 @@ public interface IInterpreter {
      */
     Integer evaluateInteger(EObject context, String expression) throws EvaluationException;
 
-    /**
-     * Clear all dependencies of this interpreter.
-     */
-    void clearImports();
-
-    /**
-     * Adds a dependency to this interpreter.
-     * 
-     * @param dependency
-     *            the dependency to add.
-     */
-    void addImport(String dependency);
-
-    /**
-     * Sets a property to this interpreter.
-     * 
-     * @param key
-     *            the key of the property.
-     * @param value
-     *            the value of the property.
-     */
-    void setProperty(Object key, Object value);
-
+    // Variables management
+    
     /**
      * Sets a variable.
      * 
@@ -211,17 +233,13 @@ public interface IInterpreter {
     void clearVariables();
 
     /**
-     * This will be called when the session is closed. Clients should dispose of
-     * all data that is no longer needed
-     */
-    void dispose();
-
-    /**
      * Returns all declared variables.
      * 
      * @return all declared variables.
      */
     Map<String, ?> getVariables();
+
+    // Interpreter configuration
 
     /**
      * Sets the optional model accessor to use.
@@ -232,27 +250,13 @@ public interface IInterpreter {
     void setModelAccessor(ModelAccessor modelAccessor);
 
     /**
-     * Get the prefix.
-     * 
-     * @return the prefix if there is one or <code>null</code> if none.
-     */
-    String getPrefix();
-
-    /**
-     * Get the variable prefix for this interpreter.
-     * 
-     * @return the prefix if there is one or <code>null</code> if none
-     */
-    String getVariablePrefix();
-
-    /**
      * Set the interpreter cross referencer.
      * 
      * @param crossReferencer
      *            any cross referencer concerning the models.
      */
     void setCrossReferencer(ECrossReferenceAdapter crossReferencer);
-
+    
     /**
      * Get the imports (qualified names) for this interpreter.
      * 
@@ -262,6 +266,14 @@ public interface IInterpreter {
     Collection<String> getImports();
 
     /**
+     * Adds a dependency to this interpreter.
+     * 
+     * @param dependency
+     *            the dependency to add.
+     */
+    void addImport(String dependency);
+
+    /**
      * Remove an import.
      * 
      * @param dependency
@@ -269,6 +281,21 @@ public interface IInterpreter {
      * @since 0.9.0
      */
     void removeImport(String dependency);
+    
+    /**
+     * Clear all dependencies of this interpreter.
+     */
+    void clearImports();
+
+    /**
+     * Sets a property to this interpreter.
+     * 
+     * @param key
+     *            the key of the property.
+     * @param value
+     *            the value of the property.
+     */
+    void setProperty(Object key, Object value);
 
     /**
      * Tells the interpreter that the list of available metamodels has changed.
@@ -277,24 +304,5 @@ public interface IInterpreter {
      *            The new metamodels.
      */
     void activateMetamodels(Collection<MetamodelDescriptor> metamodels);
-    
-    /**
-     * Wrapper method to evaluate an expression and return the result and its
-     * diagnostic. This method should have the same behavior as the method
-     * {@link IInterpreter#evaluate(EObject, String)} but with a result
-     * containing a diagnostic too.
-     * 
-     * @param target
-     *            the EObject instance to evaluate on.
-     * @param expression
-     *            the expression to evaluate.
-     * @return an object with the evaluation result.
-     * @throws EvaluationException
-     *             if the evaluation was not successful.
-     */
-    default IEvaluationResult evaluateExpression(EObject target, String expression) throws EvaluationException {
-        final Object result = this.evaluate(target, expression);
-        return EvaluationResult.withValue(result);
-    }
 
 }
