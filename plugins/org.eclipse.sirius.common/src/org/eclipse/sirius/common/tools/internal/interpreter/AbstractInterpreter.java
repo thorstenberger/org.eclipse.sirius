@@ -31,9 +31,6 @@ import org.eclipse.sirius.ecore.extender.business.api.accessor.ModelAccessor;
  */
 public abstract class AbstractInterpreter implements IInterpreter, TypedValidation {
 
-    /** The separator between EPackage name and EClass name for domain class. */
-    protected static final String SEPARATOR = "."; //$NON-NLS-1$
-
     /**
      * The converter to use to coerce raw values.
      */
