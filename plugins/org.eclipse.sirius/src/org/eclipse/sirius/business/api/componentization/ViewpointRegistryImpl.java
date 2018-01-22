@@ -347,7 +347,7 @@ public class ViewpointRegistryImpl extends ViewpointRegistry {
     private java.util.Optional<ViewpointFileCollector> getCollectorFromURI(URI fileURI) {
         java.util.Optional<ViewpointFileCollector> result = java.util.Optional.empty();
         if (!StringUtil.isEmpty(fileURI.fileExtension())) {
-            result = java.util.Optional.of(collectors.get(fileURI.fileExtension()));
+            result = java.util.Optional.ofNullable(collectors.get(fileURI.fileExtension()));
         }
         return result;
     }
@@ -355,7 +355,7 @@ public class ViewpointRegistryImpl extends ViewpointRegistry {
     private java.util.Optional<ViewpointFileCollector> getCollectorFromIFile(IFile file) {
         java.util.Optional<ViewpointFileCollector> result = java.util.Optional.empty();
         if (!StringUtil.isEmpty(file.getFileExtension())) {
-            result = java.util.Optional.of(collectors.get(file.getFileExtension()));
+            result = java.util.Optional.ofNullable(collectors.get(file.getFileExtension()));
         }
         return result;
     }
